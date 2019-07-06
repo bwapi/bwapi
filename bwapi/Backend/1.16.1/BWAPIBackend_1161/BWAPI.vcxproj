@@ -207,7 +207,6 @@ popd</Command>
     <ClInclude Include="Source\BWAPI\BulletImpl.h" />
     <ClInclude Include="Source\BWAPI\BWtoBWAPI.h" />
     <ClInclude Include="Source\BWAPI\Command.h" />
-    <ClInclude Include="Source\BWAPI\CommandOptimizer.h" />
     <ClInclude Include="Source\BWAPI\CommandTemp.h" />
     <ClInclude Include="Source\BWAPI\ForceImpl.h" />
     <ClInclude Include="Source\BWAPI\GameImpl.h" />
@@ -295,7 +294,6 @@ popd</Command>
     <ClCompile Include="Source\BWAPI\BulletImpl.cpp" />
     <ClCompile Include="Source\BWAPI\BulletShared.cpp" />
     <ClCompile Include="Source\BWAPI\BWtoBWAPI.cpp" />
-    <ClCompile Include="Source\BWAPI\CommandOptimizer.cpp" />
     <ClCompile Include="Source\BWAPI\ForceImpl.cpp" />
     <ClCompile Include="Source\BWAPI\ForceShared.cpp" />
     <ClCompile Include="Source\BWAPI\Game.cpp" />

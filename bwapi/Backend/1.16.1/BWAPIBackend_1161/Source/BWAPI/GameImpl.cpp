@@ -690,8 +690,7 @@ namespace BWAPI
       }
 
       // If the command optimizer has taken over the command, then don't add it to this group
-      if ( static_cast<UnitImpl*>(u)->prepareIssueCommand(command) )
-        continue;
+      static_cast<UnitImpl*>(u)->prepareIssueCommand(command);
 
       // Insert the unit into the next group
       nextGroup.push_back(u);
@@ -719,8 +718,7 @@ namespace BWAPI
       command.unit  = v.front();
 
       // Command optimization (no select) for unit unloading, but only if optimizer level >= 2
-      // TODO this piece should be extracted to the CommandOptimizer
-      if ( command.type != BWAPI::UnitCommandTypes::Unload || commandOptimizer.level < 2 )
+      //if ( command.type != BWAPI::UnitCommandTypes::Unload || commandOptimizer.level < 2 )
       {
         // Select the unit group
         BW::Orders::Select sel(v);
@@ -858,14 +856,6 @@ namespace BWAPI
   int GameImpl::elapsedTime() const
   {
     return BW::BWDATA::Game.elapsedTime;
-  }
-  //-------------------------------------- SET COMMAND OPTIMIZATION LEVEL ------------------------------------
-  void GameImpl::setCommandOptimizationLevel(int level)
-  {
-    level = Util::clamp(level, 0, 4);
-    if ( !this->tournamentCheck(Tournament::SetCommandOptimizationLevel, &level) )
-      return;
-    this->commandOptimizer.level = level;
   }
   //----------------------------------------------- COUNTDOWN TIMER ------------------------------------------
   int GameImpl::countdownTimer() const

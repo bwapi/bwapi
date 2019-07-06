@@ -44,7 +44,7 @@ namespace BWAPI
       static_cast<UnitImpl*>(command.unit)->lastImmediateCommandFrame = BroodwarImpl.getFrameCount();
     }
   }
-  bool UnitImpl::prepareIssueCommand(UnitCommand &command)
+  void UnitImpl::prepareIssueCommand(UnitCommand &command)
   {
     command.unit = this;
 
@@ -64,7 +64,7 @@ namespace BWAPI
         }
       }
       if ( command.unit == this )
-        return false;
+        return;
     }
 
     // Set last command and command frames
@@ -81,16 +81,13 @@ namespace BWAPI
 
     // Add to command optimizer if possible, as well as the latency compensation buffer
     BroodwarImpl.addToCommandBuffer(Command{ command });
-    return BroodwarImpl.commandOptimizer.add(command);
   }
   bool UnitImpl::issueCommand(UnitCommand command)
   {
     if ( !canIssueCommand(command) )
       return false;
     
-    // If the command optimizer has decided to take over
-    if ( this->prepareIssueCommand(command) )
-      return true;
+    this->prepareIssueCommand(command);
 
     // Select High templar for morphing
     if (command.type == UnitCommandTypes::Use_Tech_Unit && command.target &&
@@ -102,10 +99,9 @@ namespace BWAPI
       QueueGameCommand(&sel, sel.size());
       BroodwarImpl.apmCounter.addSelect();
     }
-    else if (command.type != UnitCommandTypes::Unload || BroodwarImpl.commandOptimizer.level < 2)
+    else //if (command.type != UnitCommandTypes::Unload || BroodwarImpl.commandOptimizer.level < 2)
     {
-      // TODO this piece should be extracted to the CommandOptimizer
-      static_cast<UnitImpl*>(command.unit)->orderSelect();   // Unload optimization (no select)
+      static_cast<UnitImpl*>(command.unit)->orderSelect();
     }
 
     // Immediately execute the command

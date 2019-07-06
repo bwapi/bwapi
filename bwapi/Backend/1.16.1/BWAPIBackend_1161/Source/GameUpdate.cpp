@@ -207,9 +207,6 @@ void GameImpl::update()
   if ( !this->isReplay() )
     BW::BWDATA::ReplayHead.frameCount = this->getFrameCount()+20;
 
-  // Execute commands that have been buffered by the command optimizer
-  commandOptimizer.flush();
-
   // Update any graphical/debug overlays
   updateOverlays();
   setTextSize(); // Reset text size

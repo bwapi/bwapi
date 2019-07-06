@@ -12,7 +12,6 @@
 #include <BWAPI/TournamentAction.h>
 #include <BWAPI/CoordinateType.h>
 
-#include "CommandOptimizer.h"
 #include "Command.h"
 #include "APMCounter.h"
 #include "FPSCounter.h"
@@ -172,7 +171,6 @@ namespace BWAPI
       bool setVision(Player player, bool enabled = true);
       int  elapsedTime() const;
 
-      void setCommandOptimizationLevel(int level = 0);
       int  countdownTimer() const;
 
       const Regionset &getAllRegions() const;
@@ -451,7 +449,6 @@ namespace BWAPI
 
     public:
       APMCounter apmCounter;
-      CommandOptimizer commandOptimizer;
 
     private:
       bool tournamentCheck(Tournament::ActionID type, void *parameter = nullptr);

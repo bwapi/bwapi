@@ -44,10 +44,7 @@ namespace BWAPI
       Printf,
 
       /// @see Game::sendText
-      SendText,
-
-      /// @see Game::setCommandOptimizationLevel
-      SetCommandOptimizationLevel
+      SendText
     };
 
   };

@@ -277,8 +277,6 @@ namespace BWAPI
     this->commandBuffer.clear();
     this->commandBuffer.reserve(16);
 
-    commandOptimizer.init();
-
     // Delete all dead units
     for ( Unitset::iterator d = this->deadUnits.begin(); d != this->deadUnits.end(); ++d )
       delete static_cast<UnitImpl*>(*d);

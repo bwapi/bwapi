@@ -193,9 +193,6 @@
     <ClInclude Include="Source\BW\Font.h">
       <Filter>BW\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\BWAPI\CommandOptimizer.h">
-      <Filter>BWAPI\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\BWAPI\AutoMenuManager.h">
       <Filter>BWAPI\Header Files</Filter>
     </ClInclude>
@@ -520,9 +517,6 @@
       <Filter>BW\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameUpdate.cpp">
-      <Filter>BWAPI\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BWAPI\CommandOptimizer.cpp">
       <Filter>BWAPI\Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\BWAPI\AutoMenuManager.cpp">

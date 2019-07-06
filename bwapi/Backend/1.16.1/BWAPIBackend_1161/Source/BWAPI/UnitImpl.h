@@ -311,7 +311,7 @@ namespace BWAPI
       UnitCommand lastImmediateCommand;
 
       static void setLastImmediateCommand(const UnitCommand &command);
-      bool prepareIssueCommand(UnitCommand &command);
+      void prepareIssueCommand(UnitCommand &command);
 
       void clear();
     private:
