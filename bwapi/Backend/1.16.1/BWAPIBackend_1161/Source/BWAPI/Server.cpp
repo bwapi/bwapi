@@ -36,8 +36,6 @@ namespace BWAPI
   {
     // Reset these variables.
     data->eventCount = 0;
-    data->stringCount = 0;
-    data->shapeCount = 0;
     if (isConnected())
     {
       // Update BWAPI Client
@@ -159,11 +157,6 @@ namespace BWAPI
       break;
     }
     protoClient.queueMessage(std::move(newMessage));
-  }
-  int Server::addString(const char* text)
-  {
-    StrCopy(data->eventStrings[data->eventStringCount], text);
-    return data->eventStringCount++;
   }
   void Server::clearAll()
   {
@@ -442,8 +435,6 @@ namespace BWAPI
     data->eventStringCount = 0;
     data->commandCount = 0;
     data->unitCommandCount = 0;
-    data->shapeCount = 0;
-    data->stringCount = 0;
     data->mapFileName[0] = 0;
     data->mapPathName[0] = 0;
     data->mapName[0] = 0;
@@ -1033,10 +1024,9 @@ namespace BWAPI
         }
         else if (command.has_shape() && BroodwarImpl.isInGame())
         {
-          assert(data->shapeCount < GameData::MAX_SHAPES);
-          auto shape = command.shape();
-          data->shapes[data->shapeCount] = BWAPIC::Shape{ static_cast<BWAPIC::ShapeType::Enum>(shape.type()), static_cast<BWAPI::CoordinateType::Enum>(shape.ctype()), shape.x1(), shape.y1(), shape.x2(), shape.y2(), shape.extra1(), shape.extra2(), shape.color(), shape.issolid() };
-          data->shapeCount++;
+          auto shapeCmd = command.shape();
+          BWAPIC::Shape shape { static_cast<BWAPIC::ShapeType::Enum>(shapeCmd.type()), static_cast<BWAPI::CoordinateType::Enum>(shapeCmd.ctype()), shapeCmd.x1(), shapeCmd.y1(), shapeCmd.x2(), shapeCmd.y2(), shapeCmd.extra1(), shapeCmd.extra2(), shapeCmd.color(), shapeCmd.issolid(), shapeCmd.text() };
+          BroodwarImpl.addShape(shape);
         }
         else if (command.has_createunit() && BroodwarImpl.isInGame())
         {

@@ -320,7 +320,7 @@ namespace BWAPI
 
       void dropPlayers();
 
-      int drawShapes();
+      bool drawShapes();
       Unit _unitFromIndex(int index);
 
     public:
@@ -432,10 +432,10 @@ namespace BWAPI
     public:
       APMCounter apmCounter;
 
+      void addShape(const BWAPIC::Shape &s);
+
     private:
-      int addShape(const BWAPIC::Shape &s);
-      int addString(const char* text);
-      int addText(BWAPIC::Shape &s, const char* text);
+      std::vector<BWAPIC::Shape> shapes;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.

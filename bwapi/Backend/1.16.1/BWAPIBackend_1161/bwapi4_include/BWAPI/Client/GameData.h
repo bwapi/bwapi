@@ -131,8 +131,6 @@ namespace BWAPI
 
     static const int MAX_EVENTS         = 10000;
     static const int MAX_EVENT_STRINGS  =  1000;
-    static const int MAX_STRINGS        = 20000;
-    static const int MAX_SHAPES         = 20000;
     static const int MAX_COMMANDS       = 20000;
     static const int MAX_UNIT_COMMANDS  = 20000;
 
@@ -144,14 +142,7 @@ namespace BWAPI
     int eventStringCount;
     char eventStrings[MAX_EVENT_STRINGS][256];
 
-    //strings (used in shapes and commands)
-    int stringCount;
-    char strings[MAX_STRINGS][1024];
-
     //shapes, commands, unitCommands, from client to server
-    int shapeCount;
-    BWAPIC::Shape shapes[MAX_SHAPES];
-
     int commandCount;
     BWAPIC::Command commands[MAX_COMMANDS];
 

@@ -20,7 +20,7 @@ namespace BWAPIC
     {
     }
 
-    Shape(ShapeType::Enum _shapeType, BWAPI::CoordinateType::Enum _ctype, int _x1, int _y1, int _x2, int _y2, int _extra1, int _extra2, int _color, bool _isSolid)
+    Shape(ShapeType::Enum _shapeType, BWAPI::CoordinateType::Enum _ctype, int _x1, int _y1, int _x2, int _y2, int _extra1, int _extra2, int _color, bool _isSolid, const std::string& _text = {})
     :type(_shapeType)
     ,ctype(_ctype)
     ,x1(_x1)
@@ -31,6 +31,7 @@ namespace BWAPIC
     ,extra2(_extra2)
     ,color(_color)
     ,isSolid(_isSolid)
+    ,text(_text)
     {
     }
 
@@ -44,5 +45,6 @@ namespace BWAPIC
     int extra2;
     int color;
     bool isSolid;
+    std::string text;
   };
 }

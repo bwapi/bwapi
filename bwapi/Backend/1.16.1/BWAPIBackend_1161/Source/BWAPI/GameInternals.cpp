@@ -318,6 +318,7 @@ namespace BWAPI
     // Some other variables
     apmCounter.init();
     fpsCounter.init();
+    shapes.clear();
 
     this->startedClient = false;
   }

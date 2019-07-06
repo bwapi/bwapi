@@ -117,22 +117,9 @@ namespace BWAPI
       return false;
     return true;
   }
-  int GameImpl::addShape(const BWAPIC::Shape &s)
+  void GameImpl::addShape(const BWAPIC::Shape &s)
   {
-    assert(data->shapeCount < GameData::MAX_SHAPES);
-    data->shapes[data->shapeCount] = s;
-    return data->shapeCount++;
-  }
-  int GameImpl::addString(const char* text)
-  {
-    assert(data->stringCount < GameData::MAX_STRINGS);
-    StrCopy(data->strings[data->stringCount], text);
-    return data->stringCount++;
-  }
-  int GameImpl::addText(BWAPIC::Shape &s, const char* text)
-  {
-    s.extra1 = addString(text);
-    return addShape(s);
+    this->shapes.emplace_back(s);
   }
   //-------------------------------------------------- DRAW TEXT ---------------------------------------------
   void GameImpl::setTextSize(Text::Size::Enum size)
@@ -145,8 +132,8 @@ namespace BWAPI
     if ( !data->hasGUI ) return;
     char buffer[2048];
     VSNPrintf(buffer, format, arg);
-    BWAPIC::Shape s(BWAPIC::ShapeType::Text,ctype,x,y,0,0,0,textSize,0,false);
-    addText(s,buffer);
+    BWAPIC::Shape s(BWAPIC::ShapeType::Text, ctype, x, y, 0, 0, 0, textSize, 0, false, buffer);
+    addShape(s);
   }
   //--------------------------------------------------- DRAW BOX ---------------------------------------------
   void GameImpl::drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
@@ -201,27 +188,27 @@ namespace BWAPI
   #define int2Fixed( x ) ( (x) * (1 << 16) )
   #define positive( x ) ( (x) > 1 ? (x) : 1 )
   //--------------------------------------------- DRAW SHAPES ------------------------------------------------
-  int GameImpl::drawShapes()
+  bool GameImpl::drawShapes()
   {
-    for ( int i = 0; i < data->shapeCount; i++ )
+    for (BWAPIC::Shape& shape : this->shapes)
     {
-      BWAPIC::ShapeType::Enum s = data->shapes[i].type;
-      int x1 = data->shapes[i].x1;
-      int y1 = data->shapes[i].y1;
+      BWAPIC::ShapeType::Enum s = shape.type;
+      int x1 = shape.x1;
+      int y1 = shape.y1;
       int x2, y2, w, h;
       int radius, f, ddF_x, ddF_y, xi, yi;
       int xrad, yrad;
-      CoordinateType::Enum ctype = data->shapes[i].ctype;
-      bool isSolid = data->shapes[i].isSolid;
-      BWAPI::Color color = Color(data->shapes[i].color);
+      CoordinateType::Enum ctype = shape.ctype;
+      bool isSolid = shape.isSolid;
+      BWAPI::Color color = Color(shape.color);
       switch ( s )
       {
         case BWAPIC::ShapeType::Text:
-           bwDrawText(x1,y1,data->strings[data->shapes[i].extra1],ctype,(char)data->shapes[i].extra2);
+           bwDrawText(x1, y1, shape.text.c_str(), ctype, (char)shape.extra2);
            break;
         case BWAPIC::ShapeType::Box:
-          x2 = data->shapes[i].x2;
-          y2 = data->shapes[i].y2;
+          x2 = shape.x2;
+          y2 = shape.y2;
           w = abs(x2 - x1);
           h = abs(y2 - y1);
           if (isSolid)
@@ -238,10 +225,10 @@ namespace BWAPI
           break;
         case BWAPIC::ShapeType::Triangle:
         {
-          x2 = data->shapes[i].x2;
-          y2 = data->shapes[i].y2;
-          int x3 = data->shapes[i].extra1;
-          int y3 = data->shapes[i].extra2;
+          x2 = shape.x2;
+          y2 = shape.y2;
+          int x3 = shape.extra1;
+          int y3 = shape.extra2;
           if (isSolid)
           {
             int ly, ry, lx, rx;
@@ -284,7 +271,7 @@ namespace BWAPI
           break;
         }
         case BWAPIC::ShapeType::Circle:
-          radius = data->shapes[i].extra1;
+          radius = shape.extra1;
           if (isSolid)
           {
             f = 1 - radius;
@@ -350,8 +337,8 @@ namespace BWAPI
           }
           break;
         case BWAPIC::ShapeType::Ellipse:
-          xrad = data->shapes[i].extra1;
-          yrad = data->shapes[i].extra2;
+          xrad = shape.extra1;
+          yrad = shape.extra2;
           if (xrad != 0 && yrad != 0)
           {
             if (isSolid)
@@ -479,8 +466,8 @@ namespace BWAPI
           bwDrawDot(x1, y1, color, ctype);
           break;
         case BWAPIC::ShapeType::Line:
-          x2 = data->shapes[i].x2;
-          y2 = data->shapes[i].y2;
+          x2 = shape.x2;
+          y2 = shape.y2;
           if ( x1 == x2 && y1 == y2 )
             bwDrawDot(x1, y1, color, ctype);
           else if ( x1 == x2 )
@@ -494,7 +481,7 @@ namespace BWAPI
           break;
       }
     }
-    return data->shapeCount;
+    return !shapes.empty();
   }
 #undef fixed2Int
 #undef int2Fixed

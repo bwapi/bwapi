@@ -28,8 +28,7 @@ namespace BWAPI
     
     void      update();
     bool      isConnected() const;
-    void       addEvent(const BWAPI::Event& e);
-    int       addString(const char* text);
+    void      addEvent(const BWAPI::Event& e);
     void      clearAll();
 
     int       getForceID(ForceImpl* force);

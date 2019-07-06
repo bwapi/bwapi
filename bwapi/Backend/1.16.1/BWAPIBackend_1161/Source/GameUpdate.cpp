@@ -185,7 +185,7 @@ void GameImpl::update()
   // Update any graphical/debug overlays
   updateOverlays();
   setTextSize(); // Reset text size
-
+  shapes.clear(); // Reset shapes
   //finally return control to starcraft
 }
 namespace
