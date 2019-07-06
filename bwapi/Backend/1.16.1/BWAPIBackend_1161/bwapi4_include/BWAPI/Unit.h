@@ -13,9 +13,6 @@ namespace BWAPI
   class TechType;
   class UpgradeType;
 
-  class RegionInterface;
-  typedef RegionInterface *Region;
-
   class UnitCommand;
   class UnitCommandType;
   class Unitset;
@@ -74,8 +71,6 @@ namespace BWAPI
     virtual double getVelocityX() const = 0;
 
     virtual double getVelocityY() const = 0;
-
-    BWAPI::Region getRegion() const;
 
     int getLeft() const;
 

@@ -248,8 +248,7 @@ namespace BWAPI
       void drawLineScreen(Position a, Position b, Color color);
       bool hasPath(Position source, Position destination) const;
       BWAPI::Region getRegionAt(BWAPI::Position position) const;
-      int getDamageFrom(UnitType fromType, UnitType toType, Player fromPlayer = nullptr, Player toPlayer = nullptr) const;
-      int getDamageTo(UnitType toType, UnitType fromType, Player toPlayer = nullptr, Player fromPlayer = nullptr) const;
+
       void updateKillAndRemoveUnits();
       Unitset unitsToKill;
       Unitset unitsToRemove;

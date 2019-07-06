@@ -208,11 +208,6 @@ namespace BWAPI
 
     return hasPath(target->getPosition());
   }
-  //--------------------------------------------- GET REGION -------------------------------------------------
-  BWAPI::Region UnitInterface::getRegion() const
-  {
-    return BroodwarImpl.getRegionAt(this->getPosition());
-  }
   //--------------------------------------------- GET LEFT ---------------------------------------------------
   int UnitInterface::getLeft() const
   {

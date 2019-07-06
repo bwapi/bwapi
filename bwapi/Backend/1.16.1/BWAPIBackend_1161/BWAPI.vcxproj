@@ -212,6 +212,7 @@ popd</Command>
     <ClInclude Include="Source\BWAPI\PlayerImpl.h" />
     <ClInclude Include="Source\BWAPI\RegionImpl.h" />
     <ClInclude Include="Source\BWAPI\Server.h" />
+    <ClInclude Include="Source\BWAPI\Templates.h" />
     <ClInclude Include="Source\BWAPI\UnitImpl.h" />
     <ClInclude Include="Source\BW\Bitmap.h" />
     <ClInclude Include="Source\BW\BWGame.h" />

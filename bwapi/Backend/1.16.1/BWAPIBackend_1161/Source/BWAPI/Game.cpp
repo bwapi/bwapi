@@ -22,52 +22,6 @@
 namespace BWAPI
 {
   //------------------------------------ DAMAGE CALCULATION ------------------------------------------
-  namespace {
-    int damageRatio[DamageTypes::Enum::MAX][UnitSizeTypes::Enum::MAX] =
-    {
-      // Ind, Sml, Med, Lrg, Non, Unk
-        {  0,   0,   0,   0,   0,   0 }, // Independent
-        {  0, 128, 192, 256,   0,   0 }, // Explosive
-        {  0, 256, 128,  64,   0,   0 }, // Concussive
-        {  0, 256, 256, 256,   0,   0 }, // Normal
-        {  0, 256, 256, 256,   0,   0 }, // Ignore_Armor
-        {  0,   0,   0,   0,   0,   0 }, // None
-        {  0,   0,   0,   0,   0,   0 }  // Unknown
-    };
-  }
-  int getDamageFromImpl(UnitType fromType, UnitType toType, Player fromPlayer, Player toPlayer)
-  {
-    // Retrieve appropriate weapon
-    WeaponType wpn = toType.isFlyer() ? fromType.airWeapon() : fromType.groundWeapon();
-    if ( wpn == WeaponTypes::None || wpn == WeaponTypes::Unknown )
-      return 0;
-
-    // Get initial weapon damage
-    int dmg = fromPlayer ? fromPlayer->damage(wpn) : wpn.damageAmount() * wpn.damageFactor();
-
-    // If we need to calculate using armor
-    if ( wpn.damageType() != DamageTypes::Ignore_Armor && toPlayer != nullptr )
-      dmg -= std::min(dmg, toPlayer->armor(toType));
-    
-    return dmg * damageRatio[wpn.damageType()][toType.size()] / 256;
-  }
-  int GameImpl::getDamageFrom(UnitType fromType, UnitType toType, Player fromPlayer, Player toPlayer) const
-  {
-    // Get self if toPlayer not provided
-    if ( toPlayer == nullptr )
-      toPlayer = this->self();
-
-    return getDamageFromImpl(fromType, toType, fromPlayer, toPlayer);
-  }
-  int GameImpl::getDamageTo(UnitType toType, UnitType fromType, Player toPlayer, Player fromPlayer) const
-  {
-    // Get self if fromPlayer not provided
-    if ( fromPlayer == nullptr )
-      fromPlayer = this->self();
-
-    return getDamageFromImpl(fromType, toType, fromPlayer, toPlayer);
-  }
-
   void GameImpl::setScreenPosition(BWAPI::Position p)
   {
     this->setScreenPosition(p.x, p.y);

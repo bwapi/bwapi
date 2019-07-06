@@ -393,6 +393,9 @@
     <ClInclude Include="bwapi4_include\BWAPI\Client\UnitData.h">
       <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
     </ClInclude>
+    <ClInclude Include="Source\BWAPI\Templates.h">
+      <Filter>BWAPI\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\BW\CheatType.cpp">
