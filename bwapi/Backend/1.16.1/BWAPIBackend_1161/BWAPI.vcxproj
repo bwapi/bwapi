@@ -146,7 +146,6 @@ popd</Command>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\BWAPI.h" />
     <ClInclude Include="bwapi4_include\BWAPI.h" />
-    <ClInclude Include="bwapi4_include\BWAPI\AIModule.h" />
     <ClInclude Include="bwapi4_include\BWAPI\ArithmaticFilter.h" />
     <ClInclude Include="bwapi4_include\BWAPI\BestFilter.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Bullet.h" />
@@ -191,7 +190,6 @@ popd</Command>
     <ClInclude Include="bwapi4_include\BWAPI\Regionset.h" />
     <ClInclude Include="bwapi4_include\BWAPI\SetContainer.h" />
     <ClInclude Include="bwapi4_include\BWAPI\TechType.h" />
-    <ClInclude Include="bwapi4_include\BWAPI\TournamentAction.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Type.h" />
     <ClInclude Include="bwapi4_include\BWAPI\UnaryFilter.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Unit.h" />
@@ -265,7 +263,6 @@ popd</Command>
     <ClInclude Include="starcraftver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BWAPILIB_4_3_0\AIModule.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\BulletType.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\BWAPI.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Color.cpp" />

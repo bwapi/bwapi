@@ -34,7 +34,6 @@
 #include <BW/CheatType.h>
 #include <BW/Dialog.h>
 
-#include "BWAPI/AIModule.h"
 #include "../DLLMain.h"
 #include "../Config.h"
 #include "../Detours.h"
@@ -247,23 +246,16 @@ namespace BWAPI
       return;
     }
     
-    // check if tournament will allow the call
-    if ( !this->tournamentCheck(Tournament::EnableFlag, &flag) )
-      return;
-
     // Modify flag state 
     this->flags[flag] = true;
-    if ( !this->hTournamentModule )
+    switch(flag)
     {
-      switch(flag)
-      {
-      case BWAPI::Flag::CompleteMapInformation:
-        this->sendText("Enabled Flag CompleteMapInformation");
-        break;
-      case BWAPI::Flag::UserInput:
-        this->sendText("Enabled Flag UserInput");
-        break;
-      }
+    case BWAPI::Flag::CompleteMapInformation:
+      this->sendText("Enabled Flag CompleteMapInformation");
+      break;
+    case BWAPI::Flag::UserInput:
+      this->sendText("Enabled Flag UserInput");
+      break;
     }
   }
   //--------------------------------------------- GET UNITS IN RECTANGLE -------------------------------------
@@ -424,9 +416,6 @@ namespace BWAPI
     char buffer[512];
     VSNPrintf(buffer, format, arg);
 
-    if ( !this->tournamentCheck(Tournament::Printf, buffer) )
-      return;
-
     // Dispatch message using existing Storm library function (lobby+game)
     S_EVT evt = { 4, -1, buffer, strlen(buffer) + 1 };
     SEvtDispatch('SNET', 1, 4, &evt);
@@ -440,10 +429,6 @@ namespace BWAPI
     // Expand format and store in buffer
     char buffer[80]; // Use maximum size of 80 since there is a hardcoded limit in Broodwar of 80 characters
     VSNPrintf(buffer, format, arg);
-
-    // Check if tournament module allows sending text
-    if ( !this->tournamentCheck(Tournament::SendText, buffer) )
-      return;
 
     if ( buffer[0] == '/' )    // If we expect a battle.net command
     {
@@ -540,8 +525,6 @@ namespace BWAPI
   {
     // Pauses the game 
     this->setLastError();
-    if ( !this->tournamentCheck(Tournament::PauseGame) )
-      return;
     QUEUE_COMMAND(BW::Orders::PauseGame);
   }
   //---------------------------------------------- RESUME GAME -----------------------------------------------
@@ -549,8 +532,6 @@ namespace BWAPI
   {
     // Resumes the game 
     this->setLastError();
-    if ( !this->tournamentCheck(Tournament::ResumeGame) )
-      return;
     QUEUE_COMMAND(BW::Orders::ResumeGame);
   }
   //---------------------------------------------- LEAVE GAME ------------------------------------------------
@@ -558,8 +539,6 @@ namespace BWAPI
   {
     // Leaves the current game. Moves directly to the post-game score screen 
     this->setLastError();
-    if ( !this->tournamentCheck(Tournament::LeaveGame) )
-      return;
     BW::BWDATA::GameState      = 0;
     BW::BWDATA::gwNextGameMode = 6;
   }
@@ -629,8 +608,7 @@ namespace BWAPI
   void GameImpl::setLocalSpeed(int speed)
   {
     // Sets the frame rate of the client 
-    if (!this->tournamentCheck(Tournament::SetLocalSpeed, &speed) ||
-      this->speedOverride != std::numeric_limits<decltype(this->speedOverride)>::min()) return;
+    if (this->speedOverride != std::numeric_limits<decltype(this->speedOverride)>::min()) return;
 
     setLocalSpeedDirect(speed);
   }
@@ -658,8 +636,6 @@ namespace BWAPI
   void GameImpl::setFrameSkip(int frameSkip)
   {
     setLastError(Errors::None);
-    if ( !this->tournamentCheck(Tournament::SetFrameSkip, &frameSkip) )
-      return;
 
     if ( frameSkip > 0 )
     {
@@ -818,8 +794,6 @@ namespace BWAPI
   }
   void GameImpl::setLatCom(bool isEnabled)
   {
-    if ( !this->tournamentCheck(Tournament::SetLatCom, &isEnabled) )
-      return;
     data->hasLatCom = isEnabled;
   }
   //----------------------------------------------- GET INSTANCE ID ------------------------------------------
@@ -846,11 +820,8 @@ namespace BWAPI
     char mapFileNameRaw[MAX_LENGTH] = {};
     std::snprintf(mapFileNameRaw, MAX_LENGTH, "%s", mapFileName.c_str());
 
-    if ( !this->tournamentCheck(Tournament::SetMap, mapFileNameRaw) )
-      return setLastError(Errors::None);
-
     strcpy(BW::BWDATA::Game.mapFileName, mapFileNameRaw);
-    return setLastError(Errors::None);
+    return setLastError();
   }
   //------------------------------------------------- ELAPSED TIME -------------------------------------------
   int GameImpl::elapsedTime() const

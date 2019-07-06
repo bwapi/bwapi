@@ -137,11 +137,7 @@ namespace BWAPI
   //-------------------------------------------------- DRAW TEXT ---------------------------------------------
   void GameImpl::setTextSize(Text::Size::Enum size)
   {
-    // Clamp to valid sizes
     size = Util::clamp(size, Text::Size::Small, Text::Size::Huge);
-
-    if ( !this->tournamentCheck(Tournament::SetTextSize, &size) )
-      return;
     this->textSize = size;
   }
   void GameImpl::vDrawText(CoordinateType::Enum ctype, int x, int y, const char *format, va_list arg)
@@ -196,8 +192,6 @@ namespace BWAPI
   //--------------------------------------------------- SET GUI ----------------------------------------------
   void GameImpl::setGUI(bool enabled)
   {
-    if ( !this->tournamentCheck(Tournament::SetGUI, &enabled) )
-      return;
     data->hasGUI = enabled;
     setFrameSkip(enabled ? -1 : 9999999);
   }

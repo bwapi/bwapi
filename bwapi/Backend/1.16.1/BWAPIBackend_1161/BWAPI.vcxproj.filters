@@ -243,9 +243,6 @@
     <ClInclude Include="bwapi4_include\BWAPI.h">
       <Filter>Old_BWAPILIB</Filter>
     </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\AIModule.h">
-      <Filter>Old_BWAPILIB\BWAPI</Filter>
-    </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\ArithmaticFilter.h">
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
@@ -325,9 +322,6 @@
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\TechType.h">
-      <Filter>Old_BWAPILIB\BWAPI</Filter>
-    </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\TournamentAction.h">
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Type.h">
@@ -545,9 +539,6 @@
     </ClCompile>
     <ClCompile Include="Source\BWAPI\Game.cpp">
       <Filter>BWAPI\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\AIModule.cpp">
-      <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\BulletType.cpp">
       <Filter>Old_BWAPILIB</Filter>

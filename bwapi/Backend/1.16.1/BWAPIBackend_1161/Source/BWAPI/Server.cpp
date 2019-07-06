@@ -47,7 +47,6 @@ namespace BWAPI
     }
     else
     {
-      BroodwarImpl.processEvents();
       BroodwarImpl.events.clear();
       checkForConnections();
     }
@@ -804,15 +803,6 @@ namespace BWAPI
 
       // Add the event to the server queue
       addEvent(e);
-
-      // ignore if tournament AI not loaded
-      if (!BroodwarImpl.tournamentAI)
-        continue;
-
-      // call the tournament module callbacks for server/client
-      BroodwarImpl.isTournamentCall = true;
-      GameImpl::SendClientEvent(BroodwarImpl.tournamentAI, e);
-      BroodwarImpl.isTournamentCall = false;
     }
     BroodwarImpl.events.clear();
     if (data->isInGame)

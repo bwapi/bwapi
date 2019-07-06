@@ -220,17 +220,6 @@ namespace BWAPI
   {
     return BW::BWDATA::g_LocalHumanID;
   }
-  bool GameImpl::tournamentCheck(Tournament::ActionID type, void *parameter)
-  {
-    if ( this->tournamentController && !isTournamentCall )
-    {
-      isTournamentCall  = true;
-      bool allow        = this->tournamentController->onAction(type, parameter);
-      isTournamentCall  = false;
-      return allow;
-    }
-    return true;
-  }
   void GameImpl::initializeData()
   {
     // Delete forces
@@ -330,46 +319,7 @@ namespace BWAPI
     apmCounter.init();
     fpsCounter.init();
 
-    // @NOTE: Freeing libraries comes after because of some destructors for functionals in Interface Events
-
-    // Destroy the AI Module client
-    if ( this->client )
-    {
-      delete this->client;
-      this->client = nullptr;
-    }
-
-    // Unload the AI Module library
-    if ( hAIModule )
-    {
-      FreeLibrary(hAIModule);
-      hAIModule = nullptr;
-    }
-
     this->startedClient = false;
-
-    // Destroy the Tournament Module controller
-    if ( this->tournamentController )
-    {
-      delete this->tournamentController;
-      this->tournamentController = nullptr;
-    }
-
-    // Destroy the Tournament Module AI
-    if ( this->tournamentAI )
-    {
-      delete this->tournamentAI;
-      this->tournamentAI = nullptr;
-    }
-
-    // Destroy the Tournament Module Library
-    if ( hTournamentModule )
-    {
-      FreeLibrary(hTournamentModule);
-      hTournamentModule = nullptr;
-    }
-
-    this->bTournamentMessageAppeared = false;
   }
 
   void GameImpl::queueSentMessage(std::string const &message)

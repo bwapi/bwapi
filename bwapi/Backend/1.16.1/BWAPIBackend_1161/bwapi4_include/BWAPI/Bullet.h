@@ -1,15 +1,19 @@
 #pragma once
-#include <BWAPI.h>
+#include <BWAPI/Position.h>
 
 namespace BWAPI
 {
   // Forward declarations
   class PlayerInterface;
   typedef PlayerInterface *Player;
+  
   class BulletType;
 
   class BulletInterface;
   typedef BulletInterface *Bullet;
+
+  class UnitInterface;
+  typedef UnitInterface *Unit;
 
   /// <summary>An interface object representing a bullet or missile spawned from an attack.</summary>
   ///

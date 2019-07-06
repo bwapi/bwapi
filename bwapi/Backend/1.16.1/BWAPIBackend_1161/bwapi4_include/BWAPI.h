@@ -2,7 +2,6 @@
 #ifndef __BWAPI_H__
 #define __BWAPI_H__
 
-#include <BWAPI/AIModule.h>
 #include <BWAPI/Bullet.h>
 #include <BWAPI/Bulletset.h>
 #include <BWAPI/BulletType.h>
@@ -29,7 +28,6 @@
 #include <BWAPI/Regionset.h>
 #include <BWAPI/SetContainer.h>
 #include <BWAPI/TechType.h>
-#include <BWAPI/TournamentAction.h>
 #include <BWAPI/Type.h>
 #include <BWAPI/Unit.h>
 #include <BWAPI/UnitCommand.h>
