@@ -19,4 +19,9 @@ namespace BWAPI
   {
     return this->players;
   }
+  int ForceImpl::getID() const
+  {
+    return id;
+  }
+
 };

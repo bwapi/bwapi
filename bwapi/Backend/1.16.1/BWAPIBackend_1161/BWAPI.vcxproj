@@ -286,10 +286,8 @@ popd</Command>
     <ClCompile Include="Source\Assembly.cpp" />
     <ClCompile Include="Source\BWAPI\AutoMenuManager.cpp" />
     <ClCompile Include="Source\BWAPI\BulletImpl.cpp" />
-    <ClCompile Include="Source\BWAPI\BulletShared.cpp" />
     <ClCompile Include="Source\BWAPI\BWtoBWAPI.cpp" />
     <ClCompile Include="Source\BWAPI\ForceImpl.cpp" />
-    <ClCompile Include="Source\BWAPI\ForceShared.cpp" />
     <ClCompile Include="Source\BWAPI\Game.cpp" />
     <ClCompile Include="Source\BWAPI\GameBullets.cpp" />
     <ClCompile Include="Source\BWAPI\GameCommands.cpp" />
@@ -298,16 +296,12 @@ popd</Command>
     <ClCompile Include="Source\BWAPI\GameImpl.cpp" />
     <ClCompile Include="Source\BWAPI\GameInternals.cpp" />
     <ClCompile Include="Source\BWAPI\GameMenu.cpp" />
-    <ClCompile Include="Source\BWAPI\GameShared.cpp" />
     <ClCompile Include="Source\BWAPI\GameUnits.cpp" />
     <ClCompile Include="Source\BWAPI\Map.cpp" />
     <ClCompile Include="Source\BWAPI\PlayerImpl.cpp" />
-    <ClCompile Include="Source\BWAPI\PlayerShared.cpp" />
     <ClCompile Include="Source\BWAPI\RegionImpl.cpp" />
-    <ClCompile Include="Source\BWAPI\RegionShared.cpp" />
     <ClCompile Include="Source\BWAPI\Server.cpp" />
     <ClCompile Include="Source\BWAPI\UnitImpl.cpp" />
-    <ClCompile Include="Source\BWAPI\UnitShared.cpp" />
     <ClCompile Include="Source\BWAPI\UnitUpdate.cpp" />
     <ClCompile Include="Source\BW\Bitmap.cpp" />
     <ClCompile Include="Source\BW\CheatType.cpp" />

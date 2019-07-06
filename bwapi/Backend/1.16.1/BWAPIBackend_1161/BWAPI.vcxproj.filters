@@ -507,24 +507,6 @@
     <ClCompile Include="Source\BWAPI\AutoMenuManager.cpp">
       <Filter>BWAPI\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\BWAPI\BulletShared.cpp">
-      <Filter>BWAPI\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BWAPI\ForceShared.cpp">
-      <Filter>BWAPI\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BWAPI\GameShared.cpp">
-      <Filter>BWAPI\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BWAPI\PlayerShared.cpp">
-      <Filter>BWAPI\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BWAPI\RegionShared.cpp">
-      <Filter>BWAPI\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BWAPI\UnitShared.cpp">
-      <Filter>BWAPI\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Sha1.cpp">
       <Filter>Util</Filter>
     </ClCompile>
