@@ -129,26 +129,6 @@ namespace BWAPI
     int enemy;
     int neutral;
 
-    static const int MAX_EVENTS         = 10000;
-    static const int MAX_EVENT_STRINGS  =  1000;
-    static const int MAX_COMMANDS       = 20000;
-    static const int MAX_UNIT_COMMANDS  = 20000;
-
-    //events from server to client
-    int eventCount;
-    BWAPIC::Event events[MAX_EVENTS];
-
-    //strings used in events
-    int eventStringCount;
-    char eventStrings[MAX_EVENT_STRINGS][256];
-
-    //shapes, commands, unitCommands, from client to server
-    int commandCount;
-    BWAPIC::Command commands[MAX_COMMANDS];
-
-    int unitCommandCount;
-    BWAPIC::UnitCommand unitCommands[MAX_UNIT_COMMANDS];
-
     int unitSearchSize;
     unitFinder xUnitSearch[1700*2];
     unitFinder yUnitSearch[1700*2];

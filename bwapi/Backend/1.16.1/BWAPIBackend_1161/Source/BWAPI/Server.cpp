@@ -35,7 +35,6 @@ namespace BWAPI
   void Server::update()
   {
     // Reset these variables.
-    data->eventCount = 0;
     if (isConnected())
     {
       // Update BWAPI Client
@@ -431,10 +430,6 @@ namespace BWAPI
     data->revision = SVN_REV;
     data->client_version = CLIENT_VERSION;
     data->isDebug = (BUILD_DEBUG == 1);
-    data->eventCount = 0;
-    data->eventStringCount = 0;
-    data->commandCount = 0;
-    data->unitCommandCount = 0;
     data->mapFileName[0] = 0;
     data->mapPathName[0] = 0;
     data->mapName[0] = 0;
