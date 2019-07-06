@@ -176,8 +176,7 @@ namespace BWAPI
             }
             else
             {
-              PlayerData playerData = *itr;
-              fillPlayerData(playerData, p);
+              fillPlayerData(const_cast<PlayerData &>(*itr), p);
             }
           }
           for (auto &u : gameMessage.units())
