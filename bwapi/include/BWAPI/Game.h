@@ -1965,6 +1965,9 @@ namespace BWAPI
       Regionset regionsList;
       Bulletset bulletsset;
       Unitset selectedUnits;
+      Unitset staticMinerals;
+      Unitset staticGeysers;
+      Unitset staticNeutralUnits;
       std::list< Event > events;
       Text::Size::Enum textSize = Text::Size::Default;
 

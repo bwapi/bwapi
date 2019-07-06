@@ -1089,19 +1089,16 @@ namespace BWAPI
         return neutralUnits;
     }
     //------------------------------------------------- GET STATIC MINERALS ------------------------------------
-    Unitset staticMinerals;
     const Unitset& Game::getStaticMinerals() const
     {
         return staticMinerals;
     }
     //------------------------------------------------- GET STATIC GEYSERS -------------------------------------
-    Unitset staticGeysers;
     const Unitset& Game::getStaticGeysers() const
     {
         return staticGeysers;
     }
     //------------------------------------------------- GET STATIC NEUTRAL UNITS -------------------------------
-    Unitset staticNeutralUnits;
     const Unitset& Game::getStaticNeutralUnits() const
     {
         return staticNeutralUnits;
@@ -1861,6 +1858,21 @@ namespace BWAPI
             minerals.emplace(u);
           if (u->isSelected())
             selectedUnits.insert(u);
+        }
+      }
+      if (this->staticNeutralUnits.empty()) //if we haven't saved the set of static units, save them now
+      {
+        for (Unit u : units)
+        {
+          Unit ui = u;
+          if (ui->getPlayer()->isNeutral())
+          {
+            this->staticNeutralUnits.insert(ui);
+            if (ui->getType().isMineralField())
+              this->staticMinerals.insert(ui);
+            else if (ui->getType() == UnitTypes::Resource_Vespene_Geyser)
+              this->staticGeysers.insert(ui);
+          }
         }
       }
       for (auto b : bullets)
