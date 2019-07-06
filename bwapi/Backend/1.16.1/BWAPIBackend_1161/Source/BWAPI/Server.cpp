@@ -340,16 +340,20 @@ namespace BWAPI
     StrCopy(data->mapHash, BroodwarImpl.mapHash());
     staticMap->set_maphash(data->mapHash);
 
-    protoClient.queueMessage(std::move(staticMapMessage));
-
     data->startLocationCount = BroodwarImpl.getStartLocations().size();
     int idx = 0;
     for (TilePosition t : BroodwarImpl.getStartLocations())
     {
+      auto startLocation = staticMap->add_startpositions();
+      startLocation->set_x(t.x);
+      startLocation->set_y(t.y);
+      startLocation->set_scale(1);
       data->startLocations[idx].x = t.x;
       data->startLocations[idx].y = t.y;
       idx++;
     }
+
+    protoClient.queueMessage(std::move(staticMapMessage));
 
     //static force data
     data->forces[0].name[0] = '\0';
@@ -813,14 +817,6 @@ namespace BWAPI
     BroodwarImpl.events.clear();
     if (data->isInGame)
     {
-      for (auto location : data->startLocations)
-      {
-        auto startLocation = gameData->add_startpositions();
-        startLocation->set_x(location.x);
-        startLocation->set_y(location.y);
-        startLocation->set_scale(1);
-      }
-
       if (BroodwarImpl.self())
         gameData->set_player(BroodwarImpl.self()->getID());
 

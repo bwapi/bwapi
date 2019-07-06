@@ -380,6 +380,18 @@ class StaticMapData : public ::google::protobuf::MessageLite /* @@protoc_inserti
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_mapsplittilesregion2();
 
+  // repeated .bwapi.data.Point startPositions = 14;
+  int startpositions_size() const;
+  void clear_startpositions();
+  static const int kStartPositionsFieldNumber = 14;
+  ::bwapi::data::Point* mutable_startpositions(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point >*
+      mutable_startpositions();
+  const ::bwapi::data::Point& startpositions(int index) const;
+  ::bwapi::data::Point* add_startpositions();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point >&
+      startpositions() const;
+
   // string mapHash = 3;
   void clear_maphash();
   static const int kMapHashFieldNumber = 3;
@@ -472,6 +484,7 @@ class StaticMapData : public ::google::protobuf::MessageLite /* @@protoc_inserti
   mutable int _mapsplittilesregion1_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > mapsplittilesregion2_;
   mutable int _mapsplittilesregion2_cached_byte_size_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point > startpositions_;
   ::google::protobuf::internal::ArenaStringPtr maphash_;
   ::google::protobuf::internal::ArenaStringPtr mapfilename_;
   ::google::protobuf::internal::ArenaStringPtr mappath_;
@@ -730,22 +743,10 @@ class GameData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_replayvisionplayers();
 
-  // repeated .bwapi.data.Point startPositions = 29;
-  int startpositions_size() const;
-  void clear_startpositions();
-  static const int kStartPositionsFieldNumber = 29;
-  ::bwapi::data::Point* mutable_startpositions(int index);
-  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point >*
-      mutable_startpositions();
-  const ::bwapi::data::Point& startpositions(int index) const;
-  ::bwapi::data::Point* add_startpositions();
-  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point >&
-      startpositions() const;
-
-  // repeated int32 regions = 30;
+  // repeated int32 regions = 29;
   int regions_size() const;
   void clear_regions();
-  static const int kRegionsFieldNumber = 30;
+  static const int kRegionsFieldNumber = 29;
   ::google::protobuf::int32 regions(int index) const;
   void set_regions(int index, ::google::protobuf::int32 value);
   void add_regions(::google::protobuf::int32 value);
@@ -810,10 +811,10 @@ class GameData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   ::std::string* release_randomseed();
   void set_allocated_randomseed(::std::string* randomseed);
 
-  // .bwapi.data.Point screenSize = 32;
+  // .bwapi.data.Point screenSize = 31;
   bool has_screensize() const;
   void clear_screensize();
-  static const int kScreenSizeFieldNumber = 32;
+  static const int kScreenSizeFieldNumber = 31;
   private:
   const ::bwapi::data::Point& _internal_screensize() const;
   public:
@@ -822,10 +823,10 @@ class GameData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   ::bwapi::data::Point* mutable_screensize();
   void set_allocated_screensize(::bwapi::data::Point* screensize);
 
-  // .bwapi.data.Point screenPosition = 33;
+  // .bwapi.data.Point screenPosition = 32;
   bool has_screenposition() const;
   void clear_screenposition();
-  static const int kScreenPositionFieldNumber = 33;
+  static const int kScreenPositionFieldNumber = 32;
   private:
   const ::bwapi::data::Point& _internal_screenposition() const;
   public:
@@ -834,10 +835,10 @@ class GameData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   ::bwapi::data::Point* mutable_screenposition();
   void set_allocated_screenposition(::bwapi::data::Point* screenposition);
 
-  // .bwapi.data.StaticMapData staticMap = 34;
+  // .bwapi.data.StaticMapData staticMap = 33;
   bool has_staticmap() const;
   void clear_staticmap();
-  static const int kStaticMapFieldNumber = 34;
+  static const int kStaticMapFieldNumber = 33;
   private:
   const ::bwapi::data::StaticMapData& _internal_staticmap() const;
   public:
@@ -846,10 +847,10 @@ class GameData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   ::bwapi::data::StaticMapData* mutable_staticmap();
   void set_allocated_staticmap(::bwapi::data::StaticMapData* staticmap);
 
-  // .bwapi.data.MapData map = 35;
+  // .bwapi.data.MapData map = 34;
   bool has_map() const;
   void clear_map();
-  static const int kMapFieldNumber = 35;
+  static const int kMapFieldNumber = 34;
   private:
   const ::bwapi::data::MapData& _internal_map() const;
   public:
@@ -996,9 +997,9 @@ class GameData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   bool hasgui() const;
   void set_hasgui(bool value);
 
-  // int32 player = 31;
+  // int32 player = 30;
   void clear_player();
-  static const int kPlayerFieldNumber = 31;
+  static const int kPlayerFieldNumber = 30;
   ::google::protobuf::int32 player() const;
   void set_player(::google::protobuf::int32 value);
 
@@ -1008,7 +1009,6 @@ class GameData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > replayvisionplayers_;
   mutable int _replayvisionplayers_cached_byte_size_;
-  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point > startpositions_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > regions_;
   mutable int _regions_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr engine_;
@@ -3631,6 +3631,36 @@ StaticMapData::mutable_mapsplittilesregion2() {
   return &mapsplittilesregion2_;
 }
 
+// repeated .bwapi.data.Point startPositions = 14;
+inline int StaticMapData::startpositions_size() const {
+  return startpositions_.size();
+}
+inline void StaticMapData::clear_startpositions() {
+  startpositions_.Clear();
+}
+inline ::bwapi::data::Point* StaticMapData::mutable_startpositions(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.StaticMapData.startPositions)
+  return startpositions_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point >*
+StaticMapData::mutable_startpositions() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.StaticMapData.startPositions)
+  return &startpositions_;
+}
+inline const ::bwapi::data::Point& StaticMapData::startpositions(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.StaticMapData.startPositions)
+  return startpositions_.Get(index);
+}
+inline ::bwapi::data::Point* StaticMapData::add_startpositions() {
+  // @@protoc_insertion_point(field_add:bwapi.data.StaticMapData.startPositions)
+  return startpositions_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point >&
+StaticMapData::startpositions() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.StaticMapData.startPositions)
+  return startpositions_;
+}
+
 // -------------------------------------------------------------------
 
 // MapData
@@ -4323,37 +4353,7 @@ inline void GameData::set_allocated_randomseed(::std::string* randomseed) {
   // @@protoc_insertion_point(field_set_allocated:bwapi.data.GameData.randomSeed)
 }
 
-// repeated .bwapi.data.Point startPositions = 29;
-inline int GameData::startpositions_size() const {
-  return startpositions_.size();
-}
-inline void GameData::clear_startpositions() {
-  startpositions_.Clear();
-}
-inline ::bwapi::data::Point* GameData::mutable_startpositions(int index) {
-  // @@protoc_insertion_point(field_mutable:bwapi.data.GameData.startPositions)
-  return startpositions_.Mutable(index);
-}
-inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point >*
-GameData::mutable_startpositions() {
-  // @@protoc_insertion_point(field_mutable_list:bwapi.data.GameData.startPositions)
-  return &startpositions_;
-}
-inline const ::bwapi::data::Point& GameData::startpositions(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.GameData.startPositions)
-  return startpositions_.Get(index);
-}
-inline ::bwapi::data::Point* GameData::add_startpositions() {
-  // @@protoc_insertion_point(field_add:bwapi.data.GameData.startPositions)
-  return startpositions_.Add();
-}
-inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point >&
-GameData::startpositions() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.GameData.startPositions)
-  return startpositions_;
-}
-
-// repeated int32 regions = 30;
+// repeated int32 regions = 29;
 inline int GameData::regions_size() const {
   return regions_.size();
 }
@@ -4383,7 +4383,7 @@ GameData::mutable_regions() {
   return &regions_;
 }
 
-// int32 player = 31;
+// int32 player = 30;
 inline void GameData::clear_player() {
   player_ = 0;
 }
@@ -4397,7 +4397,7 @@ inline void GameData::set_player(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:bwapi.data.GameData.player)
 }
 
-// .bwapi.data.Point screenSize = 32;
+// .bwapi.data.Point screenSize = 31;
 inline bool GameData::has_screensize() const {
   return this != internal_default_instance() && screensize_ != NULL;
 }
@@ -4451,7 +4451,7 @@ inline void GameData::set_allocated_screensize(::bwapi::data::Point* screensize)
   // @@protoc_insertion_point(field_set_allocated:bwapi.data.GameData.screenSize)
 }
 
-// .bwapi.data.Point screenPosition = 33;
+// .bwapi.data.Point screenPosition = 32;
 inline bool GameData::has_screenposition() const {
   return this != internal_default_instance() && screenposition_ != NULL;
 }
@@ -4505,7 +4505,7 @@ inline void GameData::set_allocated_screenposition(::bwapi::data::Point* screenp
   // @@protoc_insertion_point(field_set_allocated:bwapi.data.GameData.screenPosition)
 }
 
-// .bwapi.data.StaticMapData staticMap = 34;
+// .bwapi.data.StaticMapData staticMap = 33;
 inline bool GameData::has_staticmap() const {
   return this != internal_default_instance() && staticmap_ != NULL;
 }
@@ -4559,7 +4559,7 @@ inline void GameData::set_allocated_staticmap(::bwapi::data::StaticMapData* stat
   // @@protoc_insertion_point(field_set_allocated:bwapi.data.GameData.staticMap)
 }
 
-// .bwapi.data.MapData map = 35;
+// .bwapi.data.MapData map = 34;
 inline bool GameData::has_map() const {
   return this != internal_default_instance() && map_ != NULL;
 }

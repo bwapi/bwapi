@@ -520,6 +520,7 @@ const int StaticMapData::kMapTileRegionIdFieldNumber;
 const int StaticMapData::kMapSplitTilesMiniTileMaskFieldNumber;
 const int StaticMapData::kMapSplitTilesRegion1FieldNumber;
 const int StaticMapData::kMapSplitTilesRegion2FieldNumber;
+const int StaticMapData::kStartPositionsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 StaticMapData::StaticMapData()
@@ -538,7 +539,8 @@ StaticMapData::StaticMapData(const StaticMapData& from)
       maptileregionid_(from.maptileregionid_),
       mapsplittilesminitilemask_(from.mapsplittilesminitilemask_),
       mapsplittilesregion1_(from.mapsplittilesregion1_),
-      mapsplittilesregion2_(from.mapsplittilesregion2_) {
+      mapsplittilesregion2_(from.mapsplittilesregion2_),
+      startpositions_(from.startpositions_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   maphash_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.maphash().size() > 0) {
@@ -610,6 +612,7 @@ void StaticMapData::Clear() {
   mapsplittilesminitilemask_.Clear();
   mapsplittilesregion1_.Clear();
   mapsplittilesregion2_.Clear();
+  startpositions_.Clear();
   maphash_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   mapfilename_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   mappath_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -861,6 +864,18 @@ bool StaticMapData::MergePartialFromCodedStream(
         break;
       }
 
+      // repeated .bwapi.data.Point startPositions = 14;
+      case 14: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(114u /* 114 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+                input, add_startpositions()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -1011,6 +1026,15 @@ void StaticMapData::SerializeWithCachedSizes(
       this->mapsplittilesregion2(i), output);
   }
 
+  // repeated .bwapi.data.Point startPositions = 14;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->startpositions_size()); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      14,
+      this->startpositions(static_cast<int>(i)),
+      output);
+  }
+
   output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
                    static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:bwapi.data.StaticMapData)
@@ -1134,6 +1158,17 @@ size_t StaticMapData::ByteSizeLong() const {
     total_size += data_size;
   }
 
+  // repeated .bwapi.data.Point startPositions = 14;
+  {
+    unsigned int count = static_cast<unsigned int>(this->startpositions_size());
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          this->startpositions(static_cast<int>(i)));
+    }
+  }
+
   // string mapHash = 3;
   if (this->maphash().size() > 0) {
     total_size += 1 +
@@ -1200,6 +1235,7 @@ void StaticMapData::MergeFrom(const StaticMapData& from) {
   mapsplittilesminitilemask_.MergeFrom(from.mapsplittilesminitilemask_);
   mapsplittilesregion1_.MergeFrom(from.mapsplittilesregion1_);
   mapsplittilesregion2_.MergeFrom(from.mapsplittilesregion2_);
+  startpositions_.MergeFrom(from.startpositions_);
   if (from.maphash().size() > 0) {
 
     maphash_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.maphash_);
@@ -1248,6 +1284,7 @@ void StaticMapData::InternalSwap(StaticMapData* other) {
   mapsplittilesminitilemask_.InternalSwap(&other->mapsplittilesminitilemask_);
   mapsplittilesregion1_.InternalSwap(&other->mapsplittilesregion1_);
   mapsplittilesregion2_.InternalSwap(&other->mapsplittilesregion2_);
+  CastToBase(&startpositions_)->InternalSwap(CastToBase(&other->startpositions_));
   maphash_.Swap(&other->maphash_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   mapfilename_.Swap(&other->mapfilename_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
@@ -1650,7 +1687,6 @@ const int GameData::kClientUnitSelectionFieldNumber;
 const int GameData::kHasGUIFieldNumber;
 const int GameData::kGameNameFieldNumber;
 const int GameData::kRandomSeedFieldNumber;
-const int GameData::kStartPositionsFieldNumber;
 const int GameData::kRegionsFieldNumber;
 const int GameData::kPlayerFieldNumber;
 const int GameData::kScreenSizeFieldNumber;
@@ -1670,7 +1706,6 @@ GameData::GameData(const GameData& from)
   : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL),
       replayvisionplayers_(from.replayvisionplayers_),
-      startpositions_(from.startpositions_),
       regions_(from.regions_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   engine_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -1757,7 +1792,6 @@ void GameData::Clear() {
   (void) cached_has_bits;
 
   replayvisionplayers_.Clear();
-  startpositions_.Clear();
   regions_.Clear();
   engine_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   engineversion_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -2206,41 +2240,29 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated .bwapi.data.Point startPositions = 29;
+      // repeated int32 regions = 29;
       case 29: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(234u /* 234 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_startpositions()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // repeated int32 regions = 30;
-      case 30: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(242u /* 242 & 0xFF */)) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, this->mutable_regions())));
         } else if (
             static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(240u /* 240 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(232u /* 232 & 0xFF */)) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 2, 242u, input, this->mutable_regions())));
+                 2, 234u, input, this->mutable_regions())));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // int32 player = 31;
-      case 31: {
+      // int32 player = 30;
+      case 30: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(248u /* 248 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(240u /* 240 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -2251,10 +2273,10 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // .bwapi.data.Point screenSize = 32;
-      case 32: {
+      // .bwapi.data.Point screenSize = 31;
+      case 31: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(2u /* 258 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(250u /* 250 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_screensize()));
         } else {
@@ -2263,10 +2285,10 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // .bwapi.data.Point screenPosition = 33;
-      case 33: {
+      // .bwapi.data.Point screenPosition = 32;
+      case 32: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(10u /* 266 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(2u /* 258 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_screenposition()));
         } else {
@@ -2275,10 +2297,10 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // .bwapi.data.StaticMapData staticMap = 34;
-      case 34: {
+      // .bwapi.data.StaticMapData staticMap = 33;
+      case 33: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u /* 274 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(10u /* 266 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_staticmap()));
         } else {
@@ -2287,10 +2309,10 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // .bwapi.data.MapData map = 35;
-      case 35: {
+      // .bwapi.data.MapData map = 34;
+      case 34: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 282 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(18u /* 274 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_map()));
         } else {
@@ -2491,18 +2513,9 @@ void GameData::SerializeWithCachedSizes(
       28, this->randomseed(), output);
   }
 
-  // repeated .bwapi.data.Point startPositions = 29;
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->startpositions_size()); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      29,
-      this->startpositions(static_cast<int>(i)),
-      output);
-  }
-
-  // repeated int32 regions = 30;
+  // repeated int32 regions = 29;
   if (this->regions_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(30, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    ::google::protobuf::internal::WireFormatLite::WriteTag(29, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
     output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
         _regions_cached_byte_size_));
   }
@@ -2511,33 +2524,33 @@ void GameData::SerializeWithCachedSizes(
       this->regions(i), output);
   }
 
-  // int32 player = 31;
+  // int32 player = 30;
   if (this->player() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(31, this->player(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(30, this->player(), output);
   }
 
-  // .bwapi.data.Point screenSize = 32;
+  // .bwapi.data.Point screenSize = 31;
   if (this->has_screensize()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      32, this->_internal_screensize(), output);
+      31, this->_internal_screensize(), output);
   }
 
-  // .bwapi.data.Point screenPosition = 33;
+  // .bwapi.data.Point screenPosition = 32;
   if (this->has_screenposition()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      33, this->_internal_screenposition(), output);
+      32, this->_internal_screenposition(), output);
   }
 
-  // .bwapi.data.StaticMapData staticMap = 34;
+  // .bwapi.data.StaticMapData staticMap = 33;
   if (this->has_staticmap()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      34, this->_internal_staticmap(), output);
+      33, this->_internal_staticmap(), output);
   }
 
-  // .bwapi.data.MapData map = 35;
+  // .bwapi.data.MapData map = 34;
   if (this->has_map()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      35, this->_internal_map(), output);
+      34, this->_internal_map(), output);
   }
 
   output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
@@ -2567,18 +2580,7 @@ size_t GameData::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // repeated .bwapi.data.Point startPositions = 29;
-  {
-    unsigned int count = static_cast<unsigned int>(this->startpositions_size());
-    total_size += 2UL * count;
-    for (unsigned int i = 0; i < count; i++) {
-      total_size +=
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          this->startpositions(static_cast<int>(i)));
-    }
-  }
-
-  // repeated int32 regions = 30;
+  // repeated int32 regions = 29;
   {
     size_t data_size = ::google::protobuf::internal::WireFormatLite::
       Int32Size(this->regions_);
@@ -2622,28 +2624,28 @@ size_t GameData::ByteSizeLong() const {
         this->randomseed());
   }
 
-  // .bwapi.data.Point screenSize = 32;
+  // .bwapi.data.Point screenSize = 31;
   if (this->has_screensize()) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
         *screensize_);
   }
 
-  // .bwapi.data.Point screenPosition = 33;
+  // .bwapi.data.Point screenPosition = 32;
   if (this->has_screenposition()) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
         *screenposition_);
   }
 
-  // .bwapi.data.StaticMapData staticMap = 34;
+  // .bwapi.data.StaticMapData staticMap = 33;
   if (this->has_staticmap()) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
         *staticmap_);
   }
 
-  // .bwapi.data.MapData map = 35;
+  // .bwapi.data.MapData map = 34;
   if (this->has_map()) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -2793,7 +2795,7 @@ size_t GameData::ByteSizeLong() const {
     total_size += 2 + 1;
   }
 
-  // int32 player = 31;
+  // int32 player = 30;
   if (this->player() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
@@ -2818,7 +2820,6 @@ void GameData::MergeFrom(const GameData& from) {
   (void) cached_has_bits;
 
   replayvisionplayers_.MergeFrom(from.replayvisionplayers_);
-  startpositions_.MergeFrom(from.startpositions_);
   regions_.MergeFrom(from.regions_);
   if (from.engine().size() > 0) {
 
@@ -2940,7 +2941,6 @@ void GameData::Swap(GameData* other) {
 void GameData::InternalSwap(GameData* other) {
   using std::swap;
   replayvisionplayers_.InternalSwap(&other->replayvisionplayers_);
-  CastToBase(&startpositions_)->InternalSwap(CastToBase(&other->startpositions_));
   regions_.InternalSwap(&other->regions_);
   engine_.Swap(&other->engine_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());

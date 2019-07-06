@@ -61,25 +61,25 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="generated\cpp\command.pb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="generated\cpp\data.pb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="generated\cpp\error.pb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="generated\cpp\event.pb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="generated\cpp\game.pb.h">
+    <ClInclude Include="generated\cpp\message.pb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="generated\cpp\init.pb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="generated\cpp\message.pb.h">
+    <ClInclude Include="generated\cpp\game.pb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\event.pb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\error.pb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\data.pb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\command.pb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

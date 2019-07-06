@@ -92,6 +92,8 @@ namespace BWAPI
               game.gameData->mapName = staticMap.mapname();
               game.gameData->mapFileName = staticMap.mapfilename();
               game.gameData->mapPath = staticMap.mappath();
+              for (auto &sp : staticMap.startpositions())
+                game.gameData->startPositions.push_back(TilePosition{ sp.x(), sp.y() });
             }
             if (gameUpdate.has_map())
             {

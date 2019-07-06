@@ -25,6 +25,8 @@ message StaticMapData
     repeated uint32 mapSplitTilesMiniTileMask = 11;
     repeated uint32 mapSplitTilesRegion1 = 12;
     repeated uint32 mapSplitTilesRegion2 = 13;
+
+    repeated Point startPositions = 14;
 }
 
 message MapData
@@ -70,18 +72,16 @@ message GameData {
     string gameName = 27;
     string randomSeed = 28;
 
-    repeated Point startPositions = 29;
+    repeated int32 regions = 29;
 
-    repeated int32 regions = 30;
+    int32 player = 30;
 
-    int32 player = 31;
+    Point screenSize = 31;
+    Point screenPosition = 32;
 
-    Point screenSize = 32;
-    Point screenPosition = 33;
+    StaticMapData staticMap = 33;
 
-    StaticMapData staticMap = 34;
-
-    MapData map = 35;
+    MapData map = 34;
 }
 
 message Player {
