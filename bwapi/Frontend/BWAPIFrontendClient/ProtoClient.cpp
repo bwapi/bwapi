@@ -76,6 +76,7 @@ namespace BWAPI
             game.gameData->screenPosition = { gameUpdate.screenposition().x(), gameUpdate.screenposition().y() };
             game.gameData->hasGUI = gameUpdate.hasgui();
             game.gameData->frameCount = gameUpdate.framecount();
+            game.gameData->latencyFrames = gameUpdate.latencyframes();
             if (gameUpdate.has_staticmap())
             {
               auto staticMap = gameUpdate.staticmap();
