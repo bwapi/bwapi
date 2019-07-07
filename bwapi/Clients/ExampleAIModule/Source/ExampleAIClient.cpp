@@ -47,7 +47,7 @@ int main(int argc, const char* argv[])
     Broodwar->sendText("Hello world!");
     Broodwar << "The map is " << Broodwar->mapName() << ", a " << Broodwar->getStartLocations().size() << " player map" << std::endl;
 
-    show_bullets = false;
+    show_bullets = true;
     show_visibility_data = false;
 
     if (Broodwar->isReplay())

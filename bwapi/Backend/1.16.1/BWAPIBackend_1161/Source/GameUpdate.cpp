@@ -25,6 +25,8 @@ using namespace BWAPI;
 //------------------------------------------------- UPDATE -------------------------------------------------
 void GameImpl::update()
 {
+  shapes.clear(); // Reset shapes
+
   //this function is called every frame from a hook attached in DllMain.cpp
   this->inGame = true;
 
@@ -185,7 +187,6 @@ void GameImpl::update()
   // Update any graphical/debug overlays
   updateOverlays();
   setTextSize(); // Reset text size
-  shapes.clear(); // Reset shapes
   //finally return control to starcraft
 }
 namespace
