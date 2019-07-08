@@ -202,6 +202,7 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
     <ClCompile Include="Source\TechType.cpp" />
     <ClCompile Include="Source\Unit.cpp" />
     <ClCompile Include="Source\UnitCommand.cpp" />
+    <ClCompile Include="Source\UnitFinder.cpp" />
     <ClCompile Include="Source\Unitset.cpp" />
     <ClCompile Include="Source\UnitCommandType.cpp" />
     <ClCompile Include="Source\UnitSizeType.cpp" />
@@ -240,6 +241,7 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
     <ClInclude Include="..\..\include\BWAPI\SetContainer.h" />
     <ClInclude Include="..\..\include\BWAPI\UnaryFilter.h" />
     <ClInclude Include="..\..\include\BWAPI\Unit.h" />
+    <ClInclude Include="..\..\include\BWAPI\UnitFinder.h" />
     <ClInclude Include="..\..\include\BWAPI\Unitset.h" />
     <ClInclude Include="..\..\include\BWAPI\DamageType.h" />
     <ClInclude Include="..\..\include\BWAPI\Error.h" />

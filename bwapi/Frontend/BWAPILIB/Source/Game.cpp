@@ -1658,39 +1658,18 @@ namespace BWAPI
     //----------------------------------------------- GET UNITS IN RECTANGLE -----------------------------------
     Unitset Game::getUnitsInRectangle(int left, int top, int right, int bottom, const UnitFilter &pred) const
     {
-        Unitset unitFinderResults;
-
-        auto callback = [&](Unit u) {
-          if (!pred.isValid() || pred(u))
-          {
-            unitFinderResults.insert(u);
-          }
-        };
-
-        iterateUnitFinder(left, top, right, bottom, callback);
-        return unitFinderResults;
+      Unitset result = unitFinder.find(left, top, right, bottom);
+      if (pred.isValid())
+        result.erase_if(!pred);
+      return result;
     }
 
     Unit Game::getClosestUnitInRectangle(Position center, const UnitFilter &pred, int left, int top, int right, int bottom) const
     {
-        // cppcheck-suppress variableScope
-        int bestDistance = std::numeric_limits<int>::max();
-        Unit pBestUnit = nullptr;
-
-        auto callback = [&](Unit u){
-          if (!pred.isValid() || pred(u))
-          {
-            int newDistance = u->getDistance(center);
-            if (newDistance < bestDistance)
-            {
-              pBestUnit = u;
-              bestDistance = newDistance;
-            }
-          }
-        };
-
-        iterateUnitFinder(left, top, right, bottom, callback);
-        return pBestUnit;
+      Unitset units = getUnitsInRectangle(left, top, right, bottom, pred);
+      auto minCompare = [&](Unit closest, Unit u) { return u->getDistance(center) < closest->getDistance(center); };
+      auto result = std::min_element(std::begin(units), std::end(units), minCompare);
+      return result == units.end() ? nullptr : *result;
     }
 
     //-------------------------------------------------- DRAW TEXT ---------------------------------------------
@@ -1893,8 +1872,8 @@ namespace BWAPI
             regionsList.emplace(r);
         }
         computePrimaryUnitSets();
+        unitFinder.update(getAllUnits());
       }
-      
     }
     void Game::clearEvents()
     {

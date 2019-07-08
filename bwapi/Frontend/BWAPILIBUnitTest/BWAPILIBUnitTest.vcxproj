@@ -38,6 +38,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PositionTest.cpp" />
     <ClCompile Include="UnitCommandTest.cpp" />
+    <ClCompile Include="UnitFinderTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BWAPICore\BWAPICore.vcxproj">
@@ -50,6 +51,7 @@
   <ItemGroup>
     <ClInclude Include="GameFixture.h" />
     <ClInclude Include="MockClient.h" />
+    <ClInclude Include="UnitFinderFixture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

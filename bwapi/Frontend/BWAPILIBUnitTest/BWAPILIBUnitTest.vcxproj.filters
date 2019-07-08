@@ -30,12 +30,18 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest\gtest-all.cc" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="UnitFinderTest.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MockClient.h">
       <Filter>Mocks</Filter>
     </ClInclude>
     <ClInclude Include="GameFixture.h">
+      <Filter>Fixtures</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitFinderFixture.h">
       <Filter>Fixtures</Filter>
     </ClInclude>
   </ItemGroup>

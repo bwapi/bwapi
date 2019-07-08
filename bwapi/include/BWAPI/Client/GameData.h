@@ -8,12 +8,6 @@
 
 namespace BWAPI
 {
-  struct unitFinder
-  {
-    int unitIndex;
-    int searchValue;
-  };
-
   struct GameData {
     int apiVersion;
     std::string engine;

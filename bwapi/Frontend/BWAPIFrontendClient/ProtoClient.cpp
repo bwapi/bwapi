@@ -191,7 +191,6 @@ namespace BWAPI
               unitData.buttonset = u.buttonset();
               unitData.carrier = UnitID{ u.carrier() };
               unitData.carryResourceType = u.carryresourcetype();
-              //unitData.clearanceLevel <-- how does this still exist?
               unitData.defenseMatrixPoints = u.defensematrixpoints();
               unitData.defenseMatrixTimer = u.defensematrixtimer();
               unitData.energy = u.energy();

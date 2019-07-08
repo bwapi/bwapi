@@ -90,6 +90,9 @@
     <ClCompile Include="Source\CommandOptimizer.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
+    <ClCompile Include="Source\UnitFinder.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\BWAPI\Event.h" />
@@ -233,6 +236,9 @@
     </ClInclude>
     <ClInclude Include="Source\Convenience.h" />
     <ClInclude Include="..\..\include\BWAPI\CommandOptimizer.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\UnitFinder.h">
       <Filter>Interface</Filter>
     </ClInclude>
   </ItemGroup>
