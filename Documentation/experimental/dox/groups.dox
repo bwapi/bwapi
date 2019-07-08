@@ -1,0 +1,12 @@
+/*!
+@defgroup TypeClasses Type Classes
+List of type classes.
+
+@defgroup Types Types
+List of type constants.
+@see BWAPI::Type
+
+@defgroup Interface Interface Classes
+List of interface classes.
+
+*/

@@ -1,0 +1,84 @@
+/*!
+@var BWAPI::Colors::Red
+@htmlonly
+<div style='width:64px;height:64px;background-color:#F40404;'></div>
+@endhtmlonly
+
+*/
+/*!
+@var BWAPI::Colors::Blue
+@htmlonly
+<div style='width:64px;height:64px;background-color:#0C48CC;'></div>
+@endhtmlonly
+
+*/
+/*!
+@var BWAPI::Colors::Teal
+@htmlonly
+<div style='width:64px;height:64px;background-color:#2CB494;'></div>
+@endhtmlonly
+
+*/
+/*!
+@var BWAPI::Colors::Purple
+@htmlonly
+<div style='width:64px;height:64px;background-color:#88409C;'></div>
+@endhtmlonly
+
+*/
+/*!
+@var BWAPI::Colors::Orange
+@htmlonly
+<div style='width:64px;height:64px;background-color:#E87824;'></div>
+@endhtmlonly
+
+*/
+/*!
+@var BWAPI::Colors::Brown
+@htmlonly
+<div style='width:64px;height:64px;background-color:#703014;'></div>
+@endhtmlonly
+
+*/
+/*!
+@var BWAPI::Colors::White
+@htmlonly
+<div style='width:64px;height:64px;background-color:#FFFFFF;'></div>
+@endhtmlonly
+
+*/
+/*!
+@var BWAPI::Colors::Yellow
+@htmlonly
+<div style='width:64px;height:64px;background-color:#FCFC38;'></div>
+@endhtmlonly
+
+*/
+/*!
+@var BWAPI::Colors::Green
+@htmlonly
+<div style='width:64px;height:64px;background-color:#10FC18;'></div>
+@endhtmlonly
+
+*/
+/*!
+@var BWAPI::Colors::Cyan
+@htmlonly
+<div style='width:64px;height:64px;background-color:#00E4FC;'></div>
+@endhtmlonly
+
+*/
+/*!
+@var BWAPI::Colors::Black
+@htmlonly
+<div style='width:64px;height:64px;background-color:#000000;'></div>
+@endhtmlonly
+
+*/
+/*!
+@var BWAPI::Colors::Grey
+@htmlonly
+<div style='width:64px;height:64px;background-color:#686868;'></div>
+@endhtmlonly
+
+*/

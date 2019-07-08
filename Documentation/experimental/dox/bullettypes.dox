@@ -1,0 +1,350 @@
+/*!
+@var BWAPI::BulletTypes::Enum::Gemini_Missiles
+Value of 144  [0x90]. See BWAPI::BulletTypes::Gemini_Missiles.
+*/
+/*!
+@var BWAPI::BulletTypes::Gemini_Missiles
+Gemini Missiles. Corresponds with BulletTypes::Enum::Gemini_Missiles.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Melee
+Value of 0  [0x0]. See BWAPI::BulletTypes::Melee.
+*/
+/*!
+@var BWAPI::BulletTypes::Melee
+Melee. Corresponds with BulletTypes::Enum::Melee.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Burst_Lasers
+Value of 149  [0x95]. See BWAPI::BulletTypes::Burst_Lasers.
+*/
+/*!
+@var BWAPI::BulletTypes::Burst_Lasers
+Burst Lasers. Corresponds with BulletTypes::Enum::Burst_Lasers.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Fusion_Cutter_Hit
+Value of 141  [0x8d]. See BWAPI::BulletTypes::Fusion_Cutter_Hit.
+*/
+/*!
+@var BWAPI::BulletTypes::Fusion_Cutter_Hit
+Fusion Cutter Hit. Corresponds with BulletTypes::Enum::Fusion_Cutter_Hit.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Neutron_Flare
+Value of 206  [0xce]. See BWAPI::BulletTypes::Neutron_Flare.
+*/
+/*!
+@var BWAPI::BulletTypes::Neutron_Flare
+Neutron Flare. Corresponds with BulletTypes::Enum::Neutron_Flare.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Gauss_Rifle_Hit
+Value of 142  [0x8e]. See BWAPI::BulletTypes::Gauss_Rifle_Hit.
+*/
+/*!
+@var BWAPI::BulletTypes::Gauss_Rifle_Hit
+Gauss Rifle Hit. Corresponds with BulletTypes::Enum::Gauss_Rifle_Hit.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::C_10_Canister_Rifle_Hit
+Value of 143  [0x8f]. See BWAPI::BulletTypes::C_10_Canister_Rifle_Hit.
+*/
+/*!
+@var BWAPI::BulletTypes::C_10_Canister_Rifle_Hit
+C 10 Canister Rifle Hit. Corresponds with BulletTypes::Enum::C_10_Canister_Rifle_Hit.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Fragmentation_Grenade
+Value of 145  [0x91]. See BWAPI::BulletTypes::Fragmentation_Grenade.
+*/
+/*!
+@var BWAPI::BulletTypes::Fragmentation_Grenade
+Fragmentation Grenade. Corresponds with BulletTypes::Enum::Fragmentation_Grenade.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Longbolt_Missile
+Value of 146  [0x92]. See BWAPI::BulletTypes::Longbolt_Missile.
+*/
+/*!
+@var BWAPI::BulletTypes::Longbolt_Missile
+Longbolt Missile. Corresponds with BulletTypes::Enum::Longbolt_Missile.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::ATS_ATA_Laser_Battery
+Value of 148  [0x94]. See BWAPI::BulletTypes::ATS_ATA_Laser_Battery.
+*/
+/*!
+@var BWAPI::BulletTypes::ATS_ATA_Laser_Battery
+ATS ATA Laser Battery. Corresponds with BulletTypes::Enum::ATS_ATA_Laser_Battery.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Arclite_Shock_Cannon_Hit
+Value of 150  [0x96]. See BWAPI::BulletTypes::Arclite_Shock_Cannon_Hit.
+*/
+/*!
+@var BWAPI::BulletTypes::Arclite_Shock_Cannon_Hit
+Arclite Shock Cannon Hit. Corresponds with BulletTypes::Enum::Arclite_Shock_Cannon_Hit.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::EMP_Missile
+Value of 151  [0x97]. See BWAPI::BulletTypes::EMP_Missile.
+*/
+/*!
+@var BWAPI::BulletTypes::EMP_Missile
+EMP Missile. Corresponds with BulletTypes::Enum::EMP_Missile.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Dual_Photon_Blasters_Hit
+Value of 152  [0x98]. See BWAPI::BulletTypes::Dual_Photon_Blasters_Hit.
+*/
+/*!
+@var BWAPI::BulletTypes::Dual_Photon_Blasters_Hit
+Dual Photon Blasters Hit. Corresponds with BulletTypes::Enum::Dual_Photon_Blasters_Hit.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Particle_Beam_Hit
+Value of 153  [0x99]. See BWAPI::BulletTypes::Particle_Beam_Hit.
+*/
+/*!
+@var BWAPI::BulletTypes::Particle_Beam_Hit
+Particle Beam Hit. Corresponds with BulletTypes::Enum::Particle_Beam_Hit.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Anti_Matter_Missile
+Value of 154  [0x9a]. See BWAPI::BulletTypes::Anti_Matter_Missile.
+*/
+/*!
+@var BWAPI::BulletTypes::Anti_Matter_Missile
+Anti Matter Missile. Corresponds with BulletTypes::Enum::Anti_Matter_Missile.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Pulse_Cannon
+Value of 155  [0x9b]. See BWAPI::BulletTypes::Pulse_Cannon.
+*/
+/*!
+@var BWAPI::BulletTypes::Pulse_Cannon
+Pulse Cannon. Corresponds with BulletTypes::Enum::Pulse_Cannon.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Psionic_Shockwave_Hit
+Value of 156  [0x9c]. See BWAPI::BulletTypes::Psionic_Shockwave_Hit.
+*/
+/*!
+@var BWAPI::BulletTypes::Psionic_Shockwave_Hit
+Psionic Shockwave Hit. Corresponds with BulletTypes::Enum::Psionic_Shockwave_Hit.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Psionic_Storm
+Value of 157  [0x9d]. See BWAPI::BulletTypes::Psionic_Storm.
+*/
+/*!
+@var BWAPI::BulletTypes::Psionic_Storm
+Psionic Storm. Corresponds with BulletTypes::Enum::Psionic_Storm.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Yamato_Gun
+Value of 158  [0x9e]. See BWAPI::BulletTypes::Yamato_Gun.
+*/
+/*!
+@var BWAPI::BulletTypes::Yamato_Gun
+Yamato Gun. Corresponds with BulletTypes::Enum::Yamato_Gun.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Phase_Disruptor
+Value of 159  [0x9f]. See BWAPI::BulletTypes::Phase_Disruptor.
+*/
+/*!
+@var BWAPI::BulletTypes::Phase_Disruptor
+Phase Disruptor. Corresponds with BulletTypes::Enum::Phase_Disruptor.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::STA_STS_Cannon_Overlay
+Value of 160  [0xa0]. See BWAPI::BulletTypes::STA_STS_Cannon_Overlay.
+*/
+/*!
+@var BWAPI::BulletTypes::STA_STS_Cannon_Overlay
+STA STS Cannon Overlay. Corresponds with BulletTypes::Enum::STA_STS_Cannon_Overlay.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Sunken_Colony_Tentacle
+Value of 161  [0xa1]. See BWAPI::BulletTypes::Sunken_Colony_Tentacle.
+*/
+/*!
+@var BWAPI::BulletTypes::Sunken_Colony_Tentacle
+Sunken Colony Tentacle. Corresponds with BulletTypes::Enum::Sunken_Colony_Tentacle.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Acid_Spore
+Value of 163  [0xa3]. See BWAPI::BulletTypes::Acid_Spore.
+*/
+/*!
+@var BWAPI::BulletTypes::Acid_Spore
+Acid Spore. Corresponds with BulletTypes::Enum::Acid_Spore.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Glave_Wurm
+Value of 165  [0xa5]. See BWAPI::BulletTypes::Glave_Wurm.
+*/
+/*!
+@var BWAPI::BulletTypes::Glave_Wurm
+Glave Wurm. Corresponds with BulletTypes::Enum::Glave_Wurm.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Seeker_Spores
+Value of 166  [0xa6]. See BWAPI::BulletTypes::Seeker_Spores.
+*/
+/*!
+@var BWAPI::BulletTypes::Seeker_Spores
+Seeker Spores. Corresponds with BulletTypes::Enum::Seeker_Spores.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Queen_Spell_Carrier
+Value of 167  [0xa7]. See BWAPI::BulletTypes::Queen_Spell_Carrier.
+*/
+/*!
+@var BWAPI::BulletTypes::Queen_Spell_Carrier
+Queen Spell Carrier. Corresponds with BulletTypes::Enum::Queen_Spell_Carrier.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Plague_Cloud
+Value of 168  [0xa8]. See BWAPI::BulletTypes::Plague_Cloud.
+*/
+/*!
+@var BWAPI::BulletTypes::Plague_Cloud
+Plague Cloud. Corresponds with BulletTypes::Enum::Plague_Cloud.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Consume
+Value of 169  [0xa9]. See BWAPI::BulletTypes::Consume.
+*/
+/*!
+@var BWAPI::BulletTypes::Consume
+Consume. Corresponds with BulletTypes::Enum::Consume.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Ensnare
+Value of 170  [0xaa]. See BWAPI::BulletTypes::Ensnare.
+*/
+/*!
+@var BWAPI::BulletTypes::Ensnare
+Ensnare. Corresponds with BulletTypes::Enum::Ensnare.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Needle_Spine_Hit
+Value of 171  [0xab]. See BWAPI::BulletTypes::Needle_Spine_Hit.
+*/
+/*!
+@var BWAPI::BulletTypes::Needle_Spine_Hit
+Needle Spine Hit. Corresponds with BulletTypes::Enum::Needle_Spine_Hit.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Invisible
+Value of 172  [0xac]. See BWAPI::BulletTypes::Invisible.
+*/
+/*!
+@var BWAPI::BulletTypes::Invisible
+Invisible. Corresponds with BulletTypes::Enum::Invisible.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Optical_Flare_Grenade
+Value of 201  [0xc9]. See BWAPI::BulletTypes::Optical_Flare_Grenade.
+*/
+/*!
+@var BWAPI::BulletTypes::Optical_Flare_Grenade
+Optical Flare Grenade. Corresponds with BulletTypes::Enum::Optical_Flare_Grenade.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Halo_Rockets
+Value of 202  [0xca]. See BWAPI::BulletTypes::Halo_Rockets.
+*/
+/*!
+@var BWAPI::BulletTypes::Halo_Rockets
+Halo Rockets. Corresponds with BulletTypes::Enum::Halo_Rockets.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Subterranean_Spines
+Value of 203  [0xcb]. See BWAPI::BulletTypes::Subterranean_Spines.
+*/
+/*!
+@var BWAPI::BulletTypes::Subterranean_Spines
+Subterranean Spines. Corresponds with BulletTypes::Enum::Subterranean_Spines.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Corrosive_Acid_Shot
+Value of 204  [0xcc]. See BWAPI::BulletTypes::Corrosive_Acid_Shot.
+*/
+/*!
+@var BWAPI::BulletTypes::Corrosive_Acid_Shot
+Corrosive Acid Shot. Corresponds with BulletTypes::Enum::Corrosive_Acid_Shot.
+
+
+*/

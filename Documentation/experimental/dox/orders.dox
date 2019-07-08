@@ -1,0 +1,1702 @@
+/*!
+@var BWAPI::Orders::Enum::InterceptorAttack
+Value of 64  [0x40]. See BWAPI::Orders::InterceptorAttack.
+*/
+/*!
+@var BWAPI::Orders::InterceptorAttack
+ InterceptorAttack. Corresponds with Orders::Enum::InterceptorAttack.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Die
+Value of 0  [0x0]. See BWAPI::Orders::Die.
+*/
+/*!
+@var BWAPI::Orders::Die
+ Die. Corresponds with Orders::Enum::Die.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::ScarabAttack
+Value of 65  [0x41]. See BWAPI::Orders::ScarabAttack.
+*/
+/*!
+@var BWAPI::Orders::ScarabAttack
+ ScarabAttack. Corresponds with Orders::Enum::ScarabAttack.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Stop
+Value of 1  [0x1]. See BWAPI::Orders::Stop.
+*/
+/*!
+@var BWAPI::Orders::Stop
+@htmlonly
+<i class='cmdbtn cmdbtn-icon229'></i>
+@endhtmlonly  Stop. Corresponds with Orders::Enum::Stop.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::LiftingOff
+Value of 74  [0x4a]. See BWAPI::Orders::LiftingOff.
+*/
+/*!
+@var BWAPI::Orders::LiftingOff
+ LiftingOff. Corresponds with Orders::Enum::LiftingOff.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::AttackUnit
+Value of 10  [0xa]. See BWAPI::Orders::AttackUnit.
+*/
+/*!
+@var BWAPI::Orders::AttackUnit
+@htmlonly
+<i class='cmdbtn cmdbtn-icon230'></i>
+@endhtmlonly  AttackUnit. Corresponds with Orders::Enum::AttackUnit.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::RechargeShieldsUnit
+Value of 66  [0x42]. See BWAPI::Orders::RechargeShieldsUnit.
+*/
+/*!
+@var BWAPI::Orders::RechargeShieldsUnit
+ RechargeShieldsUnit. Corresponds with Orders::Enum::RechargeShieldsUnit.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Guard
+Value of 2  [0x2]. See BWAPI::Orders::Guard.
+*/
+/*!
+@var BWAPI::Orders::Guard
+@htmlonly
+<i class='cmdbtn cmdbtn-icon229'></i>
+@endhtmlonly  Guard. Corresponds with Orders::Enum::Guard.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::RechargeShieldsBattery
+Value of 67  [0x43]. See BWAPI::Orders::RechargeShieldsBattery.
+*/
+/*!
+@var BWAPI::Orders::RechargeShieldsBattery
+ RechargeShieldsBattery. Corresponds with Orders::Enum::RechargeShieldsBattery.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::PlayerGuard
+Value of 3  [0x3]. See BWAPI::Orders::PlayerGuard.
+*/
+/*!
+@var BWAPI::Orders::PlayerGuard
+@htmlonly
+<i class='cmdbtn cmdbtn-icon229'></i>
+@endhtmlonly  PlayerGuard. Corresponds with Orders::Enum::PlayerGuard.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Upgrade
+Value of 76  [0x4c]. See BWAPI::Orders::Upgrade.
+*/
+/*!
+@var BWAPI::Orders::Upgrade
+ Upgrade. Corresponds with Orders::Enum::Upgrade.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::AttackTile
+Value of 12  [0xc]. See BWAPI::Orders::AttackTile.
+*/
+/*!
+@var BWAPI::Orders::AttackTile
+@htmlonly
+<i class='cmdbtn cmdbtn-icon230'></i>
+@endhtmlonly  AttackTile. Corresponds with Orders::Enum::AttackTile.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::ShieldBattery
+Value of 68  [0x44]. See BWAPI::Orders::ShieldBattery.
+*/
+/*!
+@var BWAPI::Orders::ShieldBattery
+ ShieldBattery. Corresponds with Orders::Enum::ShieldBattery.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::TurretGuard
+Value of 4  [0x4]. See BWAPI::Orders::TurretGuard.
+*/
+/*!
+@var BWAPI::Orders::TurretGuard
+ TurretGuard. Corresponds with Orders::Enum::TurretGuard.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::InterceptorReturn
+Value of 69  [0x45]. See BWAPI::Orders::InterceptorReturn.
+*/
+/*!
+@var BWAPI::Orders::InterceptorReturn
+ InterceptorReturn. Corresponds with Orders::Enum::InterceptorReturn.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::BunkerGuard
+Value of 5  [0x5]. See BWAPI::Orders::BunkerGuard.
+*/
+/*!
+@var BWAPI::Orders::BunkerGuard
+@htmlonly
+<i class='cmdbtn cmdbtn-icon229'></i>
+@endhtmlonly  BunkerGuard. Corresponds with Orders::Enum::BunkerGuard.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Move
+Value of 6  [0x6]. See BWAPI::Orders::Move.
+*/
+/*!
+@var BWAPI::Orders::Move
+@htmlonly
+<i class='cmdbtn cmdbtn-icon228'></i>
+@endhtmlonly  Move. Corresponds with Orders::Enum::Move.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Larva
+Value of 77  [0x4d]. See BWAPI::Orders::Larva.
+*/
+/*!
+@var BWAPI::Orders::Larva
+ Larva. Corresponds with Orders::Enum::Larva.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Hover
+Value of 13  [0xd]. See BWAPI::Orders::Hover.
+*/
+/*!
+@var BWAPI::Orders::Hover
+@htmlonly
+<i class='cmdbtn cmdbtn-icon230'></i>
+@endhtmlonly  Hover. Corresponds with Orders::Enum::Hover.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::SpawningLarva
+Value of 78  [0x4e]. See BWAPI::Orders::SpawningLarva.
+*/
+/*!
+@var BWAPI::Orders::SpawningLarva
+ SpawningLarva. Corresponds with Orders::Enum::SpawningLarva.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::AttackMove
+Value of 14  [0xe]. See BWAPI::Orders::AttackMove.
+*/
+/*!
+@var BWAPI::Orders::AttackMove
+@htmlonly
+<i class='cmdbtn cmdbtn-icon230'></i>
+@endhtmlonly  AttackMove. Corresponds with Orders::Enum::AttackMove.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Harvest1
+Value of 79  [0x4f]. See BWAPI::Orders::Harvest1.
+*/
+/*!
+@var BWAPI::Orders::Harvest1
+@htmlonly
+<i class='cmdbtn cmdbtn-icon231'></i>
+@endhtmlonly  Harvest1. Corresponds with Orders::Enum::Harvest1.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::InfestedCommandCenter
+Value of 15  [0xf]. See BWAPI::Orders::InfestedCommandCenter.
+*/
+/*!
+@var BWAPI::Orders::InfestedCommandCenter
+ InfestedCommandCenter. Corresponds with Orders::Enum::InfestedCommandCenter.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Harvest2
+Value of 80  [0x50]. See BWAPI::Orders::Harvest2.
+*/
+/*!
+@var BWAPI::Orders::Harvest2
+@htmlonly
+<i class='cmdbtn cmdbtn-icon231'></i>
+@endhtmlonly  Harvest2. Corresponds with Orders::Enum::Harvest2.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::UnusedNothing
+Value of 16  [0x10]. See BWAPI::Orders::UnusedNothing.
+*/
+/*!
+@var BWAPI::Orders::UnusedNothing
+@htmlonly
+<i class='cmdbtn cmdbtn-icon229'></i>
+@endhtmlonly  UnusedNothing. Corresponds with Orders::Enum::UnusedNothing.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::MoveToGas
+Value of 81  [0x51]. See BWAPI::Orders::MoveToGas.
+*/
+/*!
+@var BWAPI::Orders::MoveToGas
+@htmlonly
+<i class='cmdbtn cmdbtn-icon231'></i>
+@endhtmlonly  MoveToGas. Corresponds with Orders::Enum::MoveToGas.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::UnusedPowerup
+Value of 17  [0x11]. See BWAPI::Orders::UnusedPowerup.
+*/
+/*!
+@var BWAPI::Orders::UnusedPowerup
+@htmlonly
+<i class='cmdbtn cmdbtn-icon229'></i>
+@endhtmlonly  UnusedPowerup. Corresponds with Orders::Enum::UnusedPowerup.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::WaitForGas
+Value of 82  [0x52]. See BWAPI::Orders::WaitForGas.
+*/
+/*!
+@var BWAPI::Orders::WaitForGas
+@htmlonly
+<i class='cmdbtn cmdbtn-icon231'></i>
+@endhtmlonly  WaitForGas. Corresponds with Orders::Enum::WaitForGas.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::TowerGuard
+Value of 18  [0x12]. See BWAPI::Orders::TowerGuard.
+*/
+/*!
+@var BWAPI::Orders::TowerGuard
+@htmlonly
+<i class='cmdbtn cmdbtn-icon229'></i>
+@endhtmlonly  TowerGuard. Corresponds with Orders::Enum::TowerGuard.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::ReturnGas
+Value of 84  [0x54]. See BWAPI::Orders::ReturnGas.
+*/
+/*!
+@var BWAPI::Orders::ReturnGas
+@htmlonly
+<i class='cmdbtn cmdbtn-icon233'></i>
+@endhtmlonly  ReturnGas. Corresponds with Orders::Enum::ReturnGas.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::VultureMine
+Value of 20  [0x14]. See BWAPI::Orders::VultureMine.
+*/
+/*!
+@var BWAPI::Orders::VultureMine
+ VultureMine. Corresponds with Orders::Enum::VultureMine.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::MiningMinerals
+Value of 87  [0x57]. See BWAPI::Orders::MiningMinerals.
+*/
+/*!
+@var BWAPI::Orders::MiningMinerals
+@htmlonly
+<i class='cmdbtn cmdbtn-icon231'></i>
+@endhtmlonly  MiningMinerals. Corresponds with Orders::Enum::MiningMinerals.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Nothing
+Value of 23  [0x17]. See BWAPI::Orders::Nothing.
+*/
+/*!
+@var BWAPI::Orders::Nothing
+@htmlonly
+<i class='cmdbtn cmdbtn-icon229'></i>
+@endhtmlonly  Nothing. Corresponds with Orders::Enum::Nothing.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastInfestation
+Value of 27  [0x1b]. See BWAPI::Orders::CastInfestation.
+*/
+/*!
+@var BWAPI::Orders::CastInfestation
+@htmlonly
+<i class='cmdbtn cmdbtn-icon313'></i>
+@endhtmlonly  CastInfestation. Corresponds with Orders::Enum::CastInfestation.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::InfestingCommandCenter
+Value of 29  [0x1d]. See BWAPI::Orders::InfestingCommandCenter.
+*/
+/*!
+@var BWAPI::Orders::InfestingCommandCenter
+@htmlonly
+<i class='cmdbtn cmdbtn-icon313'></i>
+@endhtmlonly  InfestingCommandCenter. Corresponds with Orders::Enum::InfestingCommandCenter.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::PlaceBuilding
+Value of 30  [0x1e]. See BWAPI::Orders::PlaceBuilding.
+*/
+/*!
+@var BWAPI::Orders::PlaceBuilding
+ PlaceBuilding. Corresponds with Orders::Enum::PlaceBuilding.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CreateProtossBuilding
+Value of 32  [0x20]. See BWAPI::Orders::CreateProtossBuilding.
+*/
+/*!
+@var BWAPI::Orders::CreateProtossBuilding
+ CreateProtossBuilding. Corresponds with Orders::Enum::CreateProtossBuilding.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::ConstructingBuilding
+Value of 33  [0x21]. See BWAPI::Orders::ConstructingBuilding.
+*/
+/*!
+@var BWAPI::Orders::ConstructingBuilding
+@htmlonly
+<i class='cmdbtn cmdbtn-icon232'></i>
+@endhtmlonly  ConstructingBuilding. Corresponds with Orders::Enum::ConstructingBuilding.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Repair
+Value of 34  [0x22]. See BWAPI::Orders::Repair.
+*/
+/*!
+@var BWAPI::Orders::Repair
+@htmlonly
+<i class='cmdbtn cmdbtn-icon232'></i>
+@endhtmlonly  Repair. Corresponds with Orders::Enum::Repair.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::PlaceAddon
+Value of 36  [0x24]. See BWAPI::Orders::PlaceAddon.
+*/
+/*!
+@var BWAPI::Orders::PlaceAddon
+ PlaceAddon. Corresponds with Orders::Enum::PlaceAddon.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::BuildAddon
+Value of 37  [0x25]. See BWAPI::Orders::BuildAddon.
+*/
+/*!
+@var BWAPI::Orders::BuildAddon
+ BuildAddon. Corresponds with Orders::Enum::BuildAddon.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Train
+Value of 38  [0x26]. See BWAPI::Orders::Train.
+*/
+/*!
+@var BWAPI::Orders::Train
+ Train. Corresponds with Orders::Enum::Train.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::RallyPointUnit
+Value of 39  [0x27]. See BWAPI::Orders::RallyPointUnit.
+*/
+/*!
+@var BWAPI::Orders::RallyPointUnit
+ RallyPointUnit. Corresponds with Orders::Enum::RallyPointUnit.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::RallyPointTile
+Value of 40  [0x28]. See BWAPI::Orders::RallyPointTile.
+*/
+/*!
+@var BWAPI::Orders::RallyPointTile
+ RallyPointTile. Corresponds with Orders::Enum::RallyPointTile.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::ZergBirth
+Value of 41  [0x29]. See BWAPI::Orders::ZergBirth.
+*/
+/*!
+@var BWAPI::Orders::ZergBirth
+ ZergBirth. Corresponds with Orders::Enum::ZergBirth.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::ZergUnitMorph
+Value of 42  [0x2a]. See BWAPI::Orders::ZergUnitMorph.
+*/
+/*!
+@var BWAPI::Orders::ZergUnitMorph
+ ZergUnitMorph. Corresponds with Orders::Enum::ZergUnitMorph.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::ZergBuildingMorph
+Value of 43  [0x2b]. See BWAPI::Orders::ZergBuildingMorph.
+*/
+/*!
+@var BWAPI::Orders::ZergBuildingMorph
+ ZergBuildingMorph. Corresponds with Orders::Enum::ZergBuildingMorph.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::IncompleteBuilding
+Value of 44  [0x2c]. See BWAPI::Orders::IncompleteBuilding.
+*/
+/*!
+@var BWAPI::Orders::IncompleteBuilding
+ IncompleteBuilding. Corresponds with Orders::Enum::IncompleteBuilding.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::BuildNydusExit
+Value of 46  [0x2e]. See BWAPI::Orders::BuildNydusExit.
+*/
+/*!
+@var BWAPI::Orders::BuildNydusExit
+ BuildNydusExit. Corresponds with Orders::Enum::BuildNydusExit.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::EnterNydusCanal
+Value of 47  [0x2f]. See BWAPI::Orders::EnterNydusCanal.
+*/
+/*!
+@var BWAPI::Orders::EnterNydusCanal
+@htmlonly
+<i class='cmdbtn cmdbtn-icon228'></i>
+@endhtmlonly  EnterNydusCanal. Corresponds with Orders::Enum::EnterNydusCanal.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Follow
+Value of 49  [0x31]. See BWAPI::Orders::Follow.
+*/
+/*!
+@var BWAPI::Orders::Follow
+@htmlonly
+<i class='cmdbtn cmdbtn-icon228'></i>
+@endhtmlonly  Follow. Corresponds with Orders::Enum::Follow.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Carrier
+Value of 50  [0x32]. See BWAPI::Orders::Carrier.
+*/
+/*!
+@var BWAPI::Orders::Carrier
+@htmlonly
+<i class='cmdbtn cmdbtn-icon229'></i>
+@endhtmlonly  Carrier. Corresponds with Orders::Enum::Carrier.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::ReaverCarrierMove
+Value of 51  [0x33]. See BWAPI::Orders::ReaverCarrierMove.
+*/
+/*!
+@var BWAPI::Orders::ReaverCarrierMove
+@htmlonly
+<i class='cmdbtn cmdbtn-icon228'></i>
+@endhtmlonly  ReaverCarrierMove. Corresponds with Orders::Enum::ReaverCarrierMove.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CarrierIgnore2
+Value of 55  [0x37]. See BWAPI::Orders::CarrierIgnore2.
+*/
+/*!
+@var BWAPI::Orders::CarrierIgnore2
+@htmlonly
+<i class='cmdbtn cmdbtn-icon230'></i>
+@endhtmlonly  CarrierIgnore2. Corresponds with Orders::Enum::CarrierIgnore2.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Reaver
+Value of 58  [0x3a]. See BWAPI::Orders::Reaver.
+*/
+/*!
+@var BWAPI::Orders::Reaver
+@htmlonly
+<i class='cmdbtn cmdbtn-icon229'></i>
+@endhtmlonly  Reaver. Corresponds with Orders::Enum::Reaver.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::TrainFighter
+Value of 63  [0x3f]. See BWAPI::Orders::TrainFighter.
+*/
+/*!
+@var BWAPI::Orders::TrainFighter
+ TrainFighter. Corresponds with Orders::Enum::TrainFighter.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::BuildingLand
+Value of 71  [0x47]. See BWAPI::Orders::BuildingLand.
+*/
+/*!
+@var BWAPI::Orders::BuildingLand
+@htmlonly
+<i class='cmdbtn cmdbtn-icon283'></i>
+@endhtmlonly  BuildingLand. Corresponds with Orders::Enum::BuildingLand.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::BuildingLiftOff
+Value of 72  [0x48]. See BWAPI::Orders::BuildingLiftOff.
+*/
+/*!
+@var BWAPI::Orders::BuildingLiftOff
+@htmlonly
+<i class='cmdbtn cmdbtn-icon282'></i>
+@endhtmlonly  BuildingLiftOff. Corresponds with Orders::Enum::BuildingLiftOff.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::DroneLiftOff
+Value of 73  [0x49]. See BWAPI::Orders::DroneLiftOff.
+*/
+/*!
+@var BWAPI::Orders::DroneLiftOff
+ DroneLiftOff. Corresponds with Orders::Enum::DroneLiftOff.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::ResearchTech
+Value of 75  [0x4b]. See BWAPI::Orders::ResearchTech.
+*/
+/*!
+@var BWAPI::Orders::ResearchTech
+ ResearchTech. Corresponds with Orders::Enum::ResearchTech.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::HarvestGas
+Value of 83  [0x53]. See BWAPI::Orders::HarvestGas.
+*/
+/*!
+@var BWAPI::Orders::HarvestGas
+@htmlonly
+<i class='cmdbtn cmdbtn-icon231'></i>
+@endhtmlonly  HarvestGas. Corresponds with Orders::Enum::HarvestGas.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::MoveToMinerals
+Value of 85  [0x55]. See BWAPI::Orders::MoveToMinerals.
+*/
+/*!
+@var BWAPI::Orders::MoveToMinerals
+@htmlonly
+<i class='cmdbtn cmdbtn-icon231'></i>
+@endhtmlonly  MoveToMinerals. Corresponds with Orders::Enum::MoveToMinerals.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::WaitForMinerals
+Value of 86  [0x56]. See BWAPI::Orders::WaitForMinerals.
+*/
+/*!
+@var BWAPI::Orders::WaitForMinerals
+@htmlonly
+<i class='cmdbtn cmdbtn-icon231'></i>
+@endhtmlonly  WaitForMinerals. Corresponds with Orders::Enum::WaitForMinerals.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Harvest3
+Value of 88  [0x58]. See BWAPI::Orders::Harvest3.
+*/
+/*!
+@var BWAPI::Orders::Harvest3
+@htmlonly
+<i class='cmdbtn cmdbtn-icon231'></i>
+@endhtmlonly  Harvest3. Corresponds with Orders::Enum::Harvest3.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Harvest4
+Value of 89  [0x59]. See BWAPI::Orders::Harvest4.
+*/
+/*!
+@var BWAPI::Orders::Harvest4
+@htmlonly
+<i class='cmdbtn cmdbtn-icon231'></i>
+@endhtmlonly  Harvest4. Corresponds with Orders::Enum::Harvest4.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::ReturnMinerals
+Value of 90  [0x5a]. See BWAPI::Orders::ReturnMinerals.
+*/
+/*!
+@var BWAPI::Orders::ReturnMinerals
+@htmlonly
+<i class='cmdbtn cmdbtn-icon233'></i>
+@endhtmlonly  ReturnMinerals. Corresponds with Orders::Enum::ReturnMinerals.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Interrupted
+Value of 91  [0x5b]. See BWAPI::Orders::Interrupted.
+*/
+/*!
+@var BWAPI::Orders::Interrupted
+@htmlonly
+<i class='cmdbtn cmdbtn-icon231'></i>
+@endhtmlonly  Interrupted. Corresponds with Orders::Enum::Interrupted.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::EnterTransport
+Value of 92  [0x5c]. See BWAPI::Orders::EnterTransport.
+*/
+/*!
+@var BWAPI::Orders::EnterTransport
+@htmlonly
+<i class='cmdbtn cmdbtn-icon228'></i>
+@endhtmlonly  EnterTransport. Corresponds with Orders::Enum::EnterTransport.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::PickupIdle
+Value of 93  [0x5d]. See BWAPI::Orders::PickupIdle.
+*/
+/*!
+@var BWAPI::Orders::PickupIdle
+@htmlonly
+<i class='cmdbtn cmdbtn-icon229'></i>
+@endhtmlonly  PickupIdle. Corresponds with Orders::Enum::PickupIdle.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::PickupTransport
+Value of 94  [0x5e]. See BWAPI::Orders::PickupTransport.
+*/
+/*!
+@var BWAPI::Orders::PickupTransport
+@htmlonly
+<i class='cmdbtn cmdbtn-icon309'></i>
+@endhtmlonly  PickupTransport. Corresponds with Orders::Enum::PickupTransport.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::PickupBunker
+Value of 95  [0x5f]. See BWAPI::Orders::PickupBunker.
+*/
+/*!
+@var BWAPI::Orders::PickupBunker
+@htmlonly
+<i class='cmdbtn cmdbtn-icon229'></i>
+@endhtmlonly  PickupBunker. Corresponds with Orders::Enum::PickupBunker.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Pickup4
+Value of 96  [0x60]. See BWAPI::Orders::Pickup4.
+*/
+/*!
+@var BWAPI::Orders::Pickup4
+@htmlonly
+<i class='cmdbtn cmdbtn-icon228'></i>
+@endhtmlonly  Pickup4. Corresponds with Orders::Enum::Pickup4.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::PowerupIdle
+Value of 97  [0x61]. See BWAPI::Orders::PowerupIdle.
+*/
+/*!
+@var BWAPI::Orders::PowerupIdle
+ PowerupIdle. Corresponds with Orders::Enum::PowerupIdle.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Sieging
+Value of 98  [0x62]. See BWAPI::Orders::Sieging.
+*/
+/*!
+@var BWAPI::Orders::Sieging
+@htmlonly
+<i class='cmdbtn cmdbtn-icon245'></i>
+@endhtmlonly  Sieging. Corresponds with Orders::Enum::Sieging.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Unsieging
+Value of 99  [0x63]. See BWAPI::Orders::Unsieging.
+*/
+/*!
+@var BWAPI::Orders::Unsieging
+@htmlonly
+<i class='cmdbtn cmdbtn-icon246'></i>
+@endhtmlonly  Unsieging. Corresponds with Orders::Enum::Unsieging.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::InitCreepGrowth
+Value of 101  [0x65]. See BWAPI::Orders::InitCreepGrowth.
+*/
+/*!
+@var BWAPI::Orders::InitCreepGrowth
+ InitCreepGrowth. Corresponds with Orders::Enum::InitCreepGrowth.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::SpreadCreep
+Value of 102  [0x66]. See BWAPI::Orders::SpreadCreep.
+*/
+/*!
+@var BWAPI::Orders::SpreadCreep
+ SpreadCreep. Corresponds with Orders::Enum::SpreadCreep.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::StoppingCreepGrowth
+Value of 103  [0x67]. See BWAPI::Orders::StoppingCreepGrowth.
+*/
+/*!
+@var BWAPI::Orders::StoppingCreepGrowth
+ StoppingCreepGrowth. Corresponds with Orders::Enum::StoppingCreepGrowth.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::GuardianAspect
+Value of 104  [0x68]. See BWAPI::Orders::GuardianAspect.
+*/
+/*!
+@var BWAPI::Orders::GuardianAspect
+ GuardianAspect. Corresponds with Orders::Enum::GuardianAspect.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::ArchonWarp
+Value of 105  [0x69]. See BWAPI::Orders::ArchonWarp.
+*/
+/*!
+@var BWAPI::Orders::ArchonWarp
+@htmlonly
+<i class='cmdbtn cmdbtn-icon67'></i>
+@endhtmlonly  ArchonWarp. Corresponds with Orders::Enum::ArchonWarp.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CompletingArchonSummon
+Value of 106  [0x6a]. See BWAPI::Orders::CompletingArchonSummon.
+*/
+/*!
+@var BWAPI::Orders::CompletingArchonSummon
+ CompletingArchonSummon. Corresponds with Orders::Enum::CompletingArchonSummon.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::HoldPosition
+Value of 107  [0x6b]. See BWAPI::Orders::HoldPosition.
+*/
+/*!
+@var BWAPI::Orders::HoldPosition
+@htmlonly
+<i class='cmdbtn cmdbtn-icon255'></i>
+@endhtmlonly  HoldPosition. Corresponds with Orders::Enum::HoldPosition.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Cloak
+Value of 109  [0x6d]. See BWAPI::Orders::Cloak.
+*/
+/*!
+@var BWAPI::Orders::Cloak
+@htmlonly
+<i class='cmdbtn cmdbtn-icon252'></i>
+@endhtmlonly  Cloak. Corresponds with Orders::Enum::Cloak.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Decloak
+Value of 110  [0x6e]. See BWAPI::Orders::Decloak.
+*/
+/*!
+@var BWAPI::Orders::Decloak
+@htmlonly
+<i class='cmdbtn cmdbtn-icon253'></i>
+@endhtmlonly  Decloak. Corresponds with Orders::Enum::Decloak.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Unload
+Value of 111  [0x6f]. See BWAPI::Orders::Unload.
+*/
+/*!
+@var BWAPI::Orders::Unload
+@htmlonly
+<i class='cmdbtn cmdbtn-icon312'></i>
+@endhtmlonly  Unload. Corresponds with Orders::Enum::Unload.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::MoveUnload
+Value of 112  [0x70]. See BWAPI::Orders::MoveUnload.
+*/
+/*!
+@var BWAPI::Orders::MoveUnload
+@htmlonly
+<i class='cmdbtn cmdbtn-icon312'></i>
+@endhtmlonly  MoveUnload. Corresponds with Orders::Enum::MoveUnload.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::FireYamatoGun
+Value of 113  [0x71]. See BWAPI::Orders::FireYamatoGun.
+*/
+/*!
+@var BWAPI::Orders::FireYamatoGun
+@htmlonly
+<i class='cmdbtn cmdbtn-icon251'></i>
+@endhtmlonly  FireYamatoGun. Corresponds with Orders::Enum::FireYamatoGun.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastLockdown
+Value of 115  [0x73]. See BWAPI::Orders::CastLockdown.
+*/
+/*!
+@var BWAPI::Orders::CastLockdown
+@htmlonly
+<i class='cmdbtn cmdbtn-icon240'></i>
+@endhtmlonly  CastLockdown. Corresponds with Orders::Enum::CastLockdown.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Burrowing
+Value of 116  [0x74]. See BWAPI::Orders::Burrowing.
+*/
+/*!
+@var BWAPI::Orders::Burrowing
+@htmlonly
+<i class='cmdbtn cmdbtn-icon259'></i>
+@endhtmlonly  Burrowing. Corresponds with Orders::Enum::Burrowing.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Burrowed
+Value of 117  [0x75]. See BWAPI::Orders::Burrowed.
+*/
+/*!
+@var BWAPI::Orders::Burrowed
+ Burrowed. Corresponds with Orders::Enum::Burrowed.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Unburrowing
+Value of 118  [0x76]. See BWAPI::Orders::Unburrowing.
+*/
+/*!
+@var BWAPI::Orders::Unburrowing
+@htmlonly
+<i class='cmdbtn cmdbtn-icon260'></i>
+@endhtmlonly  Unburrowing. Corresponds with Orders::Enum::Unburrowing.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastDarkSwarm
+Value of 119  [0x77]. See BWAPI::Orders::CastDarkSwarm.
+*/
+/*!
+@var BWAPI::Orders::CastDarkSwarm
+ CastDarkSwarm. Corresponds with Orders::Enum::CastDarkSwarm.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastParasite
+Value of 120  [0x78]. See BWAPI::Orders::CastParasite.
+*/
+/*!
+@var BWAPI::Orders::CastParasite
+@htmlonly
+<i class='cmdbtn cmdbtn-icon271'></i>
+@endhtmlonly  CastParasite. Corresponds with Orders::Enum::CastParasite.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastSpawnBroodlings
+Value of 121  [0x79]. See BWAPI::Orders::CastSpawnBroodlings.
+*/
+/*!
+@var BWAPI::Orders::CastSpawnBroodlings
+@htmlonly
+<i class='cmdbtn cmdbtn-icon40'></i>
+@endhtmlonly  CastSpawnBroodlings. Corresponds with Orders::Enum::CastSpawnBroodlings.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastEMPShockwave
+Value of 122  [0x7a]. See BWAPI::Orders::CastEMPShockwave.
+*/
+/*!
+@var BWAPI::Orders::CastEMPShockwave
+@htmlonly
+<i class='cmdbtn cmdbtn-icon241'></i>
+@endhtmlonly  CastEMPShockwave. Corresponds with Orders::Enum::CastEMPShockwave.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::NukeWait
+Value of 123  [0x7b]. See BWAPI::Orders::NukeWait.
+*/
+/*!
+@var BWAPI::Orders::NukeWait
+ NukeWait. Corresponds with Orders::Enum::NukeWait.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::NukeTrain
+Value of 124  [0x7c]. See BWAPI::Orders::NukeTrain.
+*/
+/*!
+@var BWAPI::Orders::NukeTrain
+ NukeTrain. Corresponds with Orders::Enum::NukeTrain.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::NukeLaunch
+Value of 125  [0x7d]. See BWAPI::Orders::NukeLaunch.
+*/
+/*!
+@var BWAPI::Orders::NukeLaunch
+ NukeLaunch. Corresponds with Orders::Enum::NukeLaunch.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::NukePaint
+Value of 126  [0x7e]. See BWAPI::Orders::NukePaint.
+*/
+/*!
+@var BWAPI::Orders::NukePaint
+@htmlonly
+<i class='cmdbtn cmdbtn-icon311'></i>
+@endhtmlonly  NukePaint. Corresponds with Orders::Enum::NukePaint.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::NukeUnit
+Value of 127  [0x7f]. See BWAPI::Orders::NukeUnit.
+*/
+/*!
+@var BWAPI::Orders::NukeUnit
+@htmlonly
+<i class='cmdbtn cmdbtn-icon311'></i>
+@endhtmlonly  NukeUnit. Corresponds with Orders::Enum::NukeUnit.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastNuclearStrike
+Value of 128  [0x80]. See BWAPI::Orders::CastNuclearStrike.
+*/
+/*!
+@var BWAPI::Orders::CastNuclearStrike
+@htmlonly
+<i class='cmdbtn cmdbtn-icon311'></i>
+@endhtmlonly  CastNuclearStrike. Corresponds with Orders::Enum::CastNuclearStrike.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::NukeTrack
+Value of 129  [0x81]. See BWAPI::Orders::NukeTrack.
+*/
+/*!
+@var BWAPI::Orders::NukeTrack
+@htmlonly
+<i class='cmdbtn cmdbtn-icon311'></i>
+@endhtmlonly  NukeTrack. Corresponds with Orders::Enum::NukeTrack.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CloakNearbyUnits
+Value of 131  [0x83]. See BWAPI::Orders::CloakNearbyUnits.
+*/
+/*!
+@var BWAPI::Orders::CloakNearbyUnits
+ CloakNearbyUnits. Corresponds with Orders::Enum::CloakNearbyUnits.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::PlaceMine
+Value of 132  [0x84]. See BWAPI::Orders::PlaceMine.
+*/
+/*!
+@var BWAPI::Orders::PlaceMine
+ PlaceMine. Corresponds with Orders::Enum::PlaceMine.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::RightClickAction
+Value of 133  [0x85]. See BWAPI::Orders::RightClickAction.
+*/
+/*!
+@var BWAPI::Orders::RightClickAction
+@htmlonly
+<i class='cmdbtn cmdbtn-icon228'></i>
+@endhtmlonly  RightClickAction. Corresponds with Orders::Enum::RightClickAction.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastRecall
+Value of 137  [0x89]. See BWAPI::Orders::CastRecall.
+*/
+/*!
+@var BWAPI::Orders::CastRecall
+ CastRecall. Corresponds with Orders::Enum::CastRecall.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Teleport
+Value of 138  [0x8a]. See BWAPI::Orders::Teleport.
+*/
+/*!
+@var BWAPI::Orders::Teleport
+ Teleport. Corresponds with Orders::Enum::Teleport.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastScannerSweep
+Value of 139  [0x8b]. See BWAPI::Orders::CastScannerSweep.
+*/
+/*!
+@var BWAPI::Orders::CastScannerSweep
+ CastScannerSweep. Corresponds with Orders::Enum::CastScannerSweep.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Scanner
+Value of 140  [0x8c]. See BWAPI::Orders::Scanner.
+*/
+/*!
+@var BWAPI::Orders::Scanner
+ Scanner. Corresponds with Orders::Enum::Scanner.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastDefensiveMatrix
+Value of 141  [0x8d]. See BWAPI::Orders::CastDefensiveMatrix.
+*/
+/*!
+@var BWAPI::Orders::CastDefensiveMatrix
+@htmlonly
+<i class='cmdbtn cmdbtn-icon247'></i>
+@endhtmlonly  CastDefensiveMatrix. Corresponds with Orders::Enum::CastDefensiveMatrix.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastPsionicStorm
+Value of 142  [0x8e]. See BWAPI::Orders::CastPsionicStorm.
+*/
+/*!
+@var BWAPI::Orders::CastPsionicStorm
+ CastPsionicStorm. Corresponds with Orders::Enum::CastPsionicStorm.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastIrradiate
+Value of 143  [0x8f]. See BWAPI::Orders::CastIrradiate.
+*/
+/*!
+@var BWAPI::Orders::CastIrradiate
+ CastIrradiate. Corresponds with Orders::Enum::CastIrradiate.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastPlague
+Value of 144  [0x90]. See BWAPI::Orders::CastPlague.
+*/
+/*!
+@var BWAPI::Orders::CastPlague
+ CastPlague. Corresponds with Orders::Enum::CastPlague.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastConsume
+Value of 145  [0x91]. See BWAPI::Orders::CastConsume.
+*/
+/*!
+@var BWAPI::Orders::CastConsume
+ CastConsume. Corresponds with Orders::Enum::CastConsume.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastEnsnare
+Value of 146  [0x92]. See BWAPI::Orders::CastEnsnare.
+*/
+/*!
+@var BWAPI::Orders::CastEnsnare
+ CastEnsnare. Corresponds with Orders::Enum::CastEnsnare.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastStasisField
+Value of 147  [0x93]. See BWAPI::Orders::CastStasisField.
+*/
+/*!
+@var BWAPI::Orders::CastStasisField
+ CastStasisField. Corresponds with Orders::Enum::CastStasisField.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastHallucination
+Value of 148  [0x94]. See BWAPI::Orders::CastHallucination.
+*/
+/*!
+@var BWAPI::Orders::CastHallucination
+@htmlonly
+<i class='cmdbtn cmdbtn-icon277'></i>
+@endhtmlonly  CastHallucination. Corresponds with Orders::Enum::CastHallucination.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Hallucination2
+Value of 149  [0x95]. See BWAPI::Orders::Hallucination2.
+*/
+/*!
+@var BWAPI::Orders::Hallucination2
+ Hallucination2. Corresponds with Orders::Enum::Hallucination2.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::ResetCollision
+Value of 150  [0x96]. See BWAPI::Orders::ResetCollision.
+*/
+/*!
+@var BWAPI::Orders::ResetCollision
+ ResetCollision. Corresponds with Orders::Enum::ResetCollision.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Patrol
+Value of 152  [0x98]. See BWAPI::Orders::Patrol.
+*/
+/*!
+@var BWAPI::Orders::Patrol
+@htmlonly
+<i class='cmdbtn cmdbtn-icon254'></i>
+@endhtmlonly  Patrol. Corresponds with Orders::Enum::Patrol.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CTFCOPInit
+Value of 153  [0x99]. See BWAPI::Orders::CTFCOPInit.
+*/
+/*!
+@var BWAPI::Orders::CTFCOPInit
+ CTFCOPInit. Corresponds with Orders::Enum::CTFCOPInit.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CTFCOPStarted
+Value of 154  [0x9a]. See BWAPI::Orders::CTFCOPStarted.
+*/
+/*!
+@var BWAPI::Orders::CTFCOPStarted
+ CTFCOPStarted. Corresponds with Orders::Enum::CTFCOPStarted.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CTFCOP2
+Value of 155  [0x9b]. See BWAPI::Orders::CTFCOP2.
+*/
+/*!
+@var BWAPI::Orders::CTFCOP2
+ CTFCOP2. Corresponds with Orders::Enum::CTFCOP2.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::ComputerAI
+Value of 156  [0x9c]. See BWAPI::Orders::ComputerAI.
+*/
+/*!
+@var BWAPI::Orders::ComputerAI
+ ComputerAI. Corresponds with Orders::Enum::ComputerAI.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::AtkMoveEP
+Value of 157  [0x9d]. See BWAPI::Orders::AtkMoveEP.
+*/
+/*!
+@var BWAPI::Orders::AtkMoveEP
+@htmlonly
+<i class='cmdbtn cmdbtn-icon230'></i>
+@endhtmlonly  AtkMoveEP. Corresponds with Orders::Enum::AtkMoveEP.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::HarassMove
+Value of 158  [0x9e]. See BWAPI::Orders::HarassMove.
+*/
+/*!
+@var BWAPI::Orders::HarassMove
+@htmlonly
+<i class='cmdbtn cmdbtn-icon230'></i>
+@endhtmlonly  HarassMove. Corresponds with Orders::Enum::HarassMove.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::AIPatrol
+Value of 159  [0x9f]. See BWAPI::Orders::AIPatrol.
+*/
+/*!
+@var BWAPI::Orders::AIPatrol
+@htmlonly
+<i class='cmdbtn cmdbtn-icon230'></i>
+@endhtmlonly  AIPatrol. Corresponds with Orders::Enum::AIPatrol.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::GuardPost
+Value of 160  [0xa0]. See BWAPI::Orders::GuardPost.
+*/
+/*!
+@var BWAPI::Orders::GuardPost
+@htmlonly
+<i class='cmdbtn cmdbtn-icon229'></i>
+@endhtmlonly  GuardPost. Corresponds with Orders::Enum::GuardPost.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::RescuePassive
+Value of 161  [0xa1]. See BWAPI::Orders::RescuePassive.
+*/
+/*!
+@var BWAPI::Orders::RescuePassive
+ RescuePassive. Corresponds with Orders::Enum::RescuePassive.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Neutral
+Value of 162  [0xa2]. See BWAPI::Orders::Neutral.
+*/
+/*!
+@var BWAPI::Orders::Neutral
+ Neutral. Corresponds with Orders::Enum::Neutral.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::ComputerReturn
+Value of 163  [0xa3]. See BWAPI::Orders::ComputerReturn.
+*/
+/*!
+@var BWAPI::Orders::ComputerReturn
+ ComputerReturn. Corresponds with Orders::Enum::ComputerReturn.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::SelfDestructing
+Value of 165  [0xa5]. See BWAPI::Orders::SelfDestructing.
+*/
+/*!
+@var BWAPI::Orders::SelfDestructing
+ SelfDestructing. Corresponds with Orders::Enum::SelfDestructing.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Critter
+Value of 166  [0xa6]. See BWAPI::Orders::Critter.
+*/
+/*!
+@var BWAPI::Orders::Critter
+@htmlonly
+<i class='cmdbtn cmdbtn-icon229'></i>
+@endhtmlonly  Critter. Corresponds with Orders::Enum::Critter.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::HiddenGun
+Value of 167  [0xa7]. See BWAPI::Orders::HiddenGun.
+*/
+/*!
+@var BWAPI::Orders::HiddenGun
+ HiddenGun. Corresponds with Orders::Enum::HiddenGun.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::OpenDoor
+Value of 168  [0xa8]. See BWAPI::Orders::OpenDoor.
+*/
+/*!
+@var BWAPI::Orders::OpenDoor
+ OpenDoor. Corresponds with Orders::Enum::OpenDoor.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CloseDoor
+Value of 169  [0xa9]. See BWAPI::Orders::CloseDoor.
+*/
+/*!
+@var BWAPI::Orders::CloseDoor
+ CloseDoor. Corresponds with Orders::Enum::CloseDoor.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::HideTrap
+Value of 170  [0xaa]. See BWAPI::Orders::HideTrap.
+*/
+/*!
+@var BWAPI::Orders::HideTrap
+ HideTrap. Corresponds with Orders::Enum::HideTrap.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::RevealTrap
+Value of 171  [0xab]. See BWAPI::Orders::RevealTrap.
+*/
+/*!
+@var BWAPI::Orders::RevealTrap
+ RevealTrap. Corresponds with Orders::Enum::RevealTrap.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::EnableDoodad
+Value of 172  [0xac]. See BWAPI::Orders::EnableDoodad.
+*/
+/*!
+@var BWAPI::Orders::EnableDoodad
+ EnableDoodad. Corresponds with Orders::Enum::EnableDoodad.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::DisableDoodad
+Value of 173  [0xad]. See BWAPI::Orders::DisableDoodad.
+*/
+/*!
+@var BWAPI::Orders::DisableDoodad
+ DisableDoodad. Corresponds with Orders::Enum::DisableDoodad.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::WarpIn
+Value of 174  [0xae]. See BWAPI::Orders::WarpIn.
+*/
+/*!
+@var BWAPI::Orders::WarpIn
+ WarpIn. Corresponds with Orders::Enum::WarpIn.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Medic
+Value of 175  [0xaf]. See BWAPI::Orders::Medic.
+*/
+/*!
+@var BWAPI::Orders::Medic
+@htmlonly
+<i class='cmdbtn cmdbtn-icon229'></i>
+@endhtmlonly  Medic. Corresponds with Orders::Enum::Medic.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::MedicHeal
+Value of 176  [0xb0]. See BWAPI::Orders::MedicHeal.
+*/
+/*!
+@var BWAPI::Orders::MedicHeal
+@htmlonly
+<i class='cmdbtn cmdbtn-icon365'></i>
+@endhtmlonly  MedicHeal. Corresponds with Orders::Enum::MedicHeal.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::HealMove
+Value of 177  [0xb1]. See BWAPI::Orders::HealMove.
+*/
+/*!
+@var BWAPI::Orders::HealMove
+@htmlonly
+<i class='cmdbtn cmdbtn-icon228'></i>
+@endhtmlonly  HealMove. Corresponds with Orders::Enum::HealMove.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::MedicHealToIdle
+Value of 179  [0xb3]. See BWAPI::Orders::MedicHealToIdle.
+*/
+/*!
+@var BWAPI::Orders::MedicHealToIdle
+ MedicHealToIdle. Corresponds with Orders::Enum::MedicHealToIdle.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastRestoration
+Value of 180  [0xb4]. See BWAPI::Orders::CastRestoration.
+*/
+/*!
+@var BWAPI::Orders::CastRestoration
+@htmlonly
+<i class='cmdbtn cmdbtn-icon277'></i>
+@endhtmlonly  CastRestoration. Corresponds with Orders::Enum::CastRestoration.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastDisruptionWeb
+Value of 181  [0xb5]. See BWAPI::Orders::CastDisruptionWeb.
+*/
+/*!
+@var BWAPI::Orders::CastDisruptionWeb
+@htmlonly
+<i class='cmdbtn cmdbtn-icon369'></i>
+@endhtmlonly  CastDisruptionWeb. Corresponds with Orders::Enum::CastDisruptionWeb.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastMindControl
+Value of 182  [0xb6]. See BWAPI::Orders::CastMindControl.
+*/
+/*!
+@var BWAPI::Orders::CastMindControl
+@htmlonly
+<i class='cmdbtn cmdbtn-icon371'></i>
+@endhtmlonly  CastMindControl. Corresponds with Orders::Enum::CastMindControl.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::DarkArchonMeld
+Value of 183  [0xb7]. See BWAPI::Orders::DarkArchonMeld.
+*/
+/*!
+@var BWAPI::Orders::DarkArchonMeld
+@htmlonly
+<i class='cmdbtn cmdbtn-icon67'></i>
+@endhtmlonly  DarkArchonMeld. Corresponds with Orders::Enum::DarkArchonMeld.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastFeedback
+Value of 184  [0xb8]. See BWAPI::Orders::CastFeedback.
+*/
+/*!
+@var BWAPI::Orders::CastFeedback
+@htmlonly
+<i class='cmdbtn cmdbtn-icon372'></i>
+@endhtmlonly  CastFeedback. Corresponds with Orders::Enum::CastFeedback.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastOpticalFlare
+Value of 185  [0xb9]. See BWAPI::Orders::CastOpticalFlare.
+*/
+/*!
+@var BWAPI::Orders::CastOpticalFlare
+@htmlonly
+<i class='cmdbtn cmdbtn-icon373'></i>
+@endhtmlonly  CastOpticalFlare. Corresponds with Orders::Enum::CastOpticalFlare.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::CastMaelstrom
+Value of 186  [0xba]. See BWAPI::Orders::CastMaelstrom.
+*/
+/*!
+@var BWAPI::Orders::CastMaelstrom
+@htmlonly
+<i class='cmdbtn cmdbtn-icon240'></i>
+@endhtmlonly  CastMaelstrom. Corresponds with Orders::Enum::CastMaelstrom.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::JunkYardDog
+Value of 187  [0xbb]. See BWAPI::Orders::JunkYardDog.
+*/
+/*!
+@var BWAPI::Orders::JunkYardDog
+ JunkYardDog. Corresponds with Orders::Enum::JunkYardDog.
+
+
+*/
+/*!
+@var BWAPI::Orders::Enum::Fatal
+Value of 188  [0xbc]. See BWAPI::Orders::Fatal.
+*/
+/*!
+@var BWAPI::Orders::Fatal
+ Fatal. Corresponds with Orders::Enum::Fatal.
+
+
+*/
