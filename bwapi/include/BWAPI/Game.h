@@ -1,13 +1,12 @@
 #pragma once
 #include <list>
+#include <map>
 #include <set>
-#include <unordered_set>
 #include <string>
 #include <cstdarg>
 #include <sstream>
 
 #include <BWAPI/Error.h>
-#include <BWAPI/Color.h>
 
 #include <BWAPI/Filters.h>
 #include <BWAPI/UnaryFilter.h>
@@ -28,7 +27,6 @@
 #include <BWAPI/Region.h>
 #include <BWAPI/Force.h>
 #include <BWAPI/Bullet.h>
-#include <BWAPI/GameType.h>
 #include <BWAPI/Unitset.h>
 #include <BWAPI/Forceset.h>
 #include <BWAPI/Playerset.h>
@@ -44,23 +42,12 @@
 namespace BWAPI
 {
   // Forward Declarations
-  class Bulletset;
+  class Client;
   class Color;
-  class Event;
-  class Forceset;
   class GameType;
-  class Playerset;
-  class Race;
-  class Unitset;
-  class Region;
-
-  class Regionset;
   class TechType;
   class UnitCommand;
-  class Unitset;
   class UpgradeType;
-
-  class Client;
 
   /// <summary>The abstract Game class is implemented by BWAPI and is the primary means of obtaining all
   /// game state information from Starcraft Broodwar.</summary> Game state information includes all units,
@@ -290,7 +277,7 @@ namespace BWAPI
     ///
     /// @returns Position indicating the location of the mouse.
     /// @retval Positions::Unknown if Flag::UserInput is disabled.
-    //virtual Position getMousePosition() const = 0;
+    Position getMousePosition() const;
 
     /// <summary>Retrieves the state of the given mouse button.</summary>
     ///
@@ -303,7 +290,7 @@ namespace BWAPI
     /// @retval false always if Flag::UserInput is disabled.
     ///
     /// @see MouseButton
-    //virtual bool getMouseState(MouseButton button) const = 0;
+    bool getMouseState(MouseButton button) const;
 
     /// <summary>Retrieves the state of the given keyboard key.</summary>
     ///
@@ -316,7 +303,7 @@ namespace BWAPI
     /// @retval false always if Flag::UserInput is disabled.
     ///
     /// @see Key
-    //virtual bool getKeyState(Key key) const = 0;
+    bool getKeyState(Key key) const;
 
     /// <summary>Retrieves the top left position of the viewport from the top left corner of the
     /// map, in pixels.</summary>
@@ -367,7 +354,7 @@ namespace BWAPI
     /// @see Flag::Enum
     ///
     /// @todo Take Flag::Enum as parameter instead of int
-    //virtual bool isFlagEnabled(int flag) const = 0;
+    bool isFlagEnabled(int flag) const;
 
     /// <summary>Retrieves the set of accessible units that are on a given build tile.</summary>
     ///
@@ -503,7 +490,7 @@ namespace BWAPI
     /// @retval nullptr if a suitable unit was not found.
     ///
     /// @see getClosestUnit, BestUnitFilter, UnitFilter
-    //virtual Unit getBestUnit(const BestUnitFilter &best, const UnitFilter &pred, Position center = Positions::Origin, int radius = 999999) const = 0;
+    Unit getBestUnit(const BestUnitFilter &best, const UnitFilter &pred, Position center = Positions::Origin, int radius = 999999) const;
 
     /// <summary>Returns the last error that was set using setLastError.</summary> If a function
     /// call in BWAPI has failed, you can use this function to retrieve the reason it failed.
@@ -1497,7 +1484,7 @@ namespace BWAPI
     /// @endcode
     ///
     /// @see isGUIEnabled
-    //virtual void setGUI(bool enabled) = 0;
+    void setGUI(bool enabled);
 
     /// <summary>Retrieves the Starcraft instance number recorded by BWAPI to identify which
     /// Starcraft instance an AI module belongs to.</summary> The very first instance should
@@ -1529,9 +1516,7 @@ namespace BWAPI
     /// @retval true if the function succeeded and has changed the map.
     /// @retval false if the function failed, does not have permission from the tournament module,
     ///               failed to find the map specified, or received an invalid parameter.
-    //virtual bool setMap(const char *mapFileName) = 0;
-    /// @overload
-    //bool setMap(const std::string &mapFileName);
+    bool setMap(const std::string &mapFileName);
 
     /// <summary>Sets the number of graphical frames for every logical frame.</summary> This
     /// allows the game to run more logical frames per graphical frame, increasing the speed at
@@ -1543,7 +1528,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see setLocalSpeed
-    //virtual void setFrameSkip(int frameSkip) = 0;
+    void setFrameSkip(int frameSkip);
 
     /// <summary>Checks if there is a path from source to destination.</summary> This only checks
     /// if the source position is connected to the destination position. This function does not
@@ -1754,7 +1739,7 @@ namespace BWAPI
     ///   The state of the reveal all flag. If false, all fog of war will be enabled. If true,
     ///   then the fog of war will be revealed. It is true by default.
     /// </param>
-    //virtual bool setRevealAll(bool reveal = true) = 0;
+    bool setRevealAll(bool reveal = true);
 
     /// <summary>Retrieves a basic build position just as the default Computer AI would.</summary>
     /// This allows users to find simple build locations without relying on external libraries.
@@ -1854,10 +1839,10 @@ namespace BWAPI
     /// the x and y values to be within map bounds.</summary> For example, if x is less than 0,
     /// then x is set to 0.
     ///
-    /// @returns A reference to itself.
+    /// @returns A copy of the Position for convenience
     /// @see isValid
     template<typename T, int Scale>
-    auto makeValid(BWAPI::Point<T, Scale> &pos) const -> BWAPI::Point<T, Scale>& {
+    auto makeValid(BWAPI::Point<T, Scale> &pos) const -> BWAPI::Point<T, Scale> {
       pos.setMin(0, 0);
       pos.setMax(mapWidth() * 32 / Scale - 1, mapHeight() * 32 / Scale - 1);
       return pos;

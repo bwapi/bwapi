@@ -12,11 +12,13 @@
 #include <BWAPI/DamageType.h>
 #include <BWAPI/ExplosionType.h>
 #include <BWAPI/WeaponType.h>
+#include <BWAPI/GameType.h>
 
 #include <BWAPI/Client/Client.h>
 
 #include "Convenience.h"
 
+#include <numeric>
 #include <cstdarg>
 
 // Needed by other compilers.
@@ -90,6 +92,7 @@ namespace BWAPI
         return getDamageFromImpl(fromType, toType, fromPlayer, toPlayer);
     }
     //-------------------------------------- BUILD LOCATION --------------------------------------------
+    // TODO: Redo this garbage and don't try to mimic Starcraft built-in AI
     constexpr int MAX_RANGE = 64;
     class PlacementReserve
     {
@@ -590,6 +593,12 @@ namespace BWAPI
 
         return bestPosition;
     }
+    //------------------------------------------- FLAGS ------------------------------------------------
+    bool Game::isFlagEnabled(int flag) const
+    {
+      // TODO: Implement
+      return false;
+    }
     //------------------------------------------ ACTIONS -----------------------------------------------
     void Game::setScreenPosition(int x, int y)
     {
@@ -1058,12 +1067,14 @@ namespace BWAPI
     Forceset forcesset;
     const Forceset& Game::getForces() const
     {
+      // TODO: Implement
         return forcesset;
     }
     //----------------------------------------------- GET PLAYERS ----------------------------------------------
     Playerset playerSet;
     const Playerset& Game::getPlayers() const
     {
+      // TODO: Implement
         return playerSet;
     }
     //------------------------------------------------- GET UNITS ----------------------------------------------
@@ -1085,6 +1096,7 @@ namespace BWAPI
     Unitset neutralUnits;
     const Unitset& Game::getNeutralUnits() const
     {
+      // TODO: Implement
         return neutralUnits;
     }
     //------------------------------------------------- GET STATIC MINERALS ------------------------------------
@@ -1111,6 +1123,7 @@ namespace BWAPI
     Position::list nukeDots;
     const Position::list& Game::getNukeDots() const
     {
+      // TODO: Implement
         return nukeDots;
     }
     //------------------------------------------------ GET EVENTS ----------------------------------------------
@@ -1143,6 +1156,22 @@ namespace BWAPI
     {
         return fpsCounter.getAverageFps();
     }
+    //-------------------------------------------------- MOUSE -------------------------------------------------
+    Position Game::getMousePosition() const
+    {
+      // TODO: Impelement
+      return Positions::Origin;
+    }
+    bool Game::getMouseState(MouseButton button) const
+    {
+      // TODO: Impelement
+      return false;
+    }
+    bool Game::getKeyState(Key key) const
+    {
+      // TODO: Impelement
+      return false;
+    }
     //------------------------------------------- GET SCREEN POSITION ------------------------------------------
     BWAPI::Position Game::getScreenPosition() const
     {
@@ -1152,6 +1181,7 @@ namespace BWAPI
     Error lastError;
     bool Game::setLastError(BWAPI::Error e) const
     {
+      // TODO: Implement - lastError is global right now, we need to fix it
         // implies that an error has occured
         lastError = e;
         return e == Errors::None;
@@ -1224,6 +1254,7 @@ namespace BWAPI
     //----------------------------------------------- LATCOM ENABLED -------------------------------------------
     bool Game::isLatComEnabled() const
     {
+      // TODO: Implement
         //return gameData->???
       return true;
     }
@@ -1232,9 +1263,14 @@ namespace BWAPI
     {
         return gameData->hasGUI;
     }
+    void Game::setGUI(bool enabled)
+    {
+      // TODO: Implement
+    }
     //----------------------------------------------- INSTANCE NUMBER ------------------------------------------
     int Game::getInstanceNumber() const
     {
+      // TODO: Implement - or not? Maybe remove?
         //return gameData->in
         return 0;
     }
@@ -1259,24 +1295,38 @@ namespace BWAPI
     Playerset _allies;
     Playerset& Game::allies()
     {
+      // TODO: Implement
         return _allies;
     }
     //----------------------------------------------- ENEMIES --------------------------------------------------
     Playerset _enemies;
     Playerset& Game::enemies()
     {
+      // TODO: Implement
         return _enemies;
     }
     //----------------------------------------------- OBSERVERS ------------------------------------------------
     Playerset _observers;
     Playerset& Game::observers()
     {
+      // TODO: Implement
         return _observers;
     }
     //----------------------------------------------- APM ------------------------------------------------------
     int Game::getAPM(bool includeSelects) const
     {
         return apmCounter.apm(includeSelects);
+    }
+    //----------------------------------------------- MAP ------------------------------------------------------
+    bool Game::setMap(const std::string &mapFileName)
+    {
+      // TODO: Implement
+      return false;
+    }
+    //--------------------------------------------- FRAME SKIP -------------------------------------------------
+    void Game::setFrameSkip(int frameSkip)
+    {
+      //TODO: Implement
     }
     //----------------------------------------------- ELAPSED TIME ---------------------------------------------
     int Game::elapsedTime() const
@@ -1297,6 +1347,12 @@ namespace BWAPI
     int Game::getLastEventTime() const
     {
         return gameData->lastEventTime;
+    }
+    //------------------------------------------- REPLAY REVEAL ALL --------------------------------------------
+    bool Game::setRevealAll(bool reveal)
+    {
+      // TODO: Implement
+      return false;
     }
     //----------------------------------------------- RANDOM SEED-----------------------------------------------
     unsigned Game::getRandomSeed() const
@@ -1672,6 +1728,22 @@ namespace BWAPI
       return result == units.end() ? nullptr : *result;
     }
 
+    Unit Game::getBestUnit(const BestUnitFilter &best, const UnitFilter &pred, Position center, int radius) const
+    {
+      Position rad(radius, radius);
+
+      Position topLeft = makeValid(center - rad);
+      Position botRight = makeValid(center + rad);
+
+      Unitset units = getUnitsInRectangle(topLeft.x, topLeft.y, botRight.x, botRight.y, pred);
+      
+      if (units.empty()) return nullptr;
+      
+      auto iterator = units.begin();
+      Unit init = *iterator;
+      ++iterator;
+      return std::accumulate(std::begin(units), std::end(units), init, best);
+    }
     //-------------------------------------------------- DRAW TEXT ---------------------------------------------
     void Game::vDrawText(CoordinateType::Enum ctype, int x, int y, const char *format, va_list arg)
     {

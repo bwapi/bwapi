@@ -11,6 +11,7 @@
 #include <BWAPI/UnitType.h>
 #include <BWAPI/Player.h>
 #include <BWAPI/Order.h>
+#include <BWAPI/GameType.h>
 
 #include <string>
 #include <vector>
