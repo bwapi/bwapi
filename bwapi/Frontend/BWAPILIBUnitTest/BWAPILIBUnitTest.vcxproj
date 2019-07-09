@@ -33,7 +33,9 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClCompile Include="APMCounterTest.cpp" />
     <ClCompile Include="EventTest.cpp" />
+    <ClCompile Include="FPSCounterTest.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PositionTest.cpp" />
@@ -41,9 +43,6 @@
     <ClCompile Include="UnitFinderTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BWAPICore\BWAPICore.vcxproj">
-      <Project>{b6097062-8179-4f1f-9185-381fc4980c47}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\BWAPILIB\BWAPILIB.vcxproj">
       <Project>{843656fd-9bfd-47bf-8460-7bfe9710ea2c}</Project>
     </ProjectReference>
@@ -72,6 +71,7 @@
       <ConformanceMode>true</ConformanceMode>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -104,6 +104,7 @@
       <ConformanceMode>true</ConformanceMode>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

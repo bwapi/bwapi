@@ -33,6 +33,8 @@
     <ClCompile Include="UnitFinderTest.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
+    <ClCompile Include="FPSCounterTest.cpp" />
+    <ClCompile Include="APMCounterTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MockClient.h">

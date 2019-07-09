@@ -6,7 +6,6 @@
 #include <BWAPI/Bulletset.h>
 #include <BWAPI/BulletType.h>
 #include <BWAPI/Color.h>
-#include <BWAPI/Constants.h>
 #include <BWAPI/CoordinateType.h>
 #include <BWAPI/DamageType.h>
 #include <BWAPI/Error.h>

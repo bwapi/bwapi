@@ -93,6 +93,12 @@
     <ClCompile Include="Source\UnitFinder.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
+    <ClCompile Include="Source\APMCounter.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FPSCounter.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\BWAPI\Event.h" />
@@ -239,6 +245,12 @@
       <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\BWAPI\UnitFinder.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\APMCounter.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\FPSCounter.h">
       <Filter>Interface</Filter>
     </ClInclude>
   </ItemGroup>

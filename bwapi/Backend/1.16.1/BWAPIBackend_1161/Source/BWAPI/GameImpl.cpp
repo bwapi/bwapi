@@ -892,11 +892,11 @@ namespace BWAPI
 
     BW::TrigUnitPropertySlot newUnitProperties = {};
     newUnitProperties.validFlags = newUnitProperties.validProperties = 0xFFFF;
-    newUnitProperties.hpPercent = hpPercent;
-    newUnitProperties.shieldPercent = shieldsPercent;
-    newUnitProperties.energyPercent = energyPercent;
+    newUnitProperties.hpPercent = static_cast<u8>(hpPercent);
+    newUnitProperties.shieldPercent = static_cast<u8>(shieldsPercent);
+    newUnitProperties.energyPercent = static_cast<u8>(energyPercent);
     newUnitProperties.resourceAmount = resources;
-    newUnitProperties.unitsInHangar = hangarCount;
+    newUnitProperties.unitsInHangar = static_cast<u16>(hangarCount);
     if (cloaked) newUnitProperties.flags |= 0x01;
     if (burrowed) newUnitProperties.flags |= 0x02;
     if (lifted) newUnitProperties.flags |= 0x04;
@@ -907,7 +907,7 @@ namespace BWAPI
     BW::BWDATA::TrigLocations[0] = newLocation;
     BW::BWDATA::TrigUnitProperties[0] = newUnitProperties;
 
-    BW::BWFXN_CreateUnitWithProperties(player->getID(), unitType.getID(), &properties);
+    BW::BWFXN_CreateUnitWithProperties(player->getID(), static_cast<u16>(unitType.getID()), &properties);
     
     // Restore original data
     BW::BWDATA::TrigLocations[0] = oldLocation;

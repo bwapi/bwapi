@@ -13,6 +13,9 @@ struct UnitCounter
 };
 
 class UnitFinderFixture : public GameFixture {
+public:
+  UnitFinderFixture() : GameFixture() {}
+
 protected:
   BWAPI::UnitFinder finder;
 

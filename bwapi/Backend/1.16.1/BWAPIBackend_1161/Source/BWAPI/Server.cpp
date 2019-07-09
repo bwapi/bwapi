@@ -636,7 +636,7 @@ namespace BWAPI
     //if (oldData->elapsedTime != data->elapsedTime)
       gameData->set_elapsedtime(data->elapsedTime);
     //millisecondsperframe
-    gameData->set_averagefps(data->averageFPS);
+    gameData->set_averagefps(static_cast<float>(data->averageFPS));
     gameData->set_countdowntimer(data->countdownTimer);
     gameData->set_ispaused(data->isPaused);
     gameData->set_isingame(data->isInGame);

@@ -78,6 +78,10 @@ public:
     game.gameData->screenSize = BWAPI::Position{ 640, 480 };
     game.gameData->screenPosition = BWAPI::Positions::Origin;
 
+    game.gameData->map.size = BWAPI::TilePosition{ 64, 64 };
+    game.gameData->map.tileset = 0;
+    game.gameData->map.mapHash = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+
     BWAPI::Player self = createFakePlayer(0, BWAPI::PlayerTypes::Player, BWAPI::Races::Terran);
     BWAPI::Player enemy = createFakePlayer(1, BWAPI::PlayerTypes::Computer, BWAPI::Races::Zerg);
   }
@@ -90,6 +94,12 @@ public:
     data.type = playerType;
     data.race = race;
     data.name = std::string("Player ") + std::to_string(playerId);
+
+    std::fill(std::begin(data.isAlly), std::end(data.isAlly), false);
+    data.isAlly[playerId] = true;
+
+    std::fill(std::begin(data.isEnemy), std::end(data.isEnemy), true);
+    data.isEnemy[playerId] = false;
 
     game.updatePlayer(data);
 
@@ -105,6 +115,7 @@ public:
     data.type = unitType;
     data.player = BWAPI::PlayerID{ playerId };
     data.exists = true;
+    data.isCompleted = true;
     
     data.hitPoints = unitType.maxHitPoints();
     data.shields = unitType.maxShields();

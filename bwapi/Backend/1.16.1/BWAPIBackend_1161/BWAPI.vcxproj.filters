@@ -243,9 +243,6 @@
     <ClInclude Include="bwapi4_include\BWAPI.h">
       <Filter>Old_BWAPILIB</Filter>
     </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\ArithmaticFilter.h">
-      <Filter>Old_BWAPILIB\BWAPI</Filter>
-    </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\BestFilter.h">
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
@@ -262,9 +259,6 @@
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\ComparisonFilter.h">
-      <Filter>Old_BWAPILIB\BWAPI</Filter>
-    </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\Constants.h">
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\CoordinateType.h">

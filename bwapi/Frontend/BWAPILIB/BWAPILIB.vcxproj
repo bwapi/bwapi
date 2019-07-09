@@ -47,7 +47,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(SolutionDir)contrib\SFML-2.5.1\include;$(SolutionDir)Backend/libprotobuf-lite/src;$(SolutionDir)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010300;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -98,10 +98,7 @@ XCOPY "$(SolutionDir)Shared\*.cpp" "$(SolutionDir)..\Release_Binary\Shared" /S /
 XCOPY "$(SolutionDir)Shared\*.h" "$(SolutionDir)..\Release_Binary\Shared" /S /C /I /R /Y
 </Command>
     </PreLinkEvent>
-    <Lib>
-      <UseUnicodeResponseFiles>false</UseUnicodeResponseFiles>
-      <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
-    </Lib>
+    <Lib />
     <PostBuildEvent>
       <Message>Copying BWAPI library to Developer folder</Message>
       <Command>COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\Release_Binary\lib\BWAPI.lib"
@@ -115,8 +112,7 @@ COPY /y "$(OutDir)BWAPILib.pdb" "$(SolutionDir)\lib\BWAPILib.pdb"
     <PreBuildEvent />
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)contrib\SFML-2.5.1\include;$(SolutionDir)Backend/libprotobuf-lite/src;$(SolutionDir)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -164,10 +160,7 @@ XCOPY "$(SolutionDir)Shared\*.cpp" "$(SolutionDir)..\Release_Binary\Shared" /S /
 XCOPY "$(SolutionDir)Shared\*.h" "$(SolutionDir)..\Release_Binary\Shared" /S /C /I /R /Y
 </Command>
     </PreLinkEvent>
-    <Lib>
-      <UseUnicodeResponseFiles>false</UseUnicodeResponseFiles>
-      <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
-    </Lib>
+    <Lib />
     <PostBuildEvent>
       <Message>Copying BWAPI library to Developer folder</Message>
       <Command>COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\Release_Binary\lib\BWAPId.lib"
@@ -178,6 +171,7 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\AIModule.cpp" />
+    <ClCompile Include="Source\APMCounter.cpp" />
     <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\BulletType.cpp" />
     <ClCompile Include="Source\BWAPI.cpp" />
@@ -190,6 +184,7 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
     <ClCompile Include="Source\Filters.cpp" />
     <ClCompile Include="Source\Force.cpp" />
     <ClCompile Include="Source\Forceset.cpp" />
+    <ClCompile Include="Source\FPSCounter.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\GameType.cpp" />
     <ClCompile Include="Source\Order.cpp" />
@@ -212,6 +207,7 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\BWAPI.h" />
+    <ClInclude Include="..\..\include\BWAPI\APMCounter.h" />
     <ClInclude Include="..\..\include\BWAPI\Bullet.h" />
     <ClInclude Include="..\..\include\BWAPI\Client\BulletData.h" />
     <ClInclude Include="..\..\include\BWAPI\Client\Client.h" />
@@ -223,6 +219,7 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
     <ClInclude Include="..\..\include\BWAPI\Client\UnitData.h" />
     <ClInclude Include="..\..\include\BWAPI\CommandOptimizer.h" />
     <ClInclude Include="..\..\include\BWAPI\Force.h" />
+    <ClInclude Include="..\..\include\BWAPI\FPSCounter.h" />
     <ClInclude Include="..\..\include\BWAPI\Game.h" />
     <ClInclude Include="..\..\include\BWAPI\IDs.h" />
     <ClInclude Include="..\..\include\BWAPI\AIModule.h" />

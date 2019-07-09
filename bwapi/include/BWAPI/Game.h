@@ -36,8 +36,8 @@
 #include <BWAPI/CommandOptimizer.h>
 #include <BWAPI/UnitFinder.h>
 
-#include "../Frontend/BWAPICore/FPSCounter.h"
-#include "../Frontend/BWAPICore/APMCounter.h"
+#include <BWAPI/FPSCounter.h>
+#include <BWAPI/APMCounter.h>
 
 namespace BWAPI
 {

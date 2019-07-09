@@ -77,6 +77,7 @@
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)/include;$(SolutionDir)contrib/SFML-2.5.1/include;$(SolutionDir)Backend/libprotobuf-lite/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -101,6 +102,7 @@
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)/include;$(SolutionDir)contrib/SFML-2.5.1/include;$(SolutionDir)Backend/libprotobuf-lite/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -134,9 +136,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Backend\Messages\Messages.vcxproj">
       <Project>{d85bfae4-ce79-4f4d-a032-ffa45b559e29}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\BWAPICore\BWAPICore.vcxproj">
-      <Project>{b6097062-8179-4f1f-9185-381fc4980c47}</Project>
     </ProjectReference>
     <ProjectReference Include="..\BWAPIFrontendClient\BWAPIFrontendClient.vcxproj">
       <Project>{760e9359-ec46-48f7-ae1d-e238b17c4797}</Project>
