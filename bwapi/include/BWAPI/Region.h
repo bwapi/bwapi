@@ -23,19 +23,6 @@ namespace BWAPI
   class Region: public InterfaceDataWrapper<Region, RegionData> {
   public:
     using InterfaceDataWrapper<Region, RegionData>::InterfaceDataWrapper;
-
-    /// <summary>Retrieves a unique identifier for this region.</summary>
-    ///
-    /// @note This identifier is explicitly assigned by Broodwar.
-    ///
-    /// @returns An integer that represents this region.
-    /// @see Game::getRegion
-    RegionID getID() const
-    {
-      if (!*this) return RegionID::None;
-      return getData().id;
-    }
-
     /// <summary>Retrieves a unique identifier for a group of regions that are all connected and
     /// accessible by each other.</summary> That is, all accessible regions will have the same
     /// group ID. This function is generally used to check if a path is available between two

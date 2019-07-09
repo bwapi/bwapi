@@ -18,16 +18,6 @@ namespace BWAPI
   {
   public:
     using InterfaceDataWrapper<Force, ForceData>::InterfaceDataWrapper;
-    /// <summary>Retrieves the unique ID that represents this Force.</summary>
-    ///
-    /// @returns
-    ///   An integer containing the ID for the Force.
-    ForceID getID() const
-    {
-      if (!*this) return ForceID::None;
-      return getData().id;
-    }
-
     /// <summary>Retrieves the name of the Force.</summary>
     ///
     /// @returns

@@ -57,18 +57,28 @@ namespace BWAPI {
   struct InterfaceDataWrapper {
     Data const *dataptr;
     using IdT = std::decay_t<decltype(Data::id)>;
+
+    /// <summary>Retrieves a unique identifier for this interface.</summary>
+    ///
+    /// @returns An integer containing the interface's identifier. -1 if the
+    /// interface is null/None.
+    constexpr IdT getID() const
+    {
+      return dataptr == nullptr ? IdT::None : dataptr->id;
+    }
+
     constexpr InterfaceDataWrapper(Data const &ptr) : dataptr{ &ptr } { }
     constexpr InterfaceDataWrapper(std::nullptr_t) : dataptr{ nullptr } { }
     constexpr auto const &getData() const { return *dataptr; }
     constexpr Game &getGame() const { return dataptr->game; }
     constexpr explicit operator bool() const { return dataptr != nullptr; }
     constexpr explicit operator int() const { return static_cast<int>(dataptr->id); }
-    constexpr bool operator==(InterfaceDataWrapper const &other) const { return dataptr->id == other.dataptr->id; }
-    constexpr bool operator!=(InterfaceDataWrapper const &other) const { return dataptr->id != other.dataptr->id; }
-    constexpr bool operator< (InterfaceDataWrapper const &other) const { return dataptr->id <  other.dataptr->id; }
-    constexpr bool operator> (InterfaceDataWrapper const &other) const { return dataptr->id >  other.dataptr->id; }
-    constexpr bool operator<=(InterfaceDataWrapper const &other) const { return dataptr->id <= other.dataptr->id; }
-    constexpr bool operator>=(InterfaceDataWrapper const &other) const { return dataptr->id >= other.dataptr->id; }
+    constexpr bool operator==(InterfaceDataWrapper const &other) const { return getID() == other.getID(); }
+    constexpr bool operator!=(InterfaceDataWrapper const &other) const { return getID() != other.getID(); }
+    constexpr bool operator< (InterfaceDataWrapper const &other) const { return getID() <  other.getID(); }
+    constexpr bool operator> (InterfaceDataWrapper const &other) const { return getID() >  other.getID(); }
+    constexpr bool operator<=(InterfaceDataWrapper const &other) const { return getID() <= other.getID(); }
+    constexpr bool operator>=(InterfaceDataWrapper const &other) const { return getID() >= other.getID(); }
     constexpr bool operator!=(std::nullptr_t) const { return dataptr != nullptr; }
     constexpr bool operator==(std::nullptr_t) const { return dataptr == nullptr; }
 

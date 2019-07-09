@@ -31,17 +31,6 @@ namespace BWAPI
   class Player : public InterfaceDataWrapper<Player, PlayerData> {
   public:
     using InterfaceDataWrapper<Player, PlayerData>::InterfaceDataWrapper;
-
-    /// <summary>Retrieves a unique ID that represents the player.</summary>
-    ///
-    /// @returns
-    ///   An integer representing the ID of the player.
-    constexpr PlayerID getID() const
-    {
-      if (!*this) return PlayerID::None;
-      return getData().id;
-    }
-
     /// <summary>Retrieves the name of the player.</summary>
     ///
     /// @returns

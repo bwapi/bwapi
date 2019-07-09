@@ -34,16 +34,6 @@ namespace BWAPI
   {
   public:
     using InterfaceDataWrapper<Bullet, BulletData>::InterfaceDataWrapper;
-
-    /// <summary>Retrieves a unique identifier for this bullet.</summary>
-    ///
-    /// @returns An integer containing the bullet's identifier.
-    BulletID getID() const
-    {
-      if (!*this) return BulletID::None;
-      return getData().id;
-    }
-
     /// <summary>Checks if the Bullet exists in the view of the BWAPI player.</summary>
     ///
     /// @retval true If the bullet exists or is visible.

@@ -52,17 +52,6 @@ namespace BWAPI
   public:
     using InterfaceDataWrapper<Unit, UnitData>::InterfaceDataWrapper;
 
-    /// <summary>Retrieves a unique identifier for this unit.</summary>
-    ///
-    /// @returns An integer containing the unit's identifier.
-    ///
-    /// @see getReplayID
-    UnitID getID() const
-    {
-      if (!*this) return UnitID::None;
-      return getData().id;
-    }
-
     /// <summary>Checks if the Unit exists in the view of the BWAPI player.</summary>
     ///
     /// This is used primarily to check if BWAPI has access to a specific unit, or if the
