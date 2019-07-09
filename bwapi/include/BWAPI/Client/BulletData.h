@@ -11,18 +11,18 @@ namespace BWAPI
     }
 
     BWAPI::Game &game;
-    BWAPI::BulletID id{ -1 };
-    BWAPI::PlayerID player{ -1 };
-    BWAPI::BulletType type;
-    BWAPI::UnitID source{ -1 };
-    BWAPI::Position position;
-    double angle;
-    double velocityX;
-    double velocityY;
-    BWAPI::UnitID target{ -1 };
-    BWAPI::Position targetPosition;
-    int removeTimer;
-    bool exists;
-    bool isVisible[9];
+    BWAPI::BulletID id{ BulletID::None };
+    BWAPI::PlayerID player{ PlayerID::None };
+    BWAPI::BulletType type{ BulletTypes::None };
+    BWAPI::UnitID source{ UnitID::None };
+    BWAPI::Position position{ Positions::None };
+    double angle = 0;
+    double velocityX = 0;
+    double velocityY = 0;
+    BWAPI::UnitID target{ UnitID::None };
+    BWAPI::Position targetPosition{ Positions::None };
+    int removeTimer = 0;
+    bool exists = false;
+    bool isVisible[9] = {};
   };
 }

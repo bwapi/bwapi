@@ -16,7 +16,6 @@ int main()
 {
   ProtoClient BWAPIClient;
   Game broodwar(BWAPIClient);
-  int i = 0;
   std::cout << "Connecting..." << std::endl;
   while (!BWAPIClient.connect())
   {

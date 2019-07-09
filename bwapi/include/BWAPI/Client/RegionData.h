@@ -8,23 +8,24 @@ namespace BWAPI
   struct RegionData
   {
     RegionData(Game &g, RegionID rid) : game{ g }, id{ rid } { }
+    
     RegionID id;
     Game &game;
-    int   islandID;
-    int   center_x;
-    int   center_y;
-    int   priority;
+    int   islandID = 0;
+    int   center_x = 0;
+    int   center_y = 0;
+    int   priority = 0;
 
     // region boundary
-    int   leftMost;
-    int   rightMost;
-    int   topMost;
-    int   bottomMost;
+    int   leftMost = 0;
+    int   rightMost = 0;
+    int   topMost = 0;
+    int   bottomMost = 0;
 
-    int   neighborCount;
-    int   neighbors[256];
+    int   neighborCount = 0;
+    int   neighbors[256] = {};
 
-    bool  isAccessible;
-    bool  isHigherGround;
+    bool  isAccessible = false;
+    bool  isHigherGround = false;
   };
 };
