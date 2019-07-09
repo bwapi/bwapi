@@ -1839,13 +1839,26 @@ namespace BWAPI
     /// the x and y values to be within map bounds.</summary> For example, if x is less than 0,
     /// then x is set to 0.
     ///
-    /// @returns A copy of the Position for convenience
+    /// @returns A reference to pos for convenience
     /// @see isValid
     template<typename T, int Scale>
-    auto makeValid(BWAPI::Point<T, Scale> &pos) const -> BWAPI::Point<T, Scale> {
+    auto makeValid(BWAPI::Point<T, Scale> &pos) const -> BWAPI::Point<T, Scale>& {
       pos.setMin(0, 0);
       pos.setMax(mapWidth() * 32 / Scale - 1, mapHeight() * 32 / Scale - 1);
       return pos;
+    }
+
+    /// <summary>Checks if this point is within the game's map bounds, if not, then it will set
+    /// the x and y values to be within map bounds.</summary> For example, if x is less than 0,
+    /// then x is set to 0.
+    ///
+    /// @returns A copy of the Position for convenience
+    /// @see isValid
+    template<typename T, int Scale>
+    auto makeValid(BWAPI::Point<T, Scale> &&pos) const -> BWAPI::Point<T, Scale> {
+      pos.setMin(0, 0);
+      pos.setMax(mapWidth() * 32 / Scale - 1, mapHeight() * 32 / Scale - 1);
+      return std::move(pos);
     }
 
     constexpr operator bool() const { return true; }
