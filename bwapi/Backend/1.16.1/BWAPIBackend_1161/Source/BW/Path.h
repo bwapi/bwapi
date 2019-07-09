@@ -107,6 +107,6 @@ namespace BW
     /* 0x16A */WORD     w__16A;
   };
 
-  char *getMoveStateName(u8 bMoveState);
+  const char *getMoveStateName(u8 bMoveState);
 };
 #pragma pack()

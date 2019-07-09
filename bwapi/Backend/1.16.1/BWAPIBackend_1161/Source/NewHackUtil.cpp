@@ -27,7 +27,7 @@ namespace HackUtil
     return imports;
   }
 
-  IMAGE_THUNK_DATA32* _GetImportsList(char* sourceModule, char* importModule)
+  IMAGE_THUNK_DATA32* _GetImportsList(const char* sourceModule, const char* importModule)
   {
     HMODULE tempModule;
     tempModule = GetModuleHandleA(sourceModule);
@@ -47,7 +47,7 @@ namespace HackUtil
     return NULL;
   }
 
-  DWORD* _GetFunctionsList(char* sourceModule, char* importModule)
+  DWORD* _GetFunctionsList(const char* sourceModule, const char* importModule)
   {
     HMODULE tempModule = GetModuleHandleA(sourceModule);
     if ( !tempModule )
@@ -65,7 +65,7 @@ namespace HackUtil
     return NULL;
   }
 
-  FARPROC PatchImportOld(char* sourceModule, char* importModule, LPCSTR name, void* patchFunction)
+  FARPROC PatchImportOld(const char* sourceModule, const char* importModule, LPCSTR name, void* patchFunction)
   {
     if ( !name )
       return NULL;
@@ -107,7 +107,7 @@ namespace HackUtil
     return NULL;
   }
 
-  FARPROC GetImport(char* importModule, LPCSTR name)
+  FARPROC GetImport(const char* importModule, LPCSTR name)
   {
     HMODULE module = GetModuleHandleA(importModule);
     if ( !module )
@@ -117,7 +117,7 @@ namespace HackUtil
     return rval;
   }
   
-  FARPROC GetImport(char *importModule, int ordinal)
+  FARPROC GetImport(const char *importModule, int ordinal)
   {
     return GetImport(importModule, (LPCSTR)ordinal);
   }
@@ -219,7 +219,7 @@ namespace HackUtil
     return;
   }
 
-  void Revert()
+  void Revert(const char *logline)
   {
     for ( std::vector<memPatch>::iterator i = changes.begin(), iend = changes.end(); i != iend; ++i )
       WriteMemRaw(i->location, i->patch, i->patchSize);

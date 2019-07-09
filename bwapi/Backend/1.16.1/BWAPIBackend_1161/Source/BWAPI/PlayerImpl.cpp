@@ -16,7 +16,7 @@ namespace BWAPI
     : index(index)
   {
     resetResources();
-    self->color = index < 12 ? BW::BWDATA::Game.playerColorIndex[index] : Colors::Black;
+    self->color = index < 12 ? BW::BWDATA::Game.playerColorIndex[index] : Colors::Black.getID();
   }
   //--------------------------------------------- SET ID -----------------------------------------------------
   void PlayerImpl::setID(int newID)
@@ -125,7 +125,7 @@ namespace BWAPI
   //--------------------------------------------- UPDATE -----------------------------------------------------
   void PlayerImpl::updateData()
   { 
-    self->color = index < BW::PLAYER_COUNT ? BW::BWDATA::Game.playerColorIndex[index] : Colors::Black;
+    self->color = index < BW::PLAYER_COUNT ? BW::BWDATA::Game.playerColorIndex[index] : Colors::Black.getID();
   
     // Get upgrades, tech, resources
     if ( this->isNeutral() || 

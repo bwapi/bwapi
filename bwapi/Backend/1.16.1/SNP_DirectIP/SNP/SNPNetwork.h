@@ -14,9 +14,9 @@ namespace SNP
 
   struct NetworkInfo
   {
-    char          *pszName;
+    const char    *pszName;
     DWORD         dwIdentifier;
-    char          *pszDescription;
+    const char    *pszDescription;
     CAPS          caps;
   };
 

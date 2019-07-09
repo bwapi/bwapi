@@ -8,7 +8,7 @@
 #define SMEM_ID 1
 
 
-BOOL WINAPI SnpQuery(DWORD dwIndex, DWORD *dwNetworkCode, char **ppszNetworkName, char **ppszNetworkDescription, CAPS **ppCaps)
+BOOL WINAPI SnpQuery(DWORD dwIndex, DWORD *dwNetworkCode, const char **ppszNetworkName, const char **ppszNetworkDescription, CAPS **ppCaps)
 {
   if ( dwNetworkCode && ppszNetworkName && ppszNetworkDescription && ppCaps )
   {

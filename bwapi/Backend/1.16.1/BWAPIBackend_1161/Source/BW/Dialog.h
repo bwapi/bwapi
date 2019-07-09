@@ -185,7 +185,7 @@ namespace BW
     bool  isList() const;               // Returns true if the control type is a listbox or combobox
     u8    getSelectedIndex() const;     // Returns the index of the selected element
     u32   getSelectedValue() const;     // Returns the value of the selected element
-    char  *getSelectedString() const;   // Returns the name of the selected element
+    const char  *getSelectedString() const;   // Returns the name of the selected element
 
     bool  setSelectedIndex(u8 bIndex);              // Sets the selected index
     bool  setSelectedByValue(u32 dwValue);          // Sets the selected index based on the given value

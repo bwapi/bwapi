@@ -146,7 +146,7 @@ each second
     }
     catch(GeneralException &e)
     {
-      DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage());
+      DropLastError(__FUNCTION__ "%s unhandled exception: %s", e.getMessage().c_str());
       return FALSE;
     }
 
@@ -164,7 +164,7 @@ each second
     }
     catch(GeneralException &e)
     {
-      DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage());
+      DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage().c_str());
       return FALSE;
     }
 
@@ -217,7 +217,7 @@ each second
     }
     catch(GeneralException &e)
     {
-      DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage());
+      DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage().c_str());
       return FALSE;
     }
     /*
@@ -272,7 +272,7 @@ each second
     }
     catch(GeneralException &e)
     {
-      DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage());
+      DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage().c_str());
       return FALSE;
     }
 
@@ -413,7 +413,7 @@ each second
     }
     catch(GeneralException &e)
     {
-      DropLastError("spiSend failed: %s", e.getMessage());
+      DropLastError("spiSend failed: %s", e.getMessage().c_str());
       return FALSE;
     }
     return TRUE;
@@ -465,7 +465,7 @@ each second
     }
     catch(GeneralException &e)
     {
-      DropLastError("spiLockGameList failed: %s", e.getMessage());
+      DropLastError("spiLockGameList failed: %s", e.getMessage().c_str());
       return FALSE;
     }
     return TRUE;

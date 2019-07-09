@@ -470,7 +470,7 @@ namespace BW
     return 0;
   }
   // --------------- GET SELECTED STRING -------------
-  char *dialog::getSelectedString() const
+  const char *dialog::getSelectedString() const
   {
     if ( this && this->isList() && this->u.list.ppStrs && this->u.list.ppStrs[this->u.list.bCurrStr])
       return this->u.list.ppStrs[this->u.list.bCurrStr];

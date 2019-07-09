@@ -386,7 +386,7 @@ BOOL __stdcall _SFileOpenFile(const char *filename, HANDLE *phFile)
 }
 
 //--------------------------------------------- MEM ALLOC HOOK -----------------------------------------------
-void *__stdcall _SMemAlloc(size_t amount, char *logfilename, int logline, char defaultValue)
+void *__stdcall _SMemAlloc(size_t amount, const char *logfilename, int logline, char defaultValue)
 {
   // Call the original function
   auto SMemAllocProc = _SMemAllocOld ? _SMemAllocOld : &SMemAlloc;

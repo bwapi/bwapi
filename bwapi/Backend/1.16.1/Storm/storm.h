@@ -792,7 +792,7 @@ void*
 STORMAPI
 SMemAlloc(
     size_t amount,
-    char  *logfilename,
+    const char  *logfilename,
     int   logline,
     char  defaultValue = 0);
 
@@ -815,7 +815,7 @@ BOOL
 STORMAPI
 SMemFree(
     void *location,
-    char *logfilename,
+    const char *logfilename,
     int  logline,
     char defaultValue = 0);
 
@@ -842,7 +842,7 @@ STORMAPI
 SMemReAlloc(
     void    *location,
     size_t  amount,
-    char    *logfilename,
+    const char    *logfilename,
     int     logline,
     char    defaultValue = 0);
 

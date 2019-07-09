@@ -6,7 +6,7 @@
 #include "RegionData.h"
 #include "UnitData.h"
 #include "BulletData.h"
-#include "Event.h"
+#include "../Event.h"
 #include "Command.h"
 #include "Shape.h"
 namespace BWAPIC

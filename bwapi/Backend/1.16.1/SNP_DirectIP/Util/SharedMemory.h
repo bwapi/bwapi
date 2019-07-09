@@ -62,21 +62,6 @@ namespace Util
     void release();                             // releases memory
     Export exportToProcess(RemoteProcess &target, bool readOnly) const;
 
-    template<typename T>
-      T *unpack(Pointer<T> p) const // to process address space
-      {
-        if(this->bufferBase == nullptr)
-          return NULL;
-        return reinterpret_cast<T*>(reinterpret_cast<decltype(retval.offset)>(this->bufferBase) + p.offset);
-      }
-
-    template<typename T>
-      Pointer<T> pack(T *pt) const  // to shared address space
-      {
-        Pointer<T> retval;
-        retval.offset = reinterpret_cast<decltype(retval.offset)>(pt) - reinterpret_cast<decltype(retval.offset)>(this->bufferBase);
-      }
-
     MemoryFrame getMemory() const;
 
     static int getPageSize();                   // allocation size snapping

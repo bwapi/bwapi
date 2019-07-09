@@ -24,7 +24,7 @@ void  __stdcall  DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds);
 void  __stdcall  DrawDialogHook(BW::Bitmap *pSurface, BW::bounds *pBounds);
 BOOL  STORMAPI   _SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile);
 BOOL  STORMAPI   _SFileOpenFile(const char *filename, HANDLE *phFile);
-void *STORMAPI   _SMemAlloc(size_t amount, char *logfilename, int logline, char defaultValue);
+void *STORMAPI   _SMemAlloc(size_t amount, const char *logfilename, int logline, char defaultValue);
 BOOL  STORMAPI   _SNetSendTurn(char *data, unsigned int databytes);
 void  __fastcall CommandFilter(BYTE *buffer, DWORD length);
 void __stdcall ExecuteGameTriggers(DWORD dwMillisecondsPerFrame);

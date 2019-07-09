@@ -19,37 +19,42 @@ namespace HackUtil
 {
   // Imports
   IMAGE_IMPORT_DESCRIPTOR* _GetImportDescriptor(HMODULE module);
-  IMAGE_THUNK_DATA32*      _GetImportsList(char* sourceModule, char* importModule);
-  DWORD*                   _GetFunctionsList(char* sourceModule, char* importModule);
+  IMAGE_THUNK_DATA32*      _GetImportsList(const char* sourceModule, const char* importModule);
+  DWORD*                   _GetFunctionsList(const char* sourceModule, const char* importModule);
   /* These functions are not specifically made for public use */
 
-  FARPROC PatchImportOld(char* sourceModule, char* importModule, LPCSTR name, void* patchFunction);
+  FARPROC PatchImportOld(const char* sourceModule, const char* importModule, LPCSTR name, void* patchFunction);
 
   template <typename T>
-  auto PatchImport(char* sourceModule, char* importModule, LPCSTR name, T patchFxn) -> T
+  auto PatchImport(const char* sourceModule, const char* importModule, LPCSTR name, T patchFxn) -> T
   {
     return (T)PatchImportOld(sourceModule, importModule, name, patchFxn);
   }
   template <typename T>
-  auto PatchImport(char *importModule, LPCSTR name, T patchFxn) -> T
+  auto PatchImportconst (const char *importModule, LPCSTR name, T patchFxn) -> T
   {
     return (T)PatchImportOld(nullptr, importModule, name, patchFxn);
   }
   template <typename T>
-  auto PatchImport(char* sourceModule, char *importModule, int ordinal, T patchFxn) -> T
+  auto PatchImport(const char* sourceModule, const char *importModule, int ordinal, T patchFxn) -> T
   {
     return (T)PatchImportOld(sourceModule, importModule, (LPCSTR)ordinal, patchFxn);
   }
   template <typename T>
-  auto PatchImport(char *importModule, int ordinal, T patchFxn) -> T
+  auto PatchImport(const char *importModule, int ordinal, T patchFxn) -> T
   {
     return (T)PatchImportOld(nullptr, importModule, (LPCSTR)ordinal, patchFxn);
+  }
+  template <typename T>
+  auto PatchImport(const char *importModule, const char *importFunction, T patchFxn) -> T
+  {
+    return (T)PatchImportOld(nullptr, importModule, importFunction, patchFxn);
   }
 
   /* Creates a detour for the specified import function in any loaded module */
 
-  FARPROC GetImport(char* importModule, LPCSTR name);
-  FARPROC GetImport(char* importModule, int ordinal);
+  FARPROC GetImport(const char* importModule, LPCSTR name);
+  FARPROC GetImport(const char* importModule, int ordinal);
   /* Retrieves the address of the imported function from the specified module */
 
   // Memory

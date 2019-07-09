@@ -1,7 +1,7 @@
 #include "Path.h"
 namespace BW
 {
-  char *getMoveStateName(u8 bMoveState)
+  const char *getMoveStateName(u8 bMoveState)
   {
     switch ( bMoveState )
     {

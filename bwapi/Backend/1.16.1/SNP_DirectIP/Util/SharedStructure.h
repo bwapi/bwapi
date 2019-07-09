@@ -73,20 +73,6 @@ namespace Util
       exp.smemExport = smem.exportToProcess(target, readOnly);
       return exp;
     }
-    //----------------------- UNPACK ----------------------------------------------------
-    template<typename S>
-      S *unpack(Pointer<S> p) const // to process address space
-      {
-        return smem.unpack(p.pointer);
-      }
-    //----------------------- PACK ------------------------------------------------------
-    template<typename S>
-      Pointer<S> pack(S *pt) const  // to shared address space
-      {
-        Pointer<S> retval;
-        retval.pointer = smem.pack(pt);
-        return retval;
-      }
     //----------------------- GET MEMORY ------------------------------------------------
     T &get() const
     {

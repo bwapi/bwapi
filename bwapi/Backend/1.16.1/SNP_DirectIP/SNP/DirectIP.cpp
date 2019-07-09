@@ -102,7 +102,7 @@ namespace DRIP
     }
     catch(GeneralException &e)
     {
-      DropLastError("processIncomingPackets failed: %s", e.getMessage());
+      DropLastError("processIncomingPackets failed: %s", e.getMessage().c_str());
     }
   }
   //------------------------------------------------------------------------------------------------------------------------------------
