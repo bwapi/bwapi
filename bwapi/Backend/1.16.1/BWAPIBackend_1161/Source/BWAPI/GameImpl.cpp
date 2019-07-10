@@ -775,14 +775,6 @@ namespace BWAPI
     return (getLatencyFrames() * BW::BWDATA::GameSpeedModifiers.gameSpeedModifiers[BW::BWDATA::GameSpeed]) - (GetTickCount() - lastTurnTime);
   }
   //--------------------------------------------------- VERSION ----------------------------------------------
-  int GameImpl::getRevision() const
-  {
-    return SVN_REV;
-  }
-  int GameImpl::getClientVersion() const
-  {
-    return CLIENT_VERSION;
-  }
   bool GameImpl::isDebug() const
   {
     return BUILD_DEBUG == 1;

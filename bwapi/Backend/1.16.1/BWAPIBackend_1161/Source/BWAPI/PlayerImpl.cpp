@@ -8,6 +8,7 @@
 #include <BW/Offsets.h>
 
 #include <BWAPI/PlayerType.h>
+#include <BWAPI/Color.h>
 
 namespace BWAPI
 {

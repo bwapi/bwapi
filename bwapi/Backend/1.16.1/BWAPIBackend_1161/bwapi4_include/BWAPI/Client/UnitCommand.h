@@ -1,6 +1,6 @@
 #pragma once
 
-#include <BWAPI.h>
+#include <BWAPI/UnitCommandType.h>
 
 /**
  * UnitOrder contains a single whole order

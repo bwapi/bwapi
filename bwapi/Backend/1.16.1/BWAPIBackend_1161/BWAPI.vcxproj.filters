@@ -240,9 +240,6 @@
     <ClInclude Include="Source\Convenience.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI.h">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\BestFilter.h">
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
@@ -508,9 +505,6 @@
       <Filter>BWAPI\Source</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\BulletType.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\BWAPI.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\Color.cpp">

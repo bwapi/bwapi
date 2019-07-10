@@ -13,12 +13,15 @@
 
 #include <BW/Pathing.h>
 #include <BW/Offsets.h>
+#include <BWAPI/PlayerType.h>
 
 #include "../Config.h"
 #include "../svnrev.h"
 
 namespace BWAPI
 {
+  const int CLIENT_VERSION = 10002;
+
   Server::Server()
   {
     data = new GameData;

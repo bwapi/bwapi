@@ -12,6 +12,8 @@
 #include <BWAPI/PlayerImpl.h>
 #include <BWAPI/RegionImpl.h>
 
+#include <BWAPI/PlayerType.h>
+
 namespace BWAPI
 {
   //--------------------------------------------- ON GAME START ----------------------------------------------

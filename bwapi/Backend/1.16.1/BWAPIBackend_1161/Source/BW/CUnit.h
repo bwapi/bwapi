@@ -4,7 +4,6 @@
 #include <BW/Position.h>
 #include <BW/Target.h>
 #include <BW/Path.h>
-#include <BWAPI.h>
 
 #pragma pack(1)
 namespace BWAPI

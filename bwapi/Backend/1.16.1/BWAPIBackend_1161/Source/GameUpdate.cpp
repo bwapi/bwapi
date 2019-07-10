@@ -17,6 +17,7 @@
 #include <BW/CUnit.h>
 #include <BW/OrderTypes.h>
 #include <BW/Pathing.h>
+#include <BWAPI/Color.h>
 
 #include "../svnrev.h"
 

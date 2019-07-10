@@ -10,6 +10,12 @@
 #include <BWAPI/Map.h>
 #include <BWAPI/Client/GameData.h>
 #include <BWAPI/CoordinateType.h>
+#include <BWAPI/Region.h>
+#include <BWAPI/Error.h>
+#include <BWAPI/GameType.h>
+#include <BWAPI/Bulletset.h>
+#include <BWAPI/Regionset.h>
+#include <BWAPI/Color.h>
 
 #include "Command.h"
 #include "APMCounter.h"
@@ -151,8 +157,6 @@ namespace BWAPI
       int getRemainingLatencyFrames() const;
       int getRemainingLatencyTime() const;
 
-      int  getRevision() const;
-      int  getClientVersion() const;
       bool isDebug() const;
       bool isLatComEnabled() const;
       void setLatCom(bool isEnabled);

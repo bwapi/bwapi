@@ -1,5 +1,4 @@
 #pragma once
-#include <BWAPI.h>
 #include <algorithm>
 
 #include "UnitImpl.h"

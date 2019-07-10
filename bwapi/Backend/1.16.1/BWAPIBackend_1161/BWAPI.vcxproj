@@ -136,7 +136,6 @@ popd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\BWAPI.h" />
-    <ClInclude Include="bwapi4_include\BWAPI.h" />
     <ClInclude Include="bwapi4_include\BWAPI\BestFilter.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Bullet.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Bulletset.h" />
@@ -250,7 +249,6 @@ popd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BWAPILIB_4_3_0\BulletType.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\BWAPI.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Color.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\DamageType.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Error.cpp" />

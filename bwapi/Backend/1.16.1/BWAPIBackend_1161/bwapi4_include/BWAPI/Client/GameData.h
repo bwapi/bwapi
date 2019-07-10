@@ -9,6 +9,10 @@
 #include "../Event.h"
 #include "Command.h"
 #include "Shape.h"
+
+#include <BWAPI/Flag.h>
+#include <BWAPI/Input.h>
+
 namespace BWAPIC
 {
   struct Position

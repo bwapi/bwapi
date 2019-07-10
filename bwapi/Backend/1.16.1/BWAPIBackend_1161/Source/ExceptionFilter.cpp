@@ -107,8 +107,8 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
 
     // BWAPI/Broodwar specific
     fprintf(hFile, "BWAPI:\n");
-    fprintf(hFile, "  REVISION: %d\n", BWAPI::BroodwarImpl.getRevision());
-    fprintf(hFile, "  CLIENT VERSION: %d\n", BWAPI::BroodwarImpl.getClientVersion());
+    //fprintf(hFile, "  REVISION: %d\n", BWAPI::BroodwarImpl.getRevision());
+    //fprintf(hFile, "  CLIENT VERSION: %d\n", BWAPI::BroodwarImpl.getClientVersion());
     fprintf(hFile, "  BUILD: %s\n", BWAPI::BroodwarImpl.isDebug() ? "DEBUG" : "RELEASE");
     fprintf(hFile, "  ERROR: %s\n", BWAPI::BroodwarImpl.getLastError().c_str());
     fprintf(hFile, "  LOCATION: %s %s\n", BWAPI::BroodwarImpl.isMultiplayer() ? (BWAPI::BroodwarImpl.isBattleNet() ? "Battle.net" : "Multiplayer") : "Single Player", BWAPI::BroodwarImpl.isReplay() ? "Replay" : "");

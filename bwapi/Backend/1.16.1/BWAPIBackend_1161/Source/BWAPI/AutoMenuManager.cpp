@@ -10,6 +10,7 @@
 #include <BW/MenuPosition.h>
 #include <BW/Dialog.h>
 #include <BWAPI/GameImpl.h>
+#include <BWAPI/PlayerType.h>
 #include <BW/Offsets.h>
 
 using namespace BWAPI;
