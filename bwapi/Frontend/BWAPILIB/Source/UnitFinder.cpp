@@ -4,6 +4,8 @@
 
 #include <iterator>
 #include <algorithm>
+#include <set>
+#include <unordered_set>
 
 using namespace BWAPI;
 

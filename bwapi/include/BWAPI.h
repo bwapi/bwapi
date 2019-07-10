@@ -2,7 +2,6 @@
 #ifndef __BWAPI_H__
 #define __BWAPI_H__
 
-#include <BWAPI/AIModule.h>
 #include <BWAPI/Bullet.h>
 #include <BWAPI/Bulletset.h>
 #include <BWAPI/BulletType.h>
@@ -31,7 +30,6 @@
 #include <BWAPI/Regionset.h>
 #include <BWAPI/SetContainer.h>
 #include <BWAPI/TechType.h>
-#include <BWAPI/TournamentAction.h>
 #include <BWAPI/Type.h>
 #include <BWAPI/Unit.h>
 #include <BWAPI/UnitCommand.h>
@@ -68,10 +66,6 @@ namespace BWAPI
   /// @note This value is purposely high to avoid collisions with revision values.
   /// @since 4.2.0
   const int CLIENT_VERSION = 10002;
-
-
-  // This is just a temp hack to start up a client server.
-  bool ProcessEvents(Game& game, AIModule& client);
 }
 
 #endif

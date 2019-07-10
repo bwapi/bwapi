@@ -1,7 +1,5 @@
 #pragma once
-#include <cmath>
-#include <algorithm>
-#include <tuple>
+#include <utility>
 #include <deque>
 #include <iostream>
 

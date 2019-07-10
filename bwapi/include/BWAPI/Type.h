@@ -3,7 +3,6 @@
 
 #include <string>
 #include <cctype>
-#include <deque>
 #include <unordered_map>
 #include <algorithm>
 #include <iostream>

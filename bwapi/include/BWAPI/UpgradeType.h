@@ -1,10 +1,10 @@
 #pragma once
 #include <BWAPI/Type.h>
-#include <BWAPI/UnitType.h>
 
 namespace BWAPI
 {
   class Race;
+  class UnitType;
 
   /// <summary>Namespace of upgrade types.</summary>
   namespace UpgradeTypes
@@ -169,7 +169,7 @@ namespace BWAPI
     /// <summary>Returns the set of units that are affected by this upgrade.</summary>
     /// 
     /// @returns Set of unit types that passively use this upgrade type.
-    const UnitType::set& whatUses() const;
+    const SetContainer<UnitType>& whatUses() const;
   };
 
   /// @ingroup Types

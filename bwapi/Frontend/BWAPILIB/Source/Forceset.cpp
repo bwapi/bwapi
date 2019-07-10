@@ -1,5 +1,4 @@
 #include <BWAPI/Forceset.h>
-#include <BWAPI/Force.h>
 #include <BWAPI/Playerset.h>
 
 #include <utility>

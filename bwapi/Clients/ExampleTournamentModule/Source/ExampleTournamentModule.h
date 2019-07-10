@@ -1,5 +1,7 @@
 #pragma once
 #include <BWAPI.h>
+#include <BWAPI/TournamentAction.h>
+#include <BWAPI/AIModule.h>
 
 #define TOURNAMENT_NAME "AIIDE 2012"
 #define SPONSORS "the BWAPI Project Team, and Blizzard Entertainment"

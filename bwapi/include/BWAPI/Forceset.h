@@ -6,7 +6,6 @@ namespace BWAPI
 {
   // Forward Declarations
   class Playerset;
-  class Force;
 
   /// <summary>A container that holds a group of Forces.</summary>
   ///

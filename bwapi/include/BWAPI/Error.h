@@ -1,6 +1,5 @@
 #pragma once
 #include <BWAPI/Type.h>
-#include <string>
 
 namespace BWAPI
 {

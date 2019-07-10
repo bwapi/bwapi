@@ -6,14 +6,11 @@
 #include <BWAPI/UnitType.h>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/UnitCommand.h>
-
-#include <array>
-#include "BWAPI/UnitCommandType.h"
+#include <BWAPI/Position.h>
 
 namespace BWAPI
 {
   class Game;
-  class UnitCommand;
 
   struct UnitData {
     UnitData(Game &g, UnitID id): game{g}, id { id } {

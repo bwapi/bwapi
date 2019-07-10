@@ -1,6 +1,5 @@
 #pragma once
 #include <BWAPI/IDs.h>
-#include <BWAPI/Unit.h>
 #include <BWAPI/Player.h>
 #include <BWAPI/Client/BulletData.h>
 
@@ -9,6 +8,10 @@ namespace BWAPI
   // Forward declarations
   class BulletType;
   class Game;
+  class Unit;
+
+  template<typename T, int Scale> class Point;
+  typedef Point<int, 1> Position;
 
   /// <summary>An interface object representing a bullet or missile spawned from an attack.</summary>
   ///
@@ -80,7 +83,7 @@ namespace BWAPI
     /// @returns
     ///   A Position containing the Bullet's current coordinates.
     /// @see getTargetPosition
-    Position getPosition() const { return getData().position; }
+    Position getPosition() const;
 
     /// <summary>Retrieve's the direction the Bullet is facing.</summary> If the angle is 0, then
     /// the Bullet is facing right.
@@ -128,7 +131,7 @@ namespace BWAPI
     /// @returns
     ///   A Position indicating where the Bullet is headed.
     /// @see getTarget, getPosition
-    Position getTargetPosition() const { return getData().targetPosition; }
+    Position getTargetPosition() const;
 
     /// <summary>Retrieves the timer that indicates the Bullet's life span.</summary>
     ///

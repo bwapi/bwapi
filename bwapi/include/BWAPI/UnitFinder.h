@@ -1,7 +1,6 @@
 #pragma once
 
 #include <set>
-#include <unordered_set>
 
 #include <BWAPI/Unit.h>
 
@@ -31,6 +30,5 @@ namespace BWAPI
     // TODO: Populate these each onFrame
     std::multiset<UnitCompare> unitFinderX;
     std::multiset<UnitCompare> unitFinderY;
-
   };
 }

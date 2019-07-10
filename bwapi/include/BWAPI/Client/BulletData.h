@@ -1,5 +1,7 @@
 #pragma once
-#include "BWAPI/BulletType.h"
+#include <BWAPI/BulletType.h>
+#include <BWAPI/IDs.h>
+#include <BWAPI/Position.h>
 
 namespace BWAPI
 {

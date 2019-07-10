@@ -4,12 +4,17 @@
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/WeaponType.h>
 #include <BWAPI/Color.h>
+#include <BWAPI/Position.h>
 
 using namespace BWAPI;
 
 Force Player::getForce() const
 {
   return getGame().getForce(getData().force);
+}
+TilePosition Player::getStartLocation() const
+{
+  return { getData().startLocationX, getData().startLocationY };
 }
 
 Unitset const &Player::getUnits() const {

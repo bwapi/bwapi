@@ -1,12 +1,11 @@
 #include <BWAPI/Unitset.h>
+
 #include <BWAPI/UnitCommand.h>
 #include <BWAPI/Position.h>
 #include <BWAPI/Unit.h>
 #include <BWAPI/Game.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/IDs.h>
-
-#include <utility>
 
 namespace BWAPI
 {
@@ -101,13 +100,6 @@ namespace BWAPI
   bool Unitset::attack(Unit target, bool shiftQueueCommand) const
   {
     return this->issueCommand(UnitCommand::attack(UnitID::None, target.getID(), shiftQueueCommand));
-  }
-  //--------------------------------------------- BUILD ------------------------------------------------------
-  bool Unitset::build(UnitType type, TilePosition target) const
-  {
-    if ( target == TilePositions::None )
-      return this->train(type);
-    return this->issueCommand(UnitCommand::build(UnitID::None, target, type));
   }
   //--------------------------------------------- BUILD ADDON ------------------------------------------------
   bool Unitset::buildAddon(UnitType type) const

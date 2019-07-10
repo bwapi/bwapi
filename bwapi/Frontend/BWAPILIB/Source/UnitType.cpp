@@ -8,6 +8,7 @@
 #include <BWAPI/UnitSizeType.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
+#include <BWAPI/Position.h>
 #include <BWAPI/Race.h>
 
 namespace BWAPI

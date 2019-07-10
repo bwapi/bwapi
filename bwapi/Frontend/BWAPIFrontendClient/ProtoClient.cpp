@@ -84,6 +84,8 @@ namespace BWAPI
               std::copy(staticMap.isbuildable().begin(), staticMap.isbuildable().end(), &game.gameData->map.isBuildable[0][0]);
               std::copy(staticMap.iswalkable().begin(), staticMap.iswalkable().end(), &game.gameData->map.isWalkable[0][0]);
               game.gameData->map.mapHash = staticMap.maphash();
+
+              // TODO: These uint32 are being implicitly cast to unsigned short, they need a proper explicit cast/conversion
               std::copy(staticMap.mapsplittilesminitilemask().begin(), staticMap.mapsplittilesminitilemask().end(), &game.gameData->map.mapSplitTilesMiniTileMask[0]);
               std::copy(staticMap.mapsplittilesregion1().begin(), staticMap.mapsplittilesregion1().end(), &game.gameData->map.mapSplitTilesRegion1[0]);
               std::copy(staticMap.mapsplittilesregion2().begin(), staticMap.mapsplittilesregion2().end(), &game.gameData->map.mapSplitTilesRegion2[0]);

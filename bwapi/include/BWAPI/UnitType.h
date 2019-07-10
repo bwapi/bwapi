@@ -1,7 +1,6 @@
 #pragma once
 #include <map>
 
-#include <BWAPI/Position.h>
 #include <BWAPI/Type.h>
 
 namespace BWAPI
@@ -12,6 +11,9 @@ namespace BWAPI
   class WeaponType;
   class UnitSizeType;
   class Race;
+
+  template<typename T, int Scale> class Point;
+  typedef Point<int, 32> TilePosition;
 
   /// <summary>Namespace containing unit types.</summary>
   /// @see UnitType

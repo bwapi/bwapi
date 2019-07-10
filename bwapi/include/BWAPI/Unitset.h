@@ -1,9 +1,9 @@
 #pragma once
 #include <BWAPI/IDs.h>
 #include <BWAPI/SetContainer.h>
-#include <BWAPI/Position.h>
 #include <BWAPI/Filters.h>
-#include <iterator>
+
+#include <utility>
 
 namespace BWAPI
 {
@@ -13,6 +13,9 @@ namespace BWAPI
   class UnitCommand;
   class TechType;
   class Unit;
+
+  template<typename T, int Scale> class Point;
+  typedef Point<int, 1> Position;
 
   /// <summary>The Unitset is a container for a set of pointers to Unit objects. It is typically
   /// used for groups of units instead of having to manage each Unit individually.</summary>
@@ -79,9 +82,6 @@ namespace BWAPI
 
     /// @copydoc Unit::attack
     bool attack(Unit target, bool shiftQueueCommand = false) const;
-
-    /// @copydoc Unit::build
-    bool build(UnitType type, TilePosition target = TilePositions::None) const;
 
     /// @copydoc Unit::buildAddon
     bool buildAddon(UnitType type) const;

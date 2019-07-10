@@ -1,5 +1,7 @@
 #pragma once
 #include <set>
+#include <functional>
+#include <algorithm>
 
 namespace BWAPI
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include <string_view>
 #include <BWAPI/IDs.h>
 #include <BWAPI/Client/ForceData.h>
 

@@ -4,7 +4,6 @@
 
 namespace BWAPI
 {
-  class UnitType;
   class WeaponType;
   class Order;
   class Race;

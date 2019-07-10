@@ -1,7 +1,5 @@
 #pragma once
-#include <BWAPI/Position.h>
 #include <BWAPI/Filters.h>
-#include <BWAPI/UnaryFilter.h>
 
 #include <BWAPI/Client/RegionData.h>
 
@@ -9,6 +7,9 @@ namespace BWAPI
 {
   class Regionset;
   class Unitset;
+
+  template<typename T, int Scale> class Point;
+  typedef Point<int, 1> Position;
 
   /// <summary>Region objects are created by Starcraft: Broodwar to contain several tiles with the same
   /// properties, and create a node in pathfinding and other algorithms.</summary> Regions may not contain

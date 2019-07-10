@@ -1,11 +1,10 @@
-#include <BWAPI/Game.h>
-#include <BWAPI/Force.h>
-#include <BWAPI/Player.h>
 #include <BWAPI/Regionset.h>
+
+#include <BWAPI/Game.h>
 #include <BWAPI/Region.h>
 #include <BWAPI/Unitset.h>
-
-#include <utility>
+#include <BWAPI/Filters.h>
+#include <BWAPI/Position.h>
 
 namespace BWAPI
 {

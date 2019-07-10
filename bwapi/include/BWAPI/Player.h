@@ -4,7 +4,6 @@
 
 #include <BWAPI/Client/PlayerData.h>
 
-#include <BWAPI/Position.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/UnitType.h>
 
@@ -21,6 +20,10 @@ namespace BWAPI
   class Force;
 
   struct PlayerData;
+
+  template<typename T, int Scale> class Point;
+  typedef Point<int, 32> TilePosition;
+
 
   /// <summary>The Player represents a unique controller in the game.</summary> Each player in
   /// a match will have his or her own player instance. There is also a neutral player which owns
@@ -164,7 +167,7 @@ namespace BWAPI
     /// location.
     ///
     /// @see Game::getStartLocations, Game::getLastError
-    TilePosition getStartLocation() const { return { getData().startLocationX, getData().startLocationY }; }
+    TilePosition getStartLocation() const;
 
     /// <summary>Checks if the player has achieved victory.</summary>
     ///

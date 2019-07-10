@@ -12,6 +12,16 @@ namespace BWAPI {
     return getGame().getUnit(getData().source); 
   }
 
+  Position Bullet::getPosition() const
+  {
+    return getData().position;
+  }
+
+  Position Bullet::getTargetPosition() const
+  {
+    return getData().targetPosition;
+  }
+  
   Unit Bullet::getTarget() const 
   { 
     return getGame().getUnit(getData().target); 
