@@ -3,9 +3,9 @@
 #include <thread>
 #include <chrono>
 #include <cassert>
+#include <algorithm>
 #include "Thread.h"
 
-#include "../Clamp.h"
 #include "../Convenience.h"
 
 #include <BWAPI/Color.h>
@@ -33,7 +33,7 @@ void __fastcall QueueGameCommand(void *pBuffer, size_t dwLength)
   caps.dwSize = sizeof(CAPS);
   SNetGetProviderCaps(&caps);
 
-  DWORD dwMaxBuffer = Util::clamp<size_t>(caps.maxmessagesize, 0, BW::BWDATA::TurnBuffer.size());
+  DWORD dwMaxBuffer = std::clamp<size_t>(caps.maxmessagesize, 0, BW::BWDATA::TurnBuffer.size());
   if ( dwLength + BW::BWDATA::sgdwBytesInCmdQueue <= dwMaxBuffer )
   {
     // Copy data to primary turn buffer
@@ -51,7 +51,7 @@ void __fastcall QueueGameCommand(void *pBuffer, size_t dwLength)
   {
     int callDelay = 1;
     if ( BW::BWDATA::NetMode )
-      callDelay = Util::clamp<int>(caps.dwCallDelay, 2, 8);
+      callDelay = std::clamp<int>(caps.dwCallDelay, 2, 8);
 
     // This statement will probably never be hit, but just in case
     if ( turns >= 16 - callDelay )

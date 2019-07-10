@@ -10,7 +10,7 @@
 #include <BW/MenuPosition.h>
 #include <BW/Dialog.h>
 #include <BW/OrderTypes.h>
-#include "../Clamp.h"
+#include <algorithm>
 
 namespace BWAPI
 {
@@ -63,7 +63,7 @@ namespace BWAPI
     BW::dialog *custom = BW::FindDialogGlobal("Create");
     if ( custom )
     {
-      slot = Util::clamp(slot, 0, 7);
+      slot = std::clamp(slot, 0, 7);
       // Apply the single player change
       BW::dialog *slotCtrl = custom->findIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
       if ( slotCtrl && (int)slotCtrl->getSelectedValue() != race )

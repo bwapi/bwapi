@@ -135,7 +135,6 @@ popd</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\BWAPI.h" />
     <ClInclude Include="bwapi4_include\BWAPI\BestFilter.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Bullet.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Bulletset.h" />
@@ -231,7 +230,6 @@ popd</Command>
     <ClInclude Include="Source\BW\UnitStatusFlags.h" />
     <ClInclude Include="Source\BW\UnitTarget.h" />
     <ClInclude Include="Source\BW\WeaponTargetFlags.h" />
-    <ClInclude Include="Source\Clamp.h" />
     <ClInclude Include="Source\CodePatch.h" />
     <ClInclude Include="Source\Config.h" />
     <ClInclude Include="Source\Convenience.h" />

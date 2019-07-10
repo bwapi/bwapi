@@ -8,7 +8,6 @@
 #include <cmath>
 #include <fstream>
 
-#include "../Clamp.h"
 #include "../Convenience.h"
 
 #include <BWAPI/ForceImpl.h>
@@ -758,7 +757,7 @@ namespace BWAPI
       caps.dwSize = sizeof(CAPS);
       SNetGetProviderCaps(&caps);
 
-      dwCallDelay = Util::clamp<int>(caps.dwCallDelay, 2, 8);
+      dwCallDelay = std::clamp<int>(caps.dwCallDelay, 2, 8);
     }
     return (BW::BWDATA::LatencyFrames[BW::BWDATA::GameSpeed]) * (BW::BWDATA::Latency + dwCallDelay + 1);
   }

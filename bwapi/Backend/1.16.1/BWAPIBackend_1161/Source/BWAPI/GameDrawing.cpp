@@ -2,7 +2,7 @@
 
 #include "../Graphics.h"
 #include <cassert>
-#include "../Clamp.h"
+#include <algorithm>
 #include "../Convenience.h"
 
 #include <BW/Dialog.h>
@@ -125,7 +125,7 @@ namespace BWAPI
   //-------------------------------------------------- DRAW TEXT ---------------------------------------------
   void GameImpl::setTextSize(Text::Size::Enum size)
   {
-    size = Util::clamp(size, Text::Size::Small, Text::Size::Huge);
+    size = std::clamp(size, Text::Size::Small, Text::Size::Huge);
     this->textSize = size;
   }
   void GameImpl::vDrawText(CoordinateType::Enum ctype, int x, int y, const char *format, va_list arg)

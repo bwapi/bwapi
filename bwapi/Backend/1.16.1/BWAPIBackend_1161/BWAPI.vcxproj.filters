@@ -208,7 +208,6 @@
     <ClInclude Include="Source\BW\Replay.h">
       <Filter>BW\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\BWAPI.h" />
     <ClInclude Include="starcraftver.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Bullet.h">
       <Filter>Interface</Filter>
@@ -221,9 +220,6 @@
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Unit.h">
       <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Clamp.h">
-      <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="Source\Path.h">
       <Filter>Util</Filter>

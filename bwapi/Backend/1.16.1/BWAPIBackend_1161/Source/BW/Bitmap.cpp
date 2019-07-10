@@ -2,7 +2,6 @@
 #include <storm.h>
 #include <algorithm>
 
-#include "../Clamp.h"
 #include "Font.h"
 #include "CImage.h"
 #include "Offsets.h"
@@ -203,8 +202,8 @@ namespace BW
     // If the line is completely vertical or horizontal
     if ( x1 == x2 )
     {
-      int ymin = Util::clamp(std::min(y1,y2), 0, this->height()-1);
-      int ymax = Util::clamp(std::max(y1,y2), 0, this->height()-1);
+      int ymin = std::clamp(std::min(y1,y2), 0, this->height()-1);
+      int ymax = std::clamp(std::max(y1,y2), 0, this->height()-1);
 
       // Plot vertical line
       for ( int i = ymin; i < ymax; ++i )
@@ -213,8 +212,8 @@ namespace BW
     }
     else if ( y1 == y2 )
     {
-      int xmin = Util::clamp(std::min(x1,x2), 0, this->width()-1);
-      int xmax = Util::clamp(std::max(x1,x2), 0, this->width()-1);
+      int xmin = std::clamp(std::min(x1,x2), 0, this->width()-1);
+      int xmax = std::clamp(std::max(x1,x2), 0, this->width()-1);
 
       // Plot horizontal line
       memset(&this->data[y1 * this->width() + xmin], color, xmax - xmin );
