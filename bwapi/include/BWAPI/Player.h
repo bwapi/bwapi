@@ -291,6 +291,8 @@ namespace BWAPI
     /// @endcode
     /// @see supplyUsed
     int supplyTotal(Race race = Races::None) const {
+      if (race == Races::None)
+        race = getData().race;
       auto const irace = static_cast<int>(race);
       return 0 <= irace && irace < 3 ? getData().supplyTotal[irace] : 0;
     }

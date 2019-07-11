@@ -17,7 +17,7 @@ Unitset UnitFinder::find(int left, int top, int right, int bottom) const
   // The unit with the largest width/height can't eclipse the search 
   if (right - left <= UnitTypes::maxUnitWidth())
     searchRight = left + UnitTypes::maxUnitWidth();
-  if (top - bottom <= UnitTypes::maxUnitHeight())
+  if (bottom - top <= UnitTypes::maxUnitHeight())
     searchBottom = top + UnitTypes::maxUnitHeight();
 
   std::unordered_set<Unit> foundUnitsX;
