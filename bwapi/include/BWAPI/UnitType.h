@@ -965,10 +965,10 @@ namespace BWAPI
     constexpr UnitType Terran_Firebat{Enum::Terran_Firebat};
     constexpr UnitType Terran_Ghost{Enum::Terran_Ghost};
     constexpr UnitType Terran_Goliath{Enum::Terran_Goliath};
-    /// @Terran tier 1 unit.
+    /// @details @Terran tier 1 unit.
     constexpr UnitType Terran_Marine{Enum::Terran_Marine};
     constexpr UnitType Terran_Medic{Enum::Terran_Medic};
-    /// @Terran worker.
+    /// @details @Terran worker.
     /// @see Race::getWorker
     constexpr UnitType Terran_SCV{Enum::Terran_SCV};
     constexpr UnitType Terran_Siege_Tank_Siege_Mode{Enum::Terran_Siege_Tank_Siege_Mode};
@@ -979,7 +979,7 @@ namespace BWAPI
     /// @name Terran Air Units
     /// @{
     constexpr UnitType Terran_Battlecruiser{Enum::Terran_Battlecruiser};
-    /// @Terran transport.
+    /// @details @Terran transport.
     /// @see Race::getTransport
     constexpr UnitType Terran_Dropship{Enum::Terran_Dropship};
     constexpr UnitType Terran_Nuclear_Missile{Enum::Terran_Nuclear_Missile};
@@ -1011,23 +1011,23 @@ namespace BWAPI
     constexpr UnitType Terran_Academy{Enum::Terran_Academy};
     constexpr UnitType Terran_Armory{Enum::Terran_Armory};
     constexpr UnitType Terran_Barracks{Enum::Terran_Barracks};
-    /// @Terran defensive structure.
+    /// @details @Terran defensive structure.
     constexpr UnitType Terran_Bunker{Enum::Terran_Bunker};
-    /// @Terran resource depot.
+    /// @details @Terran resource depot.
     /// @see Race::getCenter
     constexpr UnitType Terran_Command_Center{Enum::Terran_Command_Center};
     constexpr UnitType Terran_Engineering_Bay{Enum::Terran_Engineering_Bay};
     constexpr UnitType Terran_Factory{Enum::Terran_Factory};
-    /// @Terran defensive structure against air units.
+    /// @details @Terran defensive structure against air units.
     constexpr UnitType Terran_Missile_Turret{Enum::Terran_Missile_Turret};
-    /// @Terran gas harvesting structure. Constructed over a @Vespene_Geyser.
+    /// @details @Terran gas harvesting structure. Constructed over a @Vespene_Geyser.
     /// @note When this is constructed over a @Vespene_Geyser, the unit type of the geyser is replaced
     /// with this one. When it is destroyed, then this type is replaced by the @Vespene_Geyser.
     /// @see Race::getRefinery, UnitTypes::Resource_Vespene_Geyser
     constexpr UnitType Terran_Refinery{Enum::Terran_Refinery};
     constexpr UnitType Terran_Science_Facility{Enum::Terran_Science_Facility};
     constexpr UnitType Terran_Starport{Enum::Terran_Starport};
-    /// @Terran supply provider.
+    /// @details @Terran supply provider.
     /// @see Race::getSupplyProvider
     constexpr UnitType Terran_Supply_Depot{Enum::Terran_Supply_Depot};
     /// @}
@@ -1054,7 +1054,7 @@ namespace BWAPI
     constexpr UnitType Protoss_Dark_Templar{Enum::Protoss_Dark_Templar};
     constexpr UnitType Protoss_Dragoon{Enum::Protoss_Dragoon};
     constexpr UnitType Protoss_High_Templar{Enum::Protoss_High_Templar};
-    /// @Protoss worker unit.
+    /// @details @Protoss worker unit.
     /// @see Race::getWorker
     constexpr UnitType Protoss_Probe{Enum::Protoss_Probe};
     constexpr UnitType Protoss_Reaver{Enum::Protoss_Reaver};
@@ -1070,7 +1070,7 @@ namespace BWAPI
     constexpr UnitType Protoss_Interceptor{Enum::Protoss_Interceptor};
     constexpr UnitType Protoss_Observer{Enum::Protoss_Observer};
     constexpr UnitType Protoss_Scout{Enum::Protoss_Scout};
-    /// @Protoss transport.
+    /// @details @Protoss transport.
     /// @see Race::getTransport
     constexpr UnitType Protoss_Shuttle{Enum::Protoss_Shuttle};
     /// @}
@@ -1093,7 +1093,7 @@ namespace BWAPI
     /// @name Protoss Buildings
     /// @{
     constexpr UnitType Protoss_Arbiter_Tribunal{Enum::Protoss_Arbiter_Tribunal};
-    /// @Protoss gas harvesting structure. Must be placed on top of a @Vespene_Geyser.
+    /// @details @Protoss gas harvesting structure. Must be placed on top of a @Vespene_Geyser.
     /// @note When this is constructed over a @Vespene_Geyser, the unit type of the geyser is replaced
     /// with this one. When it is destroyed, then this type is replaced by the @Vespene_Geyser.
     /// @see Race::getRefinery, UnitTypes::Resource_Vespene_Geyser
@@ -1103,18 +1103,18 @@ namespace BWAPI
     constexpr UnitType Protoss_Fleet_Beacon{Enum::Protoss_Fleet_Beacon};
     constexpr UnitType Protoss_Forge{Enum::Protoss_Forge};
     constexpr UnitType Protoss_Gateway{Enum::Protoss_Gateway};
-    /// @Protoss resource depot.
+    /// @details @Protoss resource depot.
     /// @see Race::getCenter
     constexpr UnitType Protoss_Nexus{Enum::Protoss_Nexus};
     constexpr UnitType Protoss_Observatory{Enum::Protoss_Observatory};
-    /// @Protoss defensive structure.
+    /// @details @Protoss defensive structure.
     constexpr UnitType Protoss_Photon_Cannon{Enum::Protoss_Photon_Cannon};
-    /// @Protoss supply provider. Required to place other @Protoss structures.
+    /// @details @Protoss supply provider. Required to place other @Protoss structures.
     /// @see Race::getSupplyProvider
     constexpr UnitType Protoss_Pylon{Enum::Protoss_Pylon};
     constexpr UnitType Protoss_Robotics_Facility{Enum::Protoss_Robotics_Facility};
     constexpr UnitType Protoss_Robotics_Support_Bay{Enum::Protoss_Robotics_Support_Bay};
-    /// A structure that can recharge @Protoss_Shields.
+    /// @details A structure that can recharge @Protoss_Shields.
     constexpr UnitType Protoss_Shield_Battery{Enum::Protoss_Shield_Battery};
     constexpr UnitType Protoss_Stargate{Enum::Protoss_Stargate};
     constexpr UnitType Protoss_Templar_Archives{Enum::Protoss_Templar_Archives};
@@ -1131,13 +1131,13 @@ namespace BWAPI
     /// @{
     constexpr UnitType Zerg_Broodling{Enum::Zerg_Broodling};
     constexpr UnitType Zerg_Defiler{Enum::Zerg_Defiler};
-    /// @Zerg worker unit.
+    /// @details @Zerg worker unit.
     /// @see Race::getWorker
     constexpr UnitType Zerg_Drone{Enum::Zerg_Drone};
     constexpr UnitType Zerg_Egg{Enum::Zerg_Egg};
     constexpr UnitType Zerg_Hydralisk{Enum::Zerg_Hydralisk};
     constexpr UnitType Zerg_Infested_Terran{Enum::Zerg_Infested_Terran};
-    /// Spawned at @Hatcheries.
+    /// @details Spawned at @Hatcheries.
     constexpr UnitType Zerg_Larva{Enum::Zerg_Larva};
     constexpr UnitType Zerg_Lurker{Enum::Zerg_Lurker};
     constexpr UnitType Zerg_Lurker_Egg{Enum::Zerg_Lurker_Egg};
@@ -1151,7 +1151,7 @@ namespace BWAPI
     constexpr UnitType Zerg_Devourer{Enum::Zerg_Devourer};
     constexpr UnitType Zerg_Guardian{Enum::Zerg_Guardian};
     constexpr UnitType Zerg_Mutalisk{Enum::Zerg_Mutalisk};
-    /// @Zerg supply provider and transport unit. Must research @Ventral_Sacs to become a transport.
+    /// @details @Zerg supply provider and transport unit. Must research @Ventral_Sacs to become a transport.
     /// @see Race::getSupplyProvider, Race::getTransport
     constexpr UnitType Zerg_Overlord{Enum::Zerg_Overlord};
     constexpr UnitType Zerg_Queen{Enum::Zerg_Queen};
@@ -1172,32 +1172,32 @@ namespace BWAPI
     /// @}
     /// @name Zerg Buildings
     /// @{
-    /// Spreads creep and morphs to @Zerg defensive structures.
+    /// @details Spreads creep and morphs to @Zerg defensive structures.
     constexpr UnitType Zerg_Creep_Colony{Enum::Zerg_Creep_Colony};
     constexpr UnitType Zerg_Defiler_Mound{Enum::Zerg_Defiler_Mound};
     constexpr UnitType Zerg_Evolution_Chamber{Enum::Zerg_Evolution_Chamber};
-    /// @Zerg gas harvesting structure. Must be constructed on a @Vespene_Geyser.
+    /// @details @Zerg gas harvesting structure. Must be constructed on a @Vespene_Geyser.
     /// @note When this is constructed over a @Vespene_Geyser, the unit type of the geyser is replaced
     /// with this one. When it is destroyed, then this type is replaced by the @Vespene_Geyser.
     /// @see Race::getRefinery, UnitTypes::Resource_Vespene_Geyser
     constexpr UnitType Zerg_Extractor{Enum::Zerg_Extractor};
     constexpr UnitType Zerg_Greater_Spire{Enum::Zerg_Greater_Spire};
-    /// @Zerg resource depot and larva generator. Spreads creep.
+    /// @details @Zerg resource depot and larva generator. Spreads creep.
     /// @see Race::getCenter
     constexpr UnitType Zerg_Hatchery{Enum::Zerg_Hatchery};
     constexpr UnitType Zerg_Hive{Enum::Zerg_Hive};
     constexpr UnitType Zerg_Hydralisk_Den{Enum::Zerg_Hydralisk_Den};
-    /// @note Can land on both creep and non-creep.
+    /// @details @note Can land on both creep and non-creep.
     constexpr UnitType Zerg_Infested_Command_Center{Enum::Zerg_Infested_Command_Center};
     constexpr UnitType Zerg_Lair{Enum::Zerg_Lair};
-    /// Used to teleport @Zerg ground units from one Nydus Canal to the other.
+    /// @details Used to teleport @Zerg ground units from one Nydus Canal to the other.
     constexpr UnitType Zerg_Nydus_Canal{Enum::Zerg_Nydus_Canal};
     constexpr UnitType Zerg_Queens_Nest{Enum::Zerg_Queens_Nest};
     constexpr UnitType Zerg_Spawning_Pool{Enum::Zerg_Spawning_Pool};
     constexpr UnitType Zerg_Spire{Enum::Zerg_Spire};
-    /// @Zerg defensive structure against air units.
+    /// @details @Zerg defensive structure against air units.
     constexpr UnitType Zerg_Spore_Colony{Enum::Zerg_Spore_Colony};
-    /// @Zerg defensive structure against ground units.
+    /// @details @Zerg defensive structure against ground units.
     constexpr UnitType Zerg_Sunken_Colony{Enum::Zerg_Sunken_Colony};
     constexpr UnitType Zerg_Ultralisk_Cavern{Enum::Zerg_Ultralisk_Cavern};
     /// @}
@@ -1224,7 +1224,7 @@ namespace BWAPI
     constexpr UnitType Resource_Mineral_Field{Enum::Resource_Mineral_Field};
     constexpr UnitType Resource_Mineral_Field_Type_2{Enum::Resource_Mineral_Field_Type_2};
     constexpr UnitType Resource_Mineral_Field_Type_3{Enum::Resource_Mineral_Field_Type_3};
-    /// @note When a refinery unit is constructed over this type, a new unit is NOT created.
+    /// @details @note When a refinery unit is constructed over this type, a new unit is NOT created.
     /// Rather, the vespene geyser is replaced with the refinery unit. Similarily, when a refinery
     /// is destroyed, the type is replaced with the vespene geyser.
     constexpr UnitType Resource_Vespene_Geyser{Enum::Resource_Vespene_Geyser};
@@ -1247,7 +1247,7 @@ namespace BWAPI
     /// @name Powerups
     /// @{
     constexpr UnitType Powerup_Data_Disk{Enum::Powerup_Data_Disk};
-    /// @note Can't be carried by your own workers.
+    /// @details @note Can't be carried by your own workers.
     constexpr UnitType Powerup_Flag{Enum::Powerup_Flag};
     constexpr UnitType Powerup_Khalis_Crystal{Enum::Powerup_Khalis_Crystal};
     constexpr UnitType Powerup_Khaydarin_Crystal{Enum::Powerup_Khaydarin_Crystal};
@@ -1284,10 +1284,10 @@ namespace BWAPI
     constexpr UnitType Special_Cargo_Ship{Enum::Special_Cargo_Ship};
     constexpr UnitType Special_Floor_Hatch{Enum::Special_Floor_Hatch};
     constexpr UnitType Special_Independant_Starport{Enum::Special_Independant_Starport};
-    /// A special unit placed by the campaign editor that reveals a large area of the map.
+    /// @details A special unit placed by the campaign editor that reveals a large area of the map.
     constexpr UnitType Special_Map_Revealer{Enum::Special_Map_Revealer};
     constexpr UnitType Special_Mercenary_Gunship{Enum::Special_Mercenary_Gunship};
-    /// A special unit that indicates a player's starting location. The unit is removed at the
+    /// @details A special unit that indicates a player's starting location. The unit is removed at the
     /// beginning of the game and replaced with the race's resource depot.
     ///
     /// A special use case with BWAPI is passing this value to Game::canBuildHere.

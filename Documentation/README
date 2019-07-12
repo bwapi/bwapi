@@ -1,0 +1,12 @@
+Must run doxygen in THIS directory if using command line.
+
+## Setup
+
+pip3 install jinja2 Pygments
+
+## Usage
+
+./m.css/documentation/doxygen.py Doxyfile-mcss
+
+More usage instructions at https://mcss.mosra.cz/documentation/doxygen/#include-files
+
