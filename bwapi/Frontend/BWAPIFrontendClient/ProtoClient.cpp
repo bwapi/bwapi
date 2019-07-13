@@ -70,13 +70,24 @@ namespace BWAPI
           if (gameMessage.has_gamedata())
           {
             auto gameUpdate = gameMessage.gamedata();
-            game.gameData->isInGame = gameUpdate.isingame();
-            game.gameData->randomSeed = gameUpdate.randomseed();
             game.gameData->player = PlayerID{ gameUpdate.player() };
             game.gameData->screenPosition = { gameUpdate.screenposition().x(), gameUpdate.screenposition().y() };
-            game.gameData->hasGUI = gameUpdate.hasgui();
             game.gameData->frameCount = gameUpdate.framecount();
             game.gameData->latencyFrames = gameUpdate.latencyframes();
+            game.gameData->remainingLatencyFrames = gameUpdate.remaininglatencyframes();
+            game.gameData->lastEventTime = gameUpdate.lasteventtime();
+            game.gameData->latencyTime = gameUpdate.latencytime();
+            game.gameData->remainingLatencyTime = gameUpdate.remaininglatencytime();
+            game.gameData->elapsedTime = gameUpdate.elapsedtime();
+            game.gameData->averageFPS = gameUpdate.averagefps();
+            game.gameData->countdownTimer = gameUpdate.countdowntimer();
+            game.gameData->isPaused = gameUpdate.ispaused();
+            game.gameData->isInGame = gameUpdate.isingame();
+            game.gameData->isMultiplayer = gameUpdate.ismultiplayer();
+            game.gameData->isBattleNet = gameUpdate.isbattlenet();
+            game.gameData->isReplay = gameUpdate.isreplay();
+            game.gameData->hasGUI = gameUpdate.hasgui();
+            game.gameData->randomSeed = gameUpdate.randomseed();
             if (gameUpdate.has_staticmap())
             {
               auto staticMap = gameUpdate.staticmap();

@@ -185,7 +185,10 @@ int main()
             //std::cout << broodwar.getLastError() << std::endl;
           }
         }
-
+        if (broodwar.self()->completedUnitCount(UnitTypes::Terran_Factory) < 1)
+          broodwar.createUnit(broodwar.self(), BWAPI::UnitTypes::Terran_Factory, static_cast<Position>(broodwar.getBuildLocation(BWAPI::UnitTypes::Terran_Factory, broodwar.self().getStartLocation())));
+        if (broodwar.self()->hasResearched(TechTypes::Tank_Siege_Mode))
+          std::cout << "I know siege mode!" << std::endl;
       }
     }
   }

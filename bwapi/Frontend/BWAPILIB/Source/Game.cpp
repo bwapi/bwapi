@@ -1154,7 +1154,7 @@ namespace BWAPI
     //-------------------------------------------- GET Average FPS ---------------------------------------------
     double Game::getAverageFPS() const
     {
-        return fpsCounter.getAverageFps();
+      return gameData->averageFPS;
     }
     //-------------------------------------------------- MOUSE -------------------------------------------------
     Position Game::getMousePosition() const

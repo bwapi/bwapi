@@ -1,4 +1,4 @@
-static const int SVN_REV = 5023;
+static const int SVN_REV = 5026;
 
 #include "starcraftver.h"
 
