@@ -1292,24 +1292,18 @@ namespace BWAPI
         return nullptr;
     }
     //----------------------------------------------- ALLIES ---------------------------------------------------
-    Playerset _allies;
     Playerset& Game::allies()
     {
-      // TODO: Implement
         return _allies;
     }
     //----------------------------------------------- ENEMIES --------------------------------------------------
-    Playerset _enemies;
     Playerset& Game::enemies()
     {
-      // TODO: Implement
         return _enemies;
     }
     //----------------------------------------------- OBSERVERS ------------------------------------------------
-    Playerset _observers;
     Playerset& Game::observers()
     {
-      // TODO: Implement
         return _observers;
     }
     //----------------------------------------------- APM ------------------------------------------------------
@@ -1942,6 +1936,18 @@ namespace BWAPI
         {
           for (auto r : regions)
             regionsList.emplace(r);
+        }
+        if (!_allies.size())
+        {
+          for (auto p : players)
+          {
+            if (p.isAlly(self()))
+              _allies.insert(p);
+            else if (p.isEnemy(self()))
+              _enemies.insert(p);
+            else if (p.isObserver())
+              _observers.insert(p);
+          }
         }
         computePrimaryUnitSets();
         unitFinder.update(getAllUnits());

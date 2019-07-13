@@ -1924,6 +1924,9 @@ namespace BWAPI
       Unitset staticMinerals;
       Unitset staticGeysers;
       Unitset staticNeutralUnits;
+      Playerset _allies;
+      Playerset _enemies;
+      Playerset _observers;
       std::list< Event > events;
       Text::Size::Enum textSize = Text::Size::Default;
 
