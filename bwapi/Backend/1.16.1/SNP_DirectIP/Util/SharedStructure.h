@@ -12,7 +12,9 @@ namespace Util
 #include "MemoryFrame.h"
 #include "RemoteProcess.h"
 #include "SharedMemory.h"
+#ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
+#endif
 #include "windows.h"
 
 namespace Util
