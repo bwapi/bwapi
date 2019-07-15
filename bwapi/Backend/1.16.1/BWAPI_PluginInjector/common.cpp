@@ -8,7 +8,11 @@
 
 std::string GetPluginName()
 {
+#ifdef _DEBUG
+  return "BWAPI Injector DEBUG";
+#else
   return "BWAPI Injector";
+#endif
 }
 
 std::string GetBWAPITarget()
