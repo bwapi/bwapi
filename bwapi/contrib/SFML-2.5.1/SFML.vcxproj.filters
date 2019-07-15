@@ -33,9 +33,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\SFML\Network\Http.cpp">
-      <Filter>Source Files\Network</Filter>
-    </ClCompile>
     <ClCompile Include="src\SFML\Network\IpAddress.cpp">
       <Filter>Source Files\Network</Filter>
     </ClCompile>
@@ -73,9 +70,6 @@
   <ItemGroup>
     <ClInclude Include="src\SFML\Network\SocketImpl.hpp">
       <Filter>Source Files\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SFML\Network\Http.hpp">
-      <Filter>Header Files\Network</Filter>
     </ClInclude>
     <ClInclude Include="include\SFML\Network\IpAddress.hpp">
       <Filter>Header Files\Network</Filter>

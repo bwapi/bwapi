@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\SFML\Network\Http.cpp" />
     <ClCompile Include="src\SFML\Network\IpAddress.cpp" />
     <ClCompile Include="src\SFML\Network\Packet.cpp" />
     <ClCompile Include="src\SFML\Network\Socket.cpp" />
@@ -35,7 +34,6 @@
   <ItemGroup>
     <ClInclude Include="include\SFML\Config.hpp" />
     <ClInclude Include="include\SFML\Network.hpp" />
-    <ClInclude Include="include\SFML\Network\Http.hpp" />
     <ClInclude Include="include\SFML\Network\IpAddress.hpp" />
     <ClInclude Include="include\SFML\Network\Packet.hpp" />
     <ClInclude Include="include\SFML\Network\Socket.hpp" />

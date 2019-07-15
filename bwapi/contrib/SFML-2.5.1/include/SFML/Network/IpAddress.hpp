@@ -155,30 +155,6 @@ public:
     static IpAddress getLocalAddress();
 
     ////////////////////////////////////////////////////////////
-    /// \brief Get the computer's public address
-    ///
-    /// The public address is the address of the computer from the
-    /// internet point of view, i.e. something like 89.54.1.169.
-    /// It is necessary for communications over the world wide web.
-    /// The only way to get a public address is to ask it to a
-    /// distant website; as a consequence, this function depends on
-    /// both your network connection and the server, and may be
-    /// very slow. You should use it as few as possible. Because
-    /// this function depends on the network connection and on a distant
-    /// server, you may use a time limit if you don't want your program
-    /// to be possibly stuck waiting in case there is a problem; this
-    /// limit is deactivated by default.
-    ///
-    /// \param timeout Maximum time to wait
-    ///
-    /// \return Public IP address of the computer
-    ///
-    /// \see getLocalAddress
-    ///
-    ////////////////////////////////////////////////////////////
-    static IpAddress getPublicAddress(Time timeout = Time::Zero);
-
-    ////////////////////////////////////////////////////////////
     // Static member data
     ////////////////////////////////////////////////////////////
     static const IpAddress None;      ///< Value representing an empty/invalid address

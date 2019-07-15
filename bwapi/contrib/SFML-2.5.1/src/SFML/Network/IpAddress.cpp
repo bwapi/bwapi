@@ -26,7 +26,6 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Network/IpAddress.hpp>
-#include <SFML/Network/Http.hpp>
 #include <SFML/Network/SocketImpl.hpp>
 #include <cstring>
 #include <utility>
@@ -137,26 +136,6 @@ IpAddress IpAddress::getLocalAddress()
     localAddress = IpAddress(ntohl(address.sin_addr.s_addr));
 
     return localAddress;
-}
-
-
-////////////////////////////////////////////////////////////
-IpAddress IpAddress::getPublicAddress(Time timeout)
-{
-    // The trick here is more complicated, because the only way
-    // to get our public IP address is to get it from a distant computer.
-    // Here we get the web page from http://www.sfml-dev.org/ip-provider.php
-    // and parse the result to extract our IP address
-    // (not very hard: the web page contains only our IP address).
-
-    Http server("www.sfml-dev.org");
-    Http::Request request("/ip-provider.php", Http::Request::Get);
-    Http::Response page = server.sendRequest(request, timeout);
-    if (page.getStatus() == Http::Response::Ok)
-        return IpAddress(page.getBody());
-
-    // Something failed: return an invalid address
-    return IpAddress();
 }
 
 
