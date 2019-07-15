@@ -6,11 +6,7 @@
 #include<random>
 #include<chrono>
 
-#include<SFML/Network/Socket.hpp>
-#include<SFML/Network/SocketSelector.hpp>
-#include<SFML/Network/TcpSocket.hpp>
-#include<SFML/Network/TcpListener.hpp>
-#include<SFML/Network/UdpSocket.hpp>
+#include<SFML/Network.hpp>
 
 // Protobuf headers have some warnings we don't care about
 #pragma warning(push, 0)

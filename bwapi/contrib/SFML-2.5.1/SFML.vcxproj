@@ -29,23 +29,8 @@
     <ClCompile Include="src\SFML\Network\UdpSocket.cpp" />
     <ClCompile Include="src\SFML\Network\Unix\SocketImplUnix.cpp" />
     <ClCompile Include="src\SFML\Network\Win32\SocketImplWin32.cpp" />
-    <ClCompile Include="src\SFML\System\Clock.cpp" />
     <ClCompile Include="src\SFML\System\Err.cpp" />
-    <ClCompile Include="src\SFML\System\FileInputStream.cpp" />
-    <ClCompile Include="src\SFML\System\Lock.cpp" />
-    <ClCompile Include="src\SFML\System\MemoryInputStream.cpp" />
-    <ClCompile Include="src\SFML\System\Mutex.cpp" />
-    <ClCompile Include="src\SFML\System\Thread.cpp" />
-    <ClCompile Include="src\SFML\System\ThreadLocal.cpp" />
     <ClCompile Include="src\SFML\System\Time.cpp" />
-    <ClCompile Include="src\SFML\System\Unix\ClockImplUnix.cpp" />
-    <ClCompile Include="src\SFML\System\Unix\MutexImplUnix.cpp" />
-    <ClCompile Include="src\SFML\System\Unix\ThreadImplUnix.cpp" />
-    <ClCompile Include="src\SFML\System\Unix\ThreadLocalImplUnix.cpp" />
-    <ClCompile Include="src\SFML\System\Win32\ClockImplWin32.cpp" />
-    <ClCompile Include="src\SFML\System\Win32\MutexImplWin32.cpp" />
-    <ClCompile Include="src\SFML\System\Win32\ThreadImplWin32.cpp" />
-    <ClCompile Include="src\SFML\System\Win32\ThreadLocalImplWin32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\SFML\Config.hpp" />
@@ -60,33 +45,12 @@
     <ClInclude Include="include\SFML\Network\TcpSocket.hpp" />
     <ClInclude Include="include\SFML\Network\UdpSocket.hpp" />
     <ClInclude Include="include\SFML\System.hpp" />
-    <ClInclude Include="include\SFML\System\Clock.hpp" />
     <ClInclude Include="include\SFML\System\Err.hpp" />
-    <ClInclude Include="include\SFML\System\FileInputStream.hpp" />
-    <ClInclude Include="include\SFML\System\InputStream.hpp" />
-    <ClInclude Include="include\SFML\System\Lock.hpp" />
-    <ClInclude Include="include\SFML\System\MemoryInputStream.hpp" />
-    <ClInclude Include="include\SFML\System\Mutex.hpp" />
     <ClInclude Include="include\SFML\System\NonCopyable.hpp" />
-    <ClInclude Include="include\SFML\System\Thread.hpp" />
-    <ClInclude Include="include\SFML\System\ThreadLocal.hpp" />
-    <ClInclude Include="include\SFML\System\ThreadLocalPtr.hpp" />
     <ClInclude Include="include\SFML\System\Time.hpp" />
     <ClInclude Include="src\SFML\Network\SocketImpl.hpp" />
     <ClInclude Include="src\SFML\Network\Unix\SocketImpl.hpp" />
     <ClInclude Include="src\SFML\Network\Win32\SocketImpl.hpp" />
-    <ClInclude Include="src\SFML\System\Unix\ClockImpl.hpp" />
-    <ClInclude Include="src\SFML\System\Unix\MutexImpl.hpp" />
-    <ClInclude Include="src\SFML\System\Unix\ThreadImpl.hpp" />
-    <ClInclude Include="src\SFML\System\Unix\ThreadLocalImpl.hpp" />
-    <ClInclude Include="src\SFML\System\Win32\ClockImpl.hpp" />
-    <ClInclude Include="src\SFML\System\Win32\MutexImpl.hpp" />
-    <ClInclude Include="src\SFML\System\Win32\ThreadImpl.hpp" />
-    <ClInclude Include="src\SFML\System\Win32\ThreadLocalImpl.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="include\SFML\System\Thread.inl" />
-    <None Include="include\SFML\System\ThreadLocalPtr.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -1,6 +1,6 @@
 #include"BWAPIProtoClient.h"
 
-#include<SFML/Network/Packet.hpp>
+#include<SFML/Network.hpp>
 
 namespace BWAPI
 {

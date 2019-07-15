@@ -4,6 +4,5 @@ The changes are as follows:
 - Remove everything except for Network and System.
 - Remove Windows XP support.
 - Remove DLL import/export definitions. Made static only.
-- Heavily gutted
-- Removed String, Sleep, Vector2, Vector3
+- Heavily gutted, partial Network and System modules
 - 
