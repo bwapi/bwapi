@@ -35,7 +35,6 @@
     <ClCompile Include="src\SFML\System\Lock.cpp" />
     <ClCompile Include="src\SFML\System\MemoryInputStream.cpp" />
     <ClCompile Include="src\SFML\System\Mutex.cpp" />
-    <ClCompile Include="src\SFML\System\String.cpp" />
     <ClCompile Include="src\SFML\System\Thread.cpp" />
     <ClCompile Include="src\SFML\System\ThreadLocal.cpp" />
     <ClCompile Include="src\SFML\System\Time.cpp" />
@@ -63,22 +62,16 @@
     <ClInclude Include="include\SFML\System.hpp" />
     <ClInclude Include="include\SFML\System\Clock.hpp" />
     <ClInclude Include="include\SFML\System\Err.hpp" />
-    <ClInclude Include="include\SFML\System\Export.hpp" />
     <ClInclude Include="include\SFML\System\FileInputStream.hpp" />
     <ClInclude Include="include\SFML\System\InputStream.hpp" />
     <ClInclude Include="include\SFML\System\Lock.hpp" />
     <ClInclude Include="include\SFML\System\MemoryInputStream.hpp" />
     <ClInclude Include="include\SFML\System\Mutex.hpp" />
-    <ClInclude Include="include\SFML\System\NativeActivity.hpp" />
     <ClInclude Include="include\SFML\System\NonCopyable.hpp" />
-    <ClInclude Include="include\SFML\System\String.hpp" />
     <ClInclude Include="include\SFML\System\Thread.hpp" />
     <ClInclude Include="include\SFML\System\ThreadLocal.hpp" />
     <ClInclude Include="include\SFML\System\ThreadLocalPtr.hpp" />
     <ClInclude Include="include\SFML\System\Time.hpp" />
-    <ClInclude Include="include\SFML\System\Utf.hpp" />
-    <ClInclude Include="include\SFML\System\Vector2.hpp" />
-    <ClInclude Include="include\SFML\System\Vector3.hpp" />
     <ClInclude Include="src\SFML\Network\SocketImpl.hpp" />
     <ClInclude Include="src\SFML\Network\Unix\SocketImpl.hpp" />
     <ClInclude Include="src\SFML\Network\Win32\SocketImpl.hpp" />
@@ -92,12 +85,8 @@
     <ClInclude Include="src\SFML\System\Win32\ThreadLocalImpl.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="include\SFML\System\String.inl" />
     <None Include="include\SFML\System\Thread.inl" />
     <None Include="include\SFML\System\ThreadLocalPtr.inl" />
-    <None Include="include\SFML\System\Utf.inl" />
-    <None Include="include\SFML\System\Vector2.inl" />
-    <None Include="include\SFML\System\Vector3.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -38,14 +38,10 @@
 #include <SFML/System/MemoryInputStream.hpp>
 #include <SFML/System/Mutex.hpp>
 #include <SFML/System/NonCopyable.hpp>
-#include <SFML/System/String.hpp>
 #include <SFML/System/Thread.hpp>
 #include <SFML/System/ThreadLocal.hpp>
 #include <SFML/System/ThreadLocalPtr.hpp>
 #include <SFML/System/Time.hpp>
-#include <SFML/System/Utf.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <SFML/System/Vector3.hpp>
 
 #endif // SFML_SYSTEM_HPP
 

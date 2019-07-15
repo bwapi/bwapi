@@ -27,7 +27,6 @@
 ////////////////////////////////////////////////////////////
 #include <SFML/Network/Packet.hpp>
 #include <SFML/Network/SocketImpl.hpp>
-#include <SFML/System/String.hpp>
 #include <cstring>
 #include <cwchar>
 
@@ -350,29 +349,6 @@ Packet& Packet::operator >>(std::wstring& data)
 
 
 ////////////////////////////////////////////////////////////
-Packet& Packet::operator >>(String& data)
-{
-    // First extract the string length
-    Uint32 length = 0;
-    *this >> length;
-
-    data.clear();
-    if ((length > 0) && checkSize(length * sizeof(Uint32)))
-    {
-        // Then extract characters
-        for (Uint32 i = 0; i < length; ++i)
-        {
-            Uint32 character = 0;
-            *this >> character;
-            data += character;
-        }
-    }
-
-    return *this;
-}
-
-
-////////////////////////////////////////////////////////////
 Packet& Packet::operator <<(bool data)
 {
     *this << static_cast<Uint8>(data);
@@ -546,24 +522,6 @@ Packet& Packet::operator <<(const std::wstring& data)
     {
         for (std::wstring::const_iterator c = data.begin(); c != data.end(); ++c)
             *this << static_cast<Uint32>(*c);
-    }
-
-    return *this;
-}
-
-
-////////////////////////////////////////////////////////////
-Packet& Packet::operator <<(const String& data)
-{
-    // First insert the string length
-    Uint32 length = static_cast<Uint32>(data.getSize());
-    *this << length;
-
-    // Then insert characters
-    if (length > 0)
-    {
-        for (String::ConstIterator c = data.begin(); c != data.end(); ++c)
-            *this << *c;
     }
 
     return *this;

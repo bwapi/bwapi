@@ -81,9 +81,6 @@
     <ClCompile Include="src\SFML\System\Mutex.cpp">
       <Filter>Source Files\System</Filter>
     </ClCompile>
-    <ClCompile Include="src\SFML\System\String.cpp">
-      <Filter>Source Files\System</Filter>
-    </ClCompile>
     <ClCompile Include="src\SFML\System\Thread.cpp">
       <Filter>Source Files\System</Filter>
     </ClCompile>
@@ -185,9 +182,6 @@
     <ClInclude Include="include\SFML\System\Err.hpp">
       <Filter>Header Files\System</Filter>
     </ClInclude>
-    <ClInclude Include="include\SFML\System\Export.hpp">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
     <ClInclude Include="include\SFML\System\FileInputStream.hpp">
       <Filter>Header Files\System</Filter>
     </ClInclude>
@@ -203,13 +197,7 @@
     <ClInclude Include="include\SFML\System\Mutex.hpp">
       <Filter>Header Files\System</Filter>
     </ClInclude>
-    <ClInclude Include="include\SFML\System\NativeActivity.hpp">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
     <ClInclude Include="include\SFML\System\NonCopyable.hpp">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SFML\System\String.hpp">
       <Filter>Header Files\System</Filter>
     </ClInclude>
     <ClInclude Include="include\SFML\System\Thread.hpp">
@@ -222,15 +210,6 @@
       <Filter>Header Files\System</Filter>
     </ClInclude>
     <ClInclude Include="include\SFML\System\Time.hpp">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SFML\System\Utf.hpp">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SFML\System\Vector2.hpp">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SFML\System\Vector3.hpp">
       <Filter>Header Files\System</Filter>
     </ClInclude>
     <ClInclude Include="include\SFML\Config.hpp">
@@ -250,22 +229,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="include\SFML\System\String.inl">
-      <Filter>Header Files\System</Filter>
-    </None>
     <None Include="include\SFML\System\Thread.inl">
       <Filter>Header Files\System</Filter>
     </None>
     <None Include="include\SFML\System\ThreadLocalPtr.inl">
-      <Filter>Header Files\System</Filter>
-    </None>
-    <None Include="include\SFML\System\Utf.inl">
-      <Filter>Header Files\System</Filter>
-    </None>
-    <None Include="include\SFML\System\Vector2.inl">
-      <Filter>Header Files\System</Filter>
-    </None>
-    <None Include="include\SFML\System\Vector3.inl">
       <Filter>Header Files\System</Filter>
     </None>
   </ItemGroup>
