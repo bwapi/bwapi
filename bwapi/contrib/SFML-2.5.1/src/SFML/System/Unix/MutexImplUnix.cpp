@@ -1,3 +1,4 @@
+#ifndef WIN32
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
@@ -22,27 +23,49 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_NETWORK_EXPORT_HPP
-#define SFML_NETWORK_EXPORT_HPP
-
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Config.hpp>
+#include <SFML/System/Unix/MutexImpl.hpp>
+
+
+namespace sf
+{
+namespace priv
+{
+////////////////////////////////////////////////////////////
+MutexImpl::MutexImpl()
+{
+    // Make it recursive to follow the expected behavior
+    pthread_mutexattr_t attributes;
+    pthread_mutexattr_init(&attributes);
+    pthread_mutexattr_settype(&attributes, PTHREAD_MUTEX_RECURSIVE);
+
+    pthread_mutex_init(&m_mutex, &attributes);
+}
 
 
 ////////////////////////////////////////////////////////////
-// Define portable import / export macros
+MutexImpl::~MutexImpl()
+{
+    pthread_mutex_destroy(&m_mutex);
+}
+
+
 ////////////////////////////////////////////////////////////
-#if defined(SFML_NETWORK_EXPORTS)
+void MutexImpl::lock()
+{
+    pthread_mutex_lock(&m_mutex);
+}
 
-    #define SFML_NETWORK_API SFML_API_EXPORT
 
-#else
+////////////////////////////////////////////////////////////
+void MutexImpl::unlock()
+{
+    pthread_mutex_unlock(&m_mutex);
+}
 
-    #define SFML_NETWORK_API SFML_API_IMPORT
+} // namespace priv
 
+} // namespace sf
 #endif
-
-
-#endif // SFML_NETWORK_EXPORT_HPP

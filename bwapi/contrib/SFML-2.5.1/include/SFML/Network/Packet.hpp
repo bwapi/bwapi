@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Network/Export.hpp>
+#include <SFML/Config.hpp>
 #include <string>
 #include <vector>
 
@@ -44,7 +44,7 @@ class UdpSocket;
 ///        over the network
 ///
 ////////////////////////////////////////////////////////////
-class SFML_NETWORK_API Packet
+class Packet
 {
     // A bool-like type that cannot be converted to integer or pointer types
     typedef bool (Packet::*BoolType)(std::size_t);

@@ -1,18 +1,21 @@
 #include"BWAPIProtoClient.h"
 
+#include<SFML/Network/Packet.hpp>
+
 namespace BWAPI
 {
-  BWAPIProtoClient::BWAPIProtoClient() :mt(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()))
-    {
-        connected = false;
-        udpbound = false;
-        connectionPort = 1025;
-    }
+  BWAPIProtoClient::BWAPIProtoClient() : mt(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()))
+  {
+    connected = false;
+    udpbound = false;
+    connectionPort = 1025;
+  }
 
   void BWAPIProtoClient::checkForConnection(uint32_t apiVersion, std::string enginetype, std::string engineVersion)
   {
     if (isConnected())
       return;
+
     sf::Packet packet;
     udpSocket.setBlocking(false);
     if (!udpbound)
@@ -105,6 +108,7 @@ namespace BWAPI
     //Check that we are connected to a game server.
     if (!isConnected())
         return;
+
     std::unique_ptr<bwapi::message::Message> currentMessage;
     sf::Packet packet;
     //loop until the message queue is empty.

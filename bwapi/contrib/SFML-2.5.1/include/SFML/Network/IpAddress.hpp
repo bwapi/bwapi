@@ -28,8 +28,8 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Network/Export.hpp>
 #include <SFML/System/Time.hpp>
+#include <SFML/Config.hpp>
 #include <istream>
 #include <ostream>
 #include <string>
@@ -41,7 +41,7 @@ namespace sf
 /// \brief Encapsulate an IPv4 network address
 ///
 ////////////////////////////////////////////////////////////
-class SFML_NETWORK_API IpAddress
+class IpAddress
 {
 public:
 
@@ -188,7 +188,7 @@ public:
 
 private:
 
-    friend SFML_NETWORK_API bool operator <(const IpAddress& left, const IpAddress& right);
+    friend bool operator <(const IpAddress& left, const IpAddress& right);
 
     ////////////////////////////////////////////////////////////
     /// \brief Resolve the given address string
@@ -214,7 +214,7 @@ private:
 /// \return True if both addresses are equal
 ///
 ////////////////////////////////////////////////////////////
-SFML_NETWORK_API bool operator ==(const IpAddress& left, const IpAddress& right);
+bool operator ==(const IpAddress& left, const IpAddress& right);
 
 ////////////////////////////////////////////////////////////
 /// \brief Overload of != operator to compare two IP addresses
@@ -225,7 +225,7 @@ SFML_NETWORK_API bool operator ==(const IpAddress& left, const IpAddress& right)
 /// \return True if both addresses are different
 ///
 ////////////////////////////////////////////////////////////
-SFML_NETWORK_API bool operator !=(const IpAddress& left, const IpAddress& right);
+bool operator !=(const IpAddress& left, const IpAddress& right);
 
 ////////////////////////////////////////////////////////////
 /// \brief Overload of < operator to compare two IP addresses
@@ -236,7 +236,7 @@ SFML_NETWORK_API bool operator !=(const IpAddress& left, const IpAddress& right)
 /// \return True if \a left is lesser than \a right
 ///
 ////////////////////////////////////////////////////////////
-SFML_NETWORK_API bool operator <(const IpAddress& left, const IpAddress& right);
+bool operator <(const IpAddress& left, const IpAddress& right);
 
 ////////////////////////////////////////////////////////////
 /// \brief Overload of > operator to compare two IP addresses
@@ -247,7 +247,7 @@ SFML_NETWORK_API bool operator <(const IpAddress& left, const IpAddress& right);
 /// \return True if \a left is greater than \a right
 ///
 ////////////////////////////////////////////////////////////
-SFML_NETWORK_API bool operator >(const IpAddress& left, const IpAddress& right);
+bool operator >(const IpAddress& left, const IpAddress& right);
 
 ////////////////////////////////////////////////////////////
 /// \brief Overload of <= operator to compare two IP addresses
@@ -258,7 +258,7 @@ SFML_NETWORK_API bool operator >(const IpAddress& left, const IpAddress& right);
 /// \return True if \a left is lesser or equal than \a right
 ///
 ////////////////////////////////////////////////////////////
-SFML_NETWORK_API bool operator <=(const IpAddress& left, const IpAddress& right);
+bool operator <=(const IpAddress& left, const IpAddress& right);
 
 ////////////////////////////////////////////////////////////
 /// \brief Overload of >= operator to compare two IP addresses
@@ -269,7 +269,7 @@ SFML_NETWORK_API bool operator <=(const IpAddress& left, const IpAddress& right)
 /// \return True if \a left is greater or equal than \a right
 ///
 ////////////////////////////////////////////////////////////
-SFML_NETWORK_API bool operator >=(const IpAddress& left, const IpAddress& right);
+bool operator >=(const IpAddress& left, const IpAddress& right);
 
 ////////////////////////////////////////////////////////////
 /// \brief Overload of >> operator to extract an IP address from an input stream
@@ -280,7 +280,7 @@ SFML_NETWORK_API bool operator >=(const IpAddress& left, const IpAddress& right)
 /// \return Reference to the input stream
 ///
 ////////////////////////////////////////////////////////////
-SFML_NETWORK_API std::istream& operator >>(std::istream& stream, IpAddress& address);
+std::istream& operator >>(std::istream& stream, IpAddress& address);
 
 ////////////////////////////////////////////////////////////
 /// \brief Overload of << operator to print an IP address to an output stream
@@ -291,7 +291,7 @@ SFML_NETWORK_API std::istream& operator >>(std::istream& stream, IpAddress& addr
 /// \return Reference to the output stream
 ///
 ////////////////////////////////////////////////////////////
-SFML_NETWORK_API std::ostream& operator <<(std::ostream& stream, const IpAddress& address);
+std::ostream& operator <<(std::ostream& stream, const IpAddress& address);
 
 } // namespace sf
 

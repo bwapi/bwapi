@@ -1,3 +1,4 @@
+#ifndef WIN32
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
@@ -22,35 +23,41 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_AUDIO_HPP
-#define SFML_AUDIO_HPP
+#ifndef SFML_CLOCKIMPLUNIX_HPP
+#define SFML_CLOCKIMPLUNIX_HPP
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-
-#include <SFML/System.hpp>
-#include <SFML/Audio/InputSoundFile.hpp>
-#include <SFML/Audio/Listener.hpp>
-#include <SFML/Audio/Music.hpp>
-#include <SFML/Audio/OutputSoundFile.hpp>
-#include <SFML/Audio/Sound.hpp>
-#include <SFML/Audio/SoundBuffer.hpp>
-#include <SFML/Audio/SoundBufferRecorder.hpp>
-#include <SFML/Audio/SoundFileFactory.hpp>
-#include <SFML/Audio/SoundFileReader.hpp>
-#include <SFML/Audio/SoundFileWriter.hpp>
-#include <SFML/Audio/SoundRecorder.hpp>
-#include <SFML/Audio/SoundSource.hpp>
-#include <SFML/Audio/SoundStream.hpp>
+#include <SFML/Config.hpp>
+#include <SFML/System/Time.hpp>
 
 
-#endif // SFML_AUDIO_HPP
-
+namespace sf
+{
+namespace priv
+{
 ////////////////////////////////////////////////////////////
-/// \defgroup audio Audio module
-///
-/// Sounds, streaming (musics or custom sources), recording,
-/// spatialization.
+/// \brief Unix implementation of sf::Clock
 ///
 ////////////////////////////////////////////////////////////
+class ClockImpl
+{
+public:
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Get the current time
+    ///
+    /// \return Current time
+    ///
+    ////////////////////////////////////////////////////////////
+    static Time getCurrentTime();
+};
+
+} // namespace priv
+
+} // namespace sf
+
+
+#endif // SFML_CLOCKIMPLUNIX_HPP
+#endif

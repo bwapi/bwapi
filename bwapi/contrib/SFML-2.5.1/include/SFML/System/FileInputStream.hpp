@@ -29,7 +29,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Config.hpp>
-#include <SFML/System/Export.hpp>
+
 #include <SFML/System/InputStream.hpp>
 #include <SFML/System/NonCopyable.hpp>
 #include <cstdio>
@@ -40,7 +40,7 @@ namespace sf
 {
 namespace priv
 {
-class SFML_SYSTEM_API ResourceStream;
+class ResourceStream;
 }
 }
 #endif
@@ -52,7 +52,7 @@ namespace sf
 /// \brief Implementation of input stream based on a file
 ///
 ////////////////////////////////////////////////////////////
-class SFML_SYSTEM_API FileInputStream : public InputStream, NonCopyable
+class FileInputStream : public InputStream, NonCopyable
 {
 public:
     ////////////////////////////////////////////////////////////

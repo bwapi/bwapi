@@ -28,7 +28,6 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Network/Export.hpp>
 #include <SFML/System/Time.hpp>
 
 
@@ -40,7 +39,7 @@ class Socket;
 /// \brief Multiplexer that allows to read from multiple sockets
 ///
 ////////////////////////////////////////////////////////////
-class SFML_NETWORK_API SocketSelector
+class SocketSelector
 {
 public:
 

@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Network">
+      <UniqueIdentifier>{6d4f20e9-b5e1-45b6-8923-48e5380e87b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System">
+      <UniqueIdentifier>{5928f9ab-97a2-4951-9cec-aaa454e018fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Network">
+      <UniqueIdentifier>{410b96fc-b807-47d3-89ff-32c3f54453ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System">
+      <UniqueIdentifier>{2e5529a4-f0e4-4120-8f17-dcbd74fbf29e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Network\Unix">
+      <UniqueIdentifier>{aaab5b0a-f868-4761-b796-0e9d081d0e14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Network\Win32">
+      <UniqueIdentifier>{57e93404-c89c-4ec9-8ce8-db81589a37d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System\Unix">
+      <UniqueIdentifier>{fbea88f1-0617-454a-a888-e7cee3085fa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System\Win32">
+      <UniqueIdentifier>{04c65029-6abe-4beb-b67b-da52239ecbdc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\SFML\Network\Http.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\Network\IpAddress.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\Network\Packet.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\Network\Socket.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\Network\SocketSelector.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\Network\TcpListener.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\Network\TcpSocket.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\Network\UdpSocket.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\Clock.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\Err.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\FileInputStream.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\Lock.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\MemoryInputStream.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\Mutex.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\String.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\Thread.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\ThreadLocal.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\Time.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\Network\Unix\SocketImplUnix.cpp">
+      <Filter>Source Files\Network\Unix</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\Network\Win32\SocketImplWin32.cpp">
+      <Filter>Source Files\Network\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\Unix\ClockImplUnix.cpp">
+      <Filter>Source Files\System\Unix</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\Unix\MutexImplUnix.cpp">
+      <Filter>Source Files\System\Unix</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\Unix\ThreadImplUnix.cpp">
+      <Filter>Source Files\System\Unix</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\Unix\ThreadLocalImplUnix.cpp">
+      <Filter>Source Files\System\Unix</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\Win32\MutexImplWin32.cpp">
+      <Filter>Source Files\System\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\Win32\ClockImplWin32.cpp">
+      <Filter>Source Files\System\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\Win32\ThreadImplWin32.cpp">
+      <Filter>Source Files\System\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SFML\System\Win32\ThreadLocalImplWin32.cpp">
+      <Filter>Source Files\System\Win32</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\SFML\Network\SocketImpl.hpp">
+      <Filter>Source Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SFML\System\Unix\ClockImpl.hpp">
+      <Filter>Source Files\System\Unix</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SFML\System\Unix\MutexImpl.hpp">
+      <Filter>Source Files\System\Unix</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SFML\System\Unix\ThreadImpl.hpp">
+      <Filter>Source Files\System\Unix</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SFML\System\Unix\ThreadLocalImpl.hpp">
+      <Filter>Source Files\System\Unix</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SFML\System\Win32\ClockImpl.hpp">
+      <Filter>Source Files\System\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SFML\System\Win32\MutexImpl.hpp">
+      <Filter>Source Files\System\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SFML\System\Win32\ThreadImpl.hpp">
+      <Filter>Source Files\System\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SFML\System\Win32\ThreadLocalImpl.hpp">
+      <Filter>Source Files\System\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\Network\Http.hpp">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\Network\IpAddress.hpp">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\Network\Packet.hpp">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\Network\Socket.hpp">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\Network\SocketHandle.hpp">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\Network\SocketSelector.hpp">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\Network\TcpListener.hpp">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\Network\TcpSocket.hpp">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\Network\UdpSocket.hpp">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\Clock.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\Err.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\Export.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\FileInputStream.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\InputStream.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\Lock.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\MemoryInputStream.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\Mutex.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\NativeActivity.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\NonCopyable.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\String.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\Thread.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\ThreadLocal.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\ThreadLocalPtr.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\Time.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\Utf.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\Vector2.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System\Vector3.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\Config.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\Network.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SFML\System.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SFML\Network\Win32\SocketImpl.hpp">
+      <Filter>Source Files\Network\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SFML\Network\Unix\SocketImpl.hpp">
+      <Filter>Source Files\Network\Unix</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="include\SFML\System\String.inl">
+      <Filter>Header Files\System</Filter>
+    </None>
+    <None Include="include\SFML\System\Thread.inl">
+      <Filter>Header Files\System</Filter>
+    </None>
+    <None Include="include\SFML\System\ThreadLocalPtr.inl">
+      <Filter>Header Files\System</Filter>
+    </None>
+    <None Include="include\SFML\System\Utf.inl">
+      <Filter>Header Files\System</Filter>
+    </None>
+    <None Include="include\SFML\System\Vector2.inl">
+      <Filter>Header Files\System</Filter>
+    </None>
+    <None Include="include\SFML\System\Vector3.inl">
+      <Filter>Header Files\System</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/System/Export.hpp>
+
 #include <SFML/System/NonCopyable.hpp>
 #include <cstdlib>
 
@@ -45,7 +45,7 @@ namespace priv
 /// \brief Utility class to manipulate threads
 ///
 ////////////////////////////////////////////////////////////
-class SFML_SYSTEM_API Thread : NonCopyable
+class Thread : NonCopyable
 {
 public:
 

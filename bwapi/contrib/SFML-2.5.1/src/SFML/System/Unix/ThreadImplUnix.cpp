@@ -1,3 +1,4 @@
+#ifndef WIN32
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
@@ -22,53 +23,74 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_GPUPREFERENCE_HPP
-#define SFML_GPUPREFERENCE_HPP
+////////////////////////////////////////////////////////////
+// Headers
+////////////////////////////////////////////////////////////
+#include <SFML/System/Unix/ThreadImpl.hpp>
+#include <SFML/System/Thread.hpp>
+#include <iostream>
+#include <cassert>
+
+
+namespace sf
+{
+namespace priv
+{
+////////////////////////////////////////////////////////////
+ThreadImpl::ThreadImpl(Thread* owner) :
+m_isActive(true)
+{
+    m_isActive = pthread_create(&m_thread, NULL, &ThreadImpl::entryPoint, owner) == 0;
+
+    if (!m_isActive)
+        std::cerr << "Failed to create thread" << std::endl;
+}
 
 
 ////////////////////////////////////////////////////////////
-/// Headers
-////////////////////////////////////////////////////////////
-#include <SFML/Config.hpp>
+void ThreadImpl::wait()
+{
+    if (m_isActive)
+    {
+        assert(pthread_equal(pthread_self(), m_thread) == 0); // A thread cannot wait for itself!
+        pthread_join(m_thread, NULL);
+    }
+}
 
 
 ////////////////////////////////////////////////////////////
-/// \file
-///
-/// \brief File containing SFML_DEFINE_DISCRETE_GPU_PREFERENCE
-///
-////////////////////////////////////////////////////////////
+void ThreadImpl::terminate()
+{
+    if (m_isActive)
+    {
+        #ifndef SFML_SYSTEM_ANDROID
+            pthread_cancel(m_thread);
+        #else
+            // See https://stackoverflow.com/questions/4610086/pthread-cancel-al
+            pthread_kill(m_thread, SIGUSR1);
+        #endif
+    }
+}
 
 
 ////////////////////////////////////////////////////////////
-/// \def SFML_DEFINE_DISCRETE_GPU_PREFERENCE
-///
-/// \brief A macro to encourage usage of the discrete GPU
-///
-/// In order to inform the Nvidia/AMD driver that an SFML
-/// application could benefit from using the more powerful
-/// discrete GPU, special symbols have to be publicly
-/// exported from the final executable.
-///
-/// SFML defines a helper macro to easily do this.
-///
-/// Place SFML_DEFINE_DISCRETE_GPU_PREFERENCE in the
-/// global scope of a source file that will be linked into
-/// the final executable. Typically it is best to place it
-/// where the main function is also defined.
-///
-////////////////////////////////////////////////////////////
-#if defined(SFML_SYSTEM_WINDOWS)
+void* ThreadImpl::entryPoint(void* userData)
+{
+    // The Thread instance is stored in the user data
+    Thread* owner = static_cast<Thread*>(userData);
 
-    #define SFML_DEFINE_DISCRETE_GPU_PREFERENCE \
-                extern "C" __declspec(dllexport) unsigned long NvOptimusEnablement = 1; \
-                extern "C" __declspec(dllexport) unsigned long AmdPowerXpressRequestHighPerformance = 1;
+    #ifndef SFML_SYSTEM_ANDROID
+        // Tell the thread to handle cancel requests immediately
+        pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+    #endif
 
-#else
+    // Forward to the owner
+    owner->run();
 
-    #define SFML_DEFINE_DISCRETE_GPU_PREFERENCE
+    return NULL;
+}
 
+} // namespace priv
+
+} // namespace sf
 #endif
-
-
-#endif // SFML_GPUPREFERENCE_HPP

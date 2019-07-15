@@ -1,3 +1,4 @@
+#ifdef WIN32
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
@@ -22,47 +23,63 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_GRAPHICS_HPP
-#define SFML_GRAPHICS_HPP
+#ifndef SFML_MUTEXIMPL_HPP
+#define SFML_MUTEXIMPL_HPP
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-
-#include <SFML/Window.hpp>
-#include <SFML/Graphics/BlendMode.hpp>
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/ConvexShape.hpp>
-#include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Font.hpp>
-#include <SFML/Graphics/Glyph.hpp>
-#include <SFML/Graphics/Image.hpp>
-#include <SFML/Graphics/PrimitiveType.hpp>
-#include <SFML/Graphics/Rect.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Graphics/RenderStates.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Graphics/RenderTexture.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/Shader.hpp>
-#include <SFML/Graphics/Shape.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/Text.hpp>
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Transform.hpp>
-#include <SFML/Graphics/Transformable.hpp>
-#include <SFML/Graphics/Vertex.hpp>
-#include <SFML/Graphics/VertexArray.hpp>
-#include <SFML/Graphics/VertexBuffer.hpp>
-#include <SFML/Graphics/View.hpp>
+#include <SFML/System/NonCopyable.hpp>
+#include <windows.h>
 
 
-#endif // SFML_GRAPHICS_HPP
-
+namespace sf
+{
+namespace priv
+{
 ////////////////////////////////////////////////////////////
-/// \defgroup graphics Graphics module
-///
-/// 2D graphics module: sprites, text, shapes, ...
-///
+/// \brief Windows implementation of mutexes
 ////////////////////////////////////////////////////////////
+class MutexImpl : NonCopyable
+{
+public:
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Default constructor
+    ///
+    ////////////////////////////////////////////////////////////
+    MutexImpl();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Destructor
+    ///
+    ////////////////////////////////////////////////////////////
+    ~MutexImpl();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Lock the mutex
+    ///
+    ////////////////////////////////////////////////////////////
+    void lock();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Unlock the mutex
+    ///
+    ////////////////////////////////////////////////////////////
+    void unlock();
+
+private:
+
+    ////////////////////////////////////////////////////////////
+    // Member data
+    ////////////////////////////////////////////////////////////
+    CRITICAL_SECTION m_mutex; ///< Win32 handle of the mutex
+};
+
+} // namespace priv
+
+} // namespace sf
+
+
+#endif // SFML_MUTEXIMPL_HPP
+#endif

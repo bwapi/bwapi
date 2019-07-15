@@ -58,6 +58,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FBF749BE
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FunctionalTests", "Frontend\FunctionalTests\FunctionalTests.vcxproj", "{DA4E605C-49AA-48A6-B2FB-58019678E02E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFML", "contrib\SFML-2.5.1\SFML.vcxproj", "{D578AFBF-FCB3-4668-8096-C54BCA22C16F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -266,6 +268,18 @@ Global
 		{DA4E605C-49AA-48A6-B2FB-58019678E02E}.Release|Win32.Build.0 = Release|Win32
 		{DA4E605C-49AA-48A6-B2FB-58019678E02E}.Release|x64.ActiveCfg = Release|x64
 		{DA4E605C-49AA-48A6-B2FB-58019678E02E}.Release|x64.Build.0 = Release|x64
+		{D578AFBF-FCB3-4668-8096-C54BCA22C16F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D578AFBF-FCB3-4668-8096-C54BCA22C16F}.Debug|Win32.Build.0 = Debug|Win32
+		{D578AFBF-FCB3-4668-8096-C54BCA22C16F}.Debug|x64.ActiveCfg = Debug|x64
+		{D578AFBF-FCB3-4668-8096-C54BCA22C16F}.Debug|x64.Build.0 = Debug|x64
+		{D578AFBF-FCB3-4668-8096-C54BCA22C16F}.Installer_Target|Win32.ActiveCfg = Release|Win32
+		{D578AFBF-FCB3-4668-8096-C54BCA22C16F}.Installer_Target|Win32.Build.0 = Release|Win32
+		{D578AFBF-FCB3-4668-8096-C54BCA22C16F}.Installer_Target|x64.ActiveCfg = Release|x64
+		{D578AFBF-FCB3-4668-8096-C54BCA22C16F}.Installer_Target|x64.Build.0 = Release|x64
+		{D578AFBF-FCB3-4668-8096-C54BCA22C16F}.Release|Win32.ActiveCfg = Release|Win32
+		{D578AFBF-FCB3-4668-8096-C54BCA22C16F}.Release|Win32.Build.0 = Release|Win32
+		{D578AFBF-FCB3-4668-8096-C54BCA22C16F}.Release|x64.ActiveCfg = Release|x64
+		{D578AFBF-FCB3-4668-8096-C54BCA22C16F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

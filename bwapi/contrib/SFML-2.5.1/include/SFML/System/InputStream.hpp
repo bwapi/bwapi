@@ -29,7 +29,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Config.hpp>
-#include <SFML/System/Export.hpp>
+
 
 
 namespace sf
@@ -38,7 +38,7 @@ namespace sf
 /// \brief Abstract class for custom file input streams
 ///
 ////////////////////////////////////////////////////////////
-class SFML_SYSTEM_API InputStream
+class InputStream
 {
 public:
 

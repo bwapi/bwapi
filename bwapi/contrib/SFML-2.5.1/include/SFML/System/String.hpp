@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/System/Export.hpp>
+
 #include <SFML/System/Utf.hpp>
 #include <iterator>
 #include <locale>
@@ -42,7 +42,7 @@ namespace sf
 ///        conversions between types and encodings
 ///
 ////////////////////////////////////////////////////////////
-class SFML_SYSTEM_API String
+class String
 {
 public:
 
@@ -518,8 +518,8 @@ public:
 
 private:
 
-    friend SFML_SYSTEM_API bool operator ==(const String& left, const String& right);
-    friend SFML_SYSTEM_API bool operator <(const String& left, const String& right);
+    friend bool operator ==(const String& left, const String& right);
+    friend bool operator <(const String& left, const String& right);
 
     ////////////////////////////////////////////////////////////
     // Member data
@@ -537,7 +537,7 @@ private:
 /// \return True if both strings are equal
 ///
 ////////////////////////////////////////////////////////////
-SFML_SYSTEM_API bool operator ==(const String& left, const String& right);
+bool operator ==(const String& left, const String& right);
 
 ////////////////////////////////////////////////////////////
 /// \relates String
@@ -549,7 +549,7 @@ SFML_SYSTEM_API bool operator ==(const String& left, const String& right);
 /// \return True if both strings are different
 ///
 ////////////////////////////////////////////////////////////
-SFML_SYSTEM_API bool operator !=(const String& left, const String& right);
+bool operator !=(const String& left, const String& right);
 
 ////////////////////////////////////////////////////////////
 /// \relates String
@@ -561,7 +561,7 @@ SFML_SYSTEM_API bool operator !=(const String& left, const String& right);
 /// \return True if \a left is lexicographically before \a right
 ///
 ////////////////////////////////////////////////////////////
-SFML_SYSTEM_API bool operator <(const String& left, const String& right);
+bool operator <(const String& left, const String& right);
 
 ////////////////////////////////////////////////////////////
 /// \relates String
@@ -573,7 +573,7 @@ SFML_SYSTEM_API bool operator <(const String& left, const String& right);
 /// \return True if \a left is lexicographically after \a right
 ///
 ////////////////////////////////////////////////////////////
-SFML_SYSTEM_API bool operator >(const String& left, const String& right);
+bool operator >(const String& left, const String& right);
 
 ////////////////////////////////////////////////////////////
 /// \relates String
@@ -585,7 +585,7 @@ SFML_SYSTEM_API bool operator >(const String& left, const String& right);
 /// \return True if \a left is lexicographically before or equivalent to \a right
 ///
 ////////////////////////////////////////////////////////////
-SFML_SYSTEM_API bool operator <=(const String& left, const String& right);
+bool operator <=(const String& left, const String& right);
 
 ////////////////////////////////////////////////////////////
 /// \relates String
@@ -597,7 +597,7 @@ SFML_SYSTEM_API bool operator <=(const String& left, const String& right);
 /// \return True if \a left is lexicographically after or equivalent to \a right
 ///
 ////////////////////////////////////////////////////////////
-SFML_SYSTEM_API bool operator >=(const String& left, const String& right);
+bool operator >=(const String& left, const String& right);
 
 ////////////////////////////////////////////////////////////
 /// \relates String
@@ -609,7 +609,7 @@ SFML_SYSTEM_API bool operator >=(const String& left, const String& right);
 /// \return Concatenated string
 ///
 ////////////////////////////////////////////////////////////
-SFML_SYSTEM_API String operator +(const String& left, const String& right);
+String operator +(const String& left, const String& right);
 
 #include <SFML/System/String.inl>
 

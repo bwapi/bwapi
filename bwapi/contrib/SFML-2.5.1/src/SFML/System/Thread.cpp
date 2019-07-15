@@ -22,31 +22,66 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_SLEEP_HPP
-#define SFML_SLEEP_HPP
-
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/System/Export.hpp>
-#include <SFML/System/Time.hpp>
+#include <SFML/Config.hpp>
+#include <SFML/System/Thread.hpp>
+
+
+#if defined(SFML_SYSTEM_WINDOWS)
+    #include <SFML/System/Win32/ThreadImpl.hpp>
+#else
+    #include <SFML/System/Unix/ThreadImpl.hpp>
+#endif
 
 
 namespace sf
 {
 ////////////////////////////////////////////////////////////
-/// \ingroup system
-/// \brief Make the current thread sleep for a given duration
-///
-/// sf::sleep is the best way to block a program or one of its
-/// threads, as it doesn't consume any CPU power.
-///
-/// \param duration Time to sleep
-///
+Thread::~Thread()
+{
+    wait();
+    delete m_entryPoint;
+}
+
+
 ////////////////////////////////////////////////////////////
-void SFML_SYSTEM_API sleep(Time duration);
+void Thread::launch()
+{
+    wait();
+    m_impl = new priv::ThreadImpl(this);
+}
+
+
+////////////////////////////////////////////////////////////
+void Thread::wait()
+{
+    if (m_impl)
+    {
+        m_impl->wait();
+        delete m_impl;
+        m_impl = NULL;
+    }
+}
+
+
+////////////////////////////////////////////////////////////
+void Thread::terminate()
+{
+    if (m_impl)
+    {
+        m_impl->terminate();
+        delete m_impl;
+        m_impl = NULL;
+    }
+}
+
+
+////////////////////////////////////////////////////////////
+void Thread::run()
+{
+    m_entryPoint->run();
+}
 
 } // namespace sf
-
-
-#endif // SFML_SLEEP_HPP

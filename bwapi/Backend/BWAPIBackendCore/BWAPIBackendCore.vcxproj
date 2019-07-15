@@ -28,6 +28,9 @@
     <ClInclude Include="BWAPIProtoClient.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\contrib\SFML-2.5.1\SFML.vcxproj">
+      <Project>{d578afbf-fcb3-4668-8096-c54bca22c16f}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Messages\Messages.vcxproj">
       <Project>{d85bfae4-ce79-4f4d-a032-ffa45b559e29}</Project>
     </ProjectReference>
@@ -86,7 +89,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)contrib\SFML-2.5.1\include;$(SolutionDir)/Backend/libprotobuf-lite/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)contrib/SFML-2.5.1/include;$(SolutionDir)/Backend/libprotobuf-lite/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -113,7 +116,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)contrib\SFML-2.5.1\include;$(SolutionDir)/Backend/libprotobuf-lite/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)contrib/SFML-2.5.1/include;$(SolutionDir)/Backend/libprotobuf-lite/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>

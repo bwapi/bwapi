@@ -82,7 +82,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-network-s-d.lib;sfml-system-s-d.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)contrib\SFML-2.5.1\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -109,7 +109,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-network-s.lib;sfml-system-s.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)contrib\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -136,6 +136,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Backend\Messages\Messages.vcxproj">
       <Project>{d85bfae4-ce79-4f4d-a032-ffa45b559e29}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\contrib\SFML-2.5.1\SFML.vcxproj">
+      <Project>{d578afbf-fcb3-4668-8096-c54bca22c16f}</Project>
     </ProjectReference>
     <ProjectReference Include="..\BWAPIFrontendClient\BWAPIFrontendClient.vcxproj">
       <Project>{760e9359-ec46-48f7-ae1d-e238b17c4797}</Project>

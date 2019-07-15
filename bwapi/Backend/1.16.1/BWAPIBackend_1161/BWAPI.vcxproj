@@ -55,7 +55,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Messages.lib;libprotobuf-lite.lib;BWAPIBackendCore.lib;sfml-network-s-d.lib;sfml-system-s-d.lib;ws2_32.lib;winmm.lib;Vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Messages.lib;libprotobuf-lite.lib;ws2_32.lib;winmm.lib;Vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -95,7 +95,7 @@ popd</Command>
       </Command>
     </PreLinkEvent>
     <Link>
-      <AdditionalDependencies>Messages.lib;libprotobuf-lite.lib;BWAPIBackendCore.lib;sfml-network-s.lib;sfml-system-s.lib;ws2_32.lib;winmm.lib;Vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Messages.lib;libprotobuf-lite.lib;ws2_32.lib;winmm.lib;Vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -114,6 +114,9 @@ popd</Command>
     <ProjectReference />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\contrib\SFML-2.5.1\SFML.vcxproj">
+      <Project>{d578afbf-fcb3-4668-8096-c54bca22c16f}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Frontend\BWAPILIB\BWAPILIB.vcxproj">
       <Project>{843656fd-9bfd-47bf-8460-7bfe9710ea2c}</Project>
     </ProjectReference>

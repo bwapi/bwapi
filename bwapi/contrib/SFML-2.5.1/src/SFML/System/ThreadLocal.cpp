@@ -22,22 +22,46 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_MAIN_HPP
-#define SFML_MAIN_HPP
-
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Config.hpp>
+#include <SFML/System/ThreadLocal.hpp>
 
-
-#if defined(SFML_SYSTEM_IOS)
-
-    // On iOS, we have no choice but to have our own main,
-    // so we need to rename the user one and call it later
-    #define main sfmlMain
-
+#if defined(SFML_SYSTEM_WINDOWS)
+    #include <SFML/System/Win32/ThreadLocalImpl.hpp>
+#else
+    #include <SFML/System/Unix/ThreadLocalImpl.hpp>
 #endif
 
 
-#endif // SFML_MAIN_HPP
+namespace sf
+{
+////////////////////////////////////////////////////////////
+ThreadLocal::ThreadLocal(void* value)
+{
+    m_impl = new priv::ThreadLocalImpl;
+    setValue(value);
+}
+
+
+////////////////////////////////////////////////////////////
+ThreadLocal::~ThreadLocal()
+{
+    delete m_impl;
+}
+
+
+////////////////////////////////////////////////////////////
+void ThreadLocal::setValue(void* value)
+{
+    m_impl->setValue(value);
+}
+
+
+////////////////////////////////////////////////////////////
+void* ThreadLocal::getValue() const
+{
+    return m_impl->getValue();
+}
+
+} // namespace sf

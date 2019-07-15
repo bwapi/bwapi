@@ -22,37 +22,80 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_SFML_WINDOW_HPP
-#define SFML_SFML_WINDOW_HPP
-
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-
-#include <SFML/System.hpp>
-#include <SFML/Window/Clipboard.hpp>
-#include <SFML/Window/Context.hpp>
-#include <SFML/Window/ContextSettings.hpp>
-#include <SFML/Window/Cursor.hpp>
-#include <SFML/Window/Event.hpp>
-#include <SFML/Window/Joystick.hpp>
-#include <SFML/Window/Keyboard.hpp>
-#include <SFML/Window/Mouse.hpp>
-#include <SFML/Window/Sensor.hpp>
-#include <SFML/Window/Touch.hpp>
-#include <SFML/Window/VideoMode.hpp>
-#include <SFML/Window/Window.hpp>
-#include <SFML/Window/WindowHandle.hpp>
-#include <SFML/Window/WindowStyle.hpp>
+#include <SFML/System/MemoryInputStream.hpp>
+#include <cstring>
 
 
+namespace sf
+{
+////////////////////////////////////////////////////////////
+MemoryInputStream::MemoryInputStream() :
+m_data  (NULL),
+m_size  (0),
+m_offset(0)
+{
+}
 
-#endif // SFML_SFML_WINDOW_HPP
 
 ////////////////////////////////////////////////////////////
-/// \defgroup window Window module
-///
-/// Provides OpenGL-based windows, and abstractions for
-/// events and input handling.
-///
+void MemoryInputStream::open(const void* data, std::size_t sizeInBytes)
+{
+    m_data = static_cast<const char*>(data);
+    m_size = sizeInBytes;
+    m_offset = 0;
+}
+
+
 ////////////////////////////////////////////////////////////
+Int64 MemoryInputStream::read(void* data, Int64 size)
+{
+    if (!m_data)
+        return -1;
+
+    Int64 endPosition = m_offset + size;
+    Int64 count = endPosition <= m_size ? size : m_size - m_offset;
+
+    if (count > 0)
+    {
+        std::memcpy(data, m_data + m_offset, static_cast<std::size_t>(count));
+        m_offset += count;
+    }
+
+    return count;
+}
+
+
+////////////////////////////////////////////////////////////
+Int64 MemoryInputStream::seek(Int64 position)
+{
+    if (!m_data)
+        return -1;
+
+    m_offset = position < m_size ? position : m_size;
+    return m_offset;
+}
+
+
+////////////////////////////////////////////////////////////
+Int64 MemoryInputStream::tell()
+{
+    if (!m_data)
+        return -1;
+
+    return m_offset;
+}
+
+
+////////////////////////////////////////////////////////////
+Int64 MemoryInputStream::getSize()
+{
+    if (!m_data)
+        return -1;
+
+    return m_size;
+}
+
+} // namespace sf
