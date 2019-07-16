@@ -38,9 +38,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DevAIClient", "Clients\DevA
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleAIClient", "Clients\ExampleAIModule\ExampleAIModule.vcxproj", "{2E63AE74-758A-4607-9DE4-D28E814A6E13}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleTournamentModule", "Clients\ExampleTournamentModule\ExampleTournamentModule.vcxproj", "{8D2682F5-7022-40E6-95E3-7257D43639F1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleTournamentClient", "Clients\ExampleTournamentModule\ExampleTournamentModule.vcxproj", "{8D2682F5-7022-40E6-95E3-7257D43639F1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestAIModule", "Clients\TestAIModule\TestAIModule.vcxproj", "{982561B2-A7D0-44E9-BD3D-0FD117E3F882}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestAIClient", "Clients\TestAIModule\TestAIModule.vcxproj", "{982561B2-A7D0-44E9-BD3D-0FD117E3F882}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SVNRevGen", "SVNRevGen\SVNRevGen.vcxproj", "{3CC5BA45-00B1-4B7C-BF07-341C90343F39}"
 EndProject
@@ -166,8 +166,8 @@ Global
 		{2E63AE74-758A-4607-9DE4-D28E814A6E13}.Release|Win32.ActiveCfg = Release|Win32
 		{2E63AE74-758A-4607-9DE4-D28E814A6E13}.Release|Win32.Build.0 = Release|Win32
 		{2E63AE74-758A-4607-9DE4-D28E814A6E13}.Release|x64.ActiveCfg = Release|Win32
-		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Debug|Win32.ActiveCfg = Release|Win32
-		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Debug|Win32.Build.0 = Release|Win32
+		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Debug|Win32.Build.0 = Debug|Win32
 		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Debug|x64.ActiveCfg = Release|Win32
 		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Debug|x64.Build.0 = Release|Win32
 		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Installer_Target|Win32.ActiveCfg = Release|Win32
