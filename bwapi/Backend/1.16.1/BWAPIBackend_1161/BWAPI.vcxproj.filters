@@ -209,9 +209,6 @@
       <Filter>BW\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="starcraftver.h" />
-    <ClInclude Include="bwapi4_include\BWAPI\Bullet.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Player.h">
       <Filter>Interface</Filter>
     </ClInclude>

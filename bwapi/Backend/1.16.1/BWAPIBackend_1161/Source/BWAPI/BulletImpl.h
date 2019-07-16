@@ -1,7 +1,5 @@
 #pragma once
 
-#include "BWAPI/Bullet.h"
-
 #include "../Types.h"
 #include <BWAPI/Position.h>
 #include <BWAPI/Client/BulletData.h>
@@ -13,16 +11,19 @@ namespace BWAPI
   class UnitImpl;
   class BulletType;
 
+  class PlayerInterface;
+  typedef PlayerInterface* Player;
+
   /**
    * Interface for broodwar bullets, can be used to obtain any information
    * about bullets and spells
    */
-  class BulletImpl : public BulletInterface
+  class BulletImpl
   {
     public:
-      virtual int        getID() const override;
-      virtual bool       exists() const override;
-      virtual bool       isVisible(Player player = nullptr) const override;
+      int        getID() const;
+      bool       exists() const;
+      bool       isVisible(Player player = nullptr) const;
 
       BulletImpl(BW::CBullet* originalBullet, u16 index);
 
