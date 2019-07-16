@@ -89,8 +89,6 @@ namespace BWAPI
 
     virtual int completedUnitCount(UnitType unit = UnitTypes::AllUnits) const = 0;
 
-    int incompleteUnitCount(UnitType unit = UnitTypes::AllUnits) const;
-
     virtual int deadUnitCount(UnitType unit = UnitTypes::AllUnits) const = 0;
 
     virtual int killedUnitCount(UnitType unit = UnitTypes::AllUnits) const = 0;
@@ -106,20 +104,6 @@ namespace BWAPI
     virtual BWAPI::Color getColor() const = 0;
 
     char getTextColor() const;
-
-    int maxEnergy(UnitType unit) const;
-
-    double topSpeed(UnitType unit) const;
-
-    int weaponMaxRange(WeaponType weapon) const;
-
-    int sightRange(UnitType unit) const;
-
-    int weaponDamageCooldown(UnitType unit) const;
-
-    int armor(UnitType unit) const;
-
-    int damage(WeaponType wpn) const;
 
     virtual int getUnitScore() const = 0;
 
@@ -140,5 +124,7 @@ namespace BWAPI
     virtual bool isUnitAvailable(UnitType unit) const = 0;
 
     bool hasUnitTypeRequirement(UnitType unit, int amount = 1) const;
+
+    int weaponMaxRange(WeaponType weapon) const;
   };
 };

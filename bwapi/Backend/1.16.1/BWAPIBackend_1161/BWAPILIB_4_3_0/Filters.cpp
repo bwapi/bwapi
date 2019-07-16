@@ -64,10 +64,7 @@ namespace BWAPI
     U_CFILTER(Shields_Percent, (u->getType().maxShields() != 0) ? ((u->getShields()*100) / u->getType().maxShields()) : 0 );
   
     U_CFILTER(Energy, u->getEnergy() );
-    U_CFILTER(MaxEnergy, u->getPlayer()->maxEnergy(u->getType()) );
-    U_CFILTER(Energy_Percent, (u->getPlayer()->maxEnergy(u->getType()) != 0) ? ((u->getEnergy()*100) / u->getPlayer()->maxEnergy(u->getType())) : 0 );
 
-    U_CFILTER(Armor, u->getPlayer()->armor(u->getType()) );
     U_CFILTERX(ArmorUpgrade, u->getType().armorUpgrade(), UpgradeType );
 
     U_CFILTER(MineralPrice, u->getType().mineralPrice() );
@@ -84,9 +81,6 @@ namespace BWAPI
     U_CFILTER(BuildScore, u->getType().buildScore() );
     U_CFILTER(DestroyScore, u->getType().destroyScore() );
 
-    U_CFILTERX(TopSpeed, u->getPlayer()->topSpeed(u->getType()), double );
-    U_CFILTER(SightRange, u->getPlayer()->sightRange(u->getType()) );
-    U_CFILTER(MaxWeaponCooldown, u->getPlayer()->weaponDamageCooldown(u->getType()) );
     U_CFILTERX(SizeType, u->getType().size(), UnitSizeType );
 
     U_CFILTERX(GroundWeapon, u->getType().groundWeapon(), WeaponType );

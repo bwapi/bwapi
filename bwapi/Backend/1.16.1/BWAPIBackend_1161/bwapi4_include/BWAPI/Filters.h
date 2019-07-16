@@ -151,16 +151,6 @@ namespace BWAPI
     /// @see BWAPI::UnitInterface::getEnergy
     extern const PtrIntCompareUnitFilter Energy;
     
-    /// @see BWAPI::PlayerInterface::maxEnergy
-    extern const PtrIntCompareUnitFilter MaxEnergy;
-    
-    /// <summary>A comparison filter that retrieves the unit's energy percentage.</summary> The
-    /// formula is Energy*100/MaxEnergy.
-    extern const PtrIntCompareUnitFilter Energy_Percent;
-
-    /// @see BWAPI::PlayerInterface::armor
-    extern const PtrIntCompareUnitFilter Armor;
-
     /// @see BWAPI::UnitType::armorUpgrade
     extern const CompareFilter<Unit ,UpgradeType,UpgradeType (*)(Unit )> ArmorUpgrade;
 
@@ -193,15 +183,6 @@ namespace BWAPI
 
     /// @see BWAPI::UnitType::destroyScore
     extern const PtrIntCompareUnitFilter DestroyScore;
-
-    /// @see BWAPI::PlayerInterface::topSpeed
-    extern const CompareFilter<Unit ,double,double (*)(Unit )> TopSpeed;
-
-    /// @see BWAPI::PlayerInterface::sightRange
-    extern const PtrIntCompareUnitFilter SightRange;
-
-    /// @see BWAPI::PlayerInterface::weaponDamageCooldown
-    extern const PtrIntCompareUnitFilter WeaponCooldown;
 
     /// @see BWAPI::UnitType::size
     extern const CompareFilter<Unit ,UnitSizeType,UnitSizeType (*)(Unit )> SizeType;
