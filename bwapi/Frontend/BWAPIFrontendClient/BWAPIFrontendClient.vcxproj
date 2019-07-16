@@ -101,6 +101,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableLanguageExtensions>true</DisableLanguageExtensions>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -118,6 +119,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableLanguageExtensions>true</DisableLanguageExtensions>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

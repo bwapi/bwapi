@@ -32,7 +32,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <PreprocessorDefinitions>NOMINMAX;WIN32;_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010300;NDEBUG;_WINDOWS;_USRDLL;STORM_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StructMemberAlignment>1Byte</StructMemberAlignment>
       <WarningLevel>Level4</WarningLevel>
       <UseFullPaths>true</UseFullPaths>

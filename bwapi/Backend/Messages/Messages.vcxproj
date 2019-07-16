@@ -73,7 +73,6 @@
       <Optimization>Disabled</Optimization>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)/Backend/libprotobuf-lite/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableLanguageExtensions>true</DisableLanguageExtensions>
@@ -97,7 +96,6 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)/Backend/libprotobuf-lite/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableLanguageExtensions>true</DisableLanguageExtensions>
     </ClCompile>
