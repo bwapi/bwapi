@@ -241,13 +241,13 @@ void GameImpl::updateOverlays()
       {
         for ( int i = 0; i < 32; i += 4 )
         {
-          drawLineMap(x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI::Colors::Grey);
-          drawLineMap(x*32 + i, y*32 + 32, x*32 + i + 2, y*32 + 32, BWAPI::Colors::Grey);
+          drawLine(CoordinateType::Map, x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI::Colors::Grey);
+          drawLine(CoordinateType::Map, x*32 + i, y*32 + 32, x*32 + i + 2, y*32 + 32, BWAPI::Colors::Grey);
         }
       }
     }
     setTextSize(Text::Size::Small);
-    drawTextScreen(64, 288, "%c(%u, %u)", Text::White, (scrPos.x+this->getMousePosition().x)/32, (scrPos.y+this->getMousePosition().y)/32);
+    drawText(CoordinateType::Screen, 64, 288, "%c(%u, %u)", Text::White, (scrPos.x+this->getMousePosition().x)/32, (scrPos.y+this->getMousePosition().y)/32);
     setTextSize();
   } // grid
 
@@ -255,7 +255,7 @@ void GameImpl::updateOverlays()
   if ( showfps )
   {
     setTextSize(Text::Size::Small);
-    drawTextScreen(1,1, "%cFrame Rate (Logical Frames)\nLFPS: %d\nAvg LFPS:%.3lf", BWAPI::Text::Yellow, this->getFPS(), this->getAverageFPS());
+    drawText(CoordinateType::Screen, 1,1, "%cFrame Rate (Logical Frames)\nLFPS: %d\nAvg LFPS:%.3lf", BWAPI::Text::Yellow, this->getFPS(), this->getAverageFPS());
     setTextSize();
   } // fps
 
