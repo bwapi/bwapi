@@ -119,5 +119,8 @@
     <ClInclude Include="src\SFML\Network\Unix\SocketImpl.hpp">
       <Filter>Source Files\Network\Unix</Filter>
     </ClInclude>
+    <ClInclude Include="src\SFML\Network\Win32\SFML_Winsock.hpp">
+      <Filter>Source Files\Network\Win32</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

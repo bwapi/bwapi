@@ -48,6 +48,7 @@
     <ClInclude Include="include\SFML\System\Time.hpp" />
     <ClInclude Include="src\SFML\Network\SocketImpl.hpp" />
     <ClInclude Include="src\SFML\Network\Unix\SocketImpl.hpp" />
+    <ClInclude Include="src\SFML\Network\Win32\SFML_Winsock.hpp" />
     <ClInclude Include="src\SFML\Network\Win32\SocketImpl.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
