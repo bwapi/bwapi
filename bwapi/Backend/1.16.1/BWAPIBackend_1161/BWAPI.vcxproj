@@ -136,7 +136,6 @@ popd</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bwapi4_include\BWAPI\BestFilter.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Bullet.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Bulletset.h" />
     <ClInclude Include="bwapi4_include\BWAPI\BulletType.h" />

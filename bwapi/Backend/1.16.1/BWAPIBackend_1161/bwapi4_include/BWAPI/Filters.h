@@ -1,7 +1,6 @@
 #pragma once
 #include <BWAPI/UnaryFilter.h>
 #include <BWAPI/ComparisonFilter.h>
-#include <BWAPI/BestFilter.h>
 #include <BWAPI/UnitSizeType.h>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/WeaponType.h>
@@ -20,7 +19,6 @@ namespace BWAPI
   // typedefs
   typedef UnaryFilter<Unit > UnitFilter;
   typedef UnaryFilter<Unit ,bool (*)(Unit )> PtrUnitFilter;
-  typedef BestFilter<Unit >  BestUnitFilter;
   typedef CompareFilter<Unit ,int,int(*)(Unit )> PtrIntCompareUnitFilter;
 
   namespace Filter

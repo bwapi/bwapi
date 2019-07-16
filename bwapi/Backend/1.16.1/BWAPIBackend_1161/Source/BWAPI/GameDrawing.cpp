@@ -125,8 +125,7 @@ namespace BWAPI
   //-------------------------------------------------- DRAW TEXT ---------------------------------------------
   void GameImpl::setTextSize(Text::Size::Enum size)
   {
-    size = std::clamp(size, Text::Size::Small, Text::Size::Huge);
-    this->textSize = size;
+    this->textSize = std::clamp(size, Text::Size::Small, Text::Size::Huge);
   }
   void GameImpl::vDrawText(CoordinateType::Enum ctype, int x, int y, const char *format, va_list arg)
   {

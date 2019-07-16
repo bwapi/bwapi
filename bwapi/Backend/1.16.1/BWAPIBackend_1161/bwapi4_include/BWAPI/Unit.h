@@ -206,12 +206,6 @@ namespace BWAPI
 
     virtual Unitset getLarva() const = 0;
 
-    Unitset getUnitsInRadius(int radius, const UnitFilter &pred = nullptr) const;
-
-    Unitset getUnitsInWeaponRange(WeaponType weapon, const UnitFilter &pred = nullptr) const;
-
-    Unit getClosestUnit(const UnitFilter &pred = nullptr, int radius = 999999) const;
-
     virtual bool hasNuke() const = 0;
 
     virtual bool isAccelerating() const = 0;

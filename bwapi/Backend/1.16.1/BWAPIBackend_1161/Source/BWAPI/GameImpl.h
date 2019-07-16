@@ -91,8 +91,6 @@ namespace BWAPI
       void    enableFlag(int flag);
 
       Unitset getUnitsInRectangle(int left, int top, int right, int bottom, const UnitFilter &pred = nullptr) const;
-      Unit getClosestUnitInRectangle(Position center, const UnitFilter &pred = nullptr, int left = 0, int top = 0, int right = 999999, int bottom = 999999) const;
-      Unit getBestUnit(const BestUnitFilter &best, const UnitFilter &pred, Position center = Positions::None, int radius = 999999) const;
 
       Error   getLastError() const;
       bool    setLastError(BWAPI::Error e = Errors::None) const;
@@ -189,9 +187,6 @@ namespace BWAPI
       Unitset getUnitsOnTile(int tileX, int tileY, const UnitFilter &pred = nullptr) const;
       Unitset getUnitsOnTile(BWAPI::TilePosition tile, const UnitFilter &pred = nullptr) const;
       Unitset getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight, const UnitFilter &pred = nullptr) const;
-      Unitset getUnitsInRadius(int x, int y, int radius, const UnitFilter &pred = nullptr) const;
-      Unitset getUnitsInRadius(BWAPI::Position center, int radius, const UnitFilter &pred = nullptr) const;
-      Unit getClosestUnit(Position center, const UnitFilter &pred = nullptr, int radius = 999999) const;
       bool isWalkable(BWAPI::WalkPosition position) const;
       int  getGroundHeight(TilePosition position) const;
       bool isBuildable(TilePosition position, bool includeBuildings = false) const;

@@ -111,30 +111,9 @@ namespace BWAPI
     Position p(tile); // convert to pixel position
     return this->getUnitsInRectangle(p.x, p.y, p.x + 32, p.y + 32, pred);
   }
-  Unitset GameImpl::getUnitsInRadius(int x, int y, int radius, const UnitFilter &pred) const
-  {
-    return this->getUnitsInRectangle(x - radius,
-                                     y - radius,
-                                     x + radius,
-                                     y + radius,
-                                     [&x,&y,&radius,&pred](Unit u){ return u->getDistance(Position(x,y)) <= radius && (!pred.isValid() || pred(u)); });
-  }
-  Unitset GameImpl::getUnitsInRadius(Position center, int radius, const UnitFilter &pred) const
-  {
-    return this->getUnitsInRadius(center.x, center.y, radius, pred);
-  }
   Unitset GameImpl::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight, const UnitFilter &pred) const
   {
     return this->getUnitsInRectangle(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y, pred);
-  }
-  Unit GameImpl::getClosestUnit(Position center, const UnitFilter &pred, int radius) const
-  {
-    return this->getClosestUnitInRectangle(center,
-                                            [&](Unit u){ return u->getDistance(center) <= radius && (!pred.isValid() || pred(u));},
-                                            center.x - radius,
-                                            center.y - radius,
-                                            center.x + radius,
-                                            center.y + radius);
   }
   //------------------------------------------ REGIONS -----------------------------------------------
   BWAPI::Region GameImpl::getRegionAt(BWAPI::Position position) const

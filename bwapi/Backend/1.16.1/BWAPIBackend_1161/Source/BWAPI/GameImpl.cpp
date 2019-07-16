@@ -279,58 +279,6 @@ namespace BWAPI
     // Return results
     return unitFinderResults;
   }
-  Unit GameImpl::getClosestUnitInRectangle(Position center, const UnitFilter &pred, int left, int top, int right, int bottom) const
-  {
-    // cppcheck-suppress variableScope
-    int bestDistance = 99999999;
-    Unit pBestUnit = nullptr;
-
-    Templates::iterateUnitFinder<BW::unitFinder>( BW::BWDATA::UnitOrderingX.data(),
-                                                  BW::BWDATA::UnitOrderingY.data(),
-                                                  BW::BWDATA::UnitOrderingCount,
-                                                  left,
-                                                  top,
-                                                  right,
-                                                  bottom,
-                                                  [&](Unit u){ if ( !pred.isValid() || pred(u) )
-                                                                {
-                                                                  int newDistance = u->getDistance(center);
-                                                                  if ( newDistance < bestDistance )
-                                                                  {
-                                                                    pBestUnit = u;
-                                                                    bestDistance = newDistance;
-                                                                  }
-                                                                } } );
-    return pBestUnit;
-  }
-  Unit GameImpl::getBestUnit(const BestUnitFilter &best, const UnitFilter &pred, Position center, int radius) const
-  {
-    Unit pBestUnit = nullptr;
-    Position rad(radius,radius);
-    
-    Position topLeft(center - rad);
-    Position botRight(center + rad);
-
-    topLeft.makeValid();
-    botRight.makeValid();
-
-    Templates::iterateUnitFinder<BW::unitFinder>( BW::BWDATA::UnitOrderingX.data(),
-                                                  BW::BWDATA::UnitOrderingY.data(),
-                                                  BW::BWDATA::UnitOrderingCount,
-                                                  topLeft.x,
-                                                  topLeft.y,
-                                                  botRight.x,
-                                                  botRight.y,
-                                                  [&](Unit u){ if ( !pred.isValid() || pred(u) )
-                                                                {
-                                                                  if ( pBestUnit == nullptr )
-                                                                    pBestUnit = u;
-                                                                  else
-                                                                    pBestUnit = best(pBestUnit,u); 
-                                                                } } );
-
-    return pBestUnit;
-  }
   //----------------------------------------------- MAP WIDTH ------------------------------------------------
   int GameImpl::mapWidth() const
   {
