@@ -900,7 +900,7 @@ namespace BWAPI
     return staticNeutralUnits;
   }
   //------------------------------------------------ GET BULLETS ---------------------------------------------
-  const Bulletset& GameImpl::getBullets() const
+  const std::set<BulletImpl*>& GameImpl::getBullets() const
   {
     return bullets;
   }

@@ -230,9 +230,6 @@
     <ClInclude Include="Source\Convenience.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\Bulletset.h">
-      <Filter>Old_BWAPILIB\BWAPI</Filter>
-    </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\BulletType.h">
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>

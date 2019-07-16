@@ -12,7 +12,6 @@
 #include <BWAPI/CoordinateType.h>
 #include <BWAPI/Error.h>
 #include <BWAPI/GameType.h>
-#include <BWAPI/Bulletset.h>
 #include <BWAPI/Color.h>
 
 #include "Command.h"
@@ -34,7 +33,6 @@ namespace BWAPI
 {
   // forwards
   class BulletImpl;
-  class Bulletset;
 
   class PlayerInterface;
   typedef PlayerInterface *Player;
@@ -60,7 +58,7 @@ namespace BWAPI
       const Unitset&  getStaticGeysers() const;
       const Unitset&  getStaticNeutralUnits() const;
 
-      const Bulletset&     getBullets() const;
+      const std::set<BulletImpl*>&     getBullets() const;
       const Position::list& getNukeDots() const;
       const std::list< Event >&   getEvents() const;
 
@@ -330,7 +328,7 @@ namespace BWAPI
       Unitset       minerals;
       Unitset       geysers;
       Unitset       neutralUnits;
-      Bulletset     bullets;
+      std::set<BulletImpl*>     bullets;
       Position::list nukeDots;
       Unitset pylons;
 
