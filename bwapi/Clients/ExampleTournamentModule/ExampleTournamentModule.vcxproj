@@ -6,15 +6,41 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Backend\BWAPIBackendCore\BWAPIBackendCore.vcxproj">
+      <Project>{fa39dbc2-7ea3-4a6b-b125-b1f50a5da824}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Backend\libprotobuf-lite\libprotobuf-lite.vcxproj">
+      <Project>{fb5da788-0a09-3724-85d8-f80903ad1474}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Backend\Messages\Messages.vcxproj">
+      <Project>{d85bfae4-ce79-4f4d-a032-ffa45b559e29}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\contrib\SFML-2.5.1\SFML.vcxproj">
+      <Project>{d578afbf-fcb3-4668-8096-c54bca22c16f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Frontend\BWAPIFrontendClient\BWAPIFrontendClient.vcxproj">
+      <Project>{760e9359-ec46-48f7-ae1d-e238b17c4797}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Frontend\BWAPILIB\BWAPILIB.vcxproj">
+      <Project>{843656fd-9bfd-47bf-8460-7bfe9710ea2c}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8D2682F5-7022-40E6-95E3-7257D43639F1}</ProjectGuid>
     <RootNamespace>ExampleTournamentModule</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <ProjectName>ExampleTournamentClient</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -27,11 +53,14 @@
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/include;$(SolutionDir)Backend/libprotobuf-lite/src;$(SolutionDir)contrib/SFML-2.5.1/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010300;NDEBUG;_WINDOWS;_USRDLL;EXAMPLETOURNAMENTMODULE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>
@@ -48,21 +77,14 @@
     </ClCompile>
     <PreLinkEvent />
     <Link>
-      <AdditionalDependencies>Shlwapi.lib;$(SolutionDir)/lib/BWAPI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Source\Dll.cpp" />
-    <ClCompile Include="Source\ExampleTournamentModule.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Source\ExampleTournamentModule.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
