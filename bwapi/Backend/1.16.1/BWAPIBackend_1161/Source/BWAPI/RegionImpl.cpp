@@ -44,7 +44,7 @@ namespace BWAPI
     for ( int n = 0; n < r->neighborCount; ++n )
     {
       BW::region *neighbor = r->getNeighbor(static_cast<u8>(n));
-      BWAPI::Region bwapiNeighbor = BroodwarImpl.getRegion(neighbor->getIndex());
+      BWAPI::RegionImpl* bwapiNeighbor = BroodwarImpl.getRegion(neighbor->getIndex());
 
       // continue if this is null (but it shouldn't be)
       if ( !bwapiNeighbor )
@@ -126,15 +126,15 @@ namespace BWAPI
     return self->bottomMost;
   }
   // ---------------------------------- NEIGHBOURS -----------------------------------------------------------
-  const Regionset &RegionImpl::getNeighbors() const
+  const std::set<RegionImpl*> &RegionImpl::getNeighbors() const
   {
     return this->neighbors;
   }
-  BWAPI::Region RegionImpl::getClosestAccessibleRegion() const
+  BWAPI::RegionImpl* RegionImpl::getClosestAccessibleRegion() const
   {
     return this->closestAccessibleRgn;
   }
-  BWAPI::Region RegionImpl::getClosestInaccessibleRegion() const
+  BWAPI::RegionImpl* RegionImpl::getClosestInaccessibleRegion() const
   {
     return this->closestInaccessibleRgn;
   }

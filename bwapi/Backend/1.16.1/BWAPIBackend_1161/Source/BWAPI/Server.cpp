@@ -283,7 +283,7 @@ namespace BWAPI
         data->mapSplitTilesRegion1[i] = BW::BWDATA::SAIPathing->splitTiles[i].rgn1;
         data->mapSplitTilesRegion2[i] = BW::BWDATA::SAIPathing->splitTiles[i].rgn2;
 
-        BWAPI::Region r = BroodwarImpl.getRegion(i);
+        BWAPI::RegionImpl* r = BroodwarImpl.getRegion(i);
         if (r)
         {
           auto fillRegionData = [](const RegionData &regionData, bwapi::data::Region *r)

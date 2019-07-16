@@ -3,8 +3,8 @@
 #include <BWAPI/Color.h>
 #include <BWAPI/Unitset.h>
 #include <BWAPI/Unit.h>
-#include <BWAPI/Region.h>
 #include <BWAPI/Filters.h>
+#include <BWAPI/RegionImpl.h>
 #include <BWAPI/Player.h>
 
 #include <BWAPI/UnitSizeType.h>
@@ -116,7 +116,7 @@ namespace BWAPI
     return this->getUnitsInRectangle(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y, pred);
   }
   //------------------------------------------ REGIONS -----------------------------------------------
-  BWAPI::Region GameImpl::getRegionAt(BWAPI::Position position) const
+  BWAPI::RegionImpl* GameImpl::getRegionAt(BWAPI::Position position) const
   {
     return this->getRegionAt(position.x, position.y);
   }
@@ -124,8 +124,8 @@ namespace BWAPI
   {
     if (source.isValid() && destination.isValid())
     {
-      Region rgnA = getRegionAt(source);
-      Region rgnB = getRegionAt(destination);
+      RegionImpl* rgnA = getRegionAt(source);
+      RegionImpl* rgnB = getRegionAt(destination);
       if (rgnA && rgnB && rgnA->getRegionGroupID() == rgnB->getRegionGroupID())
         return this->setLastError();
     }

@@ -40,14 +40,14 @@ namespace BWAPI
       // Iterate regions and insert into region list
       for (u32 i = 0; i < rgnCount; ++i)
       {
-        Region r = new BWAPI::RegionImpl(i);
+        RegionImpl* r = new BWAPI::RegionImpl(i);
         this->regionsList.insert(r);
         this->regionMap[i] = r;
       }
 
       // Iterate regions again and update neighbor lists
-      for ( BWAPI::Region r : this->regionsList )
-        static_cast<RegionImpl*>(r)->UpdateRegionRelations();
+      for ( RegionImpl* r : this->regionsList )
+        r->UpdateRegionRelations();
     } // if SAI_Pathing
 
     // roughly identify which players can possibly participate in this game

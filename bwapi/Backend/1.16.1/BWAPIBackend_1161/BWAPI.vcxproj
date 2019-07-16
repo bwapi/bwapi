@@ -168,8 +168,6 @@ popd</Command>
     <ClInclude Include="bwapi4_include\BWAPI\PlayerType.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Position.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Race.h" />
-    <ClInclude Include="bwapi4_include\BWAPI\Region.h" />
-    <ClInclude Include="bwapi4_include\BWAPI\Regionset.h" />
     <ClInclude Include="bwapi4_include\BWAPI\SetContainer.h" />
     <ClInclude Include="bwapi4_include\BWAPI\TechType.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Type.h" />

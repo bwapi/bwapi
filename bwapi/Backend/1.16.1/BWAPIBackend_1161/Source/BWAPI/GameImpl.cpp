@@ -7,11 +7,13 @@
 #include <algorithm>
 #include <cmath>
 #include <fstream>
+#include <set>
 
 #include "../Convenience.h"
 
 #include <BWAPI/ForceImpl.h>
 #include <BWAPI/PlayerImpl.h>
+#include <BWAPI/RegionImpl.h>
 #include <BWAPI/UnitImpl.h>
 #include <BWAPI/BulletImpl.h>
 #include <Templates.h>
@@ -49,7 +51,7 @@ namespace BWAPI
     return server.getForce(forceID);
   }
   //----------------------------------------------------------------------------------------------------------
-  Region GameImpl::getRegion(int regionID) const
+  RegionImpl* GameImpl::getRegion(int regionID) const
   {
     auto it = regionMap.find(regionID);
     return it != regionMap.end() ? it->second : nullptr;
@@ -773,7 +775,7 @@ namespace BWAPI
     return BW::BWDATA::Game.countdownTimer;
   }
   //------------------------------------------------- GET REGION AT ------------------------------------------
-  BWAPI::Region GameImpl::getRegionAt(int x, int y) const
+  BWAPI::RegionImpl* GameImpl::getRegionAt(int x, int y) const
   {
     this->setLastError();
     if ( !Position(x, y) )
@@ -951,7 +953,7 @@ namespace BWAPI
     return startLocations;
   }
   //----------------------------------------------- GET ALL REGIONS ------------------------------------------
-  const Regionset &GameImpl::getAllRegions() const
+  const std::set<RegionImpl*> &GameImpl::getAllRegions() const
   {
     return this->regionsList;
   }

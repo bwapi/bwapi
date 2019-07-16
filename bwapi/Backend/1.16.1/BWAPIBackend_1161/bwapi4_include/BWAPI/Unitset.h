@@ -8,7 +8,6 @@ namespace BWAPI
 {
   // Forward declarations
   class UnitType;
-  class Regionset;
   class UnitCommand;
   class TechType;
 

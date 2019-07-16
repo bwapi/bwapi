@@ -10,11 +10,9 @@
 #include <BWAPI/Map.h>
 #include <BWAPI/Client/GameData.h>
 #include <BWAPI/CoordinateType.h>
-#include <BWAPI/Region.h>
 #include <BWAPI/Error.h>
 #include <BWAPI/GameType.h>
 #include <BWAPI/Bulletset.h>
-#include <BWAPI/Regionset.h>
 #include <BWAPI/Color.h>
 
 #include "Command.h"
@@ -41,6 +39,7 @@ namespace BWAPI
   class PlayerInterface;
   typedef PlayerInterface *Player;
 
+  class RegionImpl;
   class PlayerImpl;
   class Playerset;
   class UnitImpl;
@@ -69,7 +68,7 @@ namespace BWAPI
       Player    getPlayer(int playerID) const;
       Unit getUnit(int unitID) const;
       Unit indexToUnit(int unitIndex) const;
-      Region    getRegion(int regionID) const;
+      RegionImpl*    getRegion(int regionID) const;
 
       GameType  getGameType() const;
 
@@ -173,8 +172,8 @@ namespace BWAPI
 
       int  countdownTimer() const;
 
-      const Regionset &getAllRegions() const;
-      BWAPI::Region   getRegionAt(int x, int y) const;
+      const std::set<RegionImpl*> &getAllRegions() const;
+      BWAPI::RegionImpl*   getRegionAt(int x, int y) const;
 
       int getLastEventTime() const;
 
@@ -203,7 +202,7 @@ namespace BWAPI
       void sendTextEx(bool toAllies, const char *format, ...);
       void drawText(CoordinateType::Enum ctype, int x, int y, const char *format, ...);
       bool hasPath(Position source, Position destination) const;
-      BWAPI::Region getRegionAt(BWAPI::Position position) const;
+      BWAPI::RegionImpl* getRegionAt(BWAPI::Position position) const;
 
       void updateKillAndRemoveUnits();
       Unitset unitsToKill;
@@ -339,8 +338,8 @@ namespace BWAPI
       Unitset staticGeysers;
       Unitset staticNeutralUnits;
 
-      Regionset regionsList;
-      std::unordered_map<int, Region> regionMap;
+      std::set<RegionImpl*> regionsList;
+      std::unordered_map<int, RegionImpl*> regionMap;
 
       std::array<BulletImpl*, BW::BULLET_ARRAY_MAX_LENGTH> bulletArray;
       std::vector<std::vector<Command>> commandBuffer;
