@@ -2561,11 +2561,11 @@ namespace BWAPI
   {
     return unitInternal::buildsWhat[this->getID()];
   }
-  const SetContainer<TechType>& UnitType::researchesWhat() const
+  const std::set<TechType>& UnitType::researchesWhat() const
   {
     return unitAbilities::researchesWhat[this->getID()];
   }
-  const SetContainer<UpgradeType>& UnitType::upgradesWhat() const
+  const std::set<UpgradeType>& UnitType::upgradesWhat() const
   {
     return unitUpgrades::upgradesWhat[this->getID()];
   }

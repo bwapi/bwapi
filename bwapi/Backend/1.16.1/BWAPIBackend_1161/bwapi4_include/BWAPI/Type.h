@@ -1,9 +1,8 @@
 #pragma once
-#include <BWAPI/SetContainer.h>
-
 #include <string>
 #include <cctype>
 #include <deque>
+#include <set>
 #include <unordered_map>
 #include <algorithm>
 #include <iostream>
@@ -66,7 +65,7 @@ namespace BWAPI
     explicit constexpr Type(int id) : tid( id < 0 || id > UnknownId ? UnknownId : id ) {};
 
     /// <summary>A set type that contains the current type.</summary>
-    typedef SetContainer<T> set;
+    typedef std::set<T> set;
 
     /// <summary>A list type that contains the current type.</summary>
     typedef std::deque<T> list;

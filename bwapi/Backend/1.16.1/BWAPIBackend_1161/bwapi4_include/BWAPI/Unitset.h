@@ -1,8 +1,8 @@
 #pragma once
-#include "SetContainer.h"
 #include <BWAPI/Position.h>
 #include <BWAPI/Unit.h>
 #include <iterator>
+#include <set>
 
 namespace BWAPI
 {
@@ -15,7 +15,7 @@ namespace BWAPI
   /// used for groups of units instead of having to manage each Unit individually.</summary>
   ///
   /// @see Unit
-  class Unitset : public SetContainer<BWAPI::Unit, std::hash<void*>>
+  class Unitset : public std::set<BWAPI::Unit>
   {
   public:
     /// <summary>A blank Unitset containing no elements.</summary> This is typically used as a

@@ -272,9 +272,6 @@
     <ClInclude Include="bwapi4_include\BWAPI\Race.h">
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\SetContainer.h">
-      <Filter>Old_BWAPILIB\BWAPI</Filter>
-    </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\TechType.h">
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>

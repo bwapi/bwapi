@@ -317,12 +317,12 @@ namespace BWAPI
     /// the game.</summary>
     ///
     /// @returns Set of TechTypes containing ability information.
-    const SetContainer<TechType>& abilities() const;
+    const std::set<TechType>& abilities() const;
 
     /// <summary>Retrieves the set of upgrades that this unit can use to enhance its fighting ability.</summary>
     ///
     /// @return Set of UpgradeTypes containing upgrade types that will impact this unit type.
-    const SetContainer<UpgradeType>& upgrades() const;
+    const std::set<UpgradeType>& upgrades() const;
 
     /// <summary>Retrieves the upgrade type used to increase the armor of this unit type.</summary> For each upgrade,
     /// this unit type gains +1 additional armor.
@@ -886,7 +886,7 @@ namespace BWAPI
     /// @see PlayerImpl::isResearchAvailable
     ///
     /// @since 4.1.2
-    const SetContainer<TechType>& researchesWhat() const;
+    const std::set<TechType>& researchesWhat() const;
 
     /// <summary>Retrieves the set of upgrades that this unit type is capable of upgrading.</summary>
     ///
@@ -897,7 +897,7 @@ namespace BWAPI
     /// @see PlayerImpl::getMaxUpgradeLevel
     ///
     /// @since 4.1.2
-    const SetContainer<UpgradeType>& upgradesWhat() const;
+    const std::set<UpgradeType>& upgradesWhat() const;
 
     /// <summary>Checks if the current type is equal to the provided type, or a successor of the
     /// provided type.</summary> For example, a Hive is a successor of a Hatchery, since it can
