@@ -20,7 +20,6 @@
 #include <BWAPI/Command.h>
 #include <BWAPI/Map.h>
 #include <BWAPI/Flag.h>
-#include <BWAPI/UnaryFilter.h>
 
 #include <BWAPI/Unitset.h>
 
@@ -264,7 +263,7 @@ namespace BWAPI
   {
     return this->unitArray[index-1];
   }
-  Unitset GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom, const UnitFilter &pred) const
+  Unitset GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom, std::function<bool(Unit)> pred) const
   {
     Unitset unitFinderResults;
 
@@ -276,7 +275,7 @@ namespace BWAPI
                                                  top,
                                                  right,
                                                  bottom,
-                                                 [&](Unit u){ if ( !pred.isValid() || pred(u) )
+                                                 [&](Unit u){ if ( !pred || pred(u) )
                                                                  unitFinderResults.insert(u); });
     // Return results
     return unitFinderResults;

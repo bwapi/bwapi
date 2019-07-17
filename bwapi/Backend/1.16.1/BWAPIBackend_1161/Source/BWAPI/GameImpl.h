@@ -87,7 +87,7 @@ namespace BWAPI
       bool    isFlagEnabled(int flag) const;
       void    enableFlag(int flag);
 
-      Unitset getUnitsInRectangle(int left, int top, int right, int bottom, const UnitFilter &pred = nullptr) const;
+      Unitset getUnitsInRectangle(int left, int top, int right, int bottom, std::function<bool(Unit)> pred = nullptr) const;
 
       Error   getLastError() const;
       bool    setLastError(BWAPI::Error e = Errors::None) const;
@@ -181,9 +181,9 @@ namespace BWAPI
 
       void setScreenPosition(BWAPI::Position p);
       void pingMinimap(BWAPI::Position p);
-      Unitset getUnitsOnTile(int tileX, int tileY, const UnitFilter &pred = nullptr) const;
-      Unitset getUnitsOnTile(BWAPI::TilePosition tile, const UnitFilter &pred = nullptr) const;
-      Unitset getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight, const UnitFilter &pred = nullptr) const;
+      Unitset getUnitsOnTile(int tileX, int tileY, std::function<bool(Unit)> pred = nullptr) const;
+      Unitset getUnitsOnTile(BWAPI::TilePosition tile, std::function<bool(Unit)> pred = nullptr) const;
+      Unitset getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight, std::function<bool(Unit)> pred = nullptr) const;
       bool isWalkable(BWAPI::WalkPosition position) const;
       int  getGroundHeight(TilePosition position) const;
       bool isBuildable(TilePosition position, bool includeBuildings = false) const;

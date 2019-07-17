@@ -1,12 +1,13 @@
 #pragma once
 #include <algorithm>
 
+#include <BWAPI/Order.h>
+#include <BWAPI/WeaponType.h>
 #include "UnitImpl.h"
 #include "GameImpl.h"
 
 namespace BWAPI
 {
-  using namespace Filter;
   namespace Templates
   {
     //--------------------------------------------- FORWARD DECLARATIONS -------------------------------------
@@ -215,13 +216,20 @@ namespace BWAPI
       if ( type != UnitTypes::Special_Start_Location )
       {
         Position targPos = Position(lt) + Position( type.tileSize() )/2;
-        Unitset unitsInRect( BroodwarImpl.getUnitsInRectangle(Position(lt), Position(rb), !IsFlying    &&
-                                                                                        !IsLoaded   &&
-                                                                                        [&builder, &type](Unit u){ return u != builder || type == UnitTypes::Zerg_Nydus_Canal;} &&
-                                                                                        GetLeft   <= targPos.x + type.dimensionRight()  &&
-                                                                                        GetTop    <= targPos.y + type.dimensionDown()   &&
-                                                                                        GetRight  >= targPos.x - type.dimensionLeft()   &&
-                                                                                        GetBottom >= targPos.y - type.dimensionUp() )    );
+
+        auto collisionUnitsCondition = [&](Unit u) {
+          if (u->isFlying() || u->isLoaded()) return false;
+
+          // We do a nydus check because a nydus canal cannot build on itself
+          if (u == builder && type != UnitTypes::Zerg_Nydus_Canal) return false;
+
+          return u->getLeft() <= targPos.x + type.dimensionRight() &&
+            u->getTop() <= targPos.y + type.dimensionDown() &&
+            u->getRight() >= targPos.x - type.dimensionLeft() &&
+            u->getBottom() >= targPos.y - type.dimensionUp();
+        };
+
+        Unitset unitsInRect = BroodwarImpl.getUnitsInRectangle(Position(lt), Position(rb), collisionUnitsCondition);
         for (Unit u : unitsInRect)
         {
           BWAPI::UnitType iterType = u->getType();

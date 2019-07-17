@@ -3,7 +3,6 @@
 #include <BWAPI/Color.h>
 #include <BWAPI/Unitset.h>
 #include <BWAPI/Unit.h>
-#include <BWAPI/Filters.h>
 #include <BWAPI/RegionImpl.h>
 #include <BWAPI/Player.h>
 
@@ -99,11 +98,11 @@ namespace BWAPI
   {
     return this->hasCreep(position.x, position.y);
   }
-  Unitset GameImpl::getUnitsOnTile(int tileX, int tileY, const UnitFilter &pred) const
+  Unitset GameImpl::getUnitsOnTile(int tileX, int tileY, std::function<bool(Unit)> pred) const
   {
     return this->getUnitsOnTile(TilePosition(tileX,tileY), pred);
   }
-  Unitset GameImpl::getUnitsOnTile(BWAPI::TilePosition tile, const UnitFilter &pred) const
+  Unitset GameImpl::getUnitsOnTile(BWAPI::TilePosition tile, std::function<bool(Unit)> pred) const
   {
     if ( !tile )  // if tileposition not valid
       return Unitset::none;
@@ -111,7 +110,7 @@ namespace BWAPI
     Position p(tile); // convert to pixel position
     return this->getUnitsInRectangle(p.x, p.y, p.x + 32, p.y + 32, pred);
   }
-  Unitset GameImpl::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight, const UnitFilter &pred) const
+  Unitset GameImpl::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight, std::function<bool(Unit)> pred) const
   {
     return this->getUnitsInRectangle(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y, pred);
   }

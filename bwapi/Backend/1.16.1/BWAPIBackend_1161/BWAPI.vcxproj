@@ -148,14 +148,12 @@ popd</Command>
     <ClInclude Include="bwapi4_include\BWAPI\Client\UnitCommand.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Client\UnitData.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Color.h" />
-    <ClInclude Include="bwapi4_include\BWAPI\ComparisonFilter.h" />
     <ClInclude Include="bwapi4_include\BWAPI\CoordinateType.h" />
     <ClInclude Include="bwapi4_include\BWAPI\DamageType.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Error.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Event.h" />
     <ClInclude Include="bwapi4_include\BWAPI\EventType.h" />
     <ClInclude Include="bwapi4_include\BWAPI\ExplosionType.h" />
-    <ClInclude Include="bwapi4_include\BWAPI\Filters.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Flag.h" />
     <ClInclude Include="bwapi4_include\BWAPI\GameType.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Input.h" />
@@ -169,7 +167,6 @@ popd</Command>
     <ClInclude Include="bwapi4_include\BWAPI\SetContainer.h" />
     <ClInclude Include="bwapi4_include\BWAPI\TechType.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Type.h" />
-    <ClInclude Include="bwapi4_include\BWAPI\UnaryFilter.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Unit.h" />
     <ClInclude Include="bwapi4_include\BWAPI\UnitCommand.h" />
     <ClInclude Include="bwapi4_include\BWAPI\UnitCommandType.h" />
@@ -247,7 +244,6 @@ popd</Command>
     <ClCompile Include="BWAPILIB_4_3_0\Error.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Event.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\ExplosionType.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\Filters.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\GameType.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Order.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Player.cpp" />

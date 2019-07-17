@@ -239,9 +239,6 @@
     <ClInclude Include="bwapi4_include\BWAPI\Color.h">
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\ComparisonFilter.h">
-      <Filter>Old_BWAPILIB\BWAPI</Filter>
-    </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\CoordinateType.h">
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
@@ -258,9 +255,6 @@
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\ExplosionType.h">
-      <Filter>Old_BWAPILIB\BWAPI</Filter>
-    </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\Filters.h">
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Flag.h">
@@ -297,9 +291,6 @@
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Type.h">
-      <Filter>Old_BWAPILIB\BWAPI</Filter>
-    </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\UnaryFilter.h">
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\UnitCommand.h">
@@ -543,9 +534,6 @@
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\WeaponType.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\Filters.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
   </ItemGroup>

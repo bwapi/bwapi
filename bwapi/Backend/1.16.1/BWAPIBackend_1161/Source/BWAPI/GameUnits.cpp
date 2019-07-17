@@ -5,14 +5,12 @@
 #include <BW/Dialog.h>
 
 #include <BWAPI/UnitImpl.h>
-#include <BWAPI/Filters.h>
 #include <BWAPI/PlayerImpl.h>
 #include <BWAPI/Order.h>
 #include <cassert>
 
 namespace BWAPI
 {
-  using namespace Filter;
   //------------------------------------------------ GET UNIT FROM INDEX -------------------------------------
   UnitImpl* GameImpl::getUnitFromIndex(int index)
   {
@@ -498,7 +496,10 @@ namespace BWAPI
       int b = u->getBottom() - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
 
       // Get units under the ability that are affected
-      Unitset unitsInside( this->getUnitsInRectangle(u->getLeft(), u->getTop(), r, b, !IsSpell && !IsFlyer && !IsLifted ) );
+      auto affectedUnitsCondition = [](Unit u) {
+        return !u->getType().isSpell() && !u->isFlying();
+      };
+      Unitset unitsInside = this->getUnitsInRectangle(u->getLeft(), u->getTop(), r, b, affectedUnitsCondition);
       for ( Unit uInsidei : unitsInside )
       {
         UnitImpl *uInside = static_cast<UnitImpl*>(uInsidei);
