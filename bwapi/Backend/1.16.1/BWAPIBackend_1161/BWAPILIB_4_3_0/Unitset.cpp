@@ -1,6 +1,6 @@
 #include <BWAPI/Unitset.h>
 #include <BWAPI/Position.h>
-#include <BWAPI/Unit.h>
+#include <BWAPI/UnitImpl.h>
 
 namespace BWAPI
 {

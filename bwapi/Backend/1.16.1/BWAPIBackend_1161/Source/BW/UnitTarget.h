@@ -1,7 +1,7 @@
 #pragma once
 #include "../Types.h"
 
-namespace BWAPI { class UnitInterface; typedef UnitInterface* Unit; }
+namespace BWAPI { class UnitImpl; typedef UnitImpl* Unit; }
 #pragma pack(1)
 namespace BW
 {

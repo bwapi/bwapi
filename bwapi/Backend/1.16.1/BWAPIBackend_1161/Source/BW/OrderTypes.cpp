@@ -1,5 +1,4 @@
 #include "OrderTypes.h"
-#include <BWAPI/Unit.h>
 
 #include <BWAPI/Order.h>
 #include <BWAPI/Race.h>

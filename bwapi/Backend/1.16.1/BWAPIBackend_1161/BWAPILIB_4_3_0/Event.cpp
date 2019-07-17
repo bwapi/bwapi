@@ -1,5 +1,6 @@
 #include <BWAPI/Event.h>
 #include <BWAPI/EventType.h>
+#include <BWAPI/UnitImpl.h>
 #include <tuple>
 
 namespace BWAPI

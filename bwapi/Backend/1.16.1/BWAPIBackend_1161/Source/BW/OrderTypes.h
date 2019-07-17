@@ -3,7 +3,6 @@
 #include "../Types.h"
 
 #include <BWAPI/Position.h>
-#include <BWAPI/Unit.h>
 
 #include <BWAPI/UnitType.h>
 #include <BWAPI/Order.h>

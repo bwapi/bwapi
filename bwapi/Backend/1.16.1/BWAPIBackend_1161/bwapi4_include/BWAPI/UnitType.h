@@ -268,7 +268,7 @@ namespace BWAPI
   /// <summary>The UnitType is used to get information about a particular type of unit, such as its cost,
   /// build time, weapon, hit points, abilities, etc.</summary>
   ///
-  /// @see UnitInterface::getType, UnitTypes
+  /// @see UnitImpl::getType, UnitTypes
   /// @ingroup TypeClasses
   class UnitType : public Type<UnitType, UnitTypes::Enum::Unknown>
   {
@@ -377,7 +377,7 @@ namespace BWAPI
     /// @note This value may not necessarily match the value seen in the @UMS game type.
     ///
     /// @returns Number of frames needed in order to build the unit.
-    /// @see UnitInterface::getRemainingBuildTime
+    /// @see UnitImpl::getRemainingBuildTime
     int buildTime() const;
 
     /// <summary>Retrieves the amount of supply that this unit type will use when created.</summary> It will use the

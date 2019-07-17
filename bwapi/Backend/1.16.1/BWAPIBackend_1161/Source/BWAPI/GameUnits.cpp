@@ -33,7 +33,7 @@ namespace BWAPI
 
     UnitType _getType = BWAPI::UnitType(u->unitType);
 
-    // Replica of official UnitInterface::IsDead function
+    // Replica of official UnitImpl::IsDead function
     if ( !u->sprite || (u->orderID == Orders::Die && u->orderState == 1) )
     {
       //BroodwarImpl.printf("%s has met a true death", _getType.getName().c_str());

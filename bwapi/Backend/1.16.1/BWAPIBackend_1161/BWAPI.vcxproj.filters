@@ -25,9 +25,6 @@
     <Filter Include="Hacks\Source">
       <UniqueIdentifier>{7653d38a-cd8e-4936-abf6-9f37f4bbc2bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Interface">
-      <UniqueIdentifier>{6c1d42cf-29ba-4897-bf5c-7e3906d00a13}</UniqueIdentifier>
-    </Filter>
     <Filter Include="BW\Source Files">
       <UniqueIdentifier>{f06a19ad-c959-47f1-9729-c48156401801}</UniqueIdentifier>
     </Filter>
@@ -206,9 +203,6 @@
       <Filter>BW\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="starcraftver.h" />
-    <ClInclude Include="bwapi4_include\BWAPI\Unit.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Path.h">
       <Filter>Util</Filter>
     </ClInclude>
@@ -492,9 +486,6 @@
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\TechType.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\Unit.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\UnitCommand.cpp">

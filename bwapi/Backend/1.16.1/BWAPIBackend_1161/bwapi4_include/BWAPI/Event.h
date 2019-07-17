@@ -1,7 +1,6 @@
 #pragma once
 #include <BWAPI/Position.h>
 #include <BWAPI/EventType.h>
-#include <BWAPI/Unit.h>
 
 #include <string>
 
@@ -10,6 +9,9 @@ namespace BWAPI
   // Forward Declarations
   class PlayerImpl;
   typedef PlayerImpl* Player;
+
+  class UnitImpl;
+  typedef UnitImpl* Unit;
 
   class Event
   {

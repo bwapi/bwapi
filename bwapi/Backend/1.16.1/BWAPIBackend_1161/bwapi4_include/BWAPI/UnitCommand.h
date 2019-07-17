@@ -8,8 +8,8 @@ namespace BWAPI
   class UnitType;
   class TechType;
   class UpgradeType;
-  class UnitInterface;
-  typedef UnitInterface *Unit;
+  class UnitImpl;
+  typedef UnitImpl *Unit;
 
   class UnitCommand
   {

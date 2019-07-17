@@ -1,6 +1,5 @@
 #pragma once
 #include <BWAPI/Position.h>
-#include <BWAPI/Unit.h>
 #include <iterator>
 #include <set>
 
@@ -11,11 +10,13 @@ namespace BWAPI
   class UnitCommand;
   class TechType;
 
+  class UnitImpl;
+
   /// <summary>The Unitset is a container for a set of pointers to Unit objects. It is typically
   /// used for groups of units instead of having to manage each Unit individually.</summary>
   ///
   /// @see Unit
-  class Unitset : public std::set<BWAPI::Unit>
+  class Unitset : public std::set<BWAPI::UnitImpl*>
   {
   public:
     /// <summary>A blank Unitset containing no elements.</summary> This is typically used as a
@@ -32,7 +33,7 @@ namespace BWAPI
     ///
     /// @returns Average Position of all units in the set.
     ///
-    /// @see UnitInterface::getPosition
+    /// @see UnitImpl::getPosition
     Position getPosition() const;
   };
 }

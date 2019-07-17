@@ -163,7 +163,6 @@ popd</Command>
     <ClInclude Include="bwapi4_include\BWAPI\Race.h" />
     <ClInclude Include="bwapi4_include\BWAPI\TechType.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Type.h" />
-    <ClInclude Include="bwapi4_include\BWAPI\Unit.h" />
     <ClInclude Include="bwapi4_include\BWAPI\UnitCommand.h" />
     <ClInclude Include="bwapi4_include\BWAPI\UnitCommandType.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Unitset.h" />
@@ -245,7 +244,6 @@ popd</Command>
     <ClCompile Include="BWAPILIB_4_3_0\Position.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Race.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\TechType.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\Unit.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\UnitCommand.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\UnitCommandType.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Unitset.cpp" />

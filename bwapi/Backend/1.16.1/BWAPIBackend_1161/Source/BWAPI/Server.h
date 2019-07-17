@@ -12,8 +12,8 @@ namespace BWAPI
   class Event;
   class PlayerImpl;
   typedef PlayerImpl* Player;
-  class UnitInterface;
-  typedef UnitInterface* Unit;
+  class UnitImpl;
+  typedef UnitImpl* Unit;
   class ForceImpl;
   typedef ForceImpl* Force;
 
