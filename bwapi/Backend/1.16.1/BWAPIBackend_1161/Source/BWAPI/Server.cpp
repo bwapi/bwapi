@@ -555,42 +555,6 @@ namespace BWAPI
         data->unitArray[i] = id;
       }
 
-      unitFinder* xf = data->xUnitSearch;
-      unitFinder* yf = data->yUnitSearch;
-      const BW::unitFinder* bwxf = BW::BWDATA::UnitOrderingX.data();
-      const BW::unitFinder* bwyf = BW::BWDATA::UnitOrderingY.data();
-      int bwSearchSize = BW::BWDATA::UnitOrderingCount;
-
-      for (int i = 0; i < bwSearchSize; ++i, bwxf++, bwyf++)
-      {
-        if (bwxf->unitIndex > 0 && bwxf->unitIndex <= BW::UNIT_ARRAY_MAX_LENGTH)
-        {
-          UnitImpl* u = BroodwarImpl.unitArray[bwxf->unitIndex - 1];
-          if (u && u->canAccess())
-          {
-            xf->searchValue = bwxf->searchValue;
-            xf->unitIndex = getUnitID(u);
-            xf++;
-          }
-        } // x index
-
-        if (bwyf->unitIndex > 0 && bwyf->unitIndex <= BW::UNIT_ARRAY_MAX_LENGTH)
-        {
-          UnitImpl* u = BroodwarImpl.unitArray[bwyf->unitIndex - 1];
-          if (u && u->canAccess())
-          {
-            yf->searchValue = bwyf->searchValue;
-            yf->unitIndex = getUnitID(u);
-            yf++;
-          }
-        } // x index
-
-      } // loop unit finder
-
-      // Set size
-      data->unitSearchSize = xf - data->xUnitSearch; // we assume an equal number of y values was put into the array
-
-
       //dynamic bullet data
       for (int id = 0; id < 100; ++id)
         data->bullets[id] = BroodwarImpl.getBulletFromIndex(id)->data;

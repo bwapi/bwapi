@@ -23,11 +23,6 @@ namespace BWAPIC
 }
 namespace BWAPI
 {
-  struct unitFinder
-  {
-    int unitIndex;
-    int searchValue;
-  };
   struct GameData
   {
     //revision and debug will stay at the top of struct so they don't move in memory from revision to revision.
@@ -127,9 +122,5 @@ namespace BWAPI
     int self;
     int enemy;
     int neutral;
-
-    int unitSearchSize;
-    unitFinder xUnitSearch[1700*2];
-    unitFinder yUnitSearch[1700*2];
   };
 }
