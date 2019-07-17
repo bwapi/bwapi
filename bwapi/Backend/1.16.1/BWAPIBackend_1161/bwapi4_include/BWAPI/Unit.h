@@ -5,8 +5,8 @@
 namespace BWAPI
 {
   // Forwards
-  class PlayerInterface;
-  typedef PlayerInterface *Player;
+  class PlayerImpl;
+  typedef PlayerImpl *Player;
   class Order;
   class TechType;
   class UpgradeType;

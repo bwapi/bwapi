@@ -3,7 +3,6 @@
 
 #include <cmath>
 
-#include <BWAPI/Player.h>
 #include <BWAPI/Order.h>
 #include <BWAPI/WeaponType.h>
 

@@ -14,8 +14,8 @@ namespace BW
 namespace BWAPI
 {
   // Forwards
-  class PlayerInterface;
-  typedef PlayerInterface *Player;
+  class PlayerImpl;
+  typedef PlayerImpl *Player;
 
   /**
    * Interface for broodwar unit, can be used to obtain any information and

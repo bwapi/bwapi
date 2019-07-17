@@ -5,8 +5,8 @@
 namespace BWAPI
 {
   // Forward Declarations
-  class PlayerInterface;
-  typedef PlayerInterface *Player;
+  class PlayerImpl;
+  typedef PlayerImpl *Player;
   class Unitset;
 
   /// <summary>A set containing Player objects.</summary>

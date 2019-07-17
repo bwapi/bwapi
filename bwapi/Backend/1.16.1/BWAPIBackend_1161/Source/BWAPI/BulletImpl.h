@@ -11,8 +11,8 @@ namespace BWAPI
   class UnitImpl;
   class BulletType;
 
-  class PlayerInterface;
-  typedef PlayerInterface* Player;
+  class PlayerImpl;
+  typedef PlayerImpl* Player;
 
   /**
    * Interface for broodwar bullets, can be used to obtain any information

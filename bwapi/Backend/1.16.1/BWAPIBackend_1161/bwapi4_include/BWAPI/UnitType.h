@@ -387,7 +387,7 @@ namespace BWAPI
     /// in the game. The reason for this is because @Zerglings use 0.5 visible supply.
     ///
     /// @returns Integer containing the supply required to build this unit.
-    /// @see supplyProvided, PlayerInterface::supplyTotal, PlayerInterface::supplyUsed
+    /// @see supplyProvided, PlayerImpl::supplyTotal, PlayerImpl::supplyUsed
     int supplyRequired() const;
 
     /// <summary>Retrieves the amount of supply that this unit type produces for its appropriate Race's
@@ -396,7 +396,7 @@ namespace BWAPI
     /// @note In Starcraft programming, the managed supply values are double than what they appear
     /// in the game. The reason for this is because @Zerglings use 0.5 visible supply.
     ///
-    /// @see supplyRequired, PlayerInterface::supplyTotal, PlayerInterface::supplyUsed
+    /// @see supplyRequired, PlayerImpl::supplyTotal, PlayerImpl::supplyUsed
     int supplyProvided() const;
 
     /// <summary>Retrieves the amount of space required by this unit type to fit inside a @Bunker or
@@ -867,11 +867,11 @@ namespace BWAPI
     /// This includes training, constructing, warping, and morphing.
     ///
     /// @note Some maps have special parameters that disable construction of units that are otherwise
-    /// normally available. Use PlayerInterface::isUnitAvailable to determine if a unit type is
+    /// normally available. Use PlayerImpl::isUnitAvailable to determine if a unit type is
     /// actually available in the current game for a specific player.
     ///
     /// @returns UnitType::set containing the units it can build.
-    /// @see PlayerInterface::isUnitAvailable
+    /// @see PlayerImpl::isUnitAvailable
     ///
     /// @since 4.1.2
     const UnitType::set& buildsWhat() const;
@@ -879,22 +879,22 @@ namespace BWAPI
     /// <summary>Retrieves the set of technologies that this unit type is capable of researching.</summary>
     /// 
     /// @note Some maps have special parameters that disable certain technologies. Use
-    /// PlayerInterface::isResearchAvailable to determine if a technology is actually available in the
+    /// PlayerImpl::isResearchAvailable to determine if a technology is actually available in the
     /// current game for a specific player.
     ///
     /// @returns TechType::set containing the technology types that can be researched.
-    /// @see PlayerInterface::isResearchAvailable
+    /// @see PlayerImpl::isResearchAvailable
     ///
     /// @since 4.1.2
     const SetContainer<TechType>& researchesWhat() const;
 
     /// <summary>Retrieves the set of upgrades that this unit type is capable of upgrading.</summary>
     ///
-    /// @note Some maps have special upgrade limitations. Use PlayerInterface::getMaxUpgradeLevel
+    /// @note Some maps have special upgrade limitations. Use PlayerImpl::getMaxUpgradeLevel
     /// to check if an upgrade is available.
     ///
     /// @returns UpgradeType::set containing the upgrade types that can be upgraded.
-    /// @see PlayerInterface::getMaxUpgradeLevel
+    /// @see PlayerImpl::getMaxUpgradeLevel
     ///
     /// @since 4.1.2
     const SetContainer<UpgradeType>& upgradesWhat() const;

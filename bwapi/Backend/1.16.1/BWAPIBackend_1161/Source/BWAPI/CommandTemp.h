@@ -51,7 +51,7 @@ namespace BWAPI
 
     // Get the player (usually the unit's owner)
     if ( !player )
-      player = static_cast<PlayerImpl*>(unit ? unit->getPlayer() : game.self());
+      player = unit ? unit->getPlayer() : game.self();
 
     // Latency test
     if (frame > game.getLatencyFrames() &&

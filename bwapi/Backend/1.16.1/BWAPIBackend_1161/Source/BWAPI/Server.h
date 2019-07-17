@@ -10,8 +10,8 @@ namespace BWAPI
   // Forwards
   struct GameData;
   class Event;
-  class PlayerInterface;
-  typedef PlayerInterface* Player;
+  class PlayerImpl;
+  typedef PlayerImpl* Player;
   class UnitInterface;
   typedef UnitInterface* Unit;
   class ForceImpl;

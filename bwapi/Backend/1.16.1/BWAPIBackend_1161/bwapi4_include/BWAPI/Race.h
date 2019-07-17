@@ -35,7 +35,7 @@ namespace BWAPI
   /// example, the default worker and supply provider UnitType.
   ///
   /// As you should already know, Starcraft has three races: @Terran , @Protoss , and @Zerg .
-  /// @see UnitType::getRace, PlayerInterface::getRace, Races
+  /// @see UnitType::getRace, PlayerImpl::getRace, Races
   /// @ingroup TypeClasses
   class Race : public Type<Race, Races::Enum::Unknown>
   {

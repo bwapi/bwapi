@@ -137,7 +137,6 @@ popd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bwapi4_include\BWAPI\BulletType.h" />
-    <ClInclude Include="bwapi4_include\BWAPI\Client.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Client\BulletData.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Client\CommandTemp.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Client\GameData.h" />
@@ -159,7 +158,6 @@ popd</Command>
     <ClInclude Include="bwapi4_include\BWAPI\Input.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Latency.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Order.h" />
-    <ClInclude Include="bwapi4_include\BWAPI\Player.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Playerset.h" />
     <ClInclude Include="bwapi4_include\BWAPI\PlayerType.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Position.h" />
@@ -246,7 +244,6 @@ popd</Command>
     <ClCompile Include="BWAPILIB_4_3_0\ExplosionType.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\GameType.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Order.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\Player.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\PlayerType.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Position.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Race.cpp" />

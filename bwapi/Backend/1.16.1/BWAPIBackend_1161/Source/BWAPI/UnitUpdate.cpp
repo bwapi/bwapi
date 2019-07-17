@@ -6,7 +6,6 @@
 
 #include "../Convenience.h"
 
-#include <BWAPI/Player.h>
 #include <BWAPI/Order.h>
 #include <BWAPI/GameImpl.h>
 #include <BWAPI/PlayerImpl.h>
@@ -58,7 +57,7 @@ namespace BWAPI
       {
         if ( i == selfPlayerID )
           continue;
-        PlayerImpl* player = static_cast<PlayerImpl*>(BroodwarImpl.getPlayer(i));
+        PlayerImpl* player = BroodwarImpl.getPlayer(i);
         if ( !o->sprite || !player )
           self->isVisible[i] = false;
         else if (!BroodwarImpl.isReplay() && !BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))

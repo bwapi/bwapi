@@ -316,7 +316,7 @@ namespace BWAPI
 
     for(Unit u : discoverUnits)
     {
-      PlayerImpl *unitPlayer = static_cast<PlayerImpl*>(u->getPlayer());
+      PlayerImpl *unitPlayer = u->getPlayer();
       if ( !unitPlayer )
         continue;
     
@@ -344,7 +344,7 @@ namespace BWAPI
     }
     for(Unit u : evadeUnits)
     {
-      PlayerImpl *unitPlayer = static_cast<PlayerImpl*>(u->getPlayer());
+      PlayerImpl *unitPlayer = u->getPlayer();
       if ( !unitPlayer )
         continue;
 
@@ -388,8 +388,8 @@ namespace BWAPI
       if (u->lastPlayer != u->_getPlayer && u->lastPlayer && u->_getPlayer )
       {
         events.push_back(Event::UnitRenegade(u));
-        static_cast<PlayerImpl*>(u->lastPlayer)->units.erase(u);
-        static_cast<PlayerImpl*>(u->_getPlayer)->units.insert(u);
+        u->lastPlayer->units.erase(u);
+        u->_getPlayer->units.insert(u);
       }
       int allUnits  = UnitTypes::AllUnits;
       int men       = UnitTypes::Men;
@@ -398,7 +398,7 @@ namespace BWAPI
       int thisUnit  = u->_getType;
       
       // Increment specific unit count
-      BWAPI::PlayerData *pSelf = static_cast<PlayerImpl*>(u->_getPlayer)->self;
+      BWAPI::PlayerData *pSelf = u->_getPlayer->self;
       pSelf->allUnitCount[thisUnit]++;
       if (u->isVisible())
         pSelf->visibleUnitCount[thisUnit]++;

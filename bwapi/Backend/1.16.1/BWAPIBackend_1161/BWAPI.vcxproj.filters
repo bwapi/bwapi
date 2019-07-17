@@ -209,9 +209,6 @@
       <Filter>BW\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="starcraftver.h" />
-    <ClInclude Include="bwapi4_include\BWAPI\Player.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Unit.h">
       <Filter>Interface</Filter>
     </ClInclude>
@@ -231,9 +228,6 @@
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\BulletType.h">
-      <Filter>Old_BWAPILIB\BWAPI</Filter>
-    </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\Client.h">
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Color.h">
@@ -495,9 +489,6 @@
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\Order.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\Player.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\PlayerType.cpp">

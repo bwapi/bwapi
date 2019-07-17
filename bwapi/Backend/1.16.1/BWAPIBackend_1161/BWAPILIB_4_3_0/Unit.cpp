@@ -6,7 +6,6 @@
 #include <BWAPI/Unitset.h>
 #include "../BWAPI/GameImpl.h"
 #include <BWAPI/WeaponType.h>
-#include <BWAPI/Player.h>
 #include <BWAPI/Flag.h>
 
 #include <limits>

@@ -4,7 +4,6 @@
 #include <BWAPI/Unitset.h>
 #include <BWAPI/Unit.h>
 #include <BWAPI/RegionImpl.h>
-#include <BWAPI/Player.h>
 
 #include <BWAPI/UnitSizeType.h>
 #include <BWAPI/DamageType.h>

@@ -273,7 +273,7 @@ namespace BWAPI
 
     // Delete all regions
     for ( auto r = this->regionsList.begin(); r != this->regionsList.end(); ++r )
-      delete static_cast<RegionImpl*>(*r);
+      delete *r;
     this->regionsList.clear();
     this->regionMap.clear();
 

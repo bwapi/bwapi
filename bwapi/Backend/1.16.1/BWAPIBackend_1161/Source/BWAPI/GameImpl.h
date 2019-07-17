@@ -34,8 +34,8 @@ namespace BWAPI
   // forwards
   class BulletImpl;
 
-  class PlayerInterface;
-  typedef PlayerInterface *Player;
+  class PlayerImpl;
+  typedef PlayerImpl *Player;
 
   class RegionImpl;
   class PlayerImpl;

@@ -302,7 +302,7 @@ namespace BWAPI
             r->set_rightmost(regionData.rightMost);
             r->set_topmost(regionData.topMost);
           };
-          data->regions[i] = *static_cast<RegionImpl*>(r)->getData();
+          data->regions[i] = *r->getData();
           auto &regionData = data->regions[i];
           auto region = regionGame->add_regions();
           fillRegionData(regionData, region);
@@ -354,7 +354,7 @@ namespace BWAPI
     {
       int id = getPlayerID(i);
       PlayerData* p = &(data->players[id]);
-      PlayerData* p2 = static_cast<PlayerImpl*>(i)->self;
+      PlayerData* p2 = i->self;
 
       StrCopy(p->name, i->getName());
       p->race = i->getRace();
@@ -492,7 +492,7 @@ namespace BWAPI
         if (id >= 12)
           continue;
         PlayerData* p = &(data->players[id]);
-        PlayerData* p2 = static_cast<PlayerImpl*>(i)->self;
+        PlayerData* p2 = i->self;
 
         p->isVictorious = i->isVictorious();
         p->isDefeated = i->isDefeated();

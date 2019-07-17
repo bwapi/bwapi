@@ -517,9 +517,9 @@ namespace BWAPI
     
     u8 newAlliance = allied ? (alliedVictory ? 2 : 1) : 0;
     if ( allied )
-      alliance |= newAlliance << ( static_cast<PlayerImpl*>(player)->getIndex()*2);
+      alliance |= newAlliance << (player->getIndex()*2);
     else
-      alliance &= ~(3 << ( static_cast<PlayerImpl*>(player)->getIndex()*2) );
+      alliance &= ~(3 << (player->getIndex()*2));
     QUEUE_COMMAND(BW::Orders::SetAllies, alliance);
     return this->setLastError();
   }
@@ -533,9 +533,9 @@ namespace BWAPI
     {
       u32 vision = BW::BWDATA::ReplayVision;
       if ( enabled )
-        vision |= 1 << static_cast<PlayerImpl*>(player)->getIndex();
+        vision |= 1 << player->getIndex();
       else
-        vision &= ~(1 <<  static_cast<PlayerImpl*>(player)->getIndex() );
+        vision &= ~(1 <<  player->getIndex() );
       BW::BWDATA::ReplayVision = vision;
     }
     else
@@ -545,9 +545,9 @@ namespace BWAPI
 
       u16 vision = static_cast<u16>(BW::BWDATA::Game.playerVision[BWAPIPlayer->getIndex()]);
       if ( enabled )
-        vision |= 1 << static_cast<PlayerImpl*>(player)->getIndex();
+        vision |= 1 << player->getIndex();
       else
-        vision &= ~(1 <<  static_cast<PlayerImpl*>(player)->getIndex() );
+        vision &= ~(1 <<  player->getIndex() );
       QUEUE_COMMAND(BW::Orders::SetVision, vision);
     }
     return this->setLastError();

@@ -55,7 +55,7 @@ namespace BWAPI
     {
       for(int i = 0; i < 9; ++i)
       {
-        PlayerImpl* player = static_cast<PlayerImpl*>(BroodwarImpl.getPlayer(i));
+        PlayerImpl* player = BroodwarImpl.getPlayer(i);
 
         if ( !bwOriginalBullet->sprite || !player )
           self->isVisible[i] = false;
