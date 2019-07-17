@@ -140,7 +140,6 @@ popd</Command>
     <ClInclude Include="bwapi4_include\BWAPI\Client.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Client\BulletData.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Client\CommandTemp.h" />
-    <ClInclude Include="bwapi4_include\BWAPI\Client\ForceData.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Client\GameData.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Client\PlayerData.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Client\RegionData.h" />

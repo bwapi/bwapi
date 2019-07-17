@@ -1,7 +1,6 @@
 #pragma once
 
 #include "UnitCommand.h"
-#include "ForceData.h"
 #include "PlayerData.h"
 #include "RegionData.h"
 #include "UnitData.h"
@@ -39,10 +38,6 @@ namespace BWAPI
     int instanceID;
     int botAPM_noselects;
     int botAPM_selects;
-
-    //forces
-    int forceCount;
-    ForceData forces[5];
 
     //players
     int playerCount;

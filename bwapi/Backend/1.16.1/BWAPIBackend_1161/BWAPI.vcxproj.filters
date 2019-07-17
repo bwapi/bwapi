@@ -329,9 +329,6 @@
     <ClInclude Include="bwapi4_include\BWAPI\Client\CommandTemp.h">
       <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
     </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\Client\ForceData.h">
-      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
-    </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Client\GameData.h">
       <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
     </ClInclude>

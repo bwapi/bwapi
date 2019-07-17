@@ -349,14 +349,6 @@ namespace BWAPI
 
     protoClient.queueMessage(std::move(staticMapMessage));
 
-    //static force data
-    data->forces[0].name[0] = '\0';
-    for (auto i : BroodwarImpl.getForces())
-    {
-      int id = getForceID(i);
-      StrCopy(data->forces[id].name, i->getName());
-    }
-
     //static player data
     for (Player i : BroodwarImpl.getPlayers())
     {
@@ -386,7 +378,6 @@ namespace BWAPI
       p->startLocationY = i->getStartLocation().y;
     }
 
-    data->forceCount = forceVector.size();
     data->playerCount = playerVector.size();
     data->initialUnitCount = unitVector.size();
 
