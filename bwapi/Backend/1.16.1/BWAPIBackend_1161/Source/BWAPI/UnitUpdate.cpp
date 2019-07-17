@@ -10,6 +10,7 @@
 #include <BWAPI/GameImpl.h>
 #include <BWAPI/PlayerImpl.h>
 #include <BWAPI/WeaponType.h>
+#include <BWAPI/Race.h>
 
 #include <BW/CUnit.h>
 #include <BW/CSprite.h>

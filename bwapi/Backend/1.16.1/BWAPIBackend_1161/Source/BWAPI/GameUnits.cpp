@@ -6,6 +6,7 @@
 
 #include <BWAPI/UnitImpl.h>
 #include <BWAPI/PlayerImpl.h>
+#include <BWAPI/Race.h>
 #include <BWAPI/Order.h>
 #include <cassert>
 

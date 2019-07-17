@@ -2,6 +2,7 @@
 #include <algorithm>
 
 #include <BWAPI/Order.h>
+#include <BWAPI/Race.h>
 #include <BWAPI/WeaponType.h>
 #include "UnitImpl.h"
 #include "GameImpl.h"

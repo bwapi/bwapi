@@ -158,7 +158,6 @@ popd</Command>
     <ClInclude Include="bwapi4_include\BWAPI\Input.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Latency.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Order.h" />
-    <ClInclude Include="bwapi4_include\BWAPI\Playerset.h" />
     <ClInclude Include="bwapi4_include\BWAPI\PlayerType.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Position.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Race.h" />
@@ -178,7 +177,6 @@ popd</Command>
     <ClInclude Include="Source\BWAPI\BulletImpl.h" />
     <ClInclude Include="Source\BWAPI\BWtoBWAPI.h" />
     <ClInclude Include="Source\BWAPI\Command.h" />
-    <ClInclude Include="Source\BWAPI\CommandTemp.h" />
     <ClInclude Include="Source\BWAPI\ForceImpl.h" />
     <ClInclude Include="Source\BWAPI\GameImpl.h" />
     <ClInclude Include="Source\BWAPI\Map.h" />

@@ -11,6 +11,7 @@
 #include <BW/Dialog.h>
 #include <BWAPI/GameImpl.h>
 #include <BWAPI/PlayerType.h>
+#include <BWAPI/Race.h>
 #include <BW/Offsets.h>
 
 using namespace BWAPI;

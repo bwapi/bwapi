@@ -9,6 +9,7 @@
 
 #include <BWAPI/PlayerType.h>
 #include <BWAPI/Color.h>
+#include <BWAPI/Race.h>
 #include <BWAPI/WeaponType.h>
 
 namespace BWAPI

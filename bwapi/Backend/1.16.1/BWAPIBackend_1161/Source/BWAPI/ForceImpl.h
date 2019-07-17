@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <BWAPI/Playerset.h>
+#include <set>
 
 namespace BWAPI
 {
@@ -14,8 +14,8 @@ namespace BWAPI
       ForceImpl(std::string const & name);
       int getID() const;
       std::string getName() const;
-      Playerset getPlayers() const;
-      Playerset players;
+      std::set<Player> getPlayers() const;
+      std::set<Player> players;
       std::string name;
       void setID(int newID);
     private:

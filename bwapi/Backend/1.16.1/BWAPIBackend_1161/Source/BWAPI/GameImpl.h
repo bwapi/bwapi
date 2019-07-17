@@ -39,7 +39,6 @@ namespace BWAPI
 
   class RegionImpl;
   class PlayerImpl;
-  class Playerset;
   class UnitImpl;
   class Unitset;
 
@@ -48,7 +47,7 @@ namespace BWAPI
   {
     public :
       const std::set<ForceImpl*>&   getForces() const;
-      const Playerset&  getPlayers() const;
+      const std::set<Player>&  getPlayers() const;
       const Unitset&    getAllUnits() const;
       const Unitset&    getMinerals() const;
       const Unitset&    getGeysers() const;
@@ -133,9 +132,9 @@ namespace BWAPI
       Player self() const;
       Player enemy() const;
       Player neutral() const;
-      Playerset& allies();
-      Playerset& enemies();
-      Playerset& observers();
+      std::set<Player>& allies();
+      std::set<Player>& enemies();
+      std::set<Player>& observers();
 
       void setTextSize(Text::Size::Enum size = Text::Size::Default);
       void vDrawText(CoordinateType::Enum ctype, int x, int y, const char *format, va_list arg);
@@ -323,7 +322,7 @@ namespace BWAPI
       TilePosition::list startLocations;
 
       std::set<ForceImpl*> forces;
-      Playerset playerSet;
+      std::set<Player> playerSet;
 
       Unitset       minerals;
       Unitset       geysers;
@@ -364,9 +363,9 @@ namespace BWAPI
       std::string rn_EnemiesNames;
       std::string rn_EnemiesRaces;
       std::string rn_GameResult;
-      Playerset _allies;
-      Playerset _enemies;
-      Playerset _observers;
+      std::set<Player> _allies;
+      std::set<Player> _enemies;
+      std::set<Player> _observers;
 
       bool inGame = false;
 

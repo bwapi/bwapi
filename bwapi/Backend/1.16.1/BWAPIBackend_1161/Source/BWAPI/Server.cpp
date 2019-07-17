@@ -14,6 +14,7 @@
 #include <BW/Pathing.h>
 #include <BW/Offsets.h>
 #include <BWAPI/PlayerType.h>
+#include <BWAPI/Race.h>
 
 #include "../Config.h"
 #include "../svnrev.h"

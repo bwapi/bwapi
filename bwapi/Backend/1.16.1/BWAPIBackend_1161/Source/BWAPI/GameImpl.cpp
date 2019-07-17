@@ -682,17 +682,17 @@ namespace BWAPI
     return players[11];
   }
   //----------------------------------------------------- ALLIES ---------------------------------------------
-  Playerset& GameImpl::allies()
+  std::set<Player>& GameImpl::allies()
   {
     return _allies;
   }
   //----------------------------------------------------- ENEMIES --------------------------------------------
-  Playerset& GameImpl::enemies()
+  std::set<Player>& GameImpl::enemies()
   {
     return _enemies;
   }
   //---------------------------------------------------- OBSERVERS -------------------------------------------
-  Playerset& GameImpl::observers()
+  std::set<Player>& GameImpl::observers()
   {
     return _observers;
   }
@@ -859,7 +859,7 @@ namespace BWAPI
     return forces;
   }
   //----------------------------------------------- GET PLAYERS ----------------------------------------------
-  const Playerset& GameImpl::getPlayers() const
+  const std::set<Player>& GameImpl::getPlayers() const
   {
     return playerSet;
   }

@@ -93,9 +93,6 @@
     <ClInclude Include="Source\BWAPI\Command.h">
       <Filter>BWAPI\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\BWAPI\CommandTemp.h">
-      <Filter>BWAPI\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\BWAPI\ForceImpl.h">
       <Filter>BWAPI\Header Files</Filter>
     </ClInclude>
@@ -264,9 +261,6 @@
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Order.h">
-      <Filter>Old_BWAPILIB\BWAPI</Filter>
-    </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\Playerset.h">
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\PlayerType.h">

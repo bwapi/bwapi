@@ -5,6 +5,7 @@
 #include <BWAPI/Client/PlayerData.h>
 #include <BWAPI/Unitset.h>
 #include <BWAPI/Color.h>
+#include <BWAPI/Race.h>
 
 #include "UnitImpl.h"
 #include "ForceImpl.h"
