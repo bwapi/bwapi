@@ -37,7 +37,7 @@ namespace protobuf_data_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[10];
+  static const ::google::protobuf::internal::ParseTable schema[11];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -45,6 +45,9 @@ struct TableStruct {
 }  // namespace protobuf_data_2eproto
 namespace bwapi {
 namespace data {
+class BoolMapData;
+class BoolMapDataDefaultTypeInternal;
+extern BoolMapDataDefaultTypeInternal _BoolMapData_default_instance_;
 class Bullet;
 class BulletDefaultTypeInternal;
 extern BulletDefaultTypeInternal _Bullet_default_instance_;
@@ -79,6 +82,7 @@ extern UnitDefaultTypeInternal _Unit_default_instance_;
 }  // namespace bwapi
 namespace google {
 namespace protobuf {
+template<> ::bwapi::data::BoolMapData* Arena::CreateMaybeMessage<::bwapi::data::BoolMapData>(Arena*);
 template<> ::bwapi::data::Bullet* Arena::CreateMaybeMessage<::bwapi::data::Bullet>(Arena*);
 template<> ::bwapi::data::Force* Arena::CreateMaybeMessage<::bwapi::data::Force>(Arena*);
 template<> ::bwapi::data::Game* Arena::CreateMaybeMessage<::bwapi::data::Game>(Arena*);
@@ -211,6 +215,121 @@ class Point : public ::google::protobuf::MessageLite /* @@protoc_insertion_point
 };
 // -------------------------------------------------------------------
 
+class BoolMapData : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.data.BoolMapData) */ {
+ public:
+  BoolMapData();
+  virtual ~BoolMapData();
+
+  BoolMapData(const BoolMapData& from);
+
+  inline BoolMapData& operator=(const BoolMapData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  BoolMapData(BoolMapData&& from) noexcept
+    : BoolMapData() {
+    *this = ::std::move(from);
+  }
+
+  inline BoolMapData& operator=(BoolMapData&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const BoolMapData& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const BoolMapData* internal_default_instance() {
+    return reinterpret_cast<const BoolMapData*>(
+               &_BoolMapData_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  void Swap(BoolMapData* other);
+  friend void swap(BoolMapData& a, BoolMapData& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline BoolMapData* New() const final {
+    return CreateMaybeMessage<BoolMapData>(NULL);
+  }
+
+  BoolMapData* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<BoolMapData>(arena);
+  }
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
+  void CopyFrom(const BoolMapData& from);
+  void MergeFrom(const BoolMapData& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  void DiscardUnknownFields();
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(BoolMapData* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::std::string GetTypeName() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // int32 x = 1;
+  void clear_x();
+  static const int kXFieldNumber = 1;
+  ::google::protobuf::int32 x() const;
+  void set_x(::google::protobuf::int32 value);
+
+  // int32 y = 2;
+  void clear_y();
+  static const int kYFieldNumber = 2;
+  ::google::protobuf::int32 y() const;
+  void set_y(::google::protobuf::int32 value);
+
+  // bool value = 3;
+  void clear_value();
+  static const int kValueFieldNumber = 3;
+  bool value() const;
+  void set_value(bool value);
+
+  // @@protoc_insertion_point(class_scope:bwapi.data.BoolMapData)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  ::google::protobuf::int32 x_;
+  ::google::protobuf::int32 y_;
+  bool value_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_data_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class StaticMapData : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.data.StaticMapData) */ {
  public:
   StaticMapData();
@@ -245,7 +364,7 @@ class StaticMapData : public ::google::protobuf::MessageLite /* @@protoc_inserti
                &_StaticMapData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   void Swap(StaticMapData* other);
   friend void swap(StaticMapData& a, StaticMapData& b) {
@@ -530,7 +649,7 @@ class MapData : public ::google::protobuf::MessageLite /* @@protoc_insertion_poi
                &_MapData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   void Swap(MapData* other);
   friend void swap(MapData& a, MapData& b) {
@@ -581,66 +700,62 @@ class MapData : public ::google::protobuf::MessageLite /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // repeated bool isVisible = 1;
+  // repeated .bwapi.data.BoolMapData isVisible = 1;
   int isvisible_size() const;
   void clear_isvisible();
   static const int kIsVisibleFieldNumber = 1;
-  bool isvisible(int index) const;
-  void set_isvisible(int index, bool value);
-  void add_isvisible(bool value);
-  const ::google::protobuf::RepeatedField< bool >&
-      isvisible() const;
-  ::google::protobuf::RepeatedField< bool >*
+  ::bwapi::data::BoolMapData* mutable_isvisible(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >*
       mutable_isvisible();
+  const ::bwapi::data::BoolMapData& isvisible(int index) const;
+  ::bwapi::data::BoolMapData* add_isvisible();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >&
+      isvisible() const;
 
-  // repeated bool isExplored = 2;
+  // repeated .bwapi.data.BoolMapData isExplored = 2;
   int isexplored_size() const;
   void clear_isexplored();
   static const int kIsExploredFieldNumber = 2;
-  bool isexplored(int index) const;
-  void set_isexplored(int index, bool value);
-  void add_isexplored(bool value);
-  const ::google::protobuf::RepeatedField< bool >&
-      isexplored() const;
-  ::google::protobuf::RepeatedField< bool >*
+  ::bwapi::data::BoolMapData* mutable_isexplored(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >*
       mutable_isexplored();
+  const ::bwapi::data::BoolMapData& isexplored(int index) const;
+  ::bwapi::data::BoolMapData* add_isexplored();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >&
+      isexplored() const;
 
-  // repeated bool hasCreep = 3;
+  // repeated .bwapi.data.BoolMapData hasCreep = 3;
   int hascreep_size() const;
   void clear_hascreep();
   static const int kHasCreepFieldNumber = 3;
-  bool hascreep(int index) const;
-  void set_hascreep(int index, bool value);
-  void add_hascreep(bool value);
-  const ::google::protobuf::RepeatedField< bool >&
-      hascreep() const;
-  ::google::protobuf::RepeatedField< bool >*
+  ::bwapi::data::BoolMapData* mutable_hascreep(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >*
       mutable_hascreep();
+  const ::bwapi::data::BoolMapData& hascreep(int index) const;
+  ::bwapi::data::BoolMapData* add_hascreep();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >&
+      hascreep() const;
 
-  // repeated bool isOccupied = 4;
+  // repeated .bwapi.data.BoolMapData isOccupied = 4;
   int isoccupied_size() const;
   void clear_isoccupied();
   static const int kIsOccupiedFieldNumber = 4;
-  bool isoccupied(int index) const;
-  void set_isoccupied(int index, bool value);
-  void add_isoccupied(bool value);
-  const ::google::protobuf::RepeatedField< bool >&
-      isoccupied() const;
-  ::google::protobuf::RepeatedField< bool >*
+  ::bwapi::data::BoolMapData* mutable_isoccupied(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >*
       mutable_isoccupied();
+  const ::bwapi::data::BoolMapData& isoccupied(int index) const;
+  ::bwapi::data::BoolMapData* add_isoccupied();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >&
+      isoccupied() const;
 
   // @@protoc_insertion_point(class_scope:bwapi.data.MapData)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::google::protobuf::RepeatedField< bool > isvisible_;
-  mutable int _isvisible_cached_byte_size_;
-  ::google::protobuf::RepeatedField< bool > isexplored_;
-  mutable int _isexplored_cached_byte_size_;
-  ::google::protobuf::RepeatedField< bool > hascreep_;
-  mutable int _hascreep_cached_byte_size_;
-  ::google::protobuf::RepeatedField< bool > isoccupied_;
-  mutable int _isoccupied_cached_byte_size_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData > isvisible_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData > isexplored_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData > hascreep_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData > isoccupied_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_data_2eproto::TableStruct;
 };
@@ -680,7 +795,7 @@ class GameData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
                &_GameData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   void Swap(GameData* other);
   friend void swap(GameData& a, GameData& b) {
@@ -1082,7 +1197,7 @@ class Player : public ::google::protobuf::MessageLite /* @@protoc_insertion_poin
                &_Player_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   void Swap(Player* other);
   friend void swap(Player& a, Player& b) {
@@ -1590,7 +1705,7 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
                &_Unit_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   void Swap(Unit* other);
   friend void swap(Unit& a, Unit& b) {
@@ -2422,7 +2537,7 @@ class Region : public ::google::protobuf::MessageLite /* @@protoc_insertion_poin
                &_Region_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    7;
 
   void Swap(Region* other);
   friend void swap(Region& a, Region& b) {
@@ -2614,7 +2729,7 @@ class Bullet : public ::google::protobuf::MessageLite /* @@protoc_insertion_poin
                &_Bullet_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
   void Swap(Bullet* other);
   friend void swap(Bullet& a, Bullet& b) {
@@ -2818,7 +2933,7 @@ class Force : public ::google::protobuf::MessageLite /* @@protoc_insertion_point
                &_Force_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    9;
 
   void Swap(Force* other);
   friend void swap(Force& a, Force& b) {
@@ -2948,7 +3063,7 @@ class Game : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
                &_Game_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    10;
 
   void Swap(Game* other);
   friend void swap(Game& a, Game& b) {
@@ -3135,6 +3250,52 @@ inline void Point::set_scale(::google::protobuf::int32 value) {
   
   scale_ = value;
   // @@protoc_insertion_point(field_set:bwapi.data.Point.scale)
+}
+
+// -------------------------------------------------------------------
+
+// BoolMapData
+
+// int32 x = 1;
+inline void BoolMapData::clear_x() {
+  x_ = 0;
+}
+inline ::google::protobuf::int32 BoolMapData::x() const {
+  // @@protoc_insertion_point(field_get:bwapi.data.BoolMapData.x)
+  return x_;
+}
+inline void BoolMapData::set_x(::google::protobuf::int32 value) {
+  
+  x_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.BoolMapData.x)
+}
+
+// int32 y = 2;
+inline void BoolMapData::clear_y() {
+  y_ = 0;
+}
+inline ::google::protobuf::int32 BoolMapData::y() const {
+  // @@protoc_insertion_point(field_get:bwapi.data.BoolMapData.y)
+  return y_;
+}
+inline void BoolMapData::set_y(::google::protobuf::int32 value) {
+  
+  y_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.BoolMapData.y)
+}
+
+// bool value = 3;
+inline void BoolMapData::clear_value() {
+  value_ = false;
+}
+inline bool BoolMapData::value() const {
+  // @@protoc_insertion_point(field_get:bwapi.data.BoolMapData.value)
+  return value_;
+}
+inline void BoolMapData::set_value(bool value) {
+  
+  value_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.BoolMapData.value)
 }
 
 // -------------------------------------------------------------------
@@ -3665,124 +3826,124 @@ StaticMapData::startpositions() const {
 
 // MapData
 
-// repeated bool isVisible = 1;
+// repeated .bwapi.data.BoolMapData isVisible = 1;
 inline int MapData::isvisible_size() const {
   return isvisible_.size();
 }
 inline void MapData::clear_isvisible() {
   isvisible_.Clear();
 }
-inline bool MapData::isvisible(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.MapData.isVisible)
-  return isvisible_.Get(index);
+inline ::bwapi::data::BoolMapData* MapData::mutable_isvisible(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.MapData.isVisible)
+  return isvisible_.Mutable(index);
 }
-inline void MapData::set_isvisible(int index, bool value) {
-  isvisible_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.MapData.isVisible)
-}
-inline void MapData::add_isvisible(bool value) {
-  isvisible_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.MapData.isVisible)
-}
-inline const ::google::protobuf::RepeatedField< bool >&
-MapData::isvisible() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.MapData.isVisible)
-  return isvisible_;
-}
-inline ::google::protobuf::RepeatedField< bool >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >*
 MapData::mutable_isvisible() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.MapData.isVisible)
   return &isvisible_;
 }
+inline const ::bwapi::data::BoolMapData& MapData::isvisible(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.isVisible)
+  return isvisible_.Get(index);
+}
+inline ::bwapi::data::BoolMapData* MapData::add_isvisible() {
+  // @@protoc_insertion_point(field_add:bwapi.data.MapData.isVisible)
+  return isvisible_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >&
+MapData::isvisible() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.MapData.isVisible)
+  return isvisible_;
+}
 
-// repeated bool isExplored = 2;
+// repeated .bwapi.data.BoolMapData isExplored = 2;
 inline int MapData::isexplored_size() const {
   return isexplored_.size();
 }
 inline void MapData::clear_isexplored() {
   isexplored_.Clear();
 }
-inline bool MapData::isexplored(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.MapData.isExplored)
-  return isexplored_.Get(index);
+inline ::bwapi::data::BoolMapData* MapData::mutable_isexplored(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.MapData.isExplored)
+  return isexplored_.Mutable(index);
 }
-inline void MapData::set_isexplored(int index, bool value) {
-  isexplored_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.MapData.isExplored)
-}
-inline void MapData::add_isexplored(bool value) {
-  isexplored_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.MapData.isExplored)
-}
-inline const ::google::protobuf::RepeatedField< bool >&
-MapData::isexplored() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.MapData.isExplored)
-  return isexplored_;
-}
-inline ::google::protobuf::RepeatedField< bool >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >*
 MapData::mutable_isexplored() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.MapData.isExplored)
   return &isexplored_;
 }
+inline const ::bwapi::data::BoolMapData& MapData::isexplored(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.isExplored)
+  return isexplored_.Get(index);
+}
+inline ::bwapi::data::BoolMapData* MapData::add_isexplored() {
+  // @@protoc_insertion_point(field_add:bwapi.data.MapData.isExplored)
+  return isexplored_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >&
+MapData::isexplored() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.MapData.isExplored)
+  return isexplored_;
+}
 
-// repeated bool hasCreep = 3;
+// repeated .bwapi.data.BoolMapData hasCreep = 3;
 inline int MapData::hascreep_size() const {
   return hascreep_.size();
 }
 inline void MapData::clear_hascreep() {
   hascreep_.Clear();
 }
-inline bool MapData::hascreep(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.MapData.hasCreep)
-  return hascreep_.Get(index);
+inline ::bwapi::data::BoolMapData* MapData::mutable_hascreep(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.MapData.hasCreep)
+  return hascreep_.Mutable(index);
 }
-inline void MapData::set_hascreep(int index, bool value) {
-  hascreep_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.MapData.hasCreep)
-}
-inline void MapData::add_hascreep(bool value) {
-  hascreep_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.MapData.hasCreep)
-}
-inline const ::google::protobuf::RepeatedField< bool >&
-MapData::hascreep() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.MapData.hasCreep)
-  return hascreep_;
-}
-inline ::google::protobuf::RepeatedField< bool >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >*
 MapData::mutable_hascreep() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.MapData.hasCreep)
   return &hascreep_;
 }
+inline const ::bwapi::data::BoolMapData& MapData::hascreep(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.hasCreep)
+  return hascreep_.Get(index);
+}
+inline ::bwapi::data::BoolMapData* MapData::add_hascreep() {
+  // @@protoc_insertion_point(field_add:bwapi.data.MapData.hasCreep)
+  return hascreep_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >&
+MapData::hascreep() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.MapData.hasCreep)
+  return hascreep_;
+}
 
-// repeated bool isOccupied = 4;
+// repeated .bwapi.data.BoolMapData isOccupied = 4;
 inline int MapData::isoccupied_size() const {
   return isoccupied_.size();
 }
 inline void MapData::clear_isoccupied() {
   isoccupied_.Clear();
 }
-inline bool MapData::isoccupied(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.MapData.isOccupied)
-  return isoccupied_.Get(index);
+inline ::bwapi::data::BoolMapData* MapData::mutable_isoccupied(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.MapData.isOccupied)
+  return isoccupied_.Mutable(index);
 }
-inline void MapData::set_isoccupied(int index, bool value) {
-  isoccupied_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.MapData.isOccupied)
-}
-inline void MapData::add_isoccupied(bool value) {
-  isoccupied_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.MapData.isOccupied)
-}
-inline const ::google::protobuf::RepeatedField< bool >&
-MapData::isoccupied() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.MapData.isOccupied)
-  return isoccupied_;
-}
-inline ::google::protobuf::RepeatedField< bool >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >*
 MapData::mutable_isoccupied() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.MapData.isOccupied)
   return &isoccupied_;
+}
+inline const ::bwapi::data::BoolMapData& MapData::isoccupied(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.isOccupied)
+  return isoccupied_.Get(index);
+}
+inline ::bwapi::data::BoolMapData* MapData::add_isoccupied() {
+  // @@protoc_insertion_point(field_add:bwapi.data.MapData.isOccupied)
+  return isoccupied_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >&
+MapData::isoccupied() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.MapData.isOccupied)
+  return isoccupied_;
 }
 
 // -------------------------------------------------------------------
@@ -7898,6 +8059,8 @@ Game::forces() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

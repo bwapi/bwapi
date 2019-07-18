@@ -17,12 +17,13 @@
 // @@protoc_insertion_point(includes)
 
 namespace protobuf_data_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_data_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_BoolMapData;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_data_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Force;
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_data_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_MapData;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_data_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Player;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_data_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Point;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_data_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Region;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_data_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_Bullet;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_data_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_MapData;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_data_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_StaticMapData;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_data_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_Unit;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_data_2eproto ::google::protobuf::internal::SCCInfo<3> scc_info_GameData;
@@ -34,6 +35,11 @@ class PointDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<Point>
       _instance;
 } _Point_default_instance_;
+class BoolMapDataDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<BoolMapData>
+      _instance;
+} _BoolMapData_default_instance_;
 class StaticMapDataDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<StaticMapData>
@@ -96,6 +102,20 @@ static void InitDefaultsPoint() {
 ::google::protobuf::internal::SCCInfo<0> scc_info_Point =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsPoint}, {}};
 
+static void InitDefaultsBoolMapData() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::bwapi::data::_BoolMapData_default_instance_;
+    new (ptr) ::bwapi::data::BoolMapData();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::bwapi::data::BoolMapData::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_BoolMapData =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsBoolMapData}, {}};
+
 static void InitDefaultsStaticMapData() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -122,8 +142,9 @@ static void InitDefaultsMapData() {
   ::bwapi::data::MapData::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_MapData =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsMapData}, {}};
+::google::protobuf::internal::SCCInfo<1> scc_info_MapData =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsMapData}, {
+      &protobuf_data_2eproto::scc_info_BoolMapData.base,}};
 
 static void InitDefaultsGameData() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -236,6 +257,7 @@ static void InitDefaultsGame() {
 
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_Point.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_BoolMapData.base);
   ::google::protobuf::internal::InitSCC(&scc_info_StaticMapData.base);
   ::google::protobuf::internal::InitSCC(&scc_info_MapData.base);
   ::google::protobuf::internal::InitSCC(&scc_info_GameData.base);
@@ -497,6 +519,253 @@ void Point::InternalSwap(Point* other) {
 
 ::std::string Point::GetTypeName() const {
   return "bwapi.data.Point";
+}
+
+
+// ===================================================================
+
+void BoolMapData::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int BoolMapData::kXFieldNumber;
+const int BoolMapData::kYFieldNumber;
+const int BoolMapData::kValueFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+BoolMapData::BoolMapData()
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_data_2eproto::scc_info_BoolMapData.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:bwapi.data.BoolMapData)
+}
+BoolMapData::BoolMapData(const BoolMapData& from)
+  : ::google::protobuf::MessageLite(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&x_, &from.x_,
+    static_cast<size_t>(reinterpret_cast<char*>(&value_) -
+    reinterpret_cast<char*>(&x_)) + sizeof(value_));
+  // @@protoc_insertion_point(copy_constructor:bwapi.data.BoolMapData)
+}
+
+void BoolMapData::SharedCtor() {
+  ::memset(&x_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&value_) -
+      reinterpret_cast<char*>(&x_)) + sizeof(value_));
+}
+
+BoolMapData::~BoolMapData() {
+  // @@protoc_insertion_point(destructor:bwapi.data.BoolMapData)
+  SharedDtor();
+}
+
+void BoolMapData::SharedDtor() {
+}
+
+void BoolMapData::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const BoolMapData& BoolMapData::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_data_2eproto::scc_info_BoolMapData.base);
+  return *internal_default_instance();
+}
+
+
+void BoolMapData::Clear() {
+// @@protoc_insertion_point(message_clear_start:bwapi.data.BoolMapData)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&x_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&value_) -
+      reinterpret_cast<char*>(&x_)) + sizeof(value_));
+  _internal_metadata_.Clear();
+}
+
+bool BoolMapData::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
+  // @@protoc_insertion_point(parse_start:bwapi.data.BoolMapData)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // int32 x = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &x_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 y = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &y_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool value = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &value_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:bwapi.data.BoolMapData)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:bwapi.data.BoolMapData)
+  return false;
+#undef DO_
+}
+
+void BoolMapData::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:bwapi.data.BoolMapData)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 x = 1;
+  if (this->x() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->x(), output);
+  }
+
+  // int32 y = 2;
+  if (this->y() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->y(), output);
+  }
+
+  // bool value = 3;
+  if (this->value() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(3, this->value(), output);
+  }
+
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
+  // @@protoc_insertion_point(serialize_end:bwapi.data.BoolMapData)
+}
+
+size_t BoolMapData::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:bwapi.data.BoolMapData)
+  size_t total_size = 0;
+
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
+  // int32 x = 1;
+  if (this->x() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->x());
+  }
+
+  // int32 y = 2;
+  if (this->y() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->y());
+  }
+
+  // bool value = 3;
+  if (this->value() != 0) {
+    total_size += 1 + 1;
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void BoolMapData::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const BoolMapData*>(&from));
+}
+
+void BoolMapData::MergeFrom(const BoolMapData& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:bwapi.data.BoolMapData)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.x() != 0) {
+    set_x(from.x());
+  }
+  if (from.y() != 0) {
+    set_y(from.y());
+  }
+  if (from.value() != 0) {
+    set_value(from.value());
+  }
+}
+
+void BoolMapData::CopyFrom(const BoolMapData& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:bwapi.data.BoolMapData)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool BoolMapData::IsInitialized() const {
+  return true;
+}
+
+void BoolMapData::Swap(BoolMapData* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void BoolMapData::InternalSwap(BoolMapData* other) {
+  using std::swap;
+  swap(x_, other->x_);
+  swap(y_, other->y_);
+  swap(value_, other->value_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::std::string BoolMapData::GetTypeName() const {
+  return "bwapi.data.BoolMapData";
 }
 
 
@@ -1381,76 +1650,48 @@ bool MapData::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated bool isVisible = 1;
+      // repeated .bwapi.data.BoolMapData isVisible = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, this->mutable_isvisible())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 1, 10u, input, this->mutable_isvisible())));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+                input, add_isvisible()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // repeated bool isExplored = 2;
+      // repeated .bwapi.data.BoolMapData isExplored = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, this->mutable_isexplored())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 1, 18u, input, this->mutable_isexplored())));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+                input, add_isexplored()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // repeated bool hasCreep = 3;
+      // repeated .bwapi.data.BoolMapData hasCreep = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, this->mutable_hascreep())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 1, 26u, input, this->mutable_hascreep())));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+                input, add_hascreep()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // repeated bool isOccupied = 4;
+      // repeated .bwapi.data.BoolMapData isOccupied = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, this->mutable_isoccupied())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 1, 34u, input, this->mutable_isoccupied())));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+                input, add_isoccupied()));
         } else {
           goto handle_unusual;
         }
@@ -1483,40 +1724,40 @@ void MapData::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated bool isVisible = 1;
-  if (this->isvisible_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(1, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _isvisible_cached_byte_size_));
-    ::google::protobuf::internal::WireFormatLite::WriteBoolArray(
-      this->isvisible().data(), this->isvisible_size(), output);
+  // repeated .bwapi.data.BoolMapData isVisible = 1;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->isvisible_size()); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      1,
+      this->isvisible(static_cast<int>(i)),
+      output);
   }
 
-  // repeated bool isExplored = 2;
-  if (this->isexplored_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(2, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _isexplored_cached_byte_size_));
-    ::google::protobuf::internal::WireFormatLite::WriteBoolArray(
-      this->isexplored().data(), this->isexplored_size(), output);
+  // repeated .bwapi.data.BoolMapData isExplored = 2;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->isexplored_size()); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      2,
+      this->isexplored(static_cast<int>(i)),
+      output);
   }
 
-  // repeated bool hasCreep = 3;
-  if (this->hascreep_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(3, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _hascreep_cached_byte_size_));
-    ::google::protobuf::internal::WireFormatLite::WriteBoolArray(
-      this->hascreep().data(), this->hascreep_size(), output);
+  // repeated .bwapi.data.BoolMapData hasCreep = 3;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->hascreep_size()); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      3,
+      this->hascreep(static_cast<int>(i)),
+      output);
   }
 
-  // repeated bool isOccupied = 4;
-  if (this->isoccupied_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(4, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _isoccupied_cached_byte_size_));
-    ::google::protobuf::internal::WireFormatLite::WriteBoolArray(
-      this->isoccupied().data(), this->isoccupied_size(), output);
+  // repeated .bwapi.data.BoolMapData isOccupied = 4;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->isoccupied_size()); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      4,
+      this->isoccupied(static_cast<int>(i)),
+      output);
   }
 
   output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
@@ -1530,68 +1771,48 @@ size_t MapData::ByteSizeLong() const {
 
   total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
 
-  // repeated bool isVisible = 1;
+  // repeated .bwapi.data.BoolMapData isVisible = 1;
   {
     unsigned int count = static_cast<unsigned int>(this->isvisible_size());
-    size_t data_size = 1UL * count;
-    if (data_size > 0) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          this->isvisible(static_cast<int>(i)));
     }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _isvisible_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
-    total_size += data_size;
   }
 
-  // repeated bool isExplored = 2;
+  // repeated .bwapi.data.BoolMapData isExplored = 2;
   {
     unsigned int count = static_cast<unsigned int>(this->isexplored_size());
-    size_t data_size = 1UL * count;
-    if (data_size > 0) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          this->isexplored(static_cast<int>(i)));
     }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _isexplored_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
-    total_size += data_size;
   }
 
-  // repeated bool hasCreep = 3;
+  // repeated .bwapi.data.BoolMapData hasCreep = 3;
   {
     unsigned int count = static_cast<unsigned int>(this->hascreep_size());
-    size_t data_size = 1UL * count;
-    if (data_size > 0) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          this->hascreep(static_cast<int>(i)));
     }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _hascreep_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
-    total_size += data_size;
   }
 
-  // repeated bool isOccupied = 4;
+  // repeated .bwapi.data.BoolMapData isOccupied = 4;
   {
     unsigned int count = static_cast<unsigned int>(this->isoccupied_size());
-    size_t data_size = 1UL * count;
-    if (data_size > 0) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          this->isoccupied(static_cast<int>(i)));
     }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _isoccupied_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
-    total_size += data_size;
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -1634,10 +1855,10 @@ void MapData::Swap(MapData* other) {
 }
 void MapData::InternalSwap(MapData* other) {
   using std::swap;
-  isvisible_.InternalSwap(&other->isvisible_);
-  isexplored_.InternalSwap(&other->isexplored_);
-  hascreep_.InternalSwap(&other->hascreep_);
-  isoccupied_.InternalSwap(&other->isoccupied_);
+  CastToBase(&isvisible_)->InternalSwap(CastToBase(&other->isvisible_));
+  CastToBase(&isexplored_)->InternalSwap(CastToBase(&other->isexplored_));
+  CastToBase(&hascreep_)->InternalSwap(CastToBase(&other->hascreep_));
+  CastToBase(&isoccupied_)->InternalSwap(CastToBase(&other->isoccupied_));
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
@@ -9818,6 +10039,9 @@ namespace google {
 namespace protobuf {
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::data::Point* Arena::CreateMaybeMessage< ::bwapi::data::Point >(Arena* arena) {
   return Arena::CreateInternal< ::bwapi::data::Point >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::data::BoolMapData* Arena::CreateMaybeMessage< ::bwapi::data::BoolMapData >(Arena* arena) {
+  return Arena::CreateInternal< ::bwapi::data::BoolMapData >(arena);
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::data::StaticMapData* Arena::CreateMaybeMessage< ::bwapi::data::StaticMapData >(Arena* arena) {
   return Arena::CreateInternal< ::bwapi::data::StaticMapData >(arena);

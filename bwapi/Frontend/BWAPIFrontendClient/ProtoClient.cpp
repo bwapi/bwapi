@@ -112,10 +112,14 @@ namespace BWAPI
             if (gameUpdate.has_map())
             {
               auto map = gameUpdate.map();
-              std::copy(map.hascreep().begin(), map.hascreep().end(), &game.gameData->map.hasCreep[0][0]);
-              std::copy(map.isexplored().begin(), map.isexplored().end(), &game.gameData->map.isExplored[0][0]);
-              std::copy(map.isoccupied().begin(), map.isoccupied().end(), &game.gameData->map.isOccupied[0][0]);
-              std::copy(map.isvisible().begin(), map.isvisible().end(), &game.gameData->map.isVisible[0][0]);
+              for (auto& data : map.hascreep())
+                game.gameData->map.hasCreep[data.x()][data.y()] = data.value();
+              for (auto& data : map.isexplored())
+                game.gameData->map.isExplored[data.x()][data.y()] = data.value();
+              for (auto& data : map.isoccupied())
+                game.gameData->map.isOccupied[data.x()][data.y()] = data.value();
+              for (auto& data : map.isvisible())
+                game.gameData->map.isVisible[data.x()][data.y()] = data.value();
             }
           }
           for (auto &p : gameMessage.players())

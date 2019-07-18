@@ -131,6 +131,11 @@
     <None Include="message.proto" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\libprotobuf-lite\libprotobuf-lite.vcxproj">
+      <Project>{fb5da788-0a09-3724-85d8-f80903ad1474}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="generated\cpp\command.pb.cc" />
     <ClCompile Include="generated\cpp\data.pb.cc" />
     <ClCompile Include="generated\cpp\error.pb.cc" />
@@ -147,11 +152,6 @@
     <ClInclude Include="generated\cpp\game.pb.h" />
     <ClInclude Include="generated\cpp\init.pb.h" />
     <ClInclude Include="generated\cpp\message.pb.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\libprotobuf-lite\libprotobuf-lite.vcxproj">
-      <Project>{fb5da788-0a09-3724-85d8-f80903ad1474}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

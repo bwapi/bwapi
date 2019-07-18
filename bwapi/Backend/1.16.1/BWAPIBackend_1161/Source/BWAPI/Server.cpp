@@ -455,6 +455,11 @@ namespace BWAPI
     data->mouseX = BroodwarImpl.getMousePosition().x;
     data->mouseY = BroodwarImpl.getMousePosition().y;
     data->isInGame = BroodwarImpl.isInGame();
+    auto message = std::make_unique<bwapi::message::Message>();
+    auto frameUpdate = message->mutable_frameupdate();
+    auto game = frameUpdate->mutable_game();
+    auto gameData = game->mutable_gamedata();
+    auto mapData = gameData->mutable_map();
     if (BroodwarImpl.isInGame())
     {
       data->gameType = BroodwarImpl.getGameType();
@@ -483,7 +488,7 @@ namespace BWAPI
         data->selectedUnits[idx++] = getUnitID(t);
 
       //dynamic map data
-      Map::copyToSharedMemory();
+      Map::copyToSharedMemory(mapData);
       //(no dynamic force data)
 
       //dynamic player data
@@ -571,10 +576,7 @@ namespace BWAPI
       }
     }
 
-    auto message = std::make_unique<bwapi::message::Message>();
-    auto frameUpdate = message->mutable_frameupdate();
-    auto game = frameUpdate->mutable_game();
-    auto gameData = game->mutable_gamedata();
+
     //Diff data and oldData
     //if (oldData->gameType != data->gameType)
       gameData->set_gametype(data->gameType);
@@ -823,7 +825,7 @@ namespace BWAPI
       auto screenPosition = gameData->mutable_screenposition();
       screenPosition->set_x(BroodwarImpl.getScreenPosition().x);
       screenPosition->set_y(BroodwarImpl.getScreenPosition().y);
-      auto mapData = gameData->mutable_map();
+
 
       
       auto bulletsMessage = std::make_unique<bwapi::message::Message>();
@@ -857,18 +859,6 @@ namespace BWAPI
         fillBulletData(data->bullets[i], bulletData, i);
       }
       protoClient.queueMessage(std::move(bulletsMessage));
-
-      //tileset
-
-
-      auto isVisibleArr = &data->isVisible[0][0];
-      *mapData->mutable_isvisible() = { isVisibleArr, isVisibleArr + 256 * 256 };
-      auto isExploredArr = &data->isExplored[0][0];
-      *mapData->mutable_isexplored() = { isExploredArr, isExploredArr + 256 * 256 };
-      auto hasCreepArr = &data->hasCreep[0][0];
-      *mapData->mutable_hascreep() = { hasCreepArr, hasCreepArr + 256 * 256 };
-      auto isOccupiedArr = &data->isOccupied[0][0];
-      *mapData->mutable_isoccupied() = { isOccupiedArr, isOccupiedArr + 256 * 256 };
     }
     protoClient.queueMessage(std::move(message));
     //*oldData = *data;

@@ -3,6 +3,8 @@
 #include <BW/Offsets.h>
 #include "../Types.h"
 
+#include "../../Messages/generated/cpp/message.pb.h"
+
 namespace BWAPI
 {
   /**
@@ -35,7 +37,7 @@ namespace BWAPI
       // Returns a value that represents the map's terrain.
       static std::string calculateMapHash();
       static std::string getMapHash();
-      static void copyToSharedMemory();
+      static void copyToSharedMemory(bwapi::data::MapData* mapData);
 
     private :
       static BW::TileID getTile(int x, int y);

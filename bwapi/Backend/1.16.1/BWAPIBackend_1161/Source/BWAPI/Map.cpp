@@ -51,7 +51,7 @@ namespace BWAPI
   {
     return BW::BWDATA::Game.mapTitle;
   }
-  void Map::copyToSharedMemory()
+  void Map::copyToSharedMemory(bwapi::data::MapData* mapData)
   {
     const int width = getWidth();
     const int height = getHeight();
@@ -64,10 +64,42 @@ namespace BWAPI
         for(int y = 0; y < height; ++y)
         {
           BW::activeTile tileData = getActiveTile(x, y);
-          data->isVisible[x][y]  = tileData.bVisibilityFlags   != 255;
-          data->isExplored[x][y] = tileData.bExploredFlags     != 255;
-          data->hasCreep[x][y]   = tileData.bTemporaryCreep    != 0;
-          data->isOccupied[x][y] = tileData.bCurrentlyOccupied != 0;
+          bool value = tileData.bVisibilityFlags != 255;
+          if (data->isVisible[x][y] != value)
+          {
+            data->isVisible[x][y] = value;
+            auto newData = mapData->add_isvisible();
+            newData->set_x(x);
+            newData->set_y(y);
+            newData->set_value(value);
+          }
+          value = tileData.bExploredFlags != 255;
+          if (data->isExplored[x][y] != value)
+          {
+            data->isExplored[x][y] = value;
+            auto newData = mapData->add_isexplored();
+            newData->set_x(x);
+            newData->set_y(y);
+            newData->set_value(value);
+          }
+          value = tileData.bTemporaryCreep != 0;
+          if (data->hasCreep[x][y] != value)
+          {
+            data->hasCreep[x][y] = value;
+            auto newData = mapData->add_hascreep();
+            newData->set_x(x);
+            newData->set_y(y);
+            newData->set_value(value);
+          }
+          value = tileData.bCurrentlyOccupied != 0;
+          if (data->isOccupied[x][y] != value)
+          {
+            data->isOccupied[x][y] = value;
+            auto newData = mapData->add_hascreep();
+            newData->set_x(x);
+            newData->set_y(y);
+            newData->set_value(value);
+          }
         }
       }
     }
