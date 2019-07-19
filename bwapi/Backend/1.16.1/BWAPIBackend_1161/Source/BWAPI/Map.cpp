@@ -112,10 +112,42 @@ namespace BWAPI
         for(int y = 0; y < height; ++y)
         {
           const BW::activeTile tileData = getActiveTile(x, y);
-          data->isVisible[x][y]   = !(tileData.bVisibilityFlags & playerFlag);
-          data->isExplored[x][y]  = !(tileData.bExploredFlags & playerFlag);
-          data->hasCreep[x][y]    = (data->isVisible[x][y] || completeMapInfo) && (tileData.bTemporaryCreep != 0 || tileData.bHasCreep != 0);
-          data->isOccupied[x][y]  = (data->isVisible[x][y] || completeMapInfo) && tileData.bCurrentlyOccupied != 0;
+          bool value = !(tileData.bVisibilityFlags & playerFlag);
+          if (data->isVisible[x][y] != value)
+          {
+            data->isVisible[x][y] = value;
+            auto newData = mapData->add_isvisible();
+            newData->set_x(x);
+            newData->set_y(y);
+            newData->set_value(value);
+          }
+          value = !(tileData.bExploredFlags & playerFlag);
+          if (data->isExplored[x][y] != value)
+          {
+            data->isExplored[x][y] = value;
+            auto newData = mapData->add_isexplored();
+            newData->set_x(x);
+            newData->set_y(y);
+            newData->set_value(value);
+          }
+          value = (data->isVisible[x][y] || completeMapInfo) && (tileData.bTemporaryCreep != 0 || tileData.bHasCreep != 0);
+          if (data->hasCreep[x][y] != value)
+          {
+            data->hasCreep[x][y] = value;
+            auto newData = mapData->add_hascreep();
+            newData->set_x(x);
+            newData->set_y(y);
+            newData->set_value(value);
+          }
+          value = (data->isVisible[x][y] || completeMapInfo) && tileData.bCurrentlyOccupied != 0;
+          if (data->isOccupied[x][y] != value)
+          {
+            data->isOccupied[x][y] = value;
+            auto newData = mapData->add_hascreep();
+            newData->set_x(x);
+            newData->set_y(y);
+            newData->set_value(value);
+          }
         }
       }
     }

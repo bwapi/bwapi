@@ -37,7 +37,7 @@ namespace protobuf_data_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[11];
+  static const ::google::protobuf::internal::ParseTable schema[13];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -45,6 +45,9 @@ struct TableStruct {
 }  // namespace protobuf_data_2eproto
 namespace bwapi {
 namespace data {
+class BoolArrayData;
+class BoolArrayDataDefaultTypeInternal;
+extern BoolArrayDataDefaultTypeInternal _BoolArrayData_default_instance_;
 class BoolMapData;
 class BoolMapDataDefaultTypeInternal;
 extern BoolMapDataDefaultTypeInternal _BoolMapData_default_instance_;
@@ -60,6 +63,9 @@ extern GameDefaultTypeInternal _Game_default_instance_;
 class GameData;
 class GameDataDefaultTypeInternal;
 extern GameDataDefaultTypeInternal _GameData_default_instance_;
+class IntArrayData;
+class IntArrayDataDefaultTypeInternal;
+extern IntArrayDataDefaultTypeInternal _IntArrayData_default_instance_;
 class MapData;
 class MapDataDefaultTypeInternal;
 extern MapDataDefaultTypeInternal _MapData_default_instance_;
@@ -82,11 +88,13 @@ extern UnitDefaultTypeInternal _Unit_default_instance_;
 }  // namespace bwapi
 namespace google {
 namespace protobuf {
+template<> ::bwapi::data::BoolArrayData* Arena::CreateMaybeMessage<::bwapi::data::BoolArrayData>(Arena*);
 template<> ::bwapi::data::BoolMapData* Arena::CreateMaybeMessage<::bwapi::data::BoolMapData>(Arena*);
 template<> ::bwapi::data::Bullet* Arena::CreateMaybeMessage<::bwapi::data::Bullet>(Arena*);
 template<> ::bwapi::data::Force* Arena::CreateMaybeMessage<::bwapi::data::Force>(Arena*);
 template<> ::bwapi::data::Game* Arena::CreateMaybeMessage<::bwapi::data::Game>(Arena*);
 template<> ::bwapi::data::GameData* Arena::CreateMaybeMessage<::bwapi::data::GameData>(Arena*);
+template<> ::bwapi::data::IntArrayData* Arena::CreateMaybeMessage<::bwapi::data::IntArrayData>(Arena*);
 template<> ::bwapi::data::MapData* Arena::CreateMaybeMessage<::bwapi::data::MapData>(Arena*);
 template<> ::bwapi::data::Player* Arena::CreateMaybeMessage<::bwapi::data::Player>(Arena*);
 template<> ::bwapi::data::Point* Arena::CreateMaybeMessage<::bwapi::data::Point>(Arena*);
@@ -330,6 +338,222 @@ class BoolMapData : public ::google::protobuf::MessageLite /* @@protoc_insertion
 };
 // -------------------------------------------------------------------
 
+class IntArrayData : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.data.IntArrayData) */ {
+ public:
+  IntArrayData();
+  virtual ~IntArrayData();
+
+  IntArrayData(const IntArrayData& from);
+
+  inline IntArrayData& operator=(const IntArrayData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  IntArrayData(IntArrayData&& from) noexcept
+    : IntArrayData() {
+    *this = ::std::move(from);
+  }
+
+  inline IntArrayData& operator=(IntArrayData&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const IntArrayData& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const IntArrayData* internal_default_instance() {
+    return reinterpret_cast<const IntArrayData*>(
+               &_IntArrayData_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  void Swap(IntArrayData* other);
+  friend void swap(IntArrayData& a, IntArrayData& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline IntArrayData* New() const final {
+    return CreateMaybeMessage<IntArrayData>(NULL);
+  }
+
+  IntArrayData* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<IntArrayData>(arena);
+  }
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
+  void CopyFrom(const IntArrayData& from);
+  void MergeFrom(const IntArrayData& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  void DiscardUnknownFields();
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(IntArrayData* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::std::string GetTypeName() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // int32 index = 1;
+  void clear_index();
+  static const int kIndexFieldNumber = 1;
+  ::google::protobuf::int32 index() const;
+  void set_index(::google::protobuf::int32 value);
+
+  // int32 value = 2;
+  void clear_value();
+  static const int kValueFieldNumber = 2;
+  ::google::protobuf::int32 value() const;
+  void set_value(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:bwapi.data.IntArrayData)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  ::google::protobuf::int32 index_;
+  ::google::protobuf::int32 value_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_data_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class BoolArrayData : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.data.BoolArrayData) */ {
+ public:
+  BoolArrayData();
+  virtual ~BoolArrayData();
+
+  BoolArrayData(const BoolArrayData& from);
+
+  inline BoolArrayData& operator=(const BoolArrayData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  BoolArrayData(BoolArrayData&& from) noexcept
+    : BoolArrayData() {
+    *this = ::std::move(from);
+  }
+
+  inline BoolArrayData& operator=(BoolArrayData&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const BoolArrayData& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const BoolArrayData* internal_default_instance() {
+    return reinterpret_cast<const BoolArrayData*>(
+               &_BoolArrayData_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  void Swap(BoolArrayData* other);
+  friend void swap(BoolArrayData& a, BoolArrayData& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline BoolArrayData* New() const final {
+    return CreateMaybeMessage<BoolArrayData>(NULL);
+  }
+
+  BoolArrayData* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<BoolArrayData>(arena);
+  }
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
+  void CopyFrom(const BoolArrayData& from);
+  void MergeFrom(const BoolArrayData& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  void DiscardUnknownFields();
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(BoolArrayData* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::std::string GetTypeName() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // int32 index = 1;
+  void clear_index();
+  static const int kIndexFieldNumber = 1;
+  ::google::protobuf::int32 index() const;
+  void set_index(::google::protobuf::int32 value);
+
+  // bool value = 2;
+  void clear_value();
+  static const int kValueFieldNumber = 2;
+  bool value() const;
+  void set_value(bool value);
+
+  // @@protoc_insertion_point(class_scope:bwapi.data.BoolArrayData)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  ::google::protobuf::int32 index_;
+  bool value_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_data_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class StaticMapData : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.data.StaticMapData) */ {
  public:
   StaticMapData();
@@ -364,7 +588,7 @@ class StaticMapData : public ::google::protobuf::MessageLite /* @@protoc_inserti
                &_StaticMapData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    4;
 
   void Swap(StaticMapData* other);
   friend void swap(StaticMapData& a, StaticMapData& b) {
@@ -649,7 +873,7 @@ class MapData : public ::google::protobuf::MessageLite /* @@protoc_insertion_poi
                &_MapData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    5;
 
   void Swap(MapData* other);
   friend void swap(MapData& a, MapData& b) {
@@ -795,7 +1019,7 @@ class GameData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
                &_GameData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    6;
 
   void Swap(GameData* other);
   friend void swap(GameData& a, GameData& b) {
@@ -1197,7 +1421,7 @@ class Player : public ::google::protobuf::MessageLite /* @@protoc_insertion_poin
                &_Player_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    7;
 
   void Swap(Player* other);
   friend void swap(Player& a, Player& b) {
@@ -1248,211 +1472,507 @@ class Player : public ::google::protobuf::MessageLite /* @@protoc_insertion_poin
 
   // accessors -------------------------------------------------------
 
-  // repeated bool isAlly = 6;
+  // repeated string name = 2;
+  int name_size() const;
+  void clear_name();
+  static const int kNameFieldNumber = 2;
+  const ::std::string& name(int index) const;
+  ::std::string* mutable_name(int index);
+  void set_name(int index, const ::std::string& value);
+  #if LANG_CXX11
+  void set_name(int index, ::std::string&& value);
+  #endif
+  void set_name(int index, const char* value);
+  void set_name(int index, const char* value, size_t size);
+  ::std::string* add_name();
+  void add_name(const ::std::string& value);
+  #if LANG_CXX11
+  void add_name(::std::string&& value);
+  #endif
+  void add_name(const char* value);
+  void add_name(const char* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& name() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_name();
+
+  // repeated int32 race = 3;
+  int race_size() const;
+  void clear_race();
+  static const int kRaceFieldNumber = 3;
+  ::google::protobuf::int32 race(int index) const;
+  void set_race(int index, ::google::protobuf::int32 value);
+  void add_race(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      race() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_race();
+
+  // repeated int32 type = 4;
+  int type_size() const;
+  void clear_type();
+  static const int kTypeFieldNumber = 4;
+  ::google::protobuf::int32 type(int index) const;
+  void set_type(int index, ::google::protobuf::int32 value);
+  void add_type(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      type() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_type();
+
+  // repeated int32 force = 5;
+  int force_size() const;
+  void clear_force();
+  static const int kForceFieldNumber = 5;
+  ::google::protobuf::int32 force(int index) const;
+  void set_force(int index, ::google::protobuf::int32 value);
+  void add_force(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      force() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_force();
+
+  // repeated .bwapi.data.BoolArrayData isAlly = 6;
   int isally_size() const;
   void clear_isally();
   static const int kIsAllyFieldNumber = 6;
-  bool isally(int index) const;
-  void set_isally(int index, bool value);
-  void add_isally(bool value);
-  const ::google::protobuf::RepeatedField< bool >&
-      isally() const;
-  ::google::protobuf::RepeatedField< bool >*
+  ::bwapi::data::BoolArrayData* mutable_isally(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >*
       mutable_isally();
+  const ::bwapi::data::BoolArrayData& isally(int index) const;
+  ::bwapi::data::BoolArrayData* add_isally();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >&
+      isally() const;
 
-  // repeated bool isEnemy = 7;
+  // repeated .bwapi.data.BoolArrayData isEnemy = 7;
   int isenemy_size() const;
   void clear_isenemy();
   static const int kIsEnemyFieldNumber = 7;
-  bool isenemy(int index) const;
-  void set_isenemy(int index, bool value);
-  void add_isenemy(bool value);
-  const ::google::protobuf::RepeatedField< bool >&
-      isenemy() const;
-  ::google::protobuf::RepeatedField< bool >*
+  ::bwapi::data::BoolArrayData* mutable_isenemy(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >*
       mutable_isenemy();
+  const ::bwapi::data::BoolArrayData& isenemy(int index) const;
+  ::bwapi::data::BoolArrayData* add_isenemy();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >&
+      isenemy() const;
 
-  // repeated int32 supplyTotal = 23;
+  // repeated bool isNeutral = 8;
+  int isneutral_size() const;
+  void clear_isneutral();
+  static const int kIsNeutralFieldNumber = 8;
+  bool isneutral(int index) const;
+  void set_isneutral(int index, bool value);
+  void add_isneutral(bool value);
+  const ::google::protobuf::RepeatedField< bool >&
+      isneutral() const;
+  ::google::protobuf::RepeatedField< bool >*
+      mutable_isneutral();
+
+  // repeated int32 startLocationX = 9;
+  int startlocationx_size() const;
+  void clear_startlocationx();
+  static const int kStartLocationXFieldNumber = 9;
+  ::google::protobuf::int32 startlocationx(int index) const;
+  void set_startlocationx(int index, ::google::protobuf::int32 value);
+  void add_startlocationx(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      startlocationx() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_startlocationx();
+
+  // repeated int32 startLocationY = 10;
+  int startlocationy_size() const;
+  void clear_startlocationy();
+  static const int kStartLocationYFieldNumber = 10;
+  ::google::protobuf::int32 startlocationy(int index) const;
+  void set_startlocationy(int index, ::google::protobuf::int32 value);
+  void add_startlocationy(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      startlocationy() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_startlocationy();
+
+  // repeated bool isVictorious = 11;
+  int isvictorious_size() const;
+  void clear_isvictorious();
+  static const int kIsVictoriousFieldNumber = 11;
+  bool isvictorious(int index) const;
+  void set_isvictorious(int index, bool value);
+  void add_isvictorious(bool value);
+  const ::google::protobuf::RepeatedField< bool >&
+      isvictorious() const;
+  ::google::protobuf::RepeatedField< bool >*
+      mutable_isvictorious();
+
+  // repeated bool isDefeated = 12;
+  int isdefeated_size() const;
+  void clear_isdefeated();
+  static const int kIsDefeatedFieldNumber = 12;
+  bool isdefeated(int index) const;
+  void set_isdefeated(int index, bool value);
+  void add_isdefeated(bool value);
+  const ::google::protobuf::RepeatedField< bool >&
+      isdefeated() const;
+  ::google::protobuf::RepeatedField< bool >*
+      mutable_isdefeated();
+
+  // repeated bool leftGame = 13;
+  int leftgame_size() const;
+  void clear_leftgame();
+  static const int kLeftGameFieldNumber = 13;
+  bool leftgame(int index) const;
+  void set_leftgame(int index, bool value);
+  void add_leftgame(bool value);
+  const ::google::protobuf::RepeatedField< bool >&
+      leftgame() const;
+  ::google::protobuf::RepeatedField< bool >*
+      mutable_leftgame();
+
+  // repeated bool isParticipating = 14;
+  int isparticipating_size() const;
+  void clear_isparticipating();
+  static const int kIsParticipatingFieldNumber = 14;
+  bool isparticipating(int index) const;
+  void set_isparticipating(int index, bool value);
+  void add_isparticipating(bool value);
+  const ::google::protobuf::RepeatedField< bool >&
+      isparticipating() const;
+  ::google::protobuf::RepeatedField< bool >*
+      mutable_isparticipating();
+
+  // repeated int32 minerals = 15;
+  int minerals_size() const;
+  void clear_minerals();
+  static const int kMineralsFieldNumber = 15;
+  ::google::protobuf::int32 minerals(int index) const;
+  void set_minerals(int index, ::google::protobuf::int32 value);
+  void add_minerals(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      minerals() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_minerals();
+
+  // repeated int32 gas = 16;
+  int gas_size() const;
+  void clear_gas();
+  static const int kGasFieldNumber = 16;
+  ::google::protobuf::int32 gas(int index) const;
+  void set_gas(int index, ::google::protobuf::int32 value);
+  void add_gas(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      gas() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_gas();
+
+  // repeated int32 gatheredMinerals = 17;
+  int gatheredminerals_size() const;
+  void clear_gatheredminerals();
+  static const int kGatheredMineralsFieldNumber = 17;
+  ::google::protobuf::int32 gatheredminerals(int index) const;
+  void set_gatheredminerals(int index, ::google::protobuf::int32 value);
+  void add_gatheredminerals(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      gatheredminerals() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_gatheredminerals();
+
+  // repeated int32 gatheredGas = 18;
+  int gatheredgas_size() const;
+  void clear_gatheredgas();
+  static const int kGatheredGasFieldNumber = 18;
+  ::google::protobuf::int32 gatheredgas(int index) const;
+  void set_gatheredgas(int index, ::google::protobuf::int32 value);
+  void add_gatheredgas(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      gatheredgas() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_gatheredgas();
+
+  // repeated int32 repairedMinerals = 19;
+  int repairedminerals_size() const;
+  void clear_repairedminerals();
+  static const int kRepairedMineralsFieldNumber = 19;
+  ::google::protobuf::int32 repairedminerals(int index) const;
+  void set_repairedminerals(int index, ::google::protobuf::int32 value);
+  void add_repairedminerals(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      repairedminerals() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_repairedminerals();
+
+  // repeated int32 repairedGas = 20;
+  int repairedgas_size() const;
+  void clear_repairedgas();
+  static const int kRepairedGasFieldNumber = 20;
+  ::google::protobuf::int32 repairedgas(int index) const;
+  void set_repairedgas(int index, ::google::protobuf::int32 value);
+  void add_repairedgas(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      repairedgas() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_repairedgas();
+
+  // repeated int32 refundedMinerals = 21;
+  int refundedminerals_size() const;
+  void clear_refundedminerals();
+  static const int kRefundedMineralsFieldNumber = 21;
+  ::google::protobuf::int32 refundedminerals(int index) const;
+  void set_refundedminerals(int index, ::google::protobuf::int32 value);
+  void add_refundedminerals(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      refundedminerals() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_refundedminerals();
+
+  // repeated int32 refundedGas = 22;
+  int refundedgas_size() const;
+  void clear_refundedgas();
+  static const int kRefundedGasFieldNumber = 22;
+  ::google::protobuf::int32 refundedgas(int index) const;
+  void set_refundedgas(int index, ::google::protobuf::int32 value);
+  void add_refundedgas(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      refundedgas() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_refundedgas();
+
+  // repeated .bwapi.data.IntArrayData supplyTotal = 23;
   int supplytotal_size() const;
   void clear_supplytotal();
   static const int kSupplyTotalFieldNumber = 23;
-  ::google::protobuf::int32 supplytotal(int index) const;
-  void set_supplytotal(int index, ::google::protobuf::int32 value);
-  void add_supplytotal(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      supplytotal() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  ::bwapi::data::IntArrayData* mutable_supplytotal(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
       mutable_supplytotal();
+  const ::bwapi::data::IntArrayData& supplytotal(int index) const;
+  ::bwapi::data::IntArrayData* add_supplytotal();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+      supplytotal() const;
 
-  // repeated int32 supplyUsed = 24;
+  // repeated .bwapi.data.IntArrayData supplyUsed = 24;
   int supplyused_size() const;
   void clear_supplyused();
   static const int kSupplyUsedFieldNumber = 24;
-  ::google::protobuf::int32 supplyused(int index) const;
-  void set_supplyused(int index, ::google::protobuf::int32 value);
-  void add_supplyused(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      supplyused() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  ::bwapi::data::IntArrayData* mutable_supplyused(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
       mutable_supplyused();
+  const ::bwapi::data::IntArrayData& supplyused(int index) const;
+  ::bwapi::data::IntArrayData* add_supplyused();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+      supplyused() const;
 
-  // repeated int32 allUnitCount = 25;
+  // repeated .bwapi.data.IntArrayData allUnitCount = 25;
   int allunitcount_size() const;
   void clear_allunitcount();
   static const int kAllUnitCountFieldNumber = 25;
-  ::google::protobuf::int32 allunitcount(int index) const;
-  void set_allunitcount(int index, ::google::protobuf::int32 value);
-  void add_allunitcount(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      allunitcount() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  ::bwapi::data::IntArrayData* mutable_allunitcount(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
       mutable_allunitcount();
+  const ::bwapi::data::IntArrayData& allunitcount(int index) const;
+  ::bwapi::data::IntArrayData* add_allunitcount();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+      allunitcount() const;
 
-  // repeated int32 visibleUnitCount = 26;
+  // repeated .bwapi.data.IntArrayData visibleUnitCount = 26;
   int visibleunitcount_size() const;
   void clear_visibleunitcount();
   static const int kVisibleUnitCountFieldNumber = 26;
-  ::google::protobuf::int32 visibleunitcount(int index) const;
-  void set_visibleunitcount(int index, ::google::protobuf::int32 value);
-  void add_visibleunitcount(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      visibleunitcount() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  ::bwapi::data::IntArrayData* mutable_visibleunitcount(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
       mutable_visibleunitcount();
+  const ::bwapi::data::IntArrayData& visibleunitcount(int index) const;
+  ::bwapi::data::IntArrayData* add_visibleunitcount();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+      visibleunitcount() const;
 
-  // repeated int32 completedUnitCount = 27;
+  // repeated .bwapi.data.IntArrayData completedUnitCount = 27;
   int completedunitcount_size() const;
   void clear_completedunitcount();
   static const int kCompletedUnitCountFieldNumber = 27;
-  ::google::protobuf::int32 completedunitcount(int index) const;
-  void set_completedunitcount(int index, ::google::protobuf::int32 value);
-  void add_completedunitcount(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      completedunitcount() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  ::bwapi::data::IntArrayData* mutable_completedunitcount(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
       mutable_completedunitcount();
+  const ::bwapi::data::IntArrayData& completedunitcount(int index) const;
+  ::bwapi::data::IntArrayData* add_completedunitcount();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+      completedunitcount() const;
 
-  // repeated int32 deadUnitCount = 28;
+  // repeated .bwapi.data.IntArrayData deadUnitCount = 28;
   int deadunitcount_size() const;
   void clear_deadunitcount();
   static const int kDeadUnitCountFieldNumber = 28;
-  ::google::protobuf::int32 deadunitcount(int index) const;
-  void set_deadunitcount(int index, ::google::protobuf::int32 value);
-  void add_deadunitcount(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      deadunitcount() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  ::bwapi::data::IntArrayData* mutable_deadunitcount(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
       mutable_deadunitcount();
+  const ::bwapi::data::IntArrayData& deadunitcount(int index) const;
+  ::bwapi::data::IntArrayData* add_deadunitcount();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+      deadunitcount() const;
 
-  // repeated int32 killedUnitCount = 29;
+  // repeated .bwapi.data.IntArrayData killedUnitCount = 29;
   int killedunitcount_size() const;
   void clear_killedunitcount();
   static const int kKilledUnitCountFieldNumber = 29;
-  ::google::protobuf::int32 killedunitcount(int index) const;
-  void set_killedunitcount(int index, ::google::protobuf::int32 value);
-  void add_killedunitcount(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      killedunitcount() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  ::bwapi::data::IntArrayData* mutable_killedunitcount(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
       mutable_killedunitcount();
+  const ::bwapi::data::IntArrayData& killedunitcount(int index) const;
+  ::bwapi::data::IntArrayData* add_killedunitcount();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+      killedunitcount() const;
 
-  // repeated int32 upgradeLevel = 30;
+  // repeated .bwapi.data.IntArrayData upgradeLevel = 30;
   int upgradelevel_size() const;
   void clear_upgradelevel();
   static const int kUpgradeLevelFieldNumber = 30;
-  ::google::protobuf::int32 upgradelevel(int index) const;
-  void set_upgradelevel(int index, ::google::protobuf::int32 value);
-  void add_upgradelevel(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      upgradelevel() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  ::bwapi::data::IntArrayData* mutable_upgradelevel(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
       mutable_upgradelevel();
+  const ::bwapi::data::IntArrayData& upgradelevel(int index) const;
+  ::bwapi::data::IntArrayData* add_upgradelevel();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+      upgradelevel() const;
 
-  // repeated bool hasResearched = 31;
+  // repeated .bwapi.data.BoolArrayData hasResearched = 31;
   int hasresearched_size() const;
   void clear_hasresearched();
   static const int kHasResearchedFieldNumber = 31;
-  bool hasresearched(int index) const;
-  void set_hasresearched(int index, bool value);
-  void add_hasresearched(bool value);
-  const ::google::protobuf::RepeatedField< bool >&
-      hasresearched() const;
-  ::google::protobuf::RepeatedField< bool >*
+  ::bwapi::data::BoolArrayData* mutable_hasresearched(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >*
       mutable_hasresearched();
+  const ::bwapi::data::BoolArrayData& hasresearched(int index) const;
+  ::bwapi::data::BoolArrayData* add_hasresearched();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >&
+      hasresearched() const;
 
-  // repeated bool isResearching = 32;
+  // repeated .bwapi.data.BoolArrayData isResearching = 32;
   int isresearching_size() const;
   void clear_isresearching();
   static const int kIsResearchingFieldNumber = 32;
-  bool isresearching(int index) const;
-  void set_isresearching(int index, bool value);
-  void add_isresearching(bool value);
-  const ::google::protobuf::RepeatedField< bool >&
-      isresearching() const;
-  ::google::protobuf::RepeatedField< bool >*
+  ::bwapi::data::BoolArrayData* mutable_isresearching(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >*
       mutable_isresearching();
+  const ::bwapi::data::BoolArrayData& isresearching(int index) const;
+  ::bwapi::data::BoolArrayData* add_isresearching();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >&
+      isresearching() const;
 
-  // repeated bool isUpgrading = 33;
+  // repeated .bwapi.data.BoolArrayData isUpgrading = 33;
   int isupgrading_size() const;
   void clear_isupgrading();
   static const int kIsUpgradingFieldNumber = 33;
-  bool isupgrading(int index) const;
-  void set_isupgrading(int index, bool value);
-  void add_isupgrading(bool value);
-  const ::google::protobuf::RepeatedField< bool >&
-      isupgrading() const;
-  ::google::protobuf::RepeatedField< bool >*
+  ::bwapi::data::BoolArrayData* mutable_isupgrading(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >*
       mutable_isupgrading();
+  const ::bwapi::data::BoolArrayData& isupgrading(int index) const;
+  ::bwapi::data::BoolArrayData* add_isupgrading();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >&
+      isupgrading() const;
 
-  // repeated int32 maxUpgradeLevel = 40;
+  // repeated int32 color = 34;
+  int color_size() const;
+  void clear_color();
+  static const int kColorFieldNumber = 34;
+  ::google::protobuf::int32 color(int index) const;
+  void set_color(int index, ::google::protobuf::int32 value);
+  void add_color(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      color() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_color();
+
+  // repeated int32 totalUnitScore = 35;
+  int totalunitscore_size() const;
+  void clear_totalunitscore();
+  static const int kTotalUnitScoreFieldNumber = 35;
+  ::google::protobuf::int32 totalunitscore(int index) const;
+  void set_totalunitscore(int index, ::google::protobuf::int32 value);
+  void add_totalunitscore(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      totalunitscore() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_totalunitscore();
+
+  // repeated int32 totalKillScore = 36;
+  int totalkillscore_size() const;
+  void clear_totalkillscore();
+  static const int kTotalKillScoreFieldNumber = 36;
+  ::google::protobuf::int32 totalkillscore(int index) const;
+  void set_totalkillscore(int index, ::google::protobuf::int32 value);
+  void add_totalkillscore(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      totalkillscore() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_totalkillscore();
+
+  // repeated int32 totalBuildingScore = 37;
+  int totalbuildingscore_size() const;
+  void clear_totalbuildingscore();
+  static const int kTotalBuildingScoreFieldNumber = 37;
+  ::google::protobuf::int32 totalbuildingscore(int index) const;
+  void set_totalbuildingscore(int index, ::google::protobuf::int32 value);
+  void add_totalbuildingscore(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      totalbuildingscore() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_totalbuildingscore();
+
+  // repeated int32 totalRazingScore = 38;
+  int totalrazingscore_size() const;
+  void clear_totalrazingscore();
+  static const int kTotalRazingScoreFieldNumber = 38;
+  ::google::protobuf::int32 totalrazingscore(int index) const;
+  void set_totalrazingscore(int index, ::google::protobuf::int32 value);
+  void add_totalrazingscore(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      totalrazingscore() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_totalrazingscore();
+
+  // repeated int32 customScore = 39;
+  int customscore_size() const;
+  void clear_customscore();
+  static const int kCustomScoreFieldNumber = 39;
+  ::google::protobuf::int32 customscore(int index) const;
+  void set_customscore(int index, ::google::protobuf::int32 value);
+  void add_customscore(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      customscore() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_customscore();
+
+  // repeated .bwapi.data.IntArrayData maxUpgradeLevel = 40;
   int maxupgradelevel_size() const;
   void clear_maxupgradelevel();
   static const int kMaxUpgradeLevelFieldNumber = 40;
-  ::google::protobuf::int32 maxupgradelevel(int index) const;
-  void set_maxupgradelevel(int index, ::google::protobuf::int32 value);
-  void add_maxupgradelevel(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      maxupgradelevel() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  ::bwapi::data::IntArrayData* mutable_maxupgradelevel(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
       mutable_maxupgradelevel();
+  const ::bwapi::data::IntArrayData& maxupgradelevel(int index) const;
+  ::bwapi::data::IntArrayData* add_maxupgradelevel();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+      maxupgradelevel() const;
 
-  // repeated bool isResearchAvailable = 41;
+  // repeated .bwapi.data.BoolArrayData isResearchAvailable = 41;
   int isresearchavailable_size() const;
   void clear_isresearchavailable();
   static const int kIsResearchAvailableFieldNumber = 41;
-  bool isresearchavailable(int index) const;
-  void set_isresearchavailable(int index, bool value);
-  void add_isresearchavailable(bool value);
-  const ::google::protobuf::RepeatedField< bool >&
-      isresearchavailable() const;
-  ::google::protobuf::RepeatedField< bool >*
+  ::bwapi::data::BoolArrayData* mutable_isresearchavailable(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >*
       mutable_isresearchavailable();
+  const ::bwapi::data::BoolArrayData& isresearchavailable(int index) const;
+  ::bwapi::data::BoolArrayData* add_isresearchavailable();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >&
+      isresearchavailable() const;
 
-  // repeated bool isUnitAvailable = 42;
+  // repeated .bwapi.data.BoolArrayData isUnitAvailable = 42;
   int isunitavailable_size() const;
   void clear_isunitavailable();
   static const int kIsUnitAvailableFieldNumber = 42;
-  bool isunitavailable(int index) const;
-  void set_isunitavailable(int index, bool value);
-  void add_isunitavailable(bool value);
-  const ::google::protobuf::RepeatedField< bool >&
-      isunitavailable() const;
-  ::google::protobuf::RepeatedField< bool >*
+  ::bwapi::data::BoolArrayData* mutable_isunitavailable(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >*
       mutable_isunitavailable();
-
-  // string name = 2;
-  void clear_name();
-  static const int kNameFieldNumber = 2;
-  const ::std::string& name() const;
-  void set_name(const ::std::string& value);
-  #if LANG_CXX11
-  void set_name(::std::string&& value);
-  #endif
-  void set_name(const char* value);
-  void set_name(const char* value, size_t size);
-  ::std::string* mutable_name();
-  ::std::string* release_name();
-  void set_allocated_name(::std::string* name);
+  const ::bwapi::data::BoolArrayData& isunitavailable(int index) const;
+  ::bwapi::data::BoolArrayData* add_isunitavailable();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >&
+      isunitavailable() const;
 
   // int32 id = 1;
   void clear_id();
@@ -1460,212 +1980,76 @@ class Player : public ::google::protobuf::MessageLite /* @@protoc_insertion_poin
   ::google::protobuf::int32 id() const;
   void set_id(::google::protobuf::int32 value);
 
-  // int32 race = 3;
-  void clear_race();
-  static const int kRaceFieldNumber = 3;
-  ::google::protobuf::int32 race() const;
-  void set_race(::google::protobuf::int32 value);
-
-  // int32 type = 4;
-  void clear_type();
-  static const int kTypeFieldNumber = 4;
-  ::google::protobuf::int32 type() const;
-  void set_type(::google::protobuf::int32 value);
-
-  // int32 force = 5;
-  void clear_force();
-  static const int kForceFieldNumber = 5;
-  ::google::protobuf::int32 force() const;
-  void set_force(::google::protobuf::int32 value);
-
-  // int32 startLocationX = 9;
-  void clear_startlocationx();
-  static const int kStartLocationXFieldNumber = 9;
-  ::google::protobuf::int32 startlocationx() const;
-  void set_startlocationx(::google::protobuf::int32 value);
-
-  // int32 startLocationY = 10;
-  void clear_startlocationy();
-  static const int kStartLocationYFieldNumber = 10;
-  ::google::protobuf::int32 startlocationy() const;
-  void set_startlocationy(::google::protobuf::int32 value);
-
-  // bool isNeutral = 8;
-  void clear_isneutral();
-  static const int kIsNeutralFieldNumber = 8;
-  bool isneutral() const;
-  void set_isneutral(bool value);
-
-  // bool isVictorious = 11;
-  void clear_isvictorious();
-  static const int kIsVictoriousFieldNumber = 11;
-  bool isvictorious() const;
-  void set_isvictorious(bool value);
-
-  // bool isDefeated = 12;
-  void clear_isdefeated();
-  static const int kIsDefeatedFieldNumber = 12;
-  bool isdefeated() const;
-  void set_isdefeated(bool value);
-
-  // bool leftGame = 13;
-  void clear_leftgame();
-  static const int kLeftGameFieldNumber = 13;
-  bool leftgame() const;
-  void set_leftgame(bool value);
-
-  // bool isParticipating = 14;
-  void clear_isparticipating();
-  static const int kIsParticipatingFieldNumber = 14;
-  bool isparticipating() const;
-  void set_isparticipating(bool value);
-
-  // int32 minerals = 15;
-  void clear_minerals();
-  static const int kMineralsFieldNumber = 15;
-  ::google::protobuf::int32 minerals() const;
-  void set_minerals(::google::protobuf::int32 value);
-
-  // int32 gas = 16;
-  void clear_gas();
-  static const int kGasFieldNumber = 16;
-  ::google::protobuf::int32 gas() const;
-  void set_gas(::google::protobuf::int32 value);
-
-  // int32 gatheredMinerals = 17;
-  void clear_gatheredminerals();
-  static const int kGatheredMineralsFieldNumber = 17;
-  ::google::protobuf::int32 gatheredminerals() const;
-  void set_gatheredminerals(::google::protobuf::int32 value);
-
-  // int32 gatheredGas = 18;
-  void clear_gatheredgas();
-  static const int kGatheredGasFieldNumber = 18;
-  ::google::protobuf::int32 gatheredgas() const;
-  void set_gatheredgas(::google::protobuf::int32 value);
-
-  // int32 repairedMinerals = 19;
-  void clear_repairedminerals();
-  static const int kRepairedMineralsFieldNumber = 19;
-  ::google::protobuf::int32 repairedminerals() const;
-  void set_repairedminerals(::google::protobuf::int32 value);
-
-  // int32 repairedGas = 20;
-  void clear_repairedgas();
-  static const int kRepairedGasFieldNumber = 20;
-  ::google::protobuf::int32 repairedgas() const;
-  void set_repairedgas(::google::protobuf::int32 value);
-
-  // int32 refundedMinerals = 21;
-  void clear_refundedminerals();
-  static const int kRefundedMineralsFieldNumber = 21;
-  ::google::protobuf::int32 refundedminerals() const;
-  void set_refundedminerals(::google::protobuf::int32 value);
-
-  // int32 refundedGas = 22;
-  void clear_refundedgas();
-  static const int kRefundedGasFieldNumber = 22;
-  ::google::protobuf::int32 refundedgas() const;
-  void set_refundedgas(::google::protobuf::int32 value);
-
-  // int32 color = 34;
-  void clear_color();
-  static const int kColorFieldNumber = 34;
-  ::google::protobuf::int32 color() const;
-  void set_color(::google::protobuf::int32 value);
-
-  // int32 totalUnitScore = 35;
-  void clear_totalunitscore();
-  static const int kTotalUnitScoreFieldNumber = 35;
-  ::google::protobuf::int32 totalunitscore() const;
-  void set_totalunitscore(::google::protobuf::int32 value);
-
-  // int32 totalKillScore = 36;
-  void clear_totalkillscore();
-  static const int kTotalKillScoreFieldNumber = 36;
-  ::google::protobuf::int32 totalkillscore() const;
-  void set_totalkillscore(::google::protobuf::int32 value);
-
-  // int32 totalBuildingScore = 37;
-  void clear_totalbuildingscore();
-  static const int kTotalBuildingScoreFieldNumber = 37;
-  ::google::protobuf::int32 totalbuildingscore() const;
-  void set_totalbuildingscore(::google::protobuf::int32 value);
-
-  // int32 totalRazingScore = 38;
-  void clear_totalrazingscore();
-  static const int kTotalRazingScoreFieldNumber = 38;
-  ::google::protobuf::int32 totalrazingscore() const;
-  void set_totalrazingscore(::google::protobuf::int32 value);
-
-  // int32 customScore = 39;
-  void clear_customscore();
-  static const int kCustomScoreFieldNumber = 39;
-  ::google::protobuf::int32 customscore() const;
-  void set_customscore(::google::protobuf::int32 value);
-
   // @@protoc_insertion_point(class_scope:bwapi.data.Player)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::google::protobuf::RepeatedField< bool > isally_;
-  mutable int _isally_cached_byte_size_;
-  ::google::protobuf::RepeatedField< bool > isenemy_;
-  mutable int _isenemy_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > supplytotal_;
-  mutable int _supplytotal_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > supplyused_;
-  mutable int _supplyused_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > allunitcount_;
-  mutable int _allunitcount_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > visibleunitcount_;
-  mutable int _visibleunitcount_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > completedunitcount_;
-  mutable int _completedunitcount_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > deadunitcount_;
-  mutable int _deadunitcount_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > killedunitcount_;
-  mutable int _killedunitcount_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > upgradelevel_;
-  mutable int _upgradelevel_cached_byte_size_;
-  ::google::protobuf::RepeatedField< bool > hasresearched_;
-  mutable int _hasresearched_cached_byte_size_;
-  ::google::protobuf::RepeatedField< bool > isresearching_;
-  mutable int _isresearching_cached_byte_size_;
-  ::google::protobuf::RepeatedField< bool > isupgrading_;
-  mutable int _isupgrading_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > maxupgradelevel_;
-  mutable int _maxupgradelevel_cached_byte_size_;
-  ::google::protobuf::RepeatedField< bool > isresearchavailable_;
-  mutable int _isresearchavailable_cached_byte_size_;
-  ::google::protobuf::RepeatedField< bool > isunitavailable_;
-  mutable int _isunitavailable_cached_byte_size_;
-  ::google::protobuf::internal::ArenaStringPtr name_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> name_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > race_;
+  mutable int _race_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > type_;
+  mutable int _type_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > force_;
+  mutable int _force_cached_byte_size_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData > isally_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData > isenemy_;
+  ::google::protobuf::RepeatedField< bool > isneutral_;
+  mutable int _isneutral_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > startlocationx_;
+  mutable int _startlocationx_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > startlocationy_;
+  mutable int _startlocationy_cached_byte_size_;
+  ::google::protobuf::RepeatedField< bool > isvictorious_;
+  mutable int _isvictorious_cached_byte_size_;
+  ::google::protobuf::RepeatedField< bool > isdefeated_;
+  mutable int _isdefeated_cached_byte_size_;
+  ::google::protobuf::RepeatedField< bool > leftgame_;
+  mutable int _leftgame_cached_byte_size_;
+  ::google::protobuf::RepeatedField< bool > isparticipating_;
+  mutable int _isparticipating_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > minerals_;
+  mutable int _minerals_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > gas_;
+  mutable int _gas_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > gatheredminerals_;
+  mutable int _gatheredminerals_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > gatheredgas_;
+  mutable int _gatheredgas_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > repairedminerals_;
+  mutable int _repairedminerals_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > repairedgas_;
+  mutable int _repairedgas_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > refundedminerals_;
+  mutable int _refundedminerals_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > refundedgas_;
+  mutable int _refundedgas_cached_byte_size_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData > supplytotal_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData > supplyused_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData > allunitcount_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData > visibleunitcount_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData > completedunitcount_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData > deadunitcount_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData > killedunitcount_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData > upgradelevel_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData > hasresearched_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData > isresearching_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData > isupgrading_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > color_;
+  mutable int _color_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > totalunitscore_;
+  mutable int _totalunitscore_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > totalkillscore_;
+  mutable int _totalkillscore_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > totalbuildingscore_;
+  mutable int _totalbuildingscore_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > totalrazingscore_;
+  mutable int _totalrazingscore_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > customscore_;
+  mutable int _customscore_cached_byte_size_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData > maxupgradelevel_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData > isresearchavailable_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData > isunitavailable_;
   ::google::protobuf::int32 id_;
-  ::google::protobuf::int32 race_;
-  ::google::protobuf::int32 type_;
-  ::google::protobuf::int32 force_;
-  ::google::protobuf::int32 startlocationx_;
-  ::google::protobuf::int32 startlocationy_;
-  bool isneutral_;
-  bool isvictorious_;
-  bool isdefeated_;
-  bool leftgame_;
-  bool isparticipating_;
-  ::google::protobuf::int32 minerals_;
-  ::google::protobuf::int32 gas_;
-  ::google::protobuf::int32 gatheredminerals_;
-  ::google::protobuf::int32 gatheredgas_;
-  ::google::protobuf::int32 repairedminerals_;
-  ::google::protobuf::int32 repairedgas_;
-  ::google::protobuf::int32 refundedminerals_;
-  ::google::protobuf::int32 refundedgas_;
-  ::google::protobuf::int32 color_;
-  ::google::protobuf::int32 totalunitscore_;
-  ::google::protobuf::int32 totalkillscore_;
-  ::google::protobuf::int32 totalbuildingscore_;
-  ::google::protobuf::int32 totalrazingscore_;
-  ::google::protobuf::int32 customscore_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_data_2eproto::TableStruct;
 };
@@ -1705,7 +2089,7 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
                &_Unit_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    8;
 
   void Swap(Unit* other);
   friend void swap(Unit& a, Unit& b) {
@@ -2537,7 +2921,7 @@ class Region : public ::google::protobuf::MessageLite /* @@protoc_insertion_poin
                &_Region_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    9;
 
   void Swap(Region* other);
   friend void swap(Region& a, Region& b) {
@@ -2729,7 +3113,7 @@ class Bullet : public ::google::protobuf::MessageLite /* @@protoc_insertion_poin
                &_Bullet_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    10;
 
   void Swap(Bullet* other);
   friend void swap(Bullet& a, Bullet& b) {
@@ -2933,7 +3317,7 @@ class Force : public ::google::protobuf::MessageLite /* @@protoc_insertion_point
                &_Force_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    11;
 
   void Swap(Force* other);
   friend void swap(Force& a, Force& b) {
@@ -3063,7 +3447,7 @@ class Game : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
                &_Game_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    12;
 
   void Swap(Game* other);
   friend void swap(Game& a, Game& b) {
@@ -3296,6 +3680,70 @@ inline void BoolMapData::set_value(bool value) {
   
   value_ = value;
   // @@protoc_insertion_point(field_set:bwapi.data.BoolMapData.value)
+}
+
+// -------------------------------------------------------------------
+
+// IntArrayData
+
+// int32 index = 1;
+inline void IntArrayData::clear_index() {
+  index_ = 0;
+}
+inline ::google::protobuf::int32 IntArrayData::index() const {
+  // @@protoc_insertion_point(field_get:bwapi.data.IntArrayData.index)
+  return index_;
+}
+inline void IntArrayData::set_index(::google::protobuf::int32 value) {
+  
+  index_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.IntArrayData.index)
+}
+
+// int32 value = 2;
+inline void IntArrayData::clear_value() {
+  value_ = 0;
+}
+inline ::google::protobuf::int32 IntArrayData::value() const {
+  // @@protoc_insertion_point(field_get:bwapi.data.IntArrayData.value)
+  return value_;
+}
+inline void IntArrayData::set_value(::google::protobuf::int32 value) {
+  
+  value_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.IntArrayData.value)
+}
+
+// -------------------------------------------------------------------
+
+// BoolArrayData
+
+// int32 index = 1;
+inline void BoolArrayData::clear_index() {
+  index_ = 0;
+}
+inline ::google::protobuf::int32 BoolArrayData::index() const {
+  // @@protoc_insertion_point(field_get:bwapi.data.BoolArrayData.index)
+  return index_;
+}
+inline void BoolArrayData::set_index(::google::protobuf::int32 value) {
+  
+  index_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.BoolArrayData.index)
+}
+
+// bool value = 2;
+inline void BoolArrayData::clear_value() {
+  value_ = false;
+}
+inline bool BoolArrayData::value() const {
+  // @@protoc_insertion_point(field_get:bwapi.data.BoolArrayData.value)
+  return value_;
+}
+inline void BoolArrayData::set_value(bool value) {
+  
+  value_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.BoolArrayData.value)
 }
 
 // -------------------------------------------------------------------
@@ -4792,873 +5240,1273 @@ inline void Player::set_id(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:bwapi.data.Player.id)
 }
 
-// string name = 2;
+// repeated string name = 2;
+inline int Player::name_size() const {
+  return name_.size();
+}
 inline void Player::clear_name() {
-  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  name_.Clear();
 }
-inline const ::std::string& Player::name() const {
+inline const ::std::string& Player::name(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.name)
-  return name_.GetNoArena();
+  return name_.Get(index);
 }
-inline void Player::set_name(const ::std::string& value) {
-  
-  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+inline ::std::string* Player::mutable_name(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.name)
+  return name_.Mutable(index);
+}
+inline void Player::set_name(int index, const ::std::string& value) {
   // @@protoc_insertion_point(field_set:bwapi.data.Player.name)
+  name_.Mutable(index)->assign(value);
 }
 #if LANG_CXX11
-inline void Player::set_name(::std::string&& value) {
-  
-  name_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:bwapi.data.Player.name)
+inline void Player::set_name(int index, ::std::string&& value) {
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.name)
+  name_.Mutable(index)->assign(std::move(value));
 }
 #endif
-inline void Player::set_name(const char* value) {
+inline void Player::set_name(int index, const char* value) {
   GOOGLE_DCHECK(value != NULL);
-  
-  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  name_.Mutable(index)->assign(value);
   // @@protoc_insertion_point(field_set_char:bwapi.data.Player.name)
 }
-inline void Player::set_name(const char* value, size_t size) {
-  
-  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
+inline void Player::set_name(int index, const char* value, size_t size) {
+  name_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
   // @@protoc_insertion_point(field_set_pointer:bwapi.data.Player.name)
 }
-inline ::std::string* Player::mutable_name() {
-  
-  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.name)
-  return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline ::std::string* Player::add_name() {
+  // @@protoc_insertion_point(field_add_mutable:bwapi.data.Player.name)
+  return name_.Add();
 }
-inline ::std::string* Player::release_name() {
-  // @@protoc_insertion_point(field_release:bwapi.data.Player.name)
-  
-  return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline void Player::add_name(const ::std::string& value) {
+  name_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.name)
 }
-inline void Player::set_allocated_name(::std::string* name) {
-  if (name != NULL) {
-    
-  } else {
-    
-  }
-  name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
-  // @@protoc_insertion_point(field_set_allocated:bwapi.data.Player.name)
+#if LANG_CXX11
+inline void Player::add_name(::std::string&& value) {
+  name_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.name)
+}
+#endif
+inline void Player::add_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  name_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:bwapi.data.Player.name)
+}
+inline void Player::add_name(const char* value, size_t size) {
+  name_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:bwapi.data.Player.name)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+Player::name() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.name)
+  return name_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+Player::mutable_name() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.name)
+  return &name_;
 }
 
-// int32 race = 3;
+// repeated int32 race = 3;
+inline int Player::race_size() const {
+  return race_.size();
+}
 inline void Player::clear_race() {
-  race_ = 0;
+  race_.Clear();
 }
-inline ::google::protobuf::int32 Player::race() const {
+inline ::google::protobuf::int32 Player::race(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.race)
-  return race_;
+  return race_.Get(index);
 }
-inline void Player::set_race(::google::protobuf::int32 value) {
-  
-  race_ = value;
+inline void Player::set_race(int index, ::google::protobuf::int32 value) {
+  race_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.race)
 }
+inline void Player::add_race(::google::protobuf::int32 value) {
+  race_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.race)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::race() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.race)
+  return race_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_race() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.race)
+  return &race_;
+}
 
-// int32 type = 4;
+// repeated int32 type = 4;
+inline int Player::type_size() const {
+  return type_.size();
+}
 inline void Player::clear_type() {
-  type_ = 0;
+  type_.Clear();
 }
-inline ::google::protobuf::int32 Player::type() const {
+inline ::google::protobuf::int32 Player::type(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.type)
-  return type_;
+  return type_.Get(index);
 }
-inline void Player::set_type(::google::protobuf::int32 value) {
-  
-  type_ = value;
+inline void Player::set_type(int index, ::google::protobuf::int32 value) {
+  type_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.type)
 }
+inline void Player::add_type(::google::protobuf::int32 value) {
+  type_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.type)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::type() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.type)
+  return type_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_type() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.type)
+  return &type_;
+}
 
-// int32 force = 5;
+// repeated int32 force = 5;
+inline int Player::force_size() const {
+  return force_.size();
+}
 inline void Player::clear_force() {
-  force_ = 0;
+  force_.Clear();
 }
-inline ::google::protobuf::int32 Player::force() const {
+inline ::google::protobuf::int32 Player::force(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.force)
-  return force_;
+  return force_.Get(index);
 }
-inline void Player::set_force(::google::protobuf::int32 value) {
-  
-  force_ = value;
+inline void Player::set_force(int index, ::google::protobuf::int32 value) {
+  force_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.force)
 }
+inline void Player::add_force(::google::protobuf::int32 value) {
+  force_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.force)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::force() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.force)
+  return force_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_force() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.force)
+  return &force_;
+}
 
-// repeated bool isAlly = 6;
+// repeated .bwapi.data.BoolArrayData isAlly = 6;
 inline int Player::isally_size() const {
   return isally_.size();
 }
 inline void Player::clear_isally() {
   isally_.Clear();
 }
-inline bool Player::isally(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Player.isAlly)
-  return isally_.Get(index);
+inline ::bwapi::data::BoolArrayData* Player::mutable_isally(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.isAlly)
+  return isally_.Mutable(index);
 }
-inline void Player::set_isally(int index, bool value) {
-  isally_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.isAlly)
-}
-inline void Player::add_isally(bool value) {
-  isally_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.isAlly)
-}
-inline const ::google::protobuf::RepeatedField< bool >&
-Player::isally() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.isAlly)
-  return isally_;
-}
-inline ::google::protobuf::RepeatedField< bool >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >*
 Player::mutable_isally() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isAlly)
   return &isally_;
 }
+inline const ::bwapi::data::BoolArrayData& Player::isally(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.isAlly)
+  return isally_.Get(index);
+}
+inline ::bwapi::data::BoolArrayData* Player::add_isally() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isAlly)
+  return isally_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >&
+Player::isally() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isAlly)
+  return isally_;
+}
 
-// repeated bool isEnemy = 7;
+// repeated .bwapi.data.BoolArrayData isEnemy = 7;
 inline int Player::isenemy_size() const {
   return isenemy_.size();
 }
 inline void Player::clear_isenemy() {
   isenemy_.Clear();
 }
-inline bool Player::isenemy(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Player.isEnemy)
-  return isenemy_.Get(index);
+inline ::bwapi::data::BoolArrayData* Player::mutable_isenemy(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.isEnemy)
+  return isenemy_.Mutable(index);
 }
-inline void Player::set_isenemy(int index, bool value) {
-  isenemy_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.isEnemy)
-}
-inline void Player::add_isenemy(bool value) {
-  isenemy_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.isEnemy)
-}
-inline const ::google::protobuf::RepeatedField< bool >&
-Player::isenemy() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.isEnemy)
-  return isenemy_;
-}
-inline ::google::protobuf::RepeatedField< bool >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >*
 Player::mutable_isenemy() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isEnemy)
   return &isenemy_;
 }
+inline const ::bwapi::data::BoolArrayData& Player::isenemy(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.isEnemy)
+  return isenemy_.Get(index);
+}
+inline ::bwapi::data::BoolArrayData* Player::add_isenemy() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isEnemy)
+  return isenemy_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >&
+Player::isenemy() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isEnemy)
+  return isenemy_;
+}
 
-// bool isNeutral = 8;
+// repeated bool isNeutral = 8;
+inline int Player::isneutral_size() const {
+  return isneutral_.size();
+}
 inline void Player::clear_isneutral() {
-  isneutral_ = false;
+  isneutral_.Clear();
 }
-inline bool Player::isneutral() const {
+inline bool Player::isneutral(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.isNeutral)
-  return isneutral_;
+  return isneutral_.Get(index);
 }
-inline void Player::set_isneutral(bool value) {
-  
-  isneutral_ = value;
+inline void Player::set_isneutral(int index, bool value) {
+  isneutral_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.isNeutral)
 }
+inline void Player::add_isneutral(bool value) {
+  isneutral_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isNeutral)
+}
+inline const ::google::protobuf::RepeatedField< bool >&
+Player::isneutral() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isNeutral)
+  return isneutral_;
+}
+inline ::google::protobuf::RepeatedField< bool >*
+Player::mutable_isneutral() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isNeutral)
+  return &isneutral_;
+}
 
-// int32 startLocationX = 9;
+// repeated int32 startLocationX = 9;
+inline int Player::startlocationx_size() const {
+  return startlocationx_.size();
+}
 inline void Player::clear_startlocationx() {
-  startlocationx_ = 0;
+  startlocationx_.Clear();
 }
-inline ::google::protobuf::int32 Player::startlocationx() const {
+inline ::google::protobuf::int32 Player::startlocationx(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.startLocationX)
-  return startlocationx_;
+  return startlocationx_.Get(index);
 }
-inline void Player::set_startlocationx(::google::protobuf::int32 value) {
-  
-  startlocationx_ = value;
+inline void Player::set_startlocationx(int index, ::google::protobuf::int32 value) {
+  startlocationx_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.startLocationX)
 }
+inline void Player::add_startlocationx(::google::protobuf::int32 value) {
+  startlocationx_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.startLocationX)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::startlocationx() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.startLocationX)
+  return startlocationx_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_startlocationx() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.startLocationX)
+  return &startlocationx_;
+}
 
-// int32 startLocationY = 10;
+// repeated int32 startLocationY = 10;
+inline int Player::startlocationy_size() const {
+  return startlocationy_.size();
+}
 inline void Player::clear_startlocationy() {
-  startlocationy_ = 0;
+  startlocationy_.Clear();
 }
-inline ::google::protobuf::int32 Player::startlocationy() const {
+inline ::google::protobuf::int32 Player::startlocationy(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.startLocationY)
-  return startlocationy_;
+  return startlocationy_.Get(index);
 }
-inline void Player::set_startlocationy(::google::protobuf::int32 value) {
-  
-  startlocationy_ = value;
+inline void Player::set_startlocationy(int index, ::google::protobuf::int32 value) {
+  startlocationy_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.startLocationY)
 }
+inline void Player::add_startlocationy(::google::protobuf::int32 value) {
+  startlocationy_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.startLocationY)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::startlocationy() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.startLocationY)
+  return startlocationy_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_startlocationy() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.startLocationY)
+  return &startlocationy_;
+}
 
-// bool isVictorious = 11;
+// repeated bool isVictorious = 11;
+inline int Player::isvictorious_size() const {
+  return isvictorious_.size();
+}
 inline void Player::clear_isvictorious() {
-  isvictorious_ = false;
+  isvictorious_.Clear();
 }
-inline bool Player::isvictorious() const {
+inline bool Player::isvictorious(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.isVictorious)
-  return isvictorious_;
+  return isvictorious_.Get(index);
 }
-inline void Player::set_isvictorious(bool value) {
-  
-  isvictorious_ = value;
+inline void Player::set_isvictorious(int index, bool value) {
+  isvictorious_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.isVictorious)
 }
+inline void Player::add_isvictorious(bool value) {
+  isvictorious_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isVictorious)
+}
+inline const ::google::protobuf::RepeatedField< bool >&
+Player::isvictorious() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isVictorious)
+  return isvictorious_;
+}
+inline ::google::protobuf::RepeatedField< bool >*
+Player::mutable_isvictorious() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isVictorious)
+  return &isvictorious_;
+}
 
-// bool isDefeated = 12;
+// repeated bool isDefeated = 12;
+inline int Player::isdefeated_size() const {
+  return isdefeated_.size();
+}
 inline void Player::clear_isdefeated() {
-  isdefeated_ = false;
+  isdefeated_.Clear();
 }
-inline bool Player::isdefeated() const {
+inline bool Player::isdefeated(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.isDefeated)
-  return isdefeated_;
+  return isdefeated_.Get(index);
 }
-inline void Player::set_isdefeated(bool value) {
-  
-  isdefeated_ = value;
+inline void Player::set_isdefeated(int index, bool value) {
+  isdefeated_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.isDefeated)
 }
+inline void Player::add_isdefeated(bool value) {
+  isdefeated_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isDefeated)
+}
+inline const ::google::protobuf::RepeatedField< bool >&
+Player::isdefeated() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isDefeated)
+  return isdefeated_;
+}
+inline ::google::protobuf::RepeatedField< bool >*
+Player::mutable_isdefeated() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isDefeated)
+  return &isdefeated_;
+}
 
-// bool leftGame = 13;
+// repeated bool leftGame = 13;
+inline int Player::leftgame_size() const {
+  return leftgame_.size();
+}
 inline void Player::clear_leftgame() {
-  leftgame_ = false;
+  leftgame_.Clear();
 }
-inline bool Player::leftgame() const {
+inline bool Player::leftgame(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.leftGame)
-  return leftgame_;
+  return leftgame_.Get(index);
 }
-inline void Player::set_leftgame(bool value) {
-  
-  leftgame_ = value;
+inline void Player::set_leftgame(int index, bool value) {
+  leftgame_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.leftGame)
 }
+inline void Player::add_leftgame(bool value) {
+  leftgame_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.leftGame)
+}
+inline const ::google::protobuf::RepeatedField< bool >&
+Player::leftgame() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.leftGame)
+  return leftgame_;
+}
+inline ::google::protobuf::RepeatedField< bool >*
+Player::mutable_leftgame() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.leftGame)
+  return &leftgame_;
+}
 
-// bool isParticipating = 14;
+// repeated bool isParticipating = 14;
+inline int Player::isparticipating_size() const {
+  return isparticipating_.size();
+}
 inline void Player::clear_isparticipating() {
-  isparticipating_ = false;
+  isparticipating_.Clear();
 }
-inline bool Player::isparticipating() const {
+inline bool Player::isparticipating(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.isParticipating)
-  return isparticipating_;
+  return isparticipating_.Get(index);
 }
-inline void Player::set_isparticipating(bool value) {
-  
-  isparticipating_ = value;
+inline void Player::set_isparticipating(int index, bool value) {
+  isparticipating_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.isParticipating)
 }
+inline void Player::add_isparticipating(bool value) {
+  isparticipating_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isParticipating)
+}
+inline const ::google::protobuf::RepeatedField< bool >&
+Player::isparticipating() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isParticipating)
+  return isparticipating_;
+}
+inline ::google::protobuf::RepeatedField< bool >*
+Player::mutable_isparticipating() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isParticipating)
+  return &isparticipating_;
+}
 
-// int32 minerals = 15;
+// repeated int32 minerals = 15;
+inline int Player::minerals_size() const {
+  return minerals_.size();
+}
 inline void Player::clear_minerals() {
-  minerals_ = 0;
+  minerals_.Clear();
 }
-inline ::google::protobuf::int32 Player::minerals() const {
+inline ::google::protobuf::int32 Player::minerals(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.minerals)
-  return minerals_;
+  return minerals_.Get(index);
 }
-inline void Player::set_minerals(::google::protobuf::int32 value) {
-  
-  minerals_ = value;
+inline void Player::set_minerals(int index, ::google::protobuf::int32 value) {
+  minerals_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.minerals)
 }
+inline void Player::add_minerals(::google::protobuf::int32 value) {
+  minerals_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.minerals)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::minerals() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.minerals)
+  return minerals_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_minerals() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.minerals)
+  return &minerals_;
+}
 
-// int32 gas = 16;
+// repeated int32 gas = 16;
+inline int Player::gas_size() const {
+  return gas_.size();
+}
 inline void Player::clear_gas() {
-  gas_ = 0;
+  gas_.Clear();
 }
-inline ::google::protobuf::int32 Player::gas() const {
+inline ::google::protobuf::int32 Player::gas(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.gas)
-  return gas_;
+  return gas_.Get(index);
 }
-inline void Player::set_gas(::google::protobuf::int32 value) {
-  
-  gas_ = value;
+inline void Player::set_gas(int index, ::google::protobuf::int32 value) {
+  gas_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.gas)
 }
+inline void Player::add_gas(::google::protobuf::int32 value) {
+  gas_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.gas)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::gas() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.gas)
+  return gas_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_gas() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.gas)
+  return &gas_;
+}
 
-// int32 gatheredMinerals = 17;
+// repeated int32 gatheredMinerals = 17;
+inline int Player::gatheredminerals_size() const {
+  return gatheredminerals_.size();
+}
 inline void Player::clear_gatheredminerals() {
-  gatheredminerals_ = 0;
+  gatheredminerals_.Clear();
 }
-inline ::google::protobuf::int32 Player::gatheredminerals() const {
+inline ::google::protobuf::int32 Player::gatheredminerals(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.gatheredMinerals)
-  return gatheredminerals_;
+  return gatheredminerals_.Get(index);
 }
-inline void Player::set_gatheredminerals(::google::protobuf::int32 value) {
-  
-  gatheredminerals_ = value;
+inline void Player::set_gatheredminerals(int index, ::google::protobuf::int32 value) {
+  gatheredminerals_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.gatheredMinerals)
 }
+inline void Player::add_gatheredminerals(::google::protobuf::int32 value) {
+  gatheredminerals_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.gatheredMinerals)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::gatheredminerals() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.gatheredMinerals)
+  return gatheredminerals_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_gatheredminerals() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.gatheredMinerals)
+  return &gatheredminerals_;
+}
 
-// int32 gatheredGas = 18;
+// repeated int32 gatheredGas = 18;
+inline int Player::gatheredgas_size() const {
+  return gatheredgas_.size();
+}
 inline void Player::clear_gatheredgas() {
-  gatheredgas_ = 0;
+  gatheredgas_.Clear();
 }
-inline ::google::protobuf::int32 Player::gatheredgas() const {
+inline ::google::protobuf::int32 Player::gatheredgas(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.gatheredGas)
-  return gatheredgas_;
+  return gatheredgas_.Get(index);
 }
-inline void Player::set_gatheredgas(::google::protobuf::int32 value) {
-  
-  gatheredgas_ = value;
+inline void Player::set_gatheredgas(int index, ::google::protobuf::int32 value) {
+  gatheredgas_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.gatheredGas)
 }
+inline void Player::add_gatheredgas(::google::protobuf::int32 value) {
+  gatheredgas_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.gatheredGas)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::gatheredgas() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.gatheredGas)
+  return gatheredgas_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_gatheredgas() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.gatheredGas)
+  return &gatheredgas_;
+}
 
-// int32 repairedMinerals = 19;
+// repeated int32 repairedMinerals = 19;
+inline int Player::repairedminerals_size() const {
+  return repairedminerals_.size();
+}
 inline void Player::clear_repairedminerals() {
-  repairedminerals_ = 0;
+  repairedminerals_.Clear();
 }
-inline ::google::protobuf::int32 Player::repairedminerals() const {
+inline ::google::protobuf::int32 Player::repairedminerals(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.repairedMinerals)
-  return repairedminerals_;
+  return repairedminerals_.Get(index);
 }
-inline void Player::set_repairedminerals(::google::protobuf::int32 value) {
-  
-  repairedminerals_ = value;
+inline void Player::set_repairedminerals(int index, ::google::protobuf::int32 value) {
+  repairedminerals_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.repairedMinerals)
 }
+inline void Player::add_repairedminerals(::google::protobuf::int32 value) {
+  repairedminerals_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.repairedMinerals)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::repairedminerals() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.repairedMinerals)
+  return repairedminerals_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_repairedminerals() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.repairedMinerals)
+  return &repairedminerals_;
+}
 
-// int32 repairedGas = 20;
+// repeated int32 repairedGas = 20;
+inline int Player::repairedgas_size() const {
+  return repairedgas_.size();
+}
 inline void Player::clear_repairedgas() {
-  repairedgas_ = 0;
+  repairedgas_.Clear();
 }
-inline ::google::protobuf::int32 Player::repairedgas() const {
+inline ::google::protobuf::int32 Player::repairedgas(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.repairedGas)
-  return repairedgas_;
+  return repairedgas_.Get(index);
 }
-inline void Player::set_repairedgas(::google::protobuf::int32 value) {
-  
-  repairedgas_ = value;
+inline void Player::set_repairedgas(int index, ::google::protobuf::int32 value) {
+  repairedgas_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.repairedGas)
 }
+inline void Player::add_repairedgas(::google::protobuf::int32 value) {
+  repairedgas_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.repairedGas)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::repairedgas() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.repairedGas)
+  return repairedgas_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_repairedgas() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.repairedGas)
+  return &repairedgas_;
+}
 
-// int32 refundedMinerals = 21;
+// repeated int32 refundedMinerals = 21;
+inline int Player::refundedminerals_size() const {
+  return refundedminerals_.size();
+}
 inline void Player::clear_refundedminerals() {
-  refundedminerals_ = 0;
+  refundedminerals_.Clear();
 }
-inline ::google::protobuf::int32 Player::refundedminerals() const {
+inline ::google::protobuf::int32 Player::refundedminerals(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.refundedMinerals)
-  return refundedminerals_;
+  return refundedminerals_.Get(index);
 }
-inline void Player::set_refundedminerals(::google::protobuf::int32 value) {
-  
-  refundedminerals_ = value;
+inline void Player::set_refundedminerals(int index, ::google::protobuf::int32 value) {
+  refundedminerals_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.refundedMinerals)
 }
+inline void Player::add_refundedminerals(::google::protobuf::int32 value) {
+  refundedminerals_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.refundedMinerals)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::refundedminerals() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.refundedMinerals)
+  return refundedminerals_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_refundedminerals() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.refundedMinerals)
+  return &refundedminerals_;
+}
 
-// int32 refundedGas = 22;
+// repeated int32 refundedGas = 22;
+inline int Player::refundedgas_size() const {
+  return refundedgas_.size();
+}
 inline void Player::clear_refundedgas() {
-  refundedgas_ = 0;
+  refundedgas_.Clear();
 }
-inline ::google::protobuf::int32 Player::refundedgas() const {
+inline ::google::protobuf::int32 Player::refundedgas(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.refundedGas)
-  return refundedgas_;
+  return refundedgas_.Get(index);
 }
-inline void Player::set_refundedgas(::google::protobuf::int32 value) {
-  
-  refundedgas_ = value;
+inline void Player::set_refundedgas(int index, ::google::protobuf::int32 value) {
+  refundedgas_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.refundedGas)
 }
+inline void Player::add_refundedgas(::google::protobuf::int32 value) {
+  refundedgas_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.refundedGas)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::refundedgas() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.refundedGas)
+  return refundedgas_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_refundedgas() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.refundedGas)
+  return &refundedgas_;
+}
 
-// repeated int32 supplyTotal = 23;
+// repeated .bwapi.data.IntArrayData supplyTotal = 23;
 inline int Player::supplytotal_size() const {
   return supplytotal_.size();
 }
 inline void Player::clear_supplytotal() {
   supplytotal_.Clear();
 }
-inline ::google::protobuf::int32 Player::supplytotal(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Player.supplyTotal)
-  return supplytotal_.Get(index);
+inline ::bwapi::data::IntArrayData* Player::mutable_supplytotal(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.supplyTotal)
+  return supplytotal_.Mutable(index);
 }
-inline void Player::set_supplytotal(int index, ::google::protobuf::int32 value) {
-  supplytotal_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.supplyTotal)
-}
-inline void Player::add_supplytotal(::google::protobuf::int32 value) {
-  supplytotal_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.supplyTotal)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-Player::supplytotal() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.supplyTotal)
-  return supplytotal_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
 Player::mutable_supplytotal() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.supplyTotal)
   return &supplytotal_;
 }
+inline const ::bwapi::data::IntArrayData& Player::supplytotal(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.supplyTotal)
+  return supplytotal_.Get(index);
+}
+inline ::bwapi::data::IntArrayData* Player::add_supplytotal() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.supplyTotal)
+  return supplytotal_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+Player::supplytotal() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.supplyTotal)
+  return supplytotal_;
+}
 
-// repeated int32 supplyUsed = 24;
+// repeated .bwapi.data.IntArrayData supplyUsed = 24;
 inline int Player::supplyused_size() const {
   return supplyused_.size();
 }
 inline void Player::clear_supplyused() {
   supplyused_.Clear();
 }
-inline ::google::protobuf::int32 Player::supplyused(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Player.supplyUsed)
-  return supplyused_.Get(index);
+inline ::bwapi::data::IntArrayData* Player::mutable_supplyused(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.supplyUsed)
+  return supplyused_.Mutable(index);
 }
-inline void Player::set_supplyused(int index, ::google::protobuf::int32 value) {
-  supplyused_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.supplyUsed)
-}
-inline void Player::add_supplyused(::google::protobuf::int32 value) {
-  supplyused_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.supplyUsed)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-Player::supplyused() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.supplyUsed)
-  return supplyused_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
 Player::mutable_supplyused() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.supplyUsed)
   return &supplyused_;
 }
+inline const ::bwapi::data::IntArrayData& Player::supplyused(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.supplyUsed)
+  return supplyused_.Get(index);
+}
+inline ::bwapi::data::IntArrayData* Player::add_supplyused() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.supplyUsed)
+  return supplyused_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+Player::supplyused() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.supplyUsed)
+  return supplyused_;
+}
 
-// repeated int32 allUnitCount = 25;
+// repeated .bwapi.data.IntArrayData allUnitCount = 25;
 inline int Player::allunitcount_size() const {
   return allunitcount_.size();
 }
 inline void Player::clear_allunitcount() {
   allunitcount_.Clear();
 }
-inline ::google::protobuf::int32 Player::allunitcount(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Player.allUnitCount)
-  return allunitcount_.Get(index);
+inline ::bwapi::data::IntArrayData* Player::mutable_allunitcount(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.allUnitCount)
+  return allunitcount_.Mutable(index);
 }
-inline void Player::set_allunitcount(int index, ::google::protobuf::int32 value) {
-  allunitcount_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.allUnitCount)
-}
-inline void Player::add_allunitcount(::google::protobuf::int32 value) {
-  allunitcount_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.allUnitCount)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-Player::allunitcount() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.allUnitCount)
-  return allunitcount_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
 Player::mutable_allunitcount() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.allUnitCount)
   return &allunitcount_;
 }
+inline const ::bwapi::data::IntArrayData& Player::allunitcount(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.allUnitCount)
+  return allunitcount_.Get(index);
+}
+inline ::bwapi::data::IntArrayData* Player::add_allunitcount() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.allUnitCount)
+  return allunitcount_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+Player::allunitcount() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.allUnitCount)
+  return allunitcount_;
+}
 
-// repeated int32 visibleUnitCount = 26;
+// repeated .bwapi.data.IntArrayData visibleUnitCount = 26;
 inline int Player::visibleunitcount_size() const {
   return visibleunitcount_.size();
 }
 inline void Player::clear_visibleunitcount() {
   visibleunitcount_.Clear();
 }
-inline ::google::protobuf::int32 Player::visibleunitcount(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Player.visibleUnitCount)
-  return visibleunitcount_.Get(index);
+inline ::bwapi::data::IntArrayData* Player::mutable_visibleunitcount(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.visibleUnitCount)
+  return visibleunitcount_.Mutable(index);
 }
-inline void Player::set_visibleunitcount(int index, ::google::protobuf::int32 value) {
-  visibleunitcount_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.visibleUnitCount)
-}
-inline void Player::add_visibleunitcount(::google::protobuf::int32 value) {
-  visibleunitcount_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.visibleUnitCount)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-Player::visibleunitcount() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.visibleUnitCount)
-  return visibleunitcount_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
 Player::mutable_visibleunitcount() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.visibleUnitCount)
   return &visibleunitcount_;
 }
+inline const ::bwapi::data::IntArrayData& Player::visibleunitcount(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.visibleUnitCount)
+  return visibleunitcount_.Get(index);
+}
+inline ::bwapi::data::IntArrayData* Player::add_visibleunitcount() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.visibleUnitCount)
+  return visibleunitcount_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+Player::visibleunitcount() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.visibleUnitCount)
+  return visibleunitcount_;
+}
 
-// repeated int32 completedUnitCount = 27;
+// repeated .bwapi.data.IntArrayData completedUnitCount = 27;
 inline int Player::completedunitcount_size() const {
   return completedunitcount_.size();
 }
 inline void Player::clear_completedunitcount() {
   completedunitcount_.Clear();
 }
-inline ::google::protobuf::int32 Player::completedunitcount(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Player.completedUnitCount)
-  return completedunitcount_.Get(index);
+inline ::bwapi::data::IntArrayData* Player::mutable_completedunitcount(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.completedUnitCount)
+  return completedunitcount_.Mutable(index);
 }
-inline void Player::set_completedunitcount(int index, ::google::protobuf::int32 value) {
-  completedunitcount_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.completedUnitCount)
-}
-inline void Player::add_completedunitcount(::google::protobuf::int32 value) {
-  completedunitcount_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.completedUnitCount)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-Player::completedunitcount() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.completedUnitCount)
-  return completedunitcount_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
 Player::mutable_completedunitcount() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.completedUnitCount)
   return &completedunitcount_;
 }
+inline const ::bwapi::data::IntArrayData& Player::completedunitcount(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.completedUnitCount)
+  return completedunitcount_.Get(index);
+}
+inline ::bwapi::data::IntArrayData* Player::add_completedunitcount() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.completedUnitCount)
+  return completedunitcount_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+Player::completedunitcount() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.completedUnitCount)
+  return completedunitcount_;
+}
 
-// repeated int32 deadUnitCount = 28;
+// repeated .bwapi.data.IntArrayData deadUnitCount = 28;
 inline int Player::deadunitcount_size() const {
   return deadunitcount_.size();
 }
 inline void Player::clear_deadunitcount() {
   deadunitcount_.Clear();
 }
-inline ::google::protobuf::int32 Player::deadunitcount(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Player.deadUnitCount)
-  return deadunitcount_.Get(index);
+inline ::bwapi::data::IntArrayData* Player::mutable_deadunitcount(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.deadUnitCount)
+  return deadunitcount_.Mutable(index);
 }
-inline void Player::set_deadunitcount(int index, ::google::protobuf::int32 value) {
-  deadunitcount_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.deadUnitCount)
-}
-inline void Player::add_deadunitcount(::google::protobuf::int32 value) {
-  deadunitcount_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.deadUnitCount)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-Player::deadunitcount() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.deadUnitCount)
-  return deadunitcount_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
 Player::mutable_deadunitcount() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.deadUnitCount)
   return &deadunitcount_;
 }
+inline const ::bwapi::data::IntArrayData& Player::deadunitcount(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.deadUnitCount)
+  return deadunitcount_.Get(index);
+}
+inline ::bwapi::data::IntArrayData* Player::add_deadunitcount() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.deadUnitCount)
+  return deadunitcount_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+Player::deadunitcount() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.deadUnitCount)
+  return deadunitcount_;
+}
 
-// repeated int32 killedUnitCount = 29;
+// repeated .bwapi.data.IntArrayData killedUnitCount = 29;
 inline int Player::killedunitcount_size() const {
   return killedunitcount_.size();
 }
 inline void Player::clear_killedunitcount() {
   killedunitcount_.Clear();
 }
-inline ::google::protobuf::int32 Player::killedunitcount(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Player.killedUnitCount)
-  return killedunitcount_.Get(index);
+inline ::bwapi::data::IntArrayData* Player::mutable_killedunitcount(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.killedUnitCount)
+  return killedunitcount_.Mutable(index);
 }
-inline void Player::set_killedunitcount(int index, ::google::protobuf::int32 value) {
-  killedunitcount_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.killedUnitCount)
-}
-inline void Player::add_killedunitcount(::google::protobuf::int32 value) {
-  killedunitcount_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.killedUnitCount)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-Player::killedunitcount() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.killedUnitCount)
-  return killedunitcount_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
 Player::mutable_killedunitcount() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.killedUnitCount)
   return &killedunitcount_;
 }
+inline const ::bwapi::data::IntArrayData& Player::killedunitcount(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.killedUnitCount)
+  return killedunitcount_.Get(index);
+}
+inline ::bwapi::data::IntArrayData* Player::add_killedunitcount() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.killedUnitCount)
+  return killedunitcount_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+Player::killedunitcount() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.killedUnitCount)
+  return killedunitcount_;
+}
 
-// repeated int32 upgradeLevel = 30;
+// repeated .bwapi.data.IntArrayData upgradeLevel = 30;
 inline int Player::upgradelevel_size() const {
   return upgradelevel_.size();
 }
 inline void Player::clear_upgradelevel() {
   upgradelevel_.Clear();
 }
-inline ::google::protobuf::int32 Player::upgradelevel(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Player.upgradeLevel)
-  return upgradelevel_.Get(index);
+inline ::bwapi::data::IntArrayData* Player::mutable_upgradelevel(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.upgradeLevel)
+  return upgradelevel_.Mutable(index);
 }
-inline void Player::set_upgradelevel(int index, ::google::protobuf::int32 value) {
-  upgradelevel_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.upgradeLevel)
-}
-inline void Player::add_upgradelevel(::google::protobuf::int32 value) {
-  upgradelevel_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.upgradeLevel)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-Player::upgradelevel() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.upgradeLevel)
-  return upgradelevel_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
 Player::mutable_upgradelevel() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.upgradeLevel)
   return &upgradelevel_;
 }
+inline const ::bwapi::data::IntArrayData& Player::upgradelevel(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.upgradeLevel)
+  return upgradelevel_.Get(index);
+}
+inline ::bwapi::data::IntArrayData* Player::add_upgradelevel() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.upgradeLevel)
+  return upgradelevel_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+Player::upgradelevel() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.upgradeLevel)
+  return upgradelevel_;
+}
 
-// repeated bool hasResearched = 31;
+// repeated .bwapi.data.BoolArrayData hasResearched = 31;
 inline int Player::hasresearched_size() const {
   return hasresearched_.size();
 }
 inline void Player::clear_hasresearched() {
   hasresearched_.Clear();
 }
-inline bool Player::hasresearched(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Player.hasResearched)
-  return hasresearched_.Get(index);
+inline ::bwapi::data::BoolArrayData* Player::mutable_hasresearched(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.hasResearched)
+  return hasresearched_.Mutable(index);
 }
-inline void Player::set_hasresearched(int index, bool value) {
-  hasresearched_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.hasResearched)
-}
-inline void Player::add_hasresearched(bool value) {
-  hasresearched_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.hasResearched)
-}
-inline const ::google::protobuf::RepeatedField< bool >&
-Player::hasresearched() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.hasResearched)
-  return hasresearched_;
-}
-inline ::google::protobuf::RepeatedField< bool >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >*
 Player::mutable_hasresearched() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.hasResearched)
   return &hasresearched_;
 }
+inline const ::bwapi::data::BoolArrayData& Player::hasresearched(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.hasResearched)
+  return hasresearched_.Get(index);
+}
+inline ::bwapi::data::BoolArrayData* Player::add_hasresearched() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.hasResearched)
+  return hasresearched_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >&
+Player::hasresearched() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.hasResearched)
+  return hasresearched_;
+}
 
-// repeated bool isResearching = 32;
+// repeated .bwapi.data.BoolArrayData isResearching = 32;
 inline int Player::isresearching_size() const {
   return isresearching_.size();
 }
 inline void Player::clear_isresearching() {
   isresearching_.Clear();
 }
-inline bool Player::isresearching(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Player.isResearching)
-  return isresearching_.Get(index);
+inline ::bwapi::data::BoolArrayData* Player::mutable_isresearching(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.isResearching)
+  return isresearching_.Mutable(index);
 }
-inline void Player::set_isresearching(int index, bool value) {
-  isresearching_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.isResearching)
-}
-inline void Player::add_isresearching(bool value) {
-  isresearching_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.isResearching)
-}
-inline const ::google::protobuf::RepeatedField< bool >&
-Player::isresearching() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.isResearching)
-  return isresearching_;
-}
-inline ::google::protobuf::RepeatedField< bool >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >*
 Player::mutable_isresearching() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isResearching)
   return &isresearching_;
 }
+inline const ::bwapi::data::BoolArrayData& Player::isresearching(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.isResearching)
+  return isresearching_.Get(index);
+}
+inline ::bwapi::data::BoolArrayData* Player::add_isresearching() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isResearching)
+  return isresearching_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >&
+Player::isresearching() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isResearching)
+  return isresearching_;
+}
 
-// repeated bool isUpgrading = 33;
+// repeated .bwapi.data.BoolArrayData isUpgrading = 33;
 inline int Player::isupgrading_size() const {
   return isupgrading_.size();
 }
 inline void Player::clear_isupgrading() {
   isupgrading_.Clear();
 }
-inline bool Player::isupgrading(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Player.isUpgrading)
-  return isupgrading_.Get(index);
+inline ::bwapi::data::BoolArrayData* Player::mutable_isupgrading(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.isUpgrading)
+  return isupgrading_.Mutable(index);
 }
-inline void Player::set_isupgrading(int index, bool value) {
-  isupgrading_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.isUpgrading)
-}
-inline void Player::add_isupgrading(bool value) {
-  isupgrading_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.isUpgrading)
-}
-inline const ::google::protobuf::RepeatedField< bool >&
-Player::isupgrading() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.isUpgrading)
-  return isupgrading_;
-}
-inline ::google::protobuf::RepeatedField< bool >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >*
 Player::mutable_isupgrading() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isUpgrading)
   return &isupgrading_;
 }
+inline const ::bwapi::data::BoolArrayData& Player::isupgrading(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.isUpgrading)
+  return isupgrading_.Get(index);
+}
+inline ::bwapi::data::BoolArrayData* Player::add_isupgrading() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isUpgrading)
+  return isupgrading_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >&
+Player::isupgrading() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isUpgrading)
+  return isupgrading_;
+}
 
-// int32 color = 34;
+// repeated int32 color = 34;
+inline int Player::color_size() const {
+  return color_.size();
+}
 inline void Player::clear_color() {
-  color_ = 0;
+  color_.Clear();
 }
-inline ::google::protobuf::int32 Player::color() const {
+inline ::google::protobuf::int32 Player::color(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.color)
-  return color_;
+  return color_.Get(index);
 }
-inline void Player::set_color(::google::protobuf::int32 value) {
-  
-  color_ = value;
+inline void Player::set_color(int index, ::google::protobuf::int32 value) {
+  color_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.color)
 }
+inline void Player::add_color(::google::protobuf::int32 value) {
+  color_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.color)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::color() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.color)
+  return color_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_color() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.color)
+  return &color_;
+}
 
-// int32 totalUnitScore = 35;
+// repeated int32 totalUnitScore = 35;
+inline int Player::totalunitscore_size() const {
+  return totalunitscore_.size();
+}
 inline void Player::clear_totalunitscore() {
-  totalunitscore_ = 0;
+  totalunitscore_.Clear();
 }
-inline ::google::protobuf::int32 Player::totalunitscore() const {
+inline ::google::protobuf::int32 Player::totalunitscore(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.totalUnitScore)
-  return totalunitscore_;
+  return totalunitscore_.Get(index);
 }
-inline void Player::set_totalunitscore(::google::protobuf::int32 value) {
-  
-  totalunitscore_ = value;
+inline void Player::set_totalunitscore(int index, ::google::protobuf::int32 value) {
+  totalunitscore_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.totalUnitScore)
 }
+inline void Player::add_totalunitscore(::google::protobuf::int32 value) {
+  totalunitscore_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.totalUnitScore)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::totalunitscore() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.totalUnitScore)
+  return totalunitscore_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_totalunitscore() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.totalUnitScore)
+  return &totalunitscore_;
+}
 
-// int32 totalKillScore = 36;
+// repeated int32 totalKillScore = 36;
+inline int Player::totalkillscore_size() const {
+  return totalkillscore_.size();
+}
 inline void Player::clear_totalkillscore() {
-  totalkillscore_ = 0;
+  totalkillscore_.Clear();
 }
-inline ::google::protobuf::int32 Player::totalkillscore() const {
+inline ::google::protobuf::int32 Player::totalkillscore(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.totalKillScore)
-  return totalkillscore_;
+  return totalkillscore_.Get(index);
 }
-inline void Player::set_totalkillscore(::google::protobuf::int32 value) {
-  
-  totalkillscore_ = value;
+inline void Player::set_totalkillscore(int index, ::google::protobuf::int32 value) {
+  totalkillscore_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.totalKillScore)
 }
+inline void Player::add_totalkillscore(::google::protobuf::int32 value) {
+  totalkillscore_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.totalKillScore)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::totalkillscore() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.totalKillScore)
+  return totalkillscore_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_totalkillscore() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.totalKillScore)
+  return &totalkillscore_;
+}
 
-// int32 totalBuildingScore = 37;
+// repeated int32 totalBuildingScore = 37;
+inline int Player::totalbuildingscore_size() const {
+  return totalbuildingscore_.size();
+}
 inline void Player::clear_totalbuildingscore() {
-  totalbuildingscore_ = 0;
+  totalbuildingscore_.Clear();
 }
-inline ::google::protobuf::int32 Player::totalbuildingscore() const {
+inline ::google::protobuf::int32 Player::totalbuildingscore(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.totalBuildingScore)
-  return totalbuildingscore_;
+  return totalbuildingscore_.Get(index);
 }
-inline void Player::set_totalbuildingscore(::google::protobuf::int32 value) {
-  
-  totalbuildingscore_ = value;
+inline void Player::set_totalbuildingscore(int index, ::google::protobuf::int32 value) {
+  totalbuildingscore_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.totalBuildingScore)
 }
+inline void Player::add_totalbuildingscore(::google::protobuf::int32 value) {
+  totalbuildingscore_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.totalBuildingScore)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::totalbuildingscore() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.totalBuildingScore)
+  return totalbuildingscore_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_totalbuildingscore() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.totalBuildingScore)
+  return &totalbuildingscore_;
+}
 
-// int32 totalRazingScore = 38;
+// repeated int32 totalRazingScore = 38;
+inline int Player::totalrazingscore_size() const {
+  return totalrazingscore_.size();
+}
 inline void Player::clear_totalrazingscore() {
-  totalrazingscore_ = 0;
+  totalrazingscore_.Clear();
 }
-inline ::google::protobuf::int32 Player::totalrazingscore() const {
+inline ::google::protobuf::int32 Player::totalrazingscore(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.totalRazingScore)
-  return totalrazingscore_;
+  return totalrazingscore_.Get(index);
 }
-inline void Player::set_totalrazingscore(::google::protobuf::int32 value) {
-  
-  totalrazingscore_ = value;
+inline void Player::set_totalrazingscore(int index, ::google::protobuf::int32 value) {
+  totalrazingscore_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.totalRazingScore)
 }
+inline void Player::add_totalrazingscore(::google::protobuf::int32 value) {
+  totalrazingscore_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.totalRazingScore)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::totalrazingscore() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.totalRazingScore)
+  return totalrazingscore_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_totalrazingscore() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.totalRazingScore)
+  return &totalrazingscore_;
+}
 
-// int32 customScore = 39;
+// repeated int32 customScore = 39;
+inline int Player::customscore_size() const {
+  return customscore_.size();
+}
 inline void Player::clear_customscore() {
-  customscore_ = 0;
+  customscore_.Clear();
 }
-inline ::google::protobuf::int32 Player::customscore() const {
+inline ::google::protobuf::int32 Player::customscore(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.customScore)
-  return customscore_;
+  return customscore_.Get(index);
 }
-inline void Player::set_customscore(::google::protobuf::int32 value) {
-  
-  customscore_ = value;
+inline void Player::set_customscore(int index, ::google::protobuf::int32 value) {
+  customscore_.Set(index, value);
   // @@protoc_insertion_point(field_set:bwapi.data.Player.customScore)
 }
+inline void Player::add_customscore(::google::protobuf::int32 value) {
+  customscore_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.customScore)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Player::customscore() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.customScore)
+  return customscore_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Player::mutable_customscore() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.customScore)
+  return &customscore_;
+}
 
-// repeated int32 maxUpgradeLevel = 40;
+// repeated .bwapi.data.IntArrayData maxUpgradeLevel = 40;
 inline int Player::maxupgradelevel_size() const {
   return maxupgradelevel_.size();
 }
 inline void Player::clear_maxupgradelevel() {
   maxupgradelevel_.Clear();
 }
-inline ::google::protobuf::int32 Player::maxupgradelevel(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Player.maxUpgradeLevel)
-  return maxupgradelevel_.Get(index);
+inline ::bwapi::data::IntArrayData* Player::mutable_maxupgradelevel(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.maxUpgradeLevel)
+  return maxupgradelevel_.Mutable(index);
 }
-inline void Player::set_maxupgradelevel(int index, ::google::protobuf::int32 value) {
-  maxupgradelevel_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.maxUpgradeLevel)
-}
-inline void Player::add_maxupgradelevel(::google::protobuf::int32 value) {
-  maxupgradelevel_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.maxUpgradeLevel)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-Player::maxupgradelevel() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.maxUpgradeLevel)
-  return maxupgradelevel_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >*
 Player::mutable_maxupgradelevel() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.maxUpgradeLevel)
   return &maxupgradelevel_;
 }
+inline const ::bwapi::data::IntArrayData& Player::maxupgradelevel(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.maxUpgradeLevel)
+  return maxupgradelevel_.Get(index);
+}
+inline ::bwapi::data::IntArrayData* Player::add_maxupgradelevel() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.maxUpgradeLevel)
+  return maxupgradelevel_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntArrayData >&
+Player::maxupgradelevel() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.maxUpgradeLevel)
+  return maxupgradelevel_;
+}
 
-// repeated bool isResearchAvailable = 41;
+// repeated .bwapi.data.BoolArrayData isResearchAvailable = 41;
 inline int Player::isresearchavailable_size() const {
   return isresearchavailable_.size();
 }
 inline void Player::clear_isresearchavailable() {
   isresearchavailable_.Clear();
 }
-inline bool Player::isresearchavailable(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Player.isResearchAvailable)
-  return isresearchavailable_.Get(index);
+inline ::bwapi::data::BoolArrayData* Player::mutable_isresearchavailable(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.isResearchAvailable)
+  return isresearchavailable_.Mutable(index);
 }
-inline void Player::set_isresearchavailable(int index, bool value) {
-  isresearchavailable_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.isResearchAvailable)
-}
-inline void Player::add_isresearchavailable(bool value) {
-  isresearchavailable_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.isResearchAvailable)
-}
-inline const ::google::protobuf::RepeatedField< bool >&
-Player::isresearchavailable() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.isResearchAvailable)
-  return isresearchavailable_;
-}
-inline ::google::protobuf::RepeatedField< bool >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >*
 Player::mutable_isresearchavailable() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isResearchAvailable)
   return &isresearchavailable_;
 }
+inline const ::bwapi::data::BoolArrayData& Player::isresearchavailable(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.isResearchAvailable)
+  return isresearchavailable_.Get(index);
+}
+inline ::bwapi::data::BoolArrayData* Player::add_isresearchavailable() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isResearchAvailable)
+  return isresearchavailable_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >&
+Player::isresearchavailable() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isResearchAvailable)
+  return isresearchavailable_;
+}
 
-// repeated bool isUnitAvailable = 42;
+// repeated .bwapi.data.BoolArrayData isUnitAvailable = 42;
 inline int Player::isunitavailable_size() const {
   return isunitavailable_.size();
 }
 inline void Player::clear_isunitavailable() {
   isunitavailable_.Clear();
 }
-inline bool Player::isunitavailable(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Player.isUnitAvailable)
-  return isunitavailable_.Get(index);
+inline ::bwapi::data::BoolArrayData* Player::mutable_isunitavailable(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.isUnitAvailable)
+  return isunitavailable_.Mutable(index);
 }
-inline void Player::set_isunitavailable(int index, bool value) {
-  isunitavailable_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.isUnitAvailable)
-}
-inline void Player::add_isunitavailable(bool value) {
-  isunitavailable_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.isUnitAvailable)
-}
-inline const ::google::protobuf::RepeatedField< bool >&
-Player::isunitavailable() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.isUnitAvailable)
-  return isunitavailable_;
-}
-inline ::google::protobuf::RepeatedField< bool >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >*
 Player::mutable_isunitavailable() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isUnitAvailable)
   return &isunitavailable_;
+}
+inline const ::bwapi::data::BoolArrayData& Player::isunitavailable(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.isUnitAvailable)
+  return isunitavailable_.Get(index);
+}
+inline ::bwapi::data::BoolArrayData* Player::add_isunitavailable() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isUnitAvailable)
+  return isunitavailable_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolArrayData >&
+Player::isunitavailable() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isUnitAvailable)
+  return isunitavailable_;
 }
 
 // -------------------------------------------------------------------
@@ -8059,6 +8907,10 @@ Game::forces() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

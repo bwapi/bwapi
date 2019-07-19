@@ -351,18 +351,30 @@ namespace BWAPI
     protoClient.queueMessage(std::move(staticMapMessage));
 
     //static player data
+    auto playersMessage = std::make_unique<bwapi::message::Message>();
+    auto playersFrameUpdate = playersMessage->mutable_frameupdate();
+    auto playersGame = playersFrameUpdate->mutable_game();
     for (Player i : BroodwarImpl.getPlayers())
     {
       int id = getPlayerID(i);
       PlayerData* p = &(data->players[id]);
       PlayerData* p2 = i->self;
+      auto player = playersGame->add_players();
+      player->set_id(id);
 
       StrCopy(p->name, i->getName());
+      player->add_name(p->name);
+
       p->race = i->getRace();
+      player->add_race(i->getRace());
       p->type = i->getType();
+      player->add_type(i->getType());
       p->force = getForceID(i->getForce());
+      player->add_force(p->force);
       p->color = p2->color;
+      player->add_color(p2->color);
       p->isParticipating = p2->isParticipating;
+      player->add_isparticipating(p2->isParticipating);
 
       for (int j = 0; j < 12; ++j)
       {
@@ -372,13 +384,23 @@ namespace BWAPI
       for (Player j : BroodwarImpl.getPlayers())
       {
         p->isAlly[getPlayerID(j)] = i->isAlly(j);
+        auto isAlly = player->add_isally();
+        isAlly->set_index(getPlayerID(j));
+        isAlly->set_value(i->isAlly(j));
         p->isEnemy[getPlayerID(j)] = i->isEnemy(j);
+        auto isEnemy = player->add_isenemy();
+        isEnemy->set_index(getPlayerID(j));
+        isEnemy->set_value(i->isEnemy(j));
       }
-      p->isNeutral = i->isNeutral();
-      p->startLocationX = i->getStartLocation().x;
-      p->startLocationY = i->getStartLocation().y;
-    }
 
+      p->isNeutral = i->isNeutral();
+      player->add_isneutral(i->isNeutral());
+      p->startLocationX = i->getStartLocation().x;
+      player->add_startlocationx(p->startLocationX);
+      p->startLocationY = i->getStartLocation().y;
+      player->add_startlocationy(p->startLocationY);
+    }
+    protoClient.queueMessage(std::move(playersMessage));
     data->playerCount = playerVector.size();
     data->initialUnitCount = unitVector.size();
 
@@ -491,60 +513,222 @@ namespace BWAPI
       Map::copyToSharedMemory(mapData);
       //(no dynamic force data)
 
+
       //dynamic player data
+      auto playersMessage = std::make_unique<bwapi::message::Message>();
+      auto playersFrameUpdate = playersMessage->mutable_frameupdate();
+      auto playersGame = playersFrameUpdate->mutable_game();
       for (Player i : BroodwarImpl.getPlayers())
       {
         int id = getPlayerID(i);
         if (id >= 12)
           continue;
+        auto player = playersGame->add_players();
         PlayerData* p = &(data->players[id]);
         PlayerData* p2 = i->self;
+        player->set_id(id);
 
-        p->isVictorious = i->isVictorious();
-        p->isDefeated = i->isDefeated();
-        p->leftGame = i->leftGame();
-        p->minerals = p2->minerals;
-        p->gas = p2->gas;
-        p->gatheredMinerals = p2->gatheredMinerals;
-        p->gatheredGas = p2->gatheredGas;
-        p->repairedMinerals = p2->repairedMinerals;
-        p->repairedGas = p2->repairedGas;
-        p->refundedMinerals = p2->refundedMinerals;
-        p->refundedGas = p2->refundedGas;
+        if (p->isVictorious != i->isVictorious())
+        {
+          p->isVictorious = i->isVictorious();
+          player->add_isvictorious(i->isVictorious());
+        }
+        if (p->isDefeated != i->isDefeated())
+        {
+          p->isDefeated = i->isDefeated();
+          player->add_isdefeated(i->isDefeated());
+        }
+        if (p->leftGame != i->leftGame())
+        {
+          p->leftGame = i->leftGame();
+          player->add_leftgame(i->leftGame());
+        }
+        if (p->minerals != p2->minerals)
+        {
+          p->minerals = p2->minerals;
+          player->add_minerals(p2->minerals);
+        }
+        if (p->gas != p2->gas)
+        {
+          p->gas = p2->gas;
+          player->add_gas(p2->gas);
+        }
+        if (p->gatheredMinerals != p2->gatheredMinerals)
+        {
+          p->gatheredMinerals = p2->gatheredMinerals;
+          player->add_gatheredminerals(p2->gatheredMinerals);
+        }
+        if (p->gatheredGas != p2->gatheredGas)
+        {
+          p->gatheredGas = p2->gatheredGas;
+          player->add_gatheredgas(p2->gatheredGas);
+        }
+        if (p->repairedMinerals != p2->repairedMinerals)
+        {
+          p->repairedMinerals = p2->repairedMinerals;
+          player->add_repairedminerals(p2->repairedMinerals);
+        }
+        if (p->repairedGas != p2->repairedGas)
+        {
+          p->repairedGas = p2->repairedGas;
+          player->add_repairedgas(p2->repairedGas);
+        }
+        if (p->refundedMinerals != p2->refundedMinerals)
+        {
+          p->refundedMinerals = p2->refundedMinerals;
+          player->add_refundedminerals(p2->refundedMinerals);
+        }
+        if (p->refundedGas != p2->refundedGas)
+        {
+          p->refundedGas = p2->refundedGas;
+          player->add_refundedgas(p2->refundedGas);
+        }
         for (int j = 0; j < 3; ++j)
         {
-          p->supplyTotal[j] = p2->supplyTotal[j];
-          p->supplyUsed[j] = p2->supplyUsed[j];
+          if (p->supplyTotal[j] != p2->supplyTotal[j])
+          {
+            auto supplyTotal = player->add_supplytotal();
+            p->supplyTotal[j] = p2->supplyTotal[j];
+            supplyTotal->set_index(j);
+            supplyTotal->set_value(p2->supplyTotal[j]);
+          }
+          if (p->supplyUsed[j] = p2->supplyUsed[j])
+          {
+            auto supplyUsed = player->add_supplyused();
+            p->supplyUsed[j] = p2->supplyUsed[j];
+            supplyUsed->set_index(j);
+            supplyUsed->set_value(p2->supplyUsed[j]);
+          }
         }
         for (int j = 0; j < UnitTypes::Enum::MAX; ++j)
         {
-          p->allUnitCount[j] = p2->allUnitCount[j];
-          p->visibleUnitCount[j] = p2->visibleUnitCount[j];
-          p->completedUnitCount[j] = p2->completedUnitCount[j];
-          p->deadUnitCount[j] = p2->deadUnitCount[j];
-          p->killedUnitCount[j] = p2->killedUnitCount[j];
+          if (p->allUnitCount[j] != p2->allUnitCount[j])
+          {
+            auto allUnitCount = player->add_allunitcount();
+            p->allUnitCount[j] = p2->allUnitCount[j];
+            allUnitCount->set_index(j);
+            allUnitCount->set_value(p2->allUnitCount[j]);
+          }
+          if (p->visibleUnitCount[j] = p2->visibleUnitCount[j])
+          {
+            auto visibleUnitCount = player->add_visibleunitcount();
+            p->visibleUnitCount[j] = p2->visibleUnitCount[j];
+            visibleUnitCount->set_index(j);
+            visibleUnitCount->set_value(p2->visibleUnitCount[j]);
+          }
+          if (p->completedUnitCount[j] = p2->completedUnitCount[j])
+          {
+            auto completedUnitCount = player->add_completedunitcount();
+            p->completedUnitCount[j] = p2->completedUnitCount[j];
+            completedUnitCount->set_index(j);
+            completedUnitCount->set_value(p2->completedUnitCount[j]);
+          }
+          if (p->deadUnitCount[j] = p2->deadUnitCount[j])
+          {
+            auto deadUnitCount = player->add_deadunitcount();
+            p->deadUnitCount[j] = p2->deadUnitCount[j];
+            deadUnitCount->set_index(j);
+            deadUnitCount->set_value(p2->completedUnitCount[j]);
+          }
+          if (p->killedUnitCount[j] = p2->killedUnitCount[j])
+          {
+            auto killedUnitCount = player->add_killedunitcount();
+            p->killedUnitCount[j] = p2->killedUnitCount[j];
+            killedUnitCount->set_index(j);
+            killedUnitCount->set_value(p2->killedUnitCount[j]);
+          }
+          if (p->isUnitAvailable[j] != p2->isUnitAvailable[j])
+          {
+            auto isUnitAvailable = player->add_isunitavailable();
+            p->isUnitAvailable[j] = p2->isUnitAvailable[j];
+            isUnitAvailable->set_index(j);
+            isUnitAvailable->set_value(p2->isUnitAvailable[j]);
+          }
         }
-        p->totalUnitScore = p2->totalUnitScore;
-        p->totalKillScore = p2->totalKillScore;
-        p->totalBuildingScore = p2->totalBuildingScore;
-        p->totalRazingScore = p2->totalRazingScore;
-        p->customScore = p2->customScore;
+
+        if (p->totalUnitScore != p2->totalUnitScore)
+        {
+          p->totalUnitScore = p2->totalUnitScore;
+          player->add_totalunitscore(p2->totalUnitScore);
+        }
+        if (p->totalKillScore != p2->totalKillScore)
+        {
+          p->totalKillScore = p2->totalKillScore;
+          player->add_totalkillscore(p2->totalKillScore);
+        }
+        if (p->totalBuildingScore != p2->totalBuildingScore)
+        {
+          p->totalBuildingScore = p2->totalBuildingScore;
+          player->add_totalbuildingscore(p2->totalBuildingScore);
+        }
+        if (p->totalRazingScore != p2->totalRazingScore)
+        {
+          p->totalRazingScore = p2->totalRazingScore;
+          player->add_totalrazingscore(p2->totalRazingScore);
+        }
+        if (p->customScore != p2->customScore)
+        {
+          p->customScore = p2->customScore;
+          player->add_customscore(p2->customScore);
+        }
 
         for (int j = 0; j < 63; ++j)
         {
-          p->upgradeLevel[j] = p2->upgradeLevel[j];
-          p->isUpgrading[j] = p2->isUpgrading[j];
+          if (p->upgradeLevel[j] != p2->upgradeLevel[j])
+          {
+            auto upgradeLevel = player->add_upgradelevel();
+            p->upgradeLevel[j] = p2->upgradeLevel[j];
+            upgradeLevel->set_index(j);
+            upgradeLevel->set_value(p2->upgradeLevel[j]);
+          }
+          if (p->isUpgrading[j] != p2->isUpgrading[j])
+          {
+            auto isUpgrading = player->add_isupgrading();
+            p->isUpgrading[j] = p2->isUpgrading[j];
+            isUpgrading->set_index(j);
+            isUpgrading->set_value(p2->isUpgrading[j]);
+          }
+          if (p->maxUpgradeLevel[j] != p2->maxUpgradeLevel[j])
+          {
+            auto maxUpgradeLevel = player->add_maxupgradelevel();
+            p->maxUpgradeLevel[j] = p2->maxUpgradeLevel[j];
+            maxUpgradeLevel->set_index(j);
+            maxUpgradeLevel->set_value(p2->maxUpgradeLevel[j]);
+          }
         }
 
         for (int j = 0; j < 47; ++j)
         {
-          p->hasResearched[j] = p2->hasResearched[j];
-          p->isResearching[j] = p2->isResearching[j];
+          if (p->hasResearched[j] != p2->hasResearched[j])
+          {
+            auto hasResearched = player->add_hasresearched();
+            p->hasResearched[j] = p2->hasResearched[j];
+            hasResearched->set_index(j);
+            hasResearched->set_value(p2->hasResearched[j]);
+          }
+          if (p->isResearching[j] != p2->isResearching[j])
+          {
+            auto isResearching = player->add_isresearching();
+            p->isResearching[j] = p2->isResearching[j];
+            isResearching->set_index(j);
+            isResearching->set_value(p2->isResearching[j]);
+          }
+          if (p->isResearchAvailable[j] != p2->isResearchAvailable[j])
+          {
+            auto isResearchAvailable = player->add_isresearchavailable();
+            p->isResearchAvailable[j] = p2->isResearchAvailable[j];
+            isResearchAvailable->set_index(j);
+            isResearchAvailable->set_value(p2->isResearchAvailable[j]);
+          }
         }
+        // I am testing thse in the for loops.
+        /*
         memcpy(p->isResearchAvailable, p2->isResearchAvailable, sizeof(p->isResearchAvailable));
         memcpy(p->isUnitAvailable, p2->isUnitAvailable, sizeof(p->isUnitAvailable));
         memcpy(p->maxUpgradeLevel, p2->maxUpgradeLevel, sizeof(p->maxUpgradeLevel));
+        */
       }
+      protoClient.queueMessage(std::move(playersMessage));
 
       //dynamic unit data
       for (Unit i : BroodwarImpl.getAllUnits())
@@ -756,70 +940,6 @@ namespace BWAPI
     {
       if (BroodwarImpl.self())
         gameData->set_player(BroodwarImpl.self()->getID());
-
-      auto playersMessage = std::make_unique<bwapi::message::Message>();
-      auto playersFrameUpdate = playersMessage->mutable_frameupdate();
-      auto playersGame = playersFrameUpdate->mutable_game();
-      for (int p = 0; p < data->playerCount; p++)
-      {
-        auto player = playersGame->add_players();
-        player->set_id(p);
-        auto &pdata = data->players[p];
-        auto array_size = sizeof(pdata.allUnitCount) / sizeof(int);
-        *player->mutable_allunitcount() = { pdata.allUnitCount, pdata.allUnitCount + array_size };
-        *player->mutable_completedunitcount() = { pdata.completedUnitCount, pdata.completedUnitCount + array_size };
-        *player->mutable_deadunitcount() = { pdata.deadUnitCount, pdata.deadUnitCount + array_size };
-        *player->mutable_isunitavailable() = { pdata.isUnitAvailable, pdata.isUnitAvailable + array_size };
-        *player->mutable_killedunitcount() = { pdata.killedUnitCount, pdata.killedUnitCount + array_size };
-        *player->mutable_visibleunitcount() = { pdata.visibleUnitCount, pdata.visibleUnitCount + array_size };
-        player->set_color(pdata.color);
-        player->set_customscore(pdata.customScore);
-        player->set_gas(pdata.gas);
-        player->set_gatheredgas(pdata.gatheredGas);
-        player->set_gatheredminerals(pdata.gatheredMinerals);
-        for (int i = 0; i < 47; i++)
-        {
-          player->add_hasresearched(pdata.hasResearched[i]);
-          player->add_isresearchavailable(pdata.isResearchAvailable[i]);
-          player->add_isresearching(pdata.isResearching[i]);
-        }
-        for (int i = 0; i < 12; i++)
-        {
-          player->add_isally(pdata.isAlly[i]);
-          player->add_isenemy(pdata.isEnemy[i]);
-        }
-        player->set_isdefeated(pdata.isDefeated);
-        player->set_isneutral(pdata.isNeutral);
-        player->set_isparticipating(pdata.isParticipating);
-        for (int i = 0; i < 63; i++)
-        {
-          player->add_isupgrading(pdata.isUpgrading[i]);
-          player->add_maxupgradelevel(pdata.maxUpgradeLevel[i]);
-          player->add_upgradelevel(pdata.upgradeLevel[i]);
-        }
-        player->set_isvictorious(pdata.isVictorious);
-        player->set_leftgame(pdata.leftGame);
-        player->set_minerals(pdata.minerals);
-        player->set_name(pdata.name);
-        player->set_race(pdata.race);
-        player->set_refundedgas(pdata.refundedGas);
-        player->set_refundedminerals(pdata.refundedMinerals);
-        player->set_repairedgas(pdata.repairedGas);
-        player->set_repairedminerals(pdata.repairedMinerals);
-        player->set_startlocationx(pdata.startLocationX);
-        player->set_startlocationy(pdata.startLocationY);
-        for (int i = 0; i < 3; i++)
-        {
-          player->add_supplytotal(pdata.supplyTotal[i]);
-          player->add_supplyused(pdata.supplyUsed[i]);
-        }
-        player->set_totalbuildingscore(pdata.totalBuildingScore);
-        player->set_totalkillscore(pdata.totalKillScore);
-        player->set_totalrazingscore(pdata.totalRazingScore);
-        player->set_totalunitscore(pdata.totalUnitScore);
-        player->set_type(pdata.type);
-      }
-      protoClient.queueMessage(std::move(playersMessage));
  
       //screensize
       auto screenPosition = gameData->mutable_screenposition();

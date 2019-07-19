@@ -14,6 +14,16 @@ message BoolMapData {
     bool value = 3;
 }
 
+message IntArrayData {
+    int32 index = 1;
+    int32 value = 2;
+}
+
+message BoolArrayData {
+    int32 index = 1;
+    bool value = 2;
+}
+
 message StaticMapData
 {
     Point size = 1;
@@ -92,54 +102,54 @@ message GameData {
 
 message Player {
     int32 id = 1;
-    string name = 2;
-    int32 race = 3;
+    repeated string name = 2;
+    repeated int32 race = 3;
 
-    int32 type = 4;
-    int32 force = 5;
-    repeated bool isAlly = 6;
-    repeated bool isEnemy = 7;
-    bool isNeutral = 8;
-    int32 startLocationX = 9;
-    int32 startLocationY = 10;
-    bool isVictorious = 11;
-    bool isDefeated = 12;
-    bool leftGame = 13;
-    bool isParticipating = 14;
+    repeated int32 type = 4;
+    repeated int32 force = 5;
+    repeated BoolArrayData isAlly = 6;
+    repeated BoolArrayData isEnemy = 7;
+    repeated bool isNeutral = 8;
+    repeated int32 startLocationX = 9;
+    repeated int32 startLocationY = 10;
+    repeated bool isVictorious = 11;
+    repeated bool isDefeated = 12;
+    repeated bool leftGame = 13;
+    repeated bool isParticipating = 14;
 
-    int32 minerals = 15;
-    int32 gas = 16;
-    int32 gatheredMinerals = 17;
-    int32 gatheredGas = 18;
-    int32 repairedMinerals = 19;
-    int32 repairedGas = 20;
-    int32 refundedMinerals = 21;
-    int32 refundedGas = 22;
-    repeated int32 supplyTotal = 23;
-    repeated int32 supplyUsed = 24;
+    repeated int32 minerals = 15;
+    repeated int32 gas = 16;
+    repeated int32 gatheredMinerals = 17;
+    repeated int32 gatheredGas = 18;
+    repeated int32 repairedMinerals = 19;
+    repeated int32 repairedGas = 20;
+    repeated int32 refundedMinerals = 21;
+    repeated int32 refundedGas = 22;
+    repeated IntArrayData supplyTotal = 23;
+    repeated IntArrayData supplyUsed = 24;
 
-    repeated int32 allUnitCount = 25;
-    repeated int32 visibleUnitCount = 26;
-    repeated int32 completedUnitCount = 27;
-    repeated int32 deadUnitCount = 28;
-    repeated int32 killedUnitCount = 29;
+    repeated IntArrayData allUnitCount = 25;
+    repeated IntArrayData visibleUnitCount = 26;
+    repeated IntArrayData completedUnitCount = 27;
+    repeated IntArrayData deadUnitCount = 28;
+    repeated IntArrayData killedUnitCount = 29;
 
-    repeated int32 upgradeLevel = 30;
-    repeated bool hasResearched = 31;
-    repeated bool isResearching = 32;
-    repeated bool isUpgrading = 33;
+    repeated IntArrayData upgradeLevel = 30;
+    repeated BoolArrayData hasResearched = 31;
+    repeated BoolArrayData isResearching = 32;
+    repeated BoolArrayData isUpgrading = 33;
 
-    int32 color = 34;
+    repeated int32 color = 34;
 
-    int32 totalUnitScore = 35;
-    int32 totalKillScore = 36;
-    int32 totalBuildingScore = 37;
-    int32 totalRazingScore = 38;
-    int32 customScore = 39;
+    repeated int32 totalUnitScore = 35;
+    repeated int32 totalKillScore = 36;
+    repeated int32 totalBuildingScore = 37;
+    repeated int32 totalRazingScore = 38;
+    repeated int32 customScore = 39;
 
-    repeated int32 maxUpgradeLevel = 40;
-    repeated bool isResearchAvailable = 41;
-    repeated bool isUnitAvailable = 42;
+    repeated IntArrayData maxUpgradeLevel = 40;
+    repeated BoolArrayData isResearchAvailable = 41;
+    repeated BoolArrayData isUnitAvailable = 42;
 }
 
 message Unit {

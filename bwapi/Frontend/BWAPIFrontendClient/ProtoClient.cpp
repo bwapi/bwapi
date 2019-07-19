@@ -131,63 +131,104 @@ namespace BWAPI
               auto &isUnitAvailable = p.isunitavailable();
               auto &killedUnitCount = p.killedunitcount();
               auto &visibleUnitCount = p.visibleunitcount();
-              std::copy(allUnitCount.begin(), allUnitCount.end(), playerData.allUnitCount);
-              std::copy(completedUnitCount.begin(), completedUnitCount.end(), playerData.completedUnitCount);
-              std::copy(deadUnitCount.begin(), deadUnitCount.end(), playerData.deadUnitCount);
-              std::copy(isUnitAvailable.begin(), isUnitAvailable.end(), playerData.isUnitAvailable);
-              std::copy(killedUnitCount.begin(), killedUnitCount.end(), playerData.killedUnitCount);
-              std::copy(visibleUnitCount.begin(), visibleUnitCount.end(), playerData.visibleUnitCount);
-              playerData.color = Color{ p.color() };
-              playerData.customScore = p.customscore();
-              playerData.force = ForceID{ p.force() };
-              playerData.gas = p.gas();
-              playerData.gatheredGas = p.gatheredgas();
-              playerData.gatheredMinerals = p.gatheredminerals();
+              for (auto &j : allUnitCount)
+                playerData.allUnitCount[j.index()] = j.value();
+              for (auto &j : completedUnitCount)
+                playerData.completedUnitCount[j.index()] = j.value();
+              for (auto &j : deadUnitCount)
+                playerData.deadUnitCount[j.index()] = j.value();
+              for (auto &j : isUnitAvailable)
+                playerData.isUnitAvailable[j.index()] = j.value();
+              for (auto &j : killedUnitCount)
+                playerData.killedUnitCount[j.index()] = j.value();
+              for (auto &j : visibleUnitCount)
+                playerData.visibleUnitCount[j.index()] = j.value();
+              for (auto &j : p.color())
+                playerData.color = Color{ j };
+              for (auto &j : p.customscore())
+                playerData.customScore = j;
+              for (auto &j : p.force())
+                playerData.force = ForceID{ j };
+              for (auto &j : p.gas())
+                playerData.gas = j;
+              for (auto &j : p.gatheredgas())
+                playerData.gatheredGas = j;
+              for (auto &j : p.gatheredminerals())
+                playerData.gatheredMinerals = j;
               auto &hasResearched = p.hasresearched();
               auto &isResearchAvailable = p.isresearchavailable();
               auto &isResearching = p.isresearching();
-              std::copy(hasResearched.begin(), hasResearched.end(), playerData.hasResearched);
-              std::copy(isResearchAvailable.begin(), isResearchAvailable.end(), playerData.isResearchAvailable);
-              std::copy(isResearching.begin(), isResearching.end(), playerData.isResearching);
+              for (auto &j : hasResearched)
+                playerData.hasResearched[j.index()] = j.value();
+              for (auto &j : isResearchAvailable)
+                playerData.isResearchAvailable[j.index()] = j.value();
+              for (auto &j : isResearching)
+                playerData.isResearching[j.index()] = j.value();
               auto &isAlly = p.isally();
               auto &isEnemy = p.isenemy();
-              std::copy(isAlly.begin(), isAlly.end(), playerData.isAlly);
-              std::copy(isEnemy.begin(), isEnemy.end(), playerData.isEnemy);
-              playerData.isDefeated = p.isdefeated();
-              playerData.isNeutral = p.isneutral();     
-              playerData.isParticipating = p.isparticipating();
+              for (auto &j : isAlly)
+                playerData.isAlly[j.index()] = j.value();
+              for (auto &j : isEnemy)
+                playerData.isEnemy[j.index()] = j.value();
+              for (auto &j : p.isdefeated())
+                playerData.isDefeated = j;
+              for (auto &j : p.isneutral())
+                playerData.isNeutral = j;
+              for (auto &j : p.isparticipating())
+                playerData.isParticipating = j;
               auto &isUpgrading = p.isupgrading();
               auto &maxUpgradeLevel = p.maxupgradelevel();
               auto &upgradeLevel = p.upgradelevel();
-              std::copy(isUpgrading.begin(), isUpgrading.end(), playerData.isUpgrading);
-              std::copy(maxUpgradeLevel.begin(), maxUpgradeLevel.end(), playerData.maxUpgradeLevel);
-              std::copy(upgradeLevel.begin(), upgradeLevel.end(), playerData.upgradeLevel);
-              playerData.isVictorious = p.isvictorious();
-              playerData.leftGame = p.leftgame();
-              playerData.minerals = p.minerals();
-              playerData.name = p.name();
-              playerData.race = Race{ p.race() };
-              playerData.refundedGas = p.refundedgas();
-              playerData.refundedMinerals = p.refundedminerals();
-              playerData.repairedGas = p.repairedgas();
-              playerData.repairedMinerals = p.repairedminerals();
-              playerData.startLocationX = p.startlocationx();
-              playerData.startLocationY = p.startlocationy();
+              for (auto &j : isUpgrading)
+                playerData.isUpgrading[j.index()] = j.value();
+              for (auto &j : maxUpgradeLevel)
+                playerData.maxUpgradeLevel[j.index()] = j.value();
+              for (auto &j : upgradeLevel)
+                playerData.upgradeLevel[j.index()] = j.value();
+              for (auto &j : p.isvictorious())
+                playerData.isVictorious = j;
+              for (auto &j : p.leftgame())
+                playerData.leftGame = j;
+              for (auto &j : p.minerals())
+                playerData.minerals = j;
+              for (auto &j : p.name())
+                playerData.name = j;
+              for (auto &j : p.race())
+                playerData.race = Race{ j };
+              for (auto &j : p.refundedgas())
+                playerData.refundedGas = j;
+              for (auto &j : p.refundedminerals())
+                playerData.refundedMinerals = j;
+              for (auto &j : p.repairedgas())
+                playerData.repairedGas = j;
+              for (auto &j : p.repairedminerals())
+                playerData.repairedMinerals = j;
+              for (auto &j : p.startlocationx())
+                playerData.startLocationX = j;
+              for (auto &j : p.startlocationy())
+                playerData.startLocationY = j;
               auto &supplyTotal = p.supplytotal();
               auto &supplyUsed = p.supplyused();
-              std::copy(supplyTotal.begin(), supplyTotal.end(), playerData.supplyTotal);
-              std::copy(supplyUsed.begin(), supplyUsed.end(), playerData.supplyUsed);
-              playerData.totalBuildingScore = p.totalbuildingscore();
-              playerData.totalKillScore = p.totalkillscore();
-              playerData.totalRazingScore = p.totalrazingscore();
-              playerData.totalUnitScore = p.totalunitscore();
-              playerData.type = PlayerType{ p.type() };
+              for (auto &j : supplyTotal)
+                playerData.supplyTotal[j.index()] = j.value();
+              for (auto &j : supplyUsed)
+                playerData.supplyUsed[j.index()] = j.value();
+              for (auto &j : p.totalbuildingscore())
+                playerData.totalBuildingScore = j;
+              for (auto &j : p.totalkillscore())
+                playerData.totalKillScore = j;
+              for (auto &j : p.totalrazingscore())
+                playerData.totalRazingScore = j;
+              for (auto &j : p.totalunitscore())
+                playerData.totalUnitScore = j;
+              for (auto &j : p.type())
+                playerData.type = PlayerType{ j };
             };
             auto playerID = PlayerID{ p.id() };
             auto itr = players.find(playerID);
             if (itr == players.end())
             {
-              auto &playerData = *players.emplace(game, playerID, ForceID{ p.force() }).first;
+              auto &playerData = *players.emplace(game, playerID, ForceID{ -1 }).first;
               fillPlayerData(const_cast<PlayerData&>(playerData), p);
               game.updatePlayer(playerData);
             }
