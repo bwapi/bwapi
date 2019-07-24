@@ -140,7 +140,9 @@ int main(int argc, const char* argv[])
               int seconds = Broodwar->getFrameCount() / 24;
               int minutes = seconds / 60;
               seconds %= 60;
-              Broodwar->sendText("%.2d:%.2d: %s creates a %s", minutes, seconds, e.getUnit()->getPlayer()->getName(), e.getUnit()->getType().c_str());
+              std::string playerName;
+              playerName = e.getUnit()->getPlayer().getName();
+              Broodwar->sendText("%.2d:%.2d: %s creates a %s", minutes, seconds, playerName.c_str(), e.getUnit()->getType().c_str());
             }
           }
           break;
@@ -160,7 +162,9 @@ int main(int argc, const char* argv[])
                 int seconds = Broodwar->getFrameCount() / 24;
                 int minutes = seconds / 60;
                 seconds %= 60;
-                Broodwar->sendText("%.2d:%.2d: %s morphs a %s", minutes, seconds, e.getUnit()->getPlayer()->getName(), e.getUnit()->getType().c_str());
+                std::string playerName;
+                playerName = e.getUnit()->getPlayer()->getName();
+                Broodwar->sendText("%.2d:%.2d: %s morphs a %s", minutes, seconds, playerName.c_str(), e.getUnit()->getType().c_str());
               }
             }
             break;
