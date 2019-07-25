@@ -242,12 +242,20 @@ namespace BWAPI
     TilePosition mapSize(BroodwarImpl.mapWidth(), BroodwarImpl.mapHeight());
     WalkPosition mapWalkSize(mapSize);
 
+    std::ofstream test;
+    test.open("walkable test");
+
     // Load walkability
     for (int x = 0; x < mapWalkSize.x; ++x)
+    {
       for (int y = 0; y < mapWalkSize.y; ++y)
       {
         data->isWalkable[x][y] = BroodwarImpl.isWalkable(x, y);
+        test << data->isWalkable[x][y] << " ";
       }
+      test << std::endl;
+    }
+    test.close();
 
     auto isWalkableArr = &data->isWalkable[0][0];
     *staticMap->mutable_iswalkable() = { isWalkableArr, isWalkableArr + 1024 * 1024 };
@@ -760,41 +768,6 @@ namespace BWAPI
       }
     }
 
-
-    //Diff data and oldData
-    //if (oldData->gameType != data->gameType)
-      gameData->set_gametype(data->gameType);
-    gameData->set_framecount(data->frameCount);
-    //if (oldData->latencyFrames != data->latencyFrames)
-      gameData->set_latencyframes(data->latencyFrames);
-    //turnsize
-    //gamespeed
-    //frameskip
-    //if (oldData->remainingLatencyFrames != data->remainingLatencyFrames)
-      gameData->set_remaininglatencyframes(data->remainingLatencyFrames);
-    gameData->set_lasteventtime(BroodwarImpl.getLastEventTime());
-    //replayvisionplayers
-    //if (oldData->latencyTime != data->latencyTime)
-      gameData->set_latencytime(data->latencyTime);
-    //if (oldData->remainingLatencyTime != data->remainingLatencyTime)
-      gameData->set_remaininglatencytime(data->remainingLatencyTime);
-    //if (oldData->elapsedTime != data->elapsedTime)
-      gameData->set_elapsedtime(data->elapsedTime);
-    //millisecondsperframe
-    gameData->set_averagefps(static_cast<float>(data->averageFPS));
-    gameData->set_countdowntimer(data->countdownTimer);
-    gameData->set_ispaused(data->isPaused);
-    gameData->set_isingame(data->isInGame);
-    gameData->set_ismultiplayer(data->isMultiplayer);
-    gameData->set_isbattlenet(data->isBattleNet);
-    gameData->set_isreplay(data->isReplay);
-    //clientunitselection
-    gameData->set_hasgui(data->hasGUI);
-    //gamename
-    std::stringstream randomSeed;
-    randomSeed << data->randomSeed;
-    gameData->set_randomseed(randomSeed.str());
-
     auto fillUnitMessage = [](const Unit &bwu, const UnitData &u, bwapi::data::Unit *unit) {
       auto setPosition = [](auto& p, auto& x, auto& y, auto s)
       {
@@ -935,6 +908,38 @@ namespace BWAPI
       // Add the event to the server queue
       addEvent(e);
     }
+    //if (oldData->gameType != data->gameType)
+    gameData->set_gametype(data->gameType);
+    gameData->set_framecount(data->frameCount);
+    //if (oldData->latencyFrames != data->latencyFrames)
+    gameData->set_latencyframes(data->latencyFrames);
+    //turnsize
+    //gamespeed
+    //frameskip
+    //if (oldData->remainingLatencyFrames != data->remainingLatencyFrames)
+    gameData->set_remaininglatencyframes(data->remainingLatencyFrames);
+    gameData->set_lasteventtime(BroodwarImpl.getLastEventTime());
+    //replayvisionplayers
+    //if (oldData->latencyTime != data->latencyTime)
+    gameData->set_latencytime(data->latencyTime);
+    //if (oldData->remainingLatencyTime != data->remainingLatencyTime)
+    gameData->set_remaininglatencytime(data->remainingLatencyTime);
+    //if (oldData->elapsedTime != data->elapsedTime)
+    gameData->set_elapsedtime(data->elapsedTime);
+    //millisecondsperframe
+    gameData->set_averagefps(static_cast<float>(data->averageFPS));
+    gameData->set_countdowntimer(data->countdownTimer);
+    gameData->set_ispaused(data->isPaused);
+    gameData->set_isingame(data->isInGame);
+    gameData->set_ismultiplayer(data->isMultiplayer);
+    gameData->set_isbattlenet(data->isBattleNet);
+    gameData->set_isreplay(data->isReplay);
+    //clientunitselection
+    gameData->set_hasgui(data->hasGUI);
+    //gamename
+    std::stringstream randomSeed;
+    randomSeed << data->randomSeed;
+    gameData->set_randomseed(randomSeed.str());
     BroodwarImpl.events.clear();
     if (data->isInGame)
     {
