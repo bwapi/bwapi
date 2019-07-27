@@ -91,21 +91,34 @@ namespace BWAPI
             if (gameUpdate.has_staticmap())
             {
               auto staticMap = gameUpdate.staticmap();
-              std::copy(staticMap.groundheight().begin(), staticMap.groundheight().end(), &game.gameData->map.groundHeight[0][0]);
-              std::copy(staticMap.isbuildable().begin(), staticMap.isbuildable().end(), &game.gameData->map.isBuildable[0][0]);
-              std::copy(staticMap.iswalkable().begin(), staticMap.iswalkable().end(), &game.gameData->map.isWalkable[0][0]);
+              game.gameData->map.size = TilePosition{ staticMap.size().x(), staticMap.size().y() };
+              for (auto isWalkable : staticMap.iswalkable())
+                game.gameData->map.isWalkable[isWalkable.x()][isWalkable.y()] = isWalkable.value();
+
+              auto groundHeight = staticMap.groundheight().begin();
+              auto isBuildable = staticMap.isbuildable().begin();
+              auto mapTile = staticMap.maptileregionid().begin();
+              while (groundHeight != staticMap.groundheight().end())
+              {
+                game.gameData->map.groundHeight[groundHeight->x()][groundHeight->y()] = groundHeight->value();
+                game.gameData->map.isBuildable[isBuildable->x()][isBuildable->y()] = isBuildable->value();
+                game.gameData->map.mapTileRegionId[mapTile->x()][mapTile->y()] = mapTile->value();
+                groundHeight++;
+                isBuildable++;
+                mapTile++;
+              }
               game.gameData->map.mapHash = staticMap.maphash();
 
               // TODO: These uint32 are being implicitly cast to unsigned short, they need a proper explicit cast/conversion
               std::copy(staticMap.mapsplittilesminitilemask().begin(), staticMap.mapsplittilesminitilemask().end(), &game.gameData->map.mapSplitTilesMiniTileMask[0]);
               std::copy(staticMap.mapsplittilesregion1().begin(), staticMap.mapsplittilesregion1().end(), &game.gameData->map.mapSplitTilesRegion1[0]);
               std::copy(staticMap.mapsplittilesregion2().begin(), staticMap.mapsplittilesregion2().end(), &game.gameData->map.mapSplitTilesRegion2[0]);
-              std::copy(staticMap.maptileregionid().begin(), staticMap.maptileregionid().end(), &game.gameData->map.mapTileRegionId[0][0]);
-              game.gameData->map.size = TilePosition{ staticMap.size().x(), staticMap.size().y() };
+
               game.gameData->map.tileset = staticMap.tileset();
               game.gameData->mapName = staticMap.mapname();
               game.gameData->mapFileName = staticMap.mapfilename();
               game.gameData->mapPath = staticMap.mappath();
+
               for (auto &sp : staticMap.startpositions())
                 game.gameData->startPositions.push_back(TilePosition{ sp.x(), sp.y() });
             }

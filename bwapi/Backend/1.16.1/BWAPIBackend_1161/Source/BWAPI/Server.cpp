@@ -246,38 +246,58 @@ namespace BWAPI
     test.open("walkable test");
 
     // Load walkability
+    auto isWalkable = staticMap->mutable_iswalkable();
     for (int x = 0; x < mapWalkSize.x; ++x)
     {
       for (int y = 0; y < mapWalkSize.y; ++y)
       {
         data->isWalkable[x][y] = BroodwarImpl.isWalkable(x, y);
         test << data->isWalkable[x][y] << " ";
+        auto point = isWalkable->Add();
+        point->set_x(x);
+        point->set_y(y);
+        point->set_value(data->isWalkable[x][y]);
       }
       test << std::endl;
     }
     test.close();
 
-    auto isWalkableArr = &data->isWalkable[0][0];
-    *staticMap->mutable_iswalkable() = { isWalkableArr, isWalkableArr + 1024 * 1024 };
+    /*auto isWalkableArr = &data->isWalkable[0][0];
+    *staticMap->mutable_iswalkable() = { isWalkableArr, isWalkableArr + 1024 * 1024 };*/
 
     // Load buildability, ground height, tile region id
+    auto isBuildable = staticMap->mutable_isbuildable();
+    auto groundHeight = staticMap->mutable_groundheight();
+    auto mapTileRegionId = staticMap->mutable_maptileregionid();
     for (int x = 0; x < mapSize.x; ++x)
       for (int y = 0; y < mapSize.y; ++y)
       {
         data->isBuildable[x][y] = BroodwarImpl.isBuildable(x, y);
+        auto buildablePoint = isBuildable->Add();
+        buildablePoint->set_x(x);
+        buildablePoint->set_y(y);
+        buildablePoint->set_value(data->isBuildable[x][y]);
         data->getGroundHeight[x][y] = BroodwarImpl.getGroundHeight(x, y);
+        auto groundPoint = groundHeight->Add();
+        groundPoint->set_x(x);
+        groundPoint->set_y(y);
+        groundPoint->set_value(data->getGroundHeight[x][y]);
         if (BW::BWDATA::SAIPathing)
           data->mapTileRegionId[x][y] = BW::BWDATA::SAIPathing->mapTileRegionId[y][x];
         else
           data->mapTileRegionId[x][y] = 0;
+        auto tilePoint = mapTileRegionId->Add();
+        tilePoint->set_x(x);
+        tilePoint->set_y(y);
+        tilePoint->set_value(data->mapTileRegionId[x][y]);
       }
 
-    auto isBuildableArr = &data->isBuildable[0][0];
+    /*auto isBuildableArr = &data->isBuildable[0][0];
     *staticMap->mutable_isbuildable() = { isBuildableArr, isBuildableArr + 256 * 256 };
     auto groundHeightArr = &data->getGroundHeight[0][0];
     *staticMap->mutable_groundheight() = { groundHeightArr, groundHeightArr + 256 * 256 };
     auto mapTileRegionIdArr = &data->mapTileRegionId[0][0];
-    *staticMap->mutable_maptileregionid() = { mapTileRegionIdArr, mapTileRegionIdArr + 256 * 256 };
+    *staticMap->mutable_maptileregionid() = { mapTileRegionIdArr, mapTileRegionIdArr + 256 * 256 };*/
 
     // Load pathing info
     if (BW::BWDATA::SAIPathing)

@@ -37,7 +37,7 @@ namespace protobuf_data_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[13];
+  static const ::google::protobuf::internal::ParseTable schema[15];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -66,6 +66,9 @@ extern GameDataDefaultTypeInternal _GameData_default_instance_;
 class IntArrayData;
 class IntArrayDataDefaultTypeInternal;
 extern IntArrayDataDefaultTypeInternal _IntArrayData_default_instance_;
+class IntMapData;
+class IntMapDataDefaultTypeInternal;
+extern IntMapDataDefaultTypeInternal _IntMapData_default_instance_;
 class MapData;
 class MapDataDefaultTypeInternal;
 extern MapDataDefaultTypeInternal _MapData_default_instance_;
@@ -81,6 +84,9 @@ extern RegionDefaultTypeInternal _Region_default_instance_;
 class StaticMapData;
 class StaticMapDataDefaultTypeInternal;
 extern StaticMapDataDefaultTypeInternal _StaticMapData_default_instance_;
+class UIntMapData;
+class UIntMapDataDefaultTypeInternal;
+extern UIntMapDataDefaultTypeInternal _UIntMapData_default_instance_;
 class Unit;
 class UnitDefaultTypeInternal;
 extern UnitDefaultTypeInternal _Unit_default_instance_;
@@ -95,11 +101,13 @@ template<> ::bwapi::data::Force* Arena::CreateMaybeMessage<::bwapi::data::Force>
 template<> ::bwapi::data::Game* Arena::CreateMaybeMessage<::bwapi::data::Game>(Arena*);
 template<> ::bwapi::data::GameData* Arena::CreateMaybeMessage<::bwapi::data::GameData>(Arena*);
 template<> ::bwapi::data::IntArrayData* Arena::CreateMaybeMessage<::bwapi::data::IntArrayData>(Arena*);
+template<> ::bwapi::data::IntMapData* Arena::CreateMaybeMessage<::bwapi::data::IntMapData>(Arena*);
 template<> ::bwapi::data::MapData* Arena::CreateMaybeMessage<::bwapi::data::MapData>(Arena*);
 template<> ::bwapi::data::Player* Arena::CreateMaybeMessage<::bwapi::data::Player>(Arena*);
 template<> ::bwapi::data::Point* Arena::CreateMaybeMessage<::bwapi::data::Point>(Arena*);
 template<> ::bwapi::data::Region* Arena::CreateMaybeMessage<::bwapi::data::Region>(Arena*);
 template<> ::bwapi::data::StaticMapData* Arena::CreateMaybeMessage<::bwapi::data::StaticMapData>(Arena*);
+template<> ::bwapi::data::UIntMapData* Arena::CreateMaybeMessage<::bwapi::data::UIntMapData>(Arena*);
 template<> ::bwapi::data::Unit* Arena::CreateMaybeMessage<::bwapi::data::Unit>(Arena*);
 }  // namespace protobuf
 }  // namespace google
@@ -338,6 +346,236 @@ class BoolMapData : public ::google::protobuf::MessageLite /* @@protoc_insertion
 };
 // -------------------------------------------------------------------
 
+class IntMapData : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.data.IntMapData) */ {
+ public:
+  IntMapData();
+  virtual ~IntMapData();
+
+  IntMapData(const IntMapData& from);
+
+  inline IntMapData& operator=(const IntMapData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  IntMapData(IntMapData&& from) noexcept
+    : IntMapData() {
+    *this = ::std::move(from);
+  }
+
+  inline IntMapData& operator=(IntMapData&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const IntMapData& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const IntMapData* internal_default_instance() {
+    return reinterpret_cast<const IntMapData*>(
+               &_IntMapData_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  void Swap(IntMapData* other);
+  friend void swap(IntMapData& a, IntMapData& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline IntMapData* New() const final {
+    return CreateMaybeMessage<IntMapData>(NULL);
+  }
+
+  IntMapData* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<IntMapData>(arena);
+  }
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
+  void CopyFrom(const IntMapData& from);
+  void MergeFrom(const IntMapData& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  void DiscardUnknownFields();
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(IntMapData* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::std::string GetTypeName() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // int32 x = 1;
+  void clear_x();
+  static const int kXFieldNumber = 1;
+  ::google::protobuf::int32 x() const;
+  void set_x(::google::protobuf::int32 value);
+
+  // int32 y = 2;
+  void clear_y();
+  static const int kYFieldNumber = 2;
+  ::google::protobuf::int32 y() const;
+  void set_y(::google::protobuf::int32 value);
+
+  // int32 value = 3;
+  void clear_value();
+  static const int kValueFieldNumber = 3;
+  ::google::protobuf::int32 value() const;
+  void set_value(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:bwapi.data.IntMapData)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  ::google::protobuf::int32 x_;
+  ::google::protobuf::int32 y_;
+  ::google::protobuf::int32 value_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_data_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class UIntMapData : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.data.UIntMapData) */ {
+ public:
+  UIntMapData();
+  virtual ~UIntMapData();
+
+  UIntMapData(const UIntMapData& from);
+
+  inline UIntMapData& operator=(const UIntMapData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  UIntMapData(UIntMapData&& from) noexcept
+    : UIntMapData() {
+    *this = ::std::move(from);
+  }
+
+  inline UIntMapData& operator=(UIntMapData&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const UIntMapData& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UIntMapData* internal_default_instance() {
+    return reinterpret_cast<const UIntMapData*>(
+               &_UIntMapData_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  void Swap(UIntMapData* other);
+  friend void swap(UIntMapData& a, UIntMapData& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UIntMapData* New() const final {
+    return CreateMaybeMessage<UIntMapData>(NULL);
+  }
+
+  UIntMapData* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<UIntMapData>(arena);
+  }
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
+  void CopyFrom(const UIntMapData& from);
+  void MergeFrom(const UIntMapData& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  void DiscardUnknownFields();
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(UIntMapData* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::std::string GetTypeName() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // int32 x = 1;
+  void clear_x();
+  static const int kXFieldNumber = 1;
+  ::google::protobuf::int32 x() const;
+  void set_x(::google::protobuf::int32 value);
+
+  // int32 y = 2;
+  void clear_y();
+  static const int kYFieldNumber = 2;
+  ::google::protobuf::int32 y() const;
+  void set_y(::google::protobuf::int32 value);
+
+  // uint32 value = 3;
+  void clear_value();
+  static const int kValueFieldNumber = 3;
+  ::google::protobuf::uint32 value() const;
+  void set_value(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:bwapi.data.UIntMapData)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  ::google::protobuf::int32 x_;
+  ::google::protobuf::int32 y_;
+  ::google::protobuf::uint32 value_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_data_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class IntArrayData : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.data.IntArrayData) */ {
  public:
   IntArrayData();
@@ -372,7 +610,7 @@ class IntArrayData : public ::google::protobuf::MessageLite /* @@protoc_insertio
                &_IntArrayData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    4;
 
   void Swap(IntArrayData* other);
   friend void swap(IntArrayData& a, IntArrayData& b) {
@@ -480,7 +718,7 @@ class BoolArrayData : public ::google::protobuf::MessageLite /* @@protoc_inserti
                &_BoolArrayData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    5;
 
   void Swap(BoolArrayData* other);
   friend void swap(BoolArrayData& a, BoolArrayData& b) {
@@ -588,7 +826,7 @@ class StaticMapData : public ::google::protobuf::MessageLite /* @@protoc_inserti
                &_StaticMapData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    6;
 
   void Swap(StaticMapData* other);
   friend void swap(StaticMapData& a, StaticMapData& b) {
@@ -639,53 +877,53 @@ class StaticMapData : public ::google::protobuf::MessageLite /* @@protoc_inserti
 
   // accessors -------------------------------------------------------
 
-  // repeated int32 groundHeight = 7;
+  // repeated .bwapi.data.IntMapData groundHeight = 7;
   int groundheight_size() const;
   void clear_groundheight();
   static const int kGroundHeightFieldNumber = 7;
-  ::google::protobuf::int32 groundheight(int index) const;
-  void set_groundheight(int index, ::google::protobuf::int32 value);
-  void add_groundheight(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      groundheight() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  ::bwapi::data::IntMapData* mutable_groundheight(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntMapData >*
       mutable_groundheight();
+  const ::bwapi::data::IntMapData& groundheight(int index) const;
+  ::bwapi::data::IntMapData* add_groundheight();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntMapData >&
+      groundheight() const;
 
-  // repeated bool isBuildable = 8;
+  // repeated .bwapi.data.BoolMapData isBuildable = 8;
   int isbuildable_size() const;
   void clear_isbuildable();
   static const int kIsBuildableFieldNumber = 8;
-  bool isbuildable(int index) const;
-  void set_isbuildable(int index, bool value);
-  void add_isbuildable(bool value);
-  const ::google::protobuf::RepeatedField< bool >&
-      isbuildable() const;
-  ::google::protobuf::RepeatedField< bool >*
+  ::bwapi::data::BoolMapData* mutable_isbuildable(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >*
       mutable_isbuildable();
+  const ::bwapi::data::BoolMapData& isbuildable(int index) const;
+  ::bwapi::data::BoolMapData* add_isbuildable();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >&
+      isbuildable() const;
 
-  // repeated bool isWalkable = 9;
+  // repeated .bwapi.data.BoolMapData isWalkable = 9;
   int iswalkable_size() const;
   void clear_iswalkable();
   static const int kIsWalkableFieldNumber = 9;
-  bool iswalkable(int index) const;
-  void set_iswalkable(int index, bool value);
-  void add_iswalkable(bool value);
-  const ::google::protobuf::RepeatedField< bool >&
-      iswalkable() const;
-  ::google::protobuf::RepeatedField< bool >*
+  ::bwapi::data::BoolMapData* mutable_iswalkable(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >*
       mutable_iswalkable();
+  const ::bwapi::data::BoolMapData& iswalkable(int index) const;
+  ::bwapi::data::BoolMapData* add_iswalkable();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >&
+      iswalkable() const;
 
-  // repeated uint32 mapTileRegionId = 10;
+  // repeated .bwapi.data.UIntMapData mapTileRegionId = 10;
   int maptileregionid_size() const;
   void clear_maptileregionid();
   static const int kMapTileRegionIdFieldNumber = 10;
-  ::google::protobuf::uint32 maptileregionid(int index) const;
-  void set_maptileregionid(int index, ::google::protobuf::uint32 value);
-  void add_maptileregionid(::google::protobuf::uint32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-      maptileregionid() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+  ::bwapi::data::UIntMapData* mutable_maptileregionid(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::UIntMapData >*
       mutable_maptileregionid();
+  const ::bwapi::data::UIntMapData& maptileregionid(int index) const;
+  ::bwapi::data::UIntMapData* add_maptileregionid();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::UIntMapData >&
+      maptileregionid() const;
 
   // repeated uint32 mapSplitTilesMiniTileMask = 11;
   int mapsplittilesminitilemask_size() const;
@@ -813,14 +1051,10 @@ class StaticMapData : public ::google::protobuf::MessageLite /* @@protoc_inserti
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > groundheight_;
-  mutable int _groundheight_cached_byte_size_;
-  ::google::protobuf::RepeatedField< bool > isbuildable_;
-  mutable int _isbuildable_cached_byte_size_;
-  ::google::protobuf::RepeatedField< bool > iswalkable_;
-  mutable int _iswalkable_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > maptileregionid_;
-  mutable int _maptileregionid_cached_byte_size_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntMapData > groundheight_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData > isbuildable_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData > iswalkable_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::UIntMapData > maptileregionid_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > mapsplittilesminitilemask_;
   mutable int _mapsplittilesminitilemask_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > mapsplittilesregion1_;
@@ -873,7 +1107,7 @@ class MapData : public ::google::protobuf::MessageLite /* @@protoc_insertion_poi
                &_MapData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    7;
 
   void Swap(MapData* other);
   friend void swap(MapData& a, MapData& b) {
@@ -1019,7 +1253,7 @@ class GameData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
                &_GameData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    8;
 
   void Swap(GameData* other);
   friend void swap(GameData& a, GameData& b) {
@@ -1421,7 +1655,7 @@ class Player : public ::google::protobuf::MessageLite /* @@protoc_insertion_poin
                &_Player_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    9;
 
   void Swap(Player* other);
   friend void swap(Player& a, Player& b) {
@@ -2089,7 +2323,7 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
                &_Unit_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    10;
 
   void Swap(Unit* other);
   friend void swap(Unit& a, Unit& b) {
@@ -2921,7 +3155,7 @@ class Region : public ::google::protobuf::MessageLite /* @@protoc_insertion_poin
                &_Region_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    11;
 
   void Swap(Region* other);
   friend void swap(Region& a, Region& b) {
@@ -3113,7 +3347,7 @@ class Bullet : public ::google::protobuf::MessageLite /* @@protoc_insertion_poin
                &_Bullet_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    12;
 
   void Swap(Bullet* other);
   friend void swap(Bullet& a, Bullet& b) {
@@ -3317,7 +3551,7 @@ class Force : public ::google::protobuf::MessageLite /* @@protoc_insertion_point
                &_Force_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    13;
 
   void Swap(Force* other);
   friend void swap(Force& a, Force& b) {
@@ -3447,7 +3681,7 @@ class Game : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
                &_Game_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    14;
 
   void Swap(Game* other);
   friend void swap(Game& a, Game& b) {
@@ -3680,6 +3914,98 @@ inline void BoolMapData::set_value(bool value) {
   
   value_ = value;
   // @@protoc_insertion_point(field_set:bwapi.data.BoolMapData.value)
+}
+
+// -------------------------------------------------------------------
+
+// IntMapData
+
+// int32 x = 1;
+inline void IntMapData::clear_x() {
+  x_ = 0;
+}
+inline ::google::protobuf::int32 IntMapData::x() const {
+  // @@protoc_insertion_point(field_get:bwapi.data.IntMapData.x)
+  return x_;
+}
+inline void IntMapData::set_x(::google::protobuf::int32 value) {
+  
+  x_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.IntMapData.x)
+}
+
+// int32 y = 2;
+inline void IntMapData::clear_y() {
+  y_ = 0;
+}
+inline ::google::protobuf::int32 IntMapData::y() const {
+  // @@protoc_insertion_point(field_get:bwapi.data.IntMapData.y)
+  return y_;
+}
+inline void IntMapData::set_y(::google::protobuf::int32 value) {
+  
+  y_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.IntMapData.y)
+}
+
+// int32 value = 3;
+inline void IntMapData::clear_value() {
+  value_ = 0;
+}
+inline ::google::protobuf::int32 IntMapData::value() const {
+  // @@protoc_insertion_point(field_get:bwapi.data.IntMapData.value)
+  return value_;
+}
+inline void IntMapData::set_value(::google::protobuf::int32 value) {
+  
+  value_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.IntMapData.value)
+}
+
+// -------------------------------------------------------------------
+
+// UIntMapData
+
+// int32 x = 1;
+inline void UIntMapData::clear_x() {
+  x_ = 0;
+}
+inline ::google::protobuf::int32 UIntMapData::x() const {
+  // @@protoc_insertion_point(field_get:bwapi.data.UIntMapData.x)
+  return x_;
+}
+inline void UIntMapData::set_x(::google::protobuf::int32 value) {
+  
+  x_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.UIntMapData.x)
+}
+
+// int32 y = 2;
+inline void UIntMapData::clear_y() {
+  y_ = 0;
+}
+inline ::google::protobuf::int32 UIntMapData::y() const {
+  // @@protoc_insertion_point(field_get:bwapi.data.UIntMapData.y)
+  return y_;
+}
+inline void UIntMapData::set_y(::google::protobuf::int32 value) {
+  
+  y_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.UIntMapData.y)
+}
+
+// uint32 value = 3;
+inline void UIntMapData::clear_value() {
+  value_ = 0u;
+}
+inline ::google::protobuf::uint32 UIntMapData::value() const {
+  // @@protoc_insertion_point(field_get:bwapi.data.UIntMapData.value)
+  return value_;
+}
+inline void UIntMapData::set_value(::google::protobuf::uint32 value) {
+  
+  value_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.UIntMapData.value)
 }
 
 // -------------------------------------------------------------------
@@ -4030,124 +4356,124 @@ inline void StaticMapData::set_allocated_mapname(::std::string* mapname) {
   // @@protoc_insertion_point(field_set_allocated:bwapi.data.StaticMapData.mapName)
 }
 
-// repeated int32 groundHeight = 7;
+// repeated .bwapi.data.IntMapData groundHeight = 7;
 inline int StaticMapData::groundheight_size() const {
   return groundheight_.size();
 }
 inline void StaticMapData::clear_groundheight() {
   groundheight_.Clear();
 }
-inline ::google::protobuf::int32 StaticMapData::groundheight(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.StaticMapData.groundHeight)
-  return groundheight_.Get(index);
+inline ::bwapi::data::IntMapData* StaticMapData::mutable_groundheight(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.StaticMapData.groundHeight)
+  return groundheight_.Mutable(index);
 }
-inline void StaticMapData::set_groundheight(int index, ::google::protobuf::int32 value) {
-  groundheight_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.StaticMapData.groundHeight)
-}
-inline void StaticMapData::add_groundheight(::google::protobuf::int32 value) {
-  groundheight_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.StaticMapData.groundHeight)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-StaticMapData::groundheight() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.StaticMapData.groundHeight)
-  return groundheight_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntMapData >*
 StaticMapData::mutable_groundheight() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.StaticMapData.groundHeight)
   return &groundheight_;
 }
+inline const ::bwapi::data::IntMapData& StaticMapData::groundheight(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.StaticMapData.groundHeight)
+  return groundheight_.Get(index);
+}
+inline ::bwapi::data::IntMapData* StaticMapData::add_groundheight() {
+  // @@protoc_insertion_point(field_add:bwapi.data.StaticMapData.groundHeight)
+  return groundheight_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::IntMapData >&
+StaticMapData::groundheight() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.StaticMapData.groundHeight)
+  return groundheight_;
+}
 
-// repeated bool isBuildable = 8;
+// repeated .bwapi.data.BoolMapData isBuildable = 8;
 inline int StaticMapData::isbuildable_size() const {
   return isbuildable_.size();
 }
 inline void StaticMapData::clear_isbuildable() {
   isbuildable_.Clear();
 }
-inline bool StaticMapData::isbuildable(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.StaticMapData.isBuildable)
-  return isbuildable_.Get(index);
+inline ::bwapi::data::BoolMapData* StaticMapData::mutable_isbuildable(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.StaticMapData.isBuildable)
+  return isbuildable_.Mutable(index);
 }
-inline void StaticMapData::set_isbuildable(int index, bool value) {
-  isbuildable_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.StaticMapData.isBuildable)
-}
-inline void StaticMapData::add_isbuildable(bool value) {
-  isbuildable_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.StaticMapData.isBuildable)
-}
-inline const ::google::protobuf::RepeatedField< bool >&
-StaticMapData::isbuildable() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.StaticMapData.isBuildable)
-  return isbuildable_;
-}
-inline ::google::protobuf::RepeatedField< bool >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >*
 StaticMapData::mutable_isbuildable() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.StaticMapData.isBuildable)
   return &isbuildable_;
 }
+inline const ::bwapi::data::BoolMapData& StaticMapData::isbuildable(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.StaticMapData.isBuildable)
+  return isbuildable_.Get(index);
+}
+inline ::bwapi::data::BoolMapData* StaticMapData::add_isbuildable() {
+  // @@protoc_insertion_point(field_add:bwapi.data.StaticMapData.isBuildable)
+  return isbuildable_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >&
+StaticMapData::isbuildable() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.StaticMapData.isBuildable)
+  return isbuildable_;
+}
 
-// repeated bool isWalkable = 9;
+// repeated .bwapi.data.BoolMapData isWalkable = 9;
 inline int StaticMapData::iswalkable_size() const {
   return iswalkable_.size();
 }
 inline void StaticMapData::clear_iswalkable() {
   iswalkable_.Clear();
 }
-inline bool StaticMapData::iswalkable(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.StaticMapData.isWalkable)
-  return iswalkable_.Get(index);
+inline ::bwapi::data::BoolMapData* StaticMapData::mutable_iswalkable(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.StaticMapData.isWalkable)
+  return iswalkable_.Mutable(index);
 }
-inline void StaticMapData::set_iswalkable(int index, bool value) {
-  iswalkable_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.StaticMapData.isWalkable)
-}
-inline void StaticMapData::add_iswalkable(bool value) {
-  iswalkable_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.StaticMapData.isWalkable)
-}
-inline const ::google::protobuf::RepeatedField< bool >&
-StaticMapData::iswalkable() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.StaticMapData.isWalkable)
-  return iswalkable_;
-}
-inline ::google::protobuf::RepeatedField< bool >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >*
 StaticMapData::mutable_iswalkable() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.StaticMapData.isWalkable)
   return &iswalkable_;
 }
+inline const ::bwapi::data::BoolMapData& StaticMapData::iswalkable(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.StaticMapData.isWalkable)
+  return iswalkable_.Get(index);
+}
+inline ::bwapi::data::BoolMapData* StaticMapData::add_iswalkable() {
+  // @@protoc_insertion_point(field_add:bwapi.data.StaticMapData.isWalkable)
+  return iswalkable_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::BoolMapData >&
+StaticMapData::iswalkable() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.StaticMapData.isWalkable)
+  return iswalkable_;
+}
 
-// repeated uint32 mapTileRegionId = 10;
+// repeated .bwapi.data.UIntMapData mapTileRegionId = 10;
 inline int StaticMapData::maptileregionid_size() const {
   return maptileregionid_.size();
 }
 inline void StaticMapData::clear_maptileregionid() {
   maptileregionid_.Clear();
 }
-inline ::google::protobuf::uint32 StaticMapData::maptileregionid(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.StaticMapData.mapTileRegionId)
-  return maptileregionid_.Get(index);
+inline ::bwapi::data::UIntMapData* StaticMapData::mutable_maptileregionid(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.StaticMapData.mapTileRegionId)
+  return maptileregionid_.Mutable(index);
 }
-inline void StaticMapData::set_maptileregionid(int index, ::google::protobuf::uint32 value) {
-  maptileregionid_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.StaticMapData.mapTileRegionId)
-}
-inline void StaticMapData::add_maptileregionid(::google::protobuf::uint32 value) {
-  maptileregionid_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.StaticMapData.mapTileRegionId)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-StaticMapData::maptileregionid() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.StaticMapData.mapTileRegionId)
-  return maptileregionid_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::UIntMapData >*
 StaticMapData::mutable_maptileregionid() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.data.StaticMapData.mapTileRegionId)
   return &maptileregionid_;
+}
+inline const ::bwapi::data::UIntMapData& StaticMapData::maptileregionid(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.StaticMapData.mapTileRegionId)
+  return maptileregionid_.Get(index);
+}
+inline ::bwapi::data::UIntMapData* StaticMapData::add_maptileregionid() {
+  // @@protoc_insertion_point(field_add:bwapi.data.StaticMapData.mapTileRegionId)
+  return maptileregionid_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::UIntMapData >&
+StaticMapData::maptileregionid() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.StaticMapData.mapTileRegionId)
+  return maptileregionid_;
 }
 
 // repeated uint32 mapSplitTilesMiniTileMask = 11;
@@ -8907,6 +9233,10 @@ Game::forces() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

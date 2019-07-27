@@ -1,116 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="generated\cpp\command.pb.cc" />
+    <ClCompile Include="generated\cpp\error.pb.cc" />
+    <ClCompile Include="generated\cpp\event.pb.cc" />
+    <ClCompile Include="generated\cpp\game.pb.cc" />
+    <ClCompile Include="generated\cpp\init.pb.cc" />
+    <ClCompile Include="generated\cpp\message.pb.cc" />
+    <ClCompile Include="generated\cpp\data.pb.cc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="message.proto">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="error.proto">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="game.proto">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="init.proto">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="data.proto">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="command.proto">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="event.proto">
-      <Filter>Resource Files</Filter>
-    </None>
+    <ClInclude Include="generated\cpp\command.pb.h" />
+    <ClInclude Include="generated\cpp\error.pb.h" />
+    <ClInclude Include="generated\cpp\event.pb.h" />
+    <ClInclude Include="generated\cpp\game.pb.h" />
+    <ClInclude Include="generated\cpp\init.pb.h" />
+    <ClInclude Include="generated\cpp\message.pb.h" />
+    <ClInclude Include="generated\cpp\data.pb.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="generated\cpp\command.pb.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="generated\cpp\error.pb.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="generated\cpp\event.pb.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="generated\cpp\game.pb.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="generated\cpp\init.pb.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="generated\cpp\message.pb.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="generated\cpp\data.pb.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="generated\cpp\command.pb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-    <ClInclude Include="generated\cpp\data.pb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="generated\cpp\error.pb.h">
-<<<<<<< Updated upstream
-=======
-=======
-    <ClInclude Include="generated\cpp\error.pb.h">
->>>>>>> Stashed changes
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="generated\cpp\event.pb.h">
->>>>>>> Stashed changes
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="generated\cpp\game.pb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-<<<<<<< Updated upstream
-    <ClInclude Include="generated\cpp\init.pb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="generated\cpp\message.pb.h">
-=======
-<<<<<<< Updated upstream
-    <ClInclude Include="generated\cpp\game.pb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="generated\cpp\init.pb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="generated\cpp\message.pb.h">
-=======
-    <ClInclude Include="generated\cpp\init.pb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="generated\cpp\message.pb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="generated\cpp\data.pb.h">
->>>>>>> Stashed changes
->>>>>>> Stashed changes
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <None Include="command.proto" />
+    <None Include="data.proto" />
+    <None Include="error.proto" />
+    <None Include="event.proto" />
+    <None Include="game.proto" />
+    <None Include="init.proto" />
+    <None Include="message.proto" />
   </ItemGroup>
 </Project>

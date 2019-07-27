@@ -14,6 +14,18 @@ message BoolMapData {
     bool value = 3;
 }
 
+message IntMapData {
+    int32 x = 1;
+    int32 y = 2;
+    int32 value = 3;
+}
+
+message UIntMapData {
+    int32 x = 1;
+    int32 y = 2;
+    uint32 value = 3;
+}
+
 message IntArrayData {
     int32 index = 1;
     int32 value = 2;
@@ -33,11 +45,11 @@ message StaticMapData
     string mapPath = 5;
     string mapName = 6;
 
-    repeated int32 groundHeight = 7;
-    repeated bool isBuildable = 8;
-    repeated bool isWalkable = 9;
+    repeated IntMapData groundHeight = 7;
+    repeated BoolMapData isBuildable = 8;
+    repeated BoolMapData isWalkable = 9;
 
-    repeated uint32 mapTileRegionId = 10;
+    repeated UIntMapData mapTileRegionId = 10;
     repeated uint32 mapSplitTilesMiniTileMask = 11;
     repeated uint32 mapSplitTilesRegion1 = 12;
     repeated uint32 mapSplitTilesRegion2 = 13;
