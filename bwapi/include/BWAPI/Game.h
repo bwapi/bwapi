@@ -103,6 +103,10 @@ namespace BWAPI
       else return nullptr;
     }
 
+    /// <summary>Initializes the members of GameData.</summary> Prepares the Game object for
+    /// the start of a new game.
+    void initGameData();
+
     /// <summary>Retrieves the set of all teams/forces.</summary> Forces are commonly seen in @UMS
     /// game types and some others such as @TvB and the team versions of game types.
     ///

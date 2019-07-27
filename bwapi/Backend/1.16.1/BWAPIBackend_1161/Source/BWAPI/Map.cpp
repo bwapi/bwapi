@@ -95,7 +95,7 @@ namespace BWAPI
           if (data->isOccupied[x][y] != value)
           {
             data->isOccupied[x][y] = value;
-            auto newData = mapData->add_hascreep();
+            auto newData = mapData->add_isoccupied();
             newData->set_x(x);
             newData->set_y(y);
             newData->set_value(value);
@@ -143,7 +143,7 @@ namespace BWAPI
           if (data->isOccupied[x][y] != value)
           {
             data->isOccupied[x][y] = value;
-            auto newData = mapData->add_hascreep();
+            auto newData = mapData->add_isoccupied();
             newData->set_x(x);
             newData->set_y(y);
             newData->set_value(value);

@@ -228,6 +228,7 @@ namespace BWAPI
   }
   void Server::onMatchStart()
   {
+    memset(&data->hasCreep, false, sizeof(bool[256][256]));
     data->self = getPlayerID(BroodwarImpl.self());
     data->enemy = getPlayerID(BroodwarImpl.enemy());
     data->neutral = getPlayerID(BroodwarImpl.neutral());
@@ -537,10 +538,6 @@ namespace BWAPI
       for (Unit t : BroodwarImpl.getSelectedUnits())
         data->selectedUnits[idx++] = getUnitID(t);
 
-      //dynamic map data
-      Map::copyToSharedMemory(mapData);
-      //(no dynamic force data)
-
 
       //dynamic player data
       auto playersMessage = std::make_unique<bwapi::message::Message>();
@@ -620,7 +617,7 @@ namespace BWAPI
             supplyTotal->set_index(j);
             supplyTotal->set_value(p2->supplyTotal[j]);
           }
-          if (p->supplyUsed[j] = p2->supplyUsed[j])
+          if (p->supplyUsed[j] != p2->supplyUsed[j])
           {
             auto supplyUsed = player->add_supplyused();
             p->supplyUsed[j] = p2->supplyUsed[j];
@@ -637,28 +634,28 @@ namespace BWAPI
             allUnitCount->set_index(j);
             allUnitCount->set_value(p2->allUnitCount[j]);
           }
-          if (p->visibleUnitCount[j] = p2->visibleUnitCount[j])
+          if (p->visibleUnitCount[j] != p2->visibleUnitCount[j])
           {
             auto visibleUnitCount = player->add_visibleunitcount();
             p->visibleUnitCount[j] = p2->visibleUnitCount[j];
             visibleUnitCount->set_index(j);
             visibleUnitCount->set_value(p2->visibleUnitCount[j]);
           }
-          if (p->completedUnitCount[j] = p2->completedUnitCount[j])
+          if (p->completedUnitCount[j] != p2->completedUnitCount[j])
           {
             auto completedUnitCount = player->add_completedunitcount();
             p->completedUnitCount[j] = p2->completedUnitCount[j];
             completedUnitCount->set_index(j);
             completedUnitCount->set_value(p2->completedUnitCount[j]);
           }
-          if (p->deadUnitCount[j] = p2->deadUnitCount[j])
+          if (p->deadUnitCount[j] != p2->deadUnitCount[j])
           {
             auto deadUnitCount = player->add_deadunitcount();
             p->deadUnitCount[j] = p2->deadUnitCount[j];
             deadUnitCount->set_index(j);
             deadUnitCount->set_value(p2->completedUnitCount[j]);
           }
-          if (p->killedUnitCount[j] = p2->killedUnitCount[j])
+          if (p->killedUnitCount[j] != p2->killedUnitCount[j])
           {
             auto killedUnitCount = player->add_killedunitcount();
             p->killedUnitCount[j] = p2->killedUnitCount[j];
@@ -963,6 +960,11 @@ namespace BWAPI
     BroodwarImpl.events.clear();
     if (data->isInGame)
     {
+
+      //dynamic map data
+      Map::copyToSharedMemory(mapData);
+      //(no dynamic force data)
+
       if (BroodwarImpl.self())
         gameData->set_player(BroodwarImpl.self()->getID());
  

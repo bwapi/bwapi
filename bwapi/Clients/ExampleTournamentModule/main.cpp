@@ -65,7 +65,7 @@ int main(int argc, const char* argv[])
     //Send desired messages to Client. If we wanted to intercept and modify any messages,
     //we could do so in the above while loop.
     connectionToClient.transmitMessages();
-    
+
     //While the bot runs it's code, we will update the tournament client's copy of game.
     //Any logic for camera control can be placed here too, as it will run in parallel to
     //the bot (unless the bot's code finishes before this).
@@ -125,31 +125,48 @@ void update(Game& game, BWAPIProtoClient& protoClient)
           if (gameUpdate.has_staticmap())
           {
             auto staticMap = gameUpdate.staticmap();
-            std::copy(staticMap.groundheight().begin(), staticMap.groundheight().end(), &game.gameData->map.groundHeight[0][0]);
-            std::copy(staticMap.isbuildable().begin(), staticMap.isbuildable().end(), &game.gameData->map.isBuildable[0][0]);
-            std::copy(staticMap.iswalkable().begin(), staticMap.iswalkable().end(), &game.gameData->map.isWalkable[0][0]);
+            game.gameData->map.size = TilePosition{ staticMap.size().x(), staticMap.size().y() };
+            for (auto isWalkable : staticMap.iswalkable())
+              game.gameData->map.isWalkable[isWalkable.x()][isWalkable.y()] = isWalkable.value();
+
+            auto groundHeight = staticMap.groundheight().begin();
+            auto isBuildable = staticMap.isbuildable().begin();
+            auto mapTile = staticMap.maptileregionid().begin();
+            while (groundHeight != staticMap.groundheight().end())
+            {
+              game.gameData->map.groundHeight[groundHeight->x()][groundHeight->y()] = groundHeight->value();
+              game.gameData->map.isBuildable[isBuildable->x()][isBuildable->y()] = isBuildable->value();
+              game.gameData->map.mapTileRegionId[mapTile->x()][mapTile->y()] = mapTile->value();
+              groundHeight++;
+              isBuildable++;
+              mapTile++;
+            }
             game.gameData->map.mapHash = staticMap.maphash();
 
             // TODO: These uint32 are being implicitly cast to unsigned short, they need a proper explicit cast/conversion
             std::copy(staticMap.mapsplittilesminitilemask().begin(), staticMap.mapsplittilesminitilemask().end(), &game.gameData->map.mapSplitTilesMiniTileMask[0]);
             std::copy(staticMap.mapsplittilesregion1().begin(), staticMap.mapsplittilesregion1().end(), &game.gameData->map.mapSplitTilesRegion1[0]);
             std::copy(staticMap.mapsplittilesregion2().begin(), staticMap.mapsplittilesregion2().end(), &game.gameData->map.mapSplitTilesRegion2[0]);
-            std::copy(staticMap.maptileregionid().begin(), staticMap.maptileregionid().end(), &game.gameData->map.mapTileRegionId[0][0]);
-            game.gameData->map.size = TilePosition{ staticMap.size().x(), staticMap.size().y() };
+
             game.gameData->map.tileset = staticMap.tileset();
             game.gameData->mapName = staticMap.mapname();
             game.gameData->mapFileName = staticMap.mapfilename();
             game.gameData->mapPath = staticMap.mappath();
+
             for (auto &sp : staticMap.startpositions())
               game.gameData->startPositions.push_back(TilePosition{ sp.x(), sp.y() });
           }
           if (gameUpdate.has_map())
           {
             auto map = gameUpdate.map();
-            std::copy(map.hascreep().begin(), map.hascreep().end(), &game.gameData->map.hasCreep[0][0]);
-            std::copy(map.isexplored().begin(), map.isexplored().end(), &game.gameData->map.isExplored[0][0]);
-            std::copy(map.isoccupied().begin(), map.isoccupied().end(), &game.gameData->map.isOccupied[0][0]);
-            std::copy(map.isvisible().begin(), map.isvisible().end(), &game.gameData->map.isVisible[0][0]);
+            for (auto& data : map.hascreep())
+              game.gameData->map.hasCreep[data.x()][data.y()] = data.value();
+            for (auto& data : map.isexplored())
+              game.gameData->map.isExplored[data.x()][data.y()] = data.value();
+            for (auto& data : map.isoccupied())
+              game.gameData->map.isOccupied[data.x()][data.y()] = data.value();
+            for (auto& data : map.isvisible())
+              game.gameData->map.isVisible[data.x()][data.y()] = data.value();
           }
         }
         for (auto &p : gameMessage.players())
@@ -161,63 +178,104 @@ void update(Game& game, BWAPIProtoClient& protoClient)
             auto &isUnitAvailable = p.isunitavailable();
             auto &killedUnitCount = p.killedunitcount();
             auto &visibleUnitCount = p.visibleunitcount();
-            std::copy(allUnitCount.begin(), allUnitCount.end(), playerData.allUnitCount);
-            std::copy(completedUnitCount.begin(), completedUnitCount.end(), playerData.completedUnitCount);
-            std::copy(deadUnitCount.begin(), deadUnitCount.end(), playerData.deadUnitCount);
-            std::copy(isUnitAvailable.begin(), isUnitAvailable.end(), playerData.isUnitAvailable);
-            std::copy(killedUnitCount.begin(), killedUnitCount.end(), playerData.killedUnitCount);
-            std::copy(visibleUnitCount.begin(), visibleUnitCount.end(), playerData.visibleUnitCount);
-            playerData.color = Color{ p.color() };
-            playerData.customScore = p.customscore();
-            playerData.force = ForceID{ p.force() };
-            playerData.gas = p.gas();
-            playerData.gatheredGas = p.gatheredgas();
-            playerData.gatheredMinerals = p.gatheredminerals();
+            for (auto &j : allUnitCount)
+              playerData.allUnitCount[j.index()] = j.value();
+            for (auto &j : completedUnitCount)
+              playerData.completedUnitCount[j.index()] = j.value();
+            for (auto &j : deadUnitCount)
+              playerData.deadUnitCount[j.index()] = j.value();
+            for (auto &j : isUnitAvailable)
+              playerData.isUnitAvailable[j.index()] = j.value();
+            for (auto &j : killedUnitCount)
+              playerData.killedUnitCount[j.index()] = j.value();
+            for (auto &j : visibleUnitCount)
+              playerData.visibleUnitCount[j.index()] = j.value();
+            for (auto &j : p.color())
+              playerData.color = Color{ j };
+            for (auto &j : p.customscore())
+              playerData.customScore = j;
+            for (auto &j : p.force())
+              playerData.force = ForceID{ j };
+            for (auto &j : p.gas())
+              playerData.gas = j;
+            for (auto &j : p.gatheredgas())
+              playerData.gatheredGas = j;
+            for (auto &j : p.gatheredminerals())
+              playerData.gatheredMinerals = j;
             auto &hasResearched = p.hasresearched();
             auto &isResearchAvailable = p.isresearchavailable();
             auto &isResearching = p.isresearching();
-            std::copy(hasResearched.begin(), hasResearched.end(), playerData.hasResearched);
-            std::copy(isResearchAvailable.begin(), isResearchAvailable.end(), playerData.isResearchAvailable);
-            std::copy(isResearching.begin(), isResearching.end(), playerData.isResearching);
+            for (auto &j : hasResearched)
+              playerData.hasResearched[j.index()] = j.value();
+            for (auto &j : isResearchAvailable)
+              playerData.isResearchAvailable[j.index()] = j.value();
+            for (auto &j : isResearching)
+              playerData.isResearching[j.index()] = j.value();
             auto &isAlly = p.isally();
             auto &isEnemy = p.isenemy();
-            std::copy(isAlly.begin(), isAlly.end(), playerData.isAlly);
-            std::copy(isEnemy.begin(), isEnemy.end(), playerData.isEnemy);
-            playerData.isDefeated = p.isdefeated();
-            playerData.isNeutral = p.isneutral();
-            playerData.isParticipating = p.isparticipating();
+            for (auto &j : isAlly)
+              playerData.isAlly[j.index()] = j.value();
+            for (auto &j : isEnemy)
+              playerData.isEnemy[j.index()] = j.value();
+            for (auto &j : p.isdefeated())
+              playerData.isDefeated = j;
+            for (auto &j : p.isneutral())
+              playerData.isNeutral = j;
+            for (auto &j : p.isparticipating())
+              playerData.isParticipating = j;
             auto &isUpgrading = p.isupgrading();
             auto &maxUpgradeLevel = p.maxupgradelevel();
             auto &upgradeLevel = p.upgradelevel();
-            std::copy(isUpgrading.begin(), isUpgrading.end(), playerData.isUpgrading);
-            std::copy(maxUpgradeLevel.begin(), maxUpgradeLevel.end(), playerData.maxUpgradeLevel);
-            std::copy(upgradeLevel.begin(), upgradeLevel.end(), playerData.upgradeLevel);
-            playerData.isVictorious = p.isvictorious();
-            playerData.leftGame = p.leftgame();
-            playerData.minerals = p.minerals();
-            playerData.name = p.name();
-            playerData.race = Race{ p.race() };
-            playerData.refundedGas = p.refundedgas();
-            playerData.refundedMinerals = p.refundedminerals();
-            playerData.repairedGas = p.repairedgas();
-            playerData.repairedMinerals = p.repairedminerals();
-            playerData.startLocationX = p.startlocationx();
-            playerData.startLocationY = p.startlocationy();
+            for (auto &j : isUpgrading)
+              playerData.isUpgrading[j.index()] = j.value();
+            for (auto &j : maxUpgradeLevel)
+              playerData.maxUpgradeLevel[j.index()] = j.value();
+            for (auto &j : upgradeLevel)
+              playerData.upgradeLevel[j.index()] = j.value();
+            for (auto &j : p.isvictorious())
+              playerData.isVictorious = j;
+            for (auto &j : p.leftgame())
+              playerData.leftGame = j;
+            for (auto &j : p.minerals())
+              playerData.minerals = j;
+            for (auto &j : p.name())
+              playerData.name = j;
+            for (auto &j : p.race())
+              playerData.race = Race{ j };
+            for (auto &j : p.refundedgas())
+              playerData.refundedGas = j;
+            for (auto &j : p.refundedminerals())
+              playerData.refundedMinerals = j;
+            for (auto &j : p.repairedgas())
+              playerData.repairedGas = j;
+            for (auto &j : p.repairedminerals())
+              playerData.repairedMinerals = j;
+            for (auto &j : p.startlocationx())
+              playerData.startLocationX = j;
+            for (auto &j : p.startlocationy())
+              playerData.startLocationY = j;
             auto &supplyTotal = p.supplytotal();
             auto &supplyUsed = p.supplyused();
-            std::copy(supplyTotal.begin(), supplyTotal.end(), playerData.supplyTotal);
-            std::copy(supplyUsed.begin(), supplyUsed.end(), playerData.supplyUsed);
-            playerData.totalBuildingScore = p.totalbuildingscore();
-            playerData.totalKillScore = p.totalkillscore();
-            playerData.totalRazingScore = p.totalrazingscore();
-            playerData.totalUnitScore = p.totalunitscore();
-            playerData.type = PlayerType{ p.type() };
+            for (auto &j : supplyTotal)
+              playerData.supplyTotal[j.index()] = j.value();
+            for (auto &j : supplyUsed)
+              playerData.supplyUsed[j.index()] = j.value();
+            for (auto &j : p.totalbuildingscore())
+              playerData.totalBuildingScore = j;
+            for (auto &j : p.totalkillscore())
+              playerData.totalKillScore = j;
+            for (auto &j : p.totalrazingscore())
+              playerData.totalRazingScore = j;
+            for (auto &j : p.totalunitscore())
+              playerData.totalUnitScore = j;
+            for (auto &j : p.type())
+              playerData.type = PlayerType{ j };
           };
           auto playerID = PlayerID{ p.id() };
           auto itr = players.find(playerID);
           if (itr == players.end())
           {
-            auto &playerData = *players.emplace(game, playerID, ForceID{ p.force() }).first;
+            auto &playerData = *players.emplace(game, playerID, ForceID{ -1 }).first;
             fillPlayerData(const_cast<PlayerData&>(playerData), p);
             game.updatePlayer(playerData);
           }

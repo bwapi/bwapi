@@ -34,6 +34,12 @@ namespace BWAPI
       , commandOptimizer(*this)
     {
       gameData = std::make_unique<GameData>();
+      initGameData();
+    }
+
+    void Game::initGameData()
+    {
+      memset(&gameData->map.hasCreep, false, sizeof(bool[256][256]));
     }
 
     //------------------------------------ ETC ------------------------------------------
