@@ -33,13 +33,12 @@ namespace BWAPI
       : client(newClient)
       , commandOptimizer(*this)
     {
-      gameData = std::make_unique<GameData>();
       initGameData();
     }
 
     void Game::initGameData()
     {
-      memset(&gameData->map.hasCreep, false, sizeof(bool[256][256]));
+      gameData = std::make_unique<GameData>();
     }
 
     //------------------------------------ ETC ------------------------------------------

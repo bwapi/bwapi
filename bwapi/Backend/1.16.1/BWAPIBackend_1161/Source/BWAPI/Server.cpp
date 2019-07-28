@@ -228,7 +228,6 @@ namespace BWAPI
   }
   void Server::onMatchStart()
   {
-    memset(&data->hasCreep, false, sizeof(bool[256][256]));
     data->self = getPlayerID(BroodwarImpl.self());
     data->enemy = getPlayerID(BroodwarImpl.enemy());
     data->neutral = getPlayerID(BroodwarImpl.neutral());
@@ -243,9 +242,6 @@ namespace BWAPI
     TilePosition mapSize(BroodwarImpl.mapWidth(), BroodwarImpl.mapHeight());
     WalkPosition mapWalkSize(mapSize);
 
-    std::ofstream test;
-    test.open("walkable test");
-
     // Load walkability
     auto isWalkable = staticMap->mutable_iswalkable();
     for (int x = 0; x < mapWalkSize.x; ++x)
@@ -253,15 +249,12 @@ namespace BWAPI
       for (int y = 0; y < mapWalkSize.y; ++y)
       {
         data->isWalkable[x][y] = BroodwarImpl.isWalkable(x, y);
-        test << data->isWalkable[x][y] << " ";
         auto point = isWalkable->Add();
         point->set_x(x);
         point->set_y(y);
         point->set_value(data->isWalkable[x][y]);
       }
-      test << std::endl;
     }
-    test.close();
 
     /*auto isWalkableArr = &data->isWalkable[0][0];
     *staticMap->mutable_iswalkable() = { isWalkableArr, isWalkableArr + 1024 * 1024 };*/
