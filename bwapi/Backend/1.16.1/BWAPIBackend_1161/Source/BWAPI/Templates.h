@@ -2203,8 +2203,6 @@ namespace BWAPI
           return true;
 
         case TechTypes::Enum::Tank_Siege_Mode:
-          if ( thisUnit->isSieged() )
-            return BroodwarImpl.setLastError(Errors::Incompatible_State);
           if ( thisUnit->getOrder() == Orders::Sieging || thisUnit->getOrder() == Orders::Unsieging )
             return BroodwarImpl.setLastError(Errors::Unit_Busy);
           return true;

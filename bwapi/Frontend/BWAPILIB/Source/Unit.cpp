@@ -3083,8 +3083,6 @@ bool Unit::canUseTechWithOrWithoutTarget(BWAPI::TechType tech, bool checkCanIssu
     return true;
 
   case TechTypes::Enum::Tank_Siege_Mode:
-    if (this->isSieged())
-      return getGame().setLastError(Errors::Incompatible_State);
     if (this->getOrder() == Orders::Sieging || this->getOrder() == Orders::Unsieging)
       return getGame().setLastError(Errors::Unit_Busy);
     return true;
