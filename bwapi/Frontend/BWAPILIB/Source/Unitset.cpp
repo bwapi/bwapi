@@ -88,7 +88,7 @@ namespace BWAPI
   bool Unitset::issueCommand(UnitCommand command) const {
     bool success = false;
     for(auto &u : *this) {
-      success = success || u->issueCommand(command);
+      success |= u->issueCommand(command);
     }
     return success;
   }
