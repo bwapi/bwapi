@@ -28,7 +28,7 @@ public:
     
     funGame->createUnit(funGame->self(), UnitTypes::Protoss_Nexus, Position(nexusPos));
     funGame->createUnit(funGame->self(), UnitTypes::Protoss_Probe, Position(nexusPos), 4);
-    funGame->createUnit(funGame->self(), UnitTypes::Resource_Vespene_Geyser, Position(gasPos));
+    //funGame->createUnit(funGame->self(), UnitTypes::Resource_Vespene_Geyser, Position(gasPos));
     for (int i = 0; i < std::extent<decltype(mineralsPos)>::value; ++i) {
       funGame->createUnit(funGame->self(), mineralTypes[i % 3], Position(mineralsPos[i]));
     }
@@ -39,7 +39,7 @@ public:
 
     Unitset units = funGame->getAllUnits();
     nexus = *units.find_if(Filter::GetType == UnitTypes::Protoss_Nexus);
-    vespeneGeyser = *units.find_if(Filter::GetType == UnitTypes::Resource_Vespene_Geyser);
+    //vespeneGeyser = *units.find_if(Filter::GetType == UnitTypes::Resource_Vespene_Geyser);
     mineralField = *units.find_if(Filter::IsMineralField);
     probes = units.erase_if(Filter::GetType != UnitTypes::Protoss_Probe);
   }

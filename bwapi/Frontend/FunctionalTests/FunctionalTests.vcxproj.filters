@@ -13,6 +13,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest\gtest-all.cc" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc" />
+    <ClCompile Include="TerranTest.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitSetTest.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fixtures">
@@ -30,6 +36,9 @@
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="ProtossBaseFixture.h">
+      <Filter>Fixtures</Filter>
+    </ClInclude>
+    <ClInclude Include="TerranBaseFixture.h">
       <Filter>Fixtures</Filter>
     </ClInclude>
   </ItemGroup>

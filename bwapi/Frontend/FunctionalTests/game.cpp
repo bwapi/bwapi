@@ -50,6 +50,13 @@ void FunGame::reset()
   game->removeUnits(game->getAllUnits());
 
   // TODO: Game has some state for many things, they all need to be reset here
+  // I'm thinking we reinit the GameData, but store the old GameData for use
+  // in restoring everything that's only sent on game start.
+  // Below code does not preserve player data, which is private so I cannot
+  // access it to store and restore it.
+  //auto oldGameData = std::move(game->gameData);
+  //game->initGameData(); 
+  //game->gameData->player = oldGameData->player;
 }
 
 BWAPI::Game* FunGame::operator ->()
