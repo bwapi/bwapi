@@ -19,6 +19,9 @@
     <ClCompile Include="UnitSetTest.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="ZergTest.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fixtures">
@@ -39,6 +42,9 @@
       <Filter>Fixtures</Filter>
     </ClInclude>
     <ClInclude Include="TerranBaseFixture.h">
+      <Filter>Fixtures</Filter>
+    </ClInclude>
+    <ClInclude Include="ZergBaseFixture.h">
       <Filter>Fixtures</Filter>
     </ClInclude>
   </ItemGroup>

@@ -21,9 +21,6 @@ TEST(UnitSetTest, Train)
   funGame->sendText("Show me the money");
   funGame.advance(10);
 
-  std::cout << "commandCenterWidth = " << commandCenterWidth << std::endl;
-  std::cout << "comsatWidth = " << comsatWidth << std::endl;
-
   BWAPI::TilePosition positions[] = {
     {2, 2},
     {(commandCenter.tileWidth() + comsat.tileWidth()) + 4, 2},
@@ -31,9 +28,6 @@ TEST(UnitSetTest, Train)
   };
 
   auto testPosition = static_cast<Position>(positions[1]);
-
-  std::cout << "Expected position x = " << 32 * commandCenterWidth + comsatWidth << std::endl;
-  std::cout << "Actual conversion x = " << testPosition.x << std::endl;
   
   //Spawn in command centers.
   for (int i = 0; i < std::extent<decltype(positions)>::value; i++)
@@ -119,4 +113,5 @@ TEST(UnitSetTest, AddOn)
   auto builtAddOns = self.completedUnitCount(comsat);
   EXPECT_EQ(buildingAddOns, 0);
   EXPECT_EQ(builtAddOns, 3);
+  funGame.reset();
 }

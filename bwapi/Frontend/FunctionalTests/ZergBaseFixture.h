@@ -1,4 +1,5 @@
 #pragma once
+
 #include "gtest/gtest.h"
 
 #include<BWAPI.h>
@@ -6,33 +7,28 @@
 
 using namespace BWAPI;
 
-class TerranBaseFixture : public ::testing::Test {
+class ZergBaseFixture : public ::testing::Test {
 public:
-  TerranBaseFixture()
+  ZergBaseFixture()
   {
     using namespace Funtest;
-    funGame.advance(1);
-    
-    
 
-    UnitType unitTypes[18];
+    UnitType unitTypes[17];
 
-    int unitType = 106;
+    int unitType = 130;
 
-    for (int i = 0; i < 18; i++)
+    for (int i = 0; i < 17; i++)
     {
-      if (unitType != 119 && unitType != 121)
+      if (unitType != 145 && unitType != 147 && unitType != 148)
         unitTypes[i] = static_cast<UnitType>(unitType);
       else
         i--;
       unitType++;
     }
 
-   
-    
-    Position positions[18];
+    Position positions[17];
 
-    for (int i = 0; i < 18; i++)
+    for (int i = 0; i < 17; i++)
     {
       Position result = { 0, 0 };
       for (int j = 0; j < i; j++)
@@ -43,23 +39,26 @@ public:
       positions[i] = result;
     }
 
+    funGame.advance(2);
+
     for (int i = 0; i < std::extent<decltype(positions)>::value; i++)
     {
       if (!unitTypes[i].isAddon())
         funGame->createUnit(funGame->self(), unitTypes[i], positions[i]);
     }
-
     funGame.advance(2);
 
-    commandCenter = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Command_Center);
     self = funGame->self();
+    hatchery = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Zerg_Hatchery);
+    infestedCommandCenter = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Zerg_Infested_Command_Center);
   }
 
-  virtual ~TerranBaseFixture()
+  ~ZergBaseFixture()
   {
     Funtest::funGame.reset();
   }
 protected:
   Player self = nullptr;
-  Unit commandCenter = nullptr;
+  Unit hatchery = nullptr;
+  Unit infestedCommandCenter = nullptr;
 };

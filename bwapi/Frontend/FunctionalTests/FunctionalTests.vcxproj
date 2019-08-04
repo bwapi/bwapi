@@ -154,11 +154,13 @@
     <ClCompile Include="ProtossTest.cpp" />
     <ClCompile Include="TerranTest.cpp" />
     <ClCompile Include="UnitSetTest.cpp" />
+    <ClCompile Include="ZergTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
     <ClInclude Include="ProtossBaseFixture.h" />
     <ClInclude Include="TerranBaseFixture.h" />
+    <ClInclude Include="ZergBaseFixture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
