@@ -881,7 +881,7 @@ namespace BWAPI
       unit->set_stimtimer(u.stimTimer);
       unit->set_target(u.target);
       unit->set_tech(u.tech);
-      for (int i = 0; i < 5; i++)
+      for (int i = 0; i < u.trainingQueueCount; i++)
         unit->add_trainingqueue(u.trainingQueue[i]);
       unit->set_transport(u.transport);
       unit->set_type(u.type);

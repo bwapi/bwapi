@@ -344,6 +344,7 @@ namespace BWAPI
               unitData.target = UnitID{ u.target() };
               unitData.targetPosition = Position{ u.targetposition().x(), u.targetposition().y() };
               unitData.tech = TechType{ u.tech() };
+              unitData.trainingQueue.clear();
               for(auto &tqu : u.trainingqueue())
                 unitData.trainingQueue.push_back(UnitType{ tqu });
               unitData.transport = UnitID{ u.transport() };
