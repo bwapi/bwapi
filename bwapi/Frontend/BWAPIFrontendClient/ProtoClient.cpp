@@ -310,6 +310,7 @@ namespace BWAPI
               //unitData.lastCommand = UnitCommand{ u.lastcommand() };
               unitData.lastCommandFrame = u.lastcommandframe();
               unitData.lastHitPoints = u.lasthitpoints();
+              unitData.loadedUnits.clear();
               for (auto &lu : u.loadedunits())
                 unitData.loadedUnits.push_back(UnitID{ lu });
               unitData.lockdownTimer = u.lockdowntimer();
