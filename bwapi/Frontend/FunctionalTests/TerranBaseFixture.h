@@ -49,10 +49,21 @@ public:
         funGame->createUnit(funGame->self(), unitTypes[i], positions[i]);
     }
 
+    if (funGame->self().minerals() < 500)
+    {
+      funGame->sendText("Show me the money");
+      funGame.advance(10);
+    }
+
     funGame.advance(2);
 
     commandCenter = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Command_Center);
+    academy = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Academy);
+    engineeringBay = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Engineering_Bay);
+    factory = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Factory);
+    bunker = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Bunker);
     self = funGame->self();
+    enemy = funGame->enemy();
   }
 
   virtual ~TerranBaseFixture()
@@ -61,5 +72,10 @@ public:
   }
 protected:
   Player self = nullptr;
+  Player enemy = nullptr;
   Unit commandCenter = nullptr;
+  Unit academy = nullptr;
+  Unit engineeringBay = nullptr;
+  Unit factory = nullptr;
+  Unit bunker = nullptr;
 };
