@@ -34,6 +34,10 @@ namespace BWAPI
       protoClient.lookForServer(0, "x", false);
       if (protoClient.isConnected())
         return true;
+      {
+        using namespace std::chrono_literals;
+        std::this_thread::sleep_for(2s);
+      }
     }
     return protoClient.isConnected();
   }
