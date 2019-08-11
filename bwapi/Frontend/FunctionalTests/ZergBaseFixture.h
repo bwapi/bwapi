@@ -51,6 +51,7 @@ public:
     self = funGame->self();
     hatchery = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Zerg_Hatchery);
     infestedCommandCenter = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Zerg_Infested_Command_Center);
+    hydraliskDen = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Zerg_Hydralisk_Den);
   }
 
   ~ZergBaseFixture()
@@ -61,4 +62,5 @@ protected:
   Player self = nullptr;
   Unit hatchery = nullptr;
   Unit infestedCommandCenter = nullptr;
+  Unit hydraliskDen = nullptr;
 };

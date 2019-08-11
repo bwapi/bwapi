@@ -115,3 +115,24 @@ TEST(UnitSetTest, AddOn)
   EXPECT_EQ(builtAddOns, 3);
   funGame.reset();
 }
+
+TEST(UnitSetTest, LurkerMixed)
+{
+  using namespace Funtest;
+  using namespace BWAPI;
+  auto self = Funtest::funGame->self();
+
+  funGame->createUnit(self, UnitTypes::Zerg_Lurker, Position{ 0, 0 }, 1);
+  funGame.advance(2);
+  auto us = self.getUnits();
+  for (auto& u : us)
+    u.burrow();
+  funGame.advance(60);
+
+  funGame->createUnit(self, UnitTypes::Zerg_Ultralisk, Position{ 0, 0 }, 5);
+  funGame.advance(2);
+  us = self.getUnits();
+  EXPECT_EQ(us.attack(Position{ 100, 100 }), true);
+  funGame.advance(COMMANDWAIT);
+  funGame.reset();
+}

@@ -35,3 +35,25 @@ TEST_F(ZergBaseFixture, ZergLandTest)
   funGame.advance(100);
   EXPECT_EQ(infestedCommandCenter.isLifted(), false);
 }
+
+TEST_F(ZergBaseFixture, MorphBurrowTest)
+{
+  funGame->sendText("operation cwal");
+  funGame.advance(COMMANDWAIT);
+
+  hydraliskDen->research(TechTypes::Lurker_Aspect);
+  funGame.advance(10);
+  EXPECT_EQ(self.hasResearched(TechTypes::Lurker_Aspect), true);
+
+  hatchery->train(UnitTypes::Zerg_Hydralisk);
+  while (self.completedUnitCount(UnitTypes::Zerg_Hydralisk) < 1)
+    funGame.advance();
+  auto u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Zerg_Hydralisk);
+  u.morph(UnitTypes::Zerg_Lurker);
+  funGame.advance(60);
+  EXPECT_EQ(self.allUnitCount(UnitTypes::Zerg_Lurker), 1);
+
+  u->burrow();
+  funGame.advance(60);
+  EXPECT_EQ(u->isBurrowed(), true);
+}

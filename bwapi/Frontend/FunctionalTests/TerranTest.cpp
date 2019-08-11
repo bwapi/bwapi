@@ -84,7 +84,7 @@ TEST_F(TerranBaseFixture, TerranBunker)
       break;
     }
   }
-  funGame.advance(20);
+  funGame.advance(40);
   EXPECT_EQ(bunker.getLoadedUnits().size(), 1);
   for (auto& u : marines)
   {
@@ -94,9 +94,9 @@ TEST_F(TerranBaseFixture, TerranBunker)
       break;
     }
   }
-  funGame.advance(30);
+  funGame.advance(40);
   EXPECT_EQ(bunker.getLoadedUnits().size(), 2);
   bunker.unloadAll();
-  funGame.advance(30);
+  funGame.advance(40);
   EXPECT_EQ(bunker.getLoadedUnits().size(), 0);
 }
