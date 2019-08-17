@@ -1931,6 +1931,7 @@ namespace BWAPI
       Playerset _allies;
       Playerset _enemies;
       Playerset _observers;
+      Playerset playerSet;
       std::list< Event > events;
       Text::Size::Enum textSize = Text::Size::Default;
 
