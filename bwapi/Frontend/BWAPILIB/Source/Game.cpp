@@ -1076,10 +1076,8 @@ namespace BWAPI
         return forcesset;
     }
     //----------------------------------------------- GET PLAYERS ----------------------------------------------
-    Playerset playerSet;
     const Playerset& Game::getPlayers() const
     {
-      // TODO: Implement
         return playerSet;
     }
     //------------------------------------------------- GET UNITS ----------------------------------------------
@@ -1931,6 +1929,13 @@ namespace BWAPI
       {
         if (b.exists())
           bulletsset.emplace(b);
+      }
+      if (this->playerSet.empty()) //if we haven't setup the playerset yet, do so now
+      {
+        for (Player p : players)
+        {
+          playerSet.insert(p);
+        }
       }
     }
     void Game::update()
