@@ -150,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="GameDataTest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ProtossTest.cpp" />
     <ClCompile Include="TerranTest.cpp" />

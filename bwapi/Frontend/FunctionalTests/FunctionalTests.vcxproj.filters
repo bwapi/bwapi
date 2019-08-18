@@ -22,6 +22,9 @@
     <ClCompile Include="ZergTest.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="GameDataTest.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fixtures">

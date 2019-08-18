@@ -12,6 +12,7 @@ public:
   {
     using namespace Funtest;
     funGame.advance(1);
+    funGame->setLocalSpeed(0); // this can be commented out if you want tests to go normal speed for any reason
     UnitType mineralTypes[] = { UnitTypes::Resource_Mineral_Field, UnitTypes::Resource_Mineral_Field_Type_2, UnitTypes::Resource_Mineral_Field_Type_3 };
 
     TilePosition nexusPos{ 16, 10 };

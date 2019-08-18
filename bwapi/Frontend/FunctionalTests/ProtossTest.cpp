@@ -118,6 +118,38 @@ TEST_F(ProtossBaseFixture, ReaverTest)
   auto u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == reaver);
   EXPECT_EQ(u.getScarabCount(), 0);
   u->train(UnitTypes::Protoss_Scarab);
-  funGame.advance(COMMANDWAIT + UnitTypes::Protoss_Scarab.buildTime());
+  funGame.advance(COMMANDWAIT);
+  EXPECT_EQ(u->getTrainingQueue().size(), 1);
+  u->train(UnitTypes::Protoss_Scarab);
+  funGame.advance(COMMANDWAIT);
+  EXPECT_EQ(u->getTrainingQueue().size(), 2);
+  u->cancelTrain();
+  funGame.advance(COMMANDWAIT);
+  EXPECT_EQ(u->getTrainingQueue().size(), 1);
+  funGame.advance(UnitTypes::Protoss_Scarab.buildTime() - COMMANDWAIT * 2);
   EXPECT_EQ(u.getScarabCount(), 1);
+}
+
+
+TEST_F(ProtossBaseFixture, CarrierTest)
+{
+  using namespace Funtest;
+  UnitType carrier = UnitTypes::Protoss_Carrier;
+  //Unit
+  funGame->createUnit(self, carrier, Position{ 0, 0 }, 1);
+  funGame.advance(2);
+
+  auto u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == carrier);
+  EXPECT_EQ(u.getInterceptorCount(), 0);
+  u->train(UnitTypes::Protoss_Interceptor);
+  funGame.advance(COMMANDWAIT);
+  EXPECT_EQ(u->getTrainingQueue().size(), 1);
+  u->train(UnitTypes::Protoss_Interceptor);
+  funGame.advance(COMMANDWAIT);
+  EXPECT_EQ(u->getTrainingQueue().size(), 2);
+  u->cancelTrain();
+  funGame.advance(COMMANDWAIT);
+  EXPECT_EQ(u->getTrainingQueue().size(), 1);
+  funGame.advance(UnitTypes::Protoss_Interceptor.buildTime() - COMMANDWAIT * 2);
+  EXPECT_EQ(u.getInterceptorCount(), 1);
 }
