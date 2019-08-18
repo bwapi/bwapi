@@ -85,3 +85,32 @@ TEST(GameDataTest, CloakedUnits)
   funGame.reset();
   funGame.advance(2);
 }
+
+TEST(GameDataTest, ForcesTest)
+{
+  using namespace Funtest;
+
+  auto forces = funGame->getForces();
+  EXPECT_EQ(forces.size(), 4);
+  int i = 0;
+  for (auto &f : forces)
+  {
+    switch (i)
+    {
+    case 0:
+      EXPECT_EQ(f.getPlayers().size(), 1);
+      break;
+    case 1:
+      EXPECT_EQ(f.getPlayers().size(), 7);
+      break;
+    case 2:
+      EXPECT_EQ(f.getPlayers().size(), 0);
+      break;
+    case 3:
+      EXPECT_EQ(f.getPlayers().size(), 0);
+      break;
+    }
+    i++;
+  }
+  funGame.advance(2);
+}
