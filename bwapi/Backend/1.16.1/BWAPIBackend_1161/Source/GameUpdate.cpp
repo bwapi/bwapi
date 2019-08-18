@@ -205,14 +205,17 @@ void GameImpl::updateKillAndRemoveUnits()
   BW::BWDATA::TrigRemoveInsteadOfKill = false;
   for (Unit u : unitsToKill)
   {
-    BW::BWFXN_KillRemoveUnit(static_cast<UnitImpl*>(u)->getOriginalRawData, &properties);
+    if (static_cast<UnitImpl*>(u)->getOriginalRawData)
+      BW::BWFXN_KillRemoveUnit(static_cast<UnitImpl*>(u)->getOriginalRawData, &properties);
+    unitsToRemove.erase(u);
   }
   unitsToKill.clear();
 
   BW::BWDATA::TrigRemoveInsteadOfKill = true;
   for (Unit u : unitsToRemove)
   {
-    BW::BWFXN_KillRemoveUnit(static_cast<UnitImpl*>(u)->getOriginalRawData, &properties);
+    if (static_cast<UnitImpl*>(u)->getOriginalRawData)
+      BW::BWFXN_KillRemoveUnit(static_cast<UnitImpl*>(u)->getOriginalRawData, &properties);
   }
   unitsToRemove.clear();
 }
