@@ -136,3 +136,19 @@ TEST(UnitSetTest, LurkerMixed)
   funGame.advance(COMMANDWAIT);
   funGame.reset();
 }
+
+TEST(UnitSetTest, NuetralUnitSetTest)
+{
+  using namespace Funtest;
+  using namespace BWAPI;
+  auto self = funGame->self();
+
+  funGame->createUnit(self, UnitTypes::Resource_Mineral_Field, Position{ 200, 200 }, 1);
+  funGame->createUnit(self, UnitTypes::Resource_Mineral_Field, Position{ 1920, 1920 }, 1);
+  funGame->createUnit(self, UnitTypes::Special_Map_Revealer, Position{ 200, 200 }, 1);
+  funGame.advance(COMMANDWAIT);
+  EXPECT_EQ(funGame->getNeutralUnits().size(), 1);
+
+  funGame.reset();
+  funGame.advance(2);
+}
