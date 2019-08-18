@@ -1071,7 +1071,6 @@ namespace BWAPI
     //----------------------------------------------- GET FORCES -----------------------------------------------
     const Forceset& Game::getForces() const
     {
-      // TODO: Implement
         return forcesset;
     }
     //----------------------------------------------- GET PLAYERS ----------------------------------------------
@@ -1095,10 +1094,8 @@ namespace BWAPI
         return geysers;
     }
     //------------------------------------------------- GET NEUTRAL UNITS --------------------------------------
-    Unitset neutralUnits;
     const Unitset& Game::getNeutralUnits() const
     {
-      // TODO: Implement
         return neutralUnits;
     }
     //------------------------------------------------- GET STATIC MINERALS ------------------------------------
@@ -1887,6 +1884,7 @@ namespace BWAPI
       pylons.clear();
       minerals.clear();
       geysers.clear();
+      neutralUnits.clear();
       for (auto itr = playerUnits.begin(); itr != playerUnits.end(); itr++)
         itr->second.clear();
       bulletsset.clear();
@@ -1907,6 +1905,8 @@ namespace BWAPI
             geysers.emplace(u);
           if (u->isSelected())
             selectedUnits.insert(u);
+          if (player->isNeutral())
+            neutralUnits.insert(u);
         }
       }
       if (this->staticNeutralUnits.empty()) //if we haven't saved the set of static units, save them now

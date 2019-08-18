@@ -1928,6 +1928,7 @@ namespace BWAPI
       Unitset staticMinerals;
       Unitset staticGeysers;
       Unitset staticNeutralUnits;
+      Unitset neutralUnits;
       Playerset _allies;
       Playerset _enemies;
       Playerset _observers;
