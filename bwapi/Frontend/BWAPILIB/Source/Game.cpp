@@ -1069,7 +1069,6 @@ namespace BWAPI
       removeUnits(Unitset{ unit });
     }
     //----------------------------------------------- GET FORCES -----------------------------------------------
-    Forceset forcesset;
     const Forceset& Game::getForces() const
     {
       // TODO: Implement
@@ -1936,6 +1935,11 @@ namespace BWAPI
         {
           playerSet.insert(p);
         }
+      }
+      if (this->forcesset.empty()) //if we haven't setup the forcesset yet, do so now
+      {
+        for (Force f : forces)
+          forcesset.insert(f);
       }
     }
     void Game::update()
