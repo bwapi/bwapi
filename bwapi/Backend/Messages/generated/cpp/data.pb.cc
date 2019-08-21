@@ -2883,6 +2883,7 @@ const int GameData::kScreenSizeFieldNumber;
 const int GameData::kScreenPositionFieldNumber;
 const int GameData::kStaticMapFieldNumber;
 const int GameData::kMapFieldNumber;
+const int GameData::kNukeDotsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 GameData::GameData()
@@ -2896,7 +2897,8 @@ GameData::GameData(const GameData& from)
   : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL),
       replayvisionplayers_(from.replayvisionplayers_),
-      regions_(from.regions_) {
+      regions_(from.regions_),
+      nukedots_(from.nukedots_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   engine_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.engine().size() > 0) {
@@ -2983,6 +2985,7 @@ void GameData::Clear() {
 
   replayvisionplayers_.Clear();
   regions_.Clear();
+  nukedots_.Clear();
   engine_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   engineversion_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   gamename_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -3511,6 +3514,18 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
+      // repeated .bwapi.data.Point nukeDots = 35;
+      case 35: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 282 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+                input, add_nukedots()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -3743,6 +3758,15 @@ void GameData::SerializeWithCachedSizes(
       34, this->_internal_map(), output);
   }
 
+  // repeated .bwapi.data.Point nukeDots = 35;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->nukedots_size()); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      35,
+      this->nukedots(static_cast<int>(i)),
+      output);
+  }
+
   output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
                    static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:bwapi.data.GameData)
@@ -3784,6 +3808,17 @@ size_t GameData::ByteSizeLong() const {
     _regions_cached_byte_size_ = cached_size;
     GOOGLE_SAFE_CONCURRENT_WRITES_END();
     total_size += data_size;
+  }
+
+  // repeated .bwapi.data.Point nukeDots = 35;
+  {
+    unsigned int count = static_cast<unsigned int>(this->nukedots_size());
+    total_size += 2UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          this->nukedots(static_cast<int>(i)));
+    }
   }
 
   // string engine = 2;
@@ -4011,6 +4046,7 @@ void GameData::MergeFrom(const GameData& from) {
 
   replayvisionplayers_.MergeFrom(from.replayvisionplayers_);
   regions_.MergeFrom(from.regions_);
+  nukedots_.MergeFrom(from.nukedots_);
   if (from.engine().size() > 0) {
 
     engine_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.engine_);
@@ -4132,6 +4168,7 @@ void GameData::InternalSwap(GameData* other) {
   using std::swap;
   replayvisionplayers_.InternalSwap(&other->replayvisionplayers_);
   regions_.InternalSwap(&other->regions_);
+  CastToBase(&nukedots_)->InternalSwap(CastToBase(&other->nukedots_));
   engine_.Swap(&other->engine_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   engineversion_.Swap(&other->engineversion_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),

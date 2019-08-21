@@ -772,7 +772,10 @@ namespace BWAPI
       data->nukeDotCount = BroodwarImpl.getNukeDots().size();
       for (Position const &nd : BroodwarImpl.getNukeDots())
       {
+        auto newDot = gameData->add_nukedots();
+        newDot->set_x(nd.x);
         data->nukeDots[j].x = nd.x;
+        newDot->set_y(nd.y);
         data->nukeDots[j].y = nd.y;
         ++j;
       }

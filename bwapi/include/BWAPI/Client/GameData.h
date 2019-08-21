@@ -49,6 +49,7 @@ namespace BWAPI
     TilePosition::list startPositions;
 
     std::vector<RegionID> regions;
+    std::vector<Position> nukeDots;
 
     PlayerID player = PlayerID::None;
 

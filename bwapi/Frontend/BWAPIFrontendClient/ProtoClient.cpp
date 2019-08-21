@@ -92,6 +92,9 @@ namespace BWAPI
             game.gameData->isReplay = gameUpdate.isreplay();
             game.gameData->hasGUI = gameUpdate.hasgui();
             game.gameData->randomSeed = gameUpdate.randomseed();
+            game.gameData->nukeDots.clear();
+            for (auto &nd : gameUpdate.nukedots())
+              game.gameData->nukeDots.emplace_back(Position{ nd.x(), nd.y() });
             if (gameUpdate.has_staticmap())
             {
               auto staticMap = gameUpdate.staticmap();

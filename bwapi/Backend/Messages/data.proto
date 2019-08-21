@@ -110,6 +110,7 @@ message GameData {
     StaticMapData staticMap = 33;
 
     MapData map = 34;
+    repeated Point nukeDots = 35;
 }
 
 message Player {

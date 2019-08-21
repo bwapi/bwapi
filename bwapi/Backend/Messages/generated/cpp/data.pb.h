@@ -1328,6 +1328,18 @@ class GameData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_regions();
 
+  // repeated .bwapi.data.Point nukeDots = 35;
+  int nukedots_size() const;
+  void clear_nukedots();
+  static const int kNukeDotsFieldNumber = 35;
+  ::bwapi::data::Point* mutable_nukedots(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point >*
+      mutable_nukedots();
+  const ::bwapi::data::Point& nukedots(int index) const;
+  ::bwapi::data::Point* add_nukedots();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point >&
+      nukedots() const;
+
   // string engine = 2;
   void clear_engine();
   static const int kEngineFieldNumber = 2;
@@ -1584,6 +1596,7 @@ class GameData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   mutable int _replayvisionplayers_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > regions_;
   mutable int _regions_cached_byte_size_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point > nukedots_;
   ::google::protobuf::internal::ArenaStringPtr engine_;
   ::google::protobuf::internal::ArenaStringPtr engineversion_;
   ::google::protobuf::internal::ArenaStringPtr gamename_;
@@ -5546,6 +5559,36 @@ inline void GameData::set_allocated_map(::bwapi::data::MapData* map) {
   }
   map_ = map;
   // @@protoc_insertion_point(field_set_allocated:bwapi.data.GameData.map)
+}
+
+// repeated .bwapi.data.Point nukeDots = 35;
+inline int GameData::nukedots_size() const {
+  return nukedots_.size();
+}
+inline void GameData::clear_nukedots() {
+  nukedots_.Clear();
+}
+inline ::bwapi::data::Point* GameData::mutable_nukedots(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.GameData.nukeDots)
+  return nukedots_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point >*
+GameData::mutable_nukedots() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.GameData.nukeDots)
+  return &nukedots_;
+}
+inline const ::bwapi::data::Point& GameData::nukedots(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.nukeDots)
+  return nukedots_.Get(index);
+}
+inline ::bwapi::data::Point* GameData::add_nukedots() {
+  // @@protoc_insertion_point(field_add:bwapi.data.GameData.nukeDots)
+  return nukedots_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point >&
+GameData::nukedots() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.GameData.nukeDots)
+  return nukedots_;
 }
 
 // -------------------------------------------------------------------

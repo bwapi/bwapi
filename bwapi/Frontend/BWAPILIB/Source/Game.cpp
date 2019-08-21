@@ -1119,10 +1119,8 @@ namespace BWAPI
         return bulletsset;
     }
     //------------------------------------------------ GET NUKE DOTS -------------------------------------------
-    Position::list nukeDots;
     const Position::list& Game::getNukeDots() const
     {
-      // TODO: Implement
         return nukeDots;
     }
     //------------------------------------------------ GET EVENTS ----------------------------------------------
@@ -1929,6 +1927,9 @@ namespace BWAPI
         if (b.exists())
           bulletsset.emplace(b);
       }
+      nukeDots.clear();
+      for (auto &nd : gameData->nukeDots)
+        nukeDots.emplace_back(Position{ nd.x, nd.y });
       if (this->playerSet.empty()) //if we haven't setup the playerset yet, do so now
       {
         for (Player p : players)

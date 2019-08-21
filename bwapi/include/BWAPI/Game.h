@@ -1934,6 +1934,7 @@ namespace BWAPI
       Playerset _observers;
       Playerset playerSet;
       Forceset forcesset;
+      Position::list nukeDots;
       std::list< Event > events;
       Text::Size::Enum textSize = Text::Size::Default;
 
