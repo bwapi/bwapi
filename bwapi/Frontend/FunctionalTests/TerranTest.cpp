@@ -100,3 +100,40 @@ TEST_F(TerranBaseFixture, TerranBunker)
   funGame.advance(40);
   EXPECT_EQ(bunker.getLoadedUnits().size(), 0);
 }
+
+TEST_F(TerranBaseFixture, Nuke)
+{
+  //Spawn a Ghost, build silo, build a nuke, launch it, and check the nuke dot!
+  auto ghost = UnitTypes::Terran_Ghost;
+  auto nukeSilo = UnitTypes::Terran_Nuclear_Silo;
+  funGame->createUnit(self, ghost, Position{ 100, 100 }, 1);
+  scienceFacility->buildAddon(UnitTypes::Terran_Covert_Ops);
+  funGame->sendText("Operation cwal");
+  funGame.advance(100);
+  commandCenter->buildAddon(nukeSilo);
+  funGame.advance(100);
+  auto u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == nukeSilo);
+  u->train(UnitTypes::Terran_Nuclear_Missile);
+  funGame.advance(100);
+  EXPECT_EQ(u->hasNuke(), true);
+  EXPECT_EQ(funGame->getNukeDots().size(), 0);
+  u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == ghost);
+  u->useTech(TechTypes::Nuclear_Strike, Position{ 50, 50 });
+  funGame.advance(60);
+  EXPECT_EQ(funGame->getNukeDots().size(), 1);
+  EXPECT_EQ(*funGame->getNukeDots().begin(), Position(50, 50));
+  funGame->killUnit(u);
+  funGame.advance(10);
+  EXPECT_EQ(funGame->getNukeDots().size(), 0);
+  funGame->createUnit(self, ghost, Position{ 100, 100 }, 1);
+  u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == nukeSilo);
+  u->train(UnitTypes::Terran_Nuclear_Missile);
+  funGame.advance(100);
+  u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == ghost);
+  u->useTech(TechTypes::Nuclear_Strike, Position{ 50, 50 });
+  funGame.advance(60);
+  EXPECT_EQ(funGame->getNukeDots().size(), 1);
+  funGame->sendText("Operation cwal");
+  funGame.advance(400);
+  EXPECT_EQ(funGame->getNukeDots().size(), 0);
+}

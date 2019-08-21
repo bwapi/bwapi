@@ -62,6 +62,7 @@ public:
     engineeringBay = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Engineering_Bay);
     factory = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Factory);
     bunker = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Bunker);
+    scienceFacility = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Science_Facility);
     self = funGame->self();
     enemy = funGame->enemy();
   }
@@ -78,4 +79,5 @@ protected:
   Unit engineeringBay = nullptr;
   Unit factory = nullptr;
   Unit bunker = nullptr;
+  Unit scienceFacility = nullptr;
 };
