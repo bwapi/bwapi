@@ -1282,7 +1282,7 @@ namespace BWAPI
     //----------------------------------------------- NEUTRAL --------------------------------------------------
     Player Game::neutral() const
     {
-      // TODO This needs to return player 12, suggestion: add neutralPlayerId as one of the data members sent to the client
+      // The server will always set player 12 as neutral and others as not.
         for (auto p : players)
             if (p.isNeutral())
                 return p;
