@@ -497,7 +497,7 @@ namespace BWAPI
     ///
     /// @returns Number of frames remaining until the effect is removed.
     ///
-    /// @see isLockdowned
+    /// @see isLockedDown
     int getLockdownTimer() const { return getData().lockdownTimer; }
 
     /// <summary>Retrieves the time, in frames, that @maelstrom will remain active on the current
