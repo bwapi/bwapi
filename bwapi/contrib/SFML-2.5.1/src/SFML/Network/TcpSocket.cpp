@@ -29,7 +29,7 @@
 #include <SFML/Network/IpAddress.hpp>
 #include <SFML/Network/Packet.hpp>
 #include <SFML/Network/SocketImpl.hpp>
-#include <SFML/System/Err.hpp>
+#include <iostream>
 #include <algorithm>
 #include <cstring>
 
@@ -116,7 +116,7 @@ unsigned short TcpSocket::getRemotePort() const
 
 
 ////////////////////////////////////////////////////////////
-Socket::Status TcpSocket::connect(const IpAddress& remoteAddress, unsigned short remotePort, Time timeout)
+Socket::Status TcpSocket::connect(const IpAddress& remoteAddress, unsigned short remotePort, std::chrono::microseconds timeout)
 {
     // Disconnect the socket if it is already connected
     disconnect();
@@ -126,8 +126,8 @@ Socket::Status TcpSocket::connect(const IpAddress& remoteAddress, unsigned short
 
     // Create the remote address
     sockaddr_in address = priv::SocketImpl::createAddress(remoteAddress.toInteger(), remotePort);
-
-    if (timeout <= Time::Zero)
+    
+    if (timeout <= std::chrono::microseconds::zero())
     {
         // ----- We're not using a timeout: just try to connect -----
 
@@ -174,8 +174,8 @@ Socket::Status TcpSocket::connect(const IpAddress& remoteAddress, unsigned short
 
             // Setup the timeout
             timeval time;
-            time.tv_sec  = static_cast<long>(timeout.asMicroseconds() / 1000000);
-            time.tv_usec = static_cast<long>(timeout.asMicroseconds() % 1000000);
+            time.tv_sec = static_cast<long>(std::chrono::duration_cast<std::chrono::seconds>(timeout).count());
+            time.tv_usec = static_cast<long>(std::chrono::duration_cast<std::chrono::microseconds>(timeout).count());
 
             // Wait for something to write on our socket (which means that the connection request has returned)
             if (select(static_cast<int>(getHandle() + 1), NULL, &selector, NULL, &time) > 0)
@@ -223,7 +223,7 @@ void TcpSocket::disconnect()
 Socket::Status TcpSocket::send(const void* data, std::size_t size)
 {
     if (!isBlocking())
-        err() << "Warning: Partial sends might not be handled properly." << std::endl;
+        std::cerr << "Warning: Partial sends might not be handled properly." << std::endl;
 
     std::size_t sent;
 
@@ -237,7 +237,7 @@ Socket::Status TcpSocket::send(const void* data, std::size_t size, std::size_t& 
     // Check the parameters
     if (!data || (size == 0))
     {
-        err() << "Cannot send data over the network (no data to send)" << std::endl;
+        std::cerr << "Cannot send data over the network (no data to send)" << std::endl;
         return Error;
     }
 
@@ -273,7 +273,7 @@ Socket::Status TcpSocket::receive(void* data, std::size_t size, std::size_t& rec
     // Check the destination buffer
     if (!data)
     {
-        err() << "Cannot receive data from the network (the destination buffer is invalid)" << std::endl;
+        std::cerr << "Cannot receive data from the network (the destination buffer is invalid)" << std::endl;
         return Error;
     }
 

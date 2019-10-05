@@ -16,14 +16,8 @@
     <Filter Include="Source Files\Network">
       <UniqueIdentifier>{6d4f20e9-b5e1-45b6-8923-48e5380e87b3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\System">
-      <UniqueIdentifier>{5928f9ab-97a2-4951-9cec-aaa454e018fd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Network">
       <UniqueIdentifier>{410b96fc-b807-47d3-89ff-32c3f54453ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\System">
-      <UniqueIdentifier>{2e5529a4-f0e4-4120-8f17-dcbd74fbf29e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Network\Unix">
       <UniqueIdentifier>{aaab5b0a-f868-4761-b796-0e9d081d0e14}</UniqueIdentifier>
@@ -53,12 +47,6 @@
     </ClCompile>
     <ClCompile Include="src\SFML\Network\UdpSocket.cpp">
       <Filter>Source Files\Network</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SFML\System\Err.cpp">
-      <Filter>Source Files\System</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SFML\System\Time.cpp">
-      <Filter>Source Files\System</Filter>
     </ClCompile>
     <ClCompile Include="src\SFML\Network\Unix\SocketImplUnix.cpp">
       <Filter>Source Files\Network\Unix</Filter>
@@ -95,22 +83,10 @@
     <ClInclude Include="include\SFML\Network\UdpSocket.hpp">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
-    <ClInclude Include="include\SFML\System\Err.hpp">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SFML\System\NonCopyable.hpp">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SFML\System\Time.hpp">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
     <ClInclude Include="include\SFML\Config.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\SFML\Network.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SFML\System.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\SFML\Network\Win32\SocketImpl.hpp">

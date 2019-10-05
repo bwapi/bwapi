@@ -28,8 +28,6 @@
     <ClCompile Include="src\SFML\Network\UdpSocket.cpp" />
     <ClCompile Include="src\SFML\Network\Unix\SocketImplUnix.cpp" />
     <ClCompile Include="src\SFML\Network\Win32\SocketImplWin32.cpp" />
-    <ClCompile Include="src\SFML\System\Err.cpp" />
-    <ClCompile Include="src\SFML\System\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\SFML\Config.hpp" />
@@ -42,10 +40,6 @@
     <ClInclude Include="include\SFML\Network\TcpListener.hpp" />
     <ClInclude Include="include\SFML\Network\TcpSocket.hpp" />
     <ClInclude Include="include\SFML\Network\UdpSocket.hpp" />
-    <ClInclude Include="include\SFML\System.hpp" />
-    <ClInclude Include="include\SFML\System\Err.hpp" />
-    <ClInclude Include="include\SFML\System\NonCopyable.hpp" />
-    <ClInclude Include="include\SFML\System\Time.hpp" />
     <ClInclude Include="src\SFML\Network\SocketImpl.hpp" />
     <ClInclude Include="src\SFML\Network\Unix\SocketImpl.hpp" />
     <ClInclude Include="src\SFML\Network\Win32\SFML_Winsock.hpp" />

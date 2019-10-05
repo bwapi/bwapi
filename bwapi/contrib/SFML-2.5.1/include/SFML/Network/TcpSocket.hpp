@@ -29,8 +29,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Network/Socket.hpp>
-#include <SFML/System/Time.hpp>
-
+#include <chrono>
 
 namespace sf
 {
@@ -108,7 +107,7 @@ public:
     /// \see disconnect
     ///
     ////////////////////////////////////////////////////////////
-    Status connect(const IpAddress& remoteAddress, unsigned short remotePort, Time timeout = Time::Zero);
+    Status connect(const IpAddress& remoteAddress, unsigned short remotePort, std::chrono::microseconds timeout = std::chrono::microseconds::zero());
 
     ////////////////////////////////////////////////////////////
     /// \brief Disconnect the socket from its remote peer

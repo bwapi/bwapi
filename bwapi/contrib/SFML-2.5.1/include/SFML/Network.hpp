@@ -29,7 +29,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 
-#include <SFML/System.hpp>
+#include <SFML/Config.hpp>
 #include <SFML/Network/IpAddress.hpp>
 #include <SFML/Network/Packet.hpp>
 #include <SFML/Network/Socket.hpp>
