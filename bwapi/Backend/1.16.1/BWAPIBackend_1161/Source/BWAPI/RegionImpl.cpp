@@ -13,34 +13,29 @@ namespace BWAPI
     const BW::region * const r = &BW::BWDATA::SAIPathing->regions[id];
 
     // Assign common region properties
-    self->islandID        = r->groupIndex;
-    self->center_x        = r->getCenter().x;
-    self->center_y        = r->getCenter().y;
+    data.islandID        = r->groupIndex;
+    data.center_x        = r->getCenter().x;
+    data.center_y        = r->getCenter().y;
 
-    self->isAccessible    = r->accessabilityFlags != 0x1FFD;
-    self->isHigherGround  = r->accessabilityFlags == 0x1FF9;
-    self->priority        = r->defencePriority & 0x7F;
-    self->leftMost        = r->rgnBox.left;
-    self->rightMost       = r->rgnBox.right;
-    self->topMost         = r->rgnBox.top;
-    self->bottomMost      = r->rgnBox.bottom;
+    data.isAccessible    = r->accessabilityFlags != 0x1FFD;
+    data.isHigherGround  = r->accessabilityFlags == 0x1FF9;
+    data.priority        = r->defencePriority & 0x7F;
+    data.leftMost        = r->rgnBox.left;
+    data.rightMost       = r->rgnBox.right;
+    data.topMost         = r->rgnBox.top;
+    data.bottomMost      = r->rgnBox.bottom;
 
     // Connect the BWAPI Region and BW Region two ways
-    self->id  = id;
-    
-    this->closestAccessibleRgn    = nullptr;
-    this->closestInaccessibleRgn  = nullptr;
+    data.id  = id;
   }
   void RegionImpl::UpdateRegionRelations()
   {
     // Assuming this is called via GameInternals, so no checks are made
-    const BW::region * const r = &BW::BWDATA::SAIPathing->regions[self->id];
+    const BW::region * const r = &BW::BWDATA::SAIPathing->regions[data.id];
 
     // Assign region neighbors
     this->neighbors.clear();
 
-    int accessibleBestDist    = 99999;
-    int inaccessibleBestDist  = 99999;
     for ( int n = 0; n < r->neighborCount; ++n )
     {
       BW::region *neighbor = r->getNeighbor(static_cast<u8>(n));
@@ -53,89 +48,28 @@ namespace BWAPI
       // add our neighbor
       this->neighbors.insert(bwapiNeighbor);
 
-      // Obtain the closest accessible and inaccessible Regions from their Region center
-      int dst = r->getCenter().getApproxDistance(neighbor->getCenter());
-      if ( r->isConnectedTo( neighbor ) )
-      {
-        if ( dst < accessibleBestDist )
-        {
-          accessibleBestDist = dst;
-          this->closestAccessibleRgn = bwapiNeighbor;
-        }
-      }
-      else if ( dst < inaccessibleBestDist )
-      {
-        inaccessibleBestDist = dst;
-        this->closestInaccessibleRgn = bwapiNeighbor;
-      }
-
       // Client compatibility for neighbors
-      ++self->neighborCount;
-      self->neighbors[n] = neighbor->getIndex();
+      data.neighborCount++;
+      data.neighbors[n] = neighbor->getIndex();
     }
   }
   RegionData *RegionImpl::getData()
   {
-    return self;
+    return &data;
   }
   // -------------------------------- GET GROUP ID -----------------------------------------------------------
   int RegionImpl::getRegionGroupID() const
   {
-    return self->islandID;
+    return data.islandID;
   }
   // --------------------------------- GET CENTER ------------------------------------------------------------
   BWAPI::Position RegionImpl::getCenter() const
   {
-    return BWAPI::Position(self->center_x, self->center_y);
-  }
-  // --------------------------------- HIGHER GRND -----------------------------------------------------------
-  bool RegionImpl::isHigherGround() const
-  {
-    return self->isHigherGround;
-  }
-  // ------------------------------ DEFENSE PRIORITY ---------------------------------------------------------
-  int RegionImpl::getDefensePriority() const
-  {
-    return self->priority;
-  }
-  // ----------------------------------- WALKABLE ------------------------------------------------------------
-  bool RegionImpl::isAccessible() const
-  {
-    return self->isAccessible;
+    return BWAPI::Position(data.center_x, data.center_y);
   }
   // ------------------------------------ GET ID -------------------------------------------------------------
   int RegionImpl::getID() const
   {
-    return self->id;
-  }
-  // ------------------------------------ BOUNDS -------------------------------------------------------------
-  int RegionImpl::getBoundsLeft() const
-  {
-    return self->leftMost;
-  }
-  int RegionImpl::getBoundsTop() const
-  {
-    return self->topMost;
-  }
-  int RegionImpl::getBoundsRight() const
-  {
-    return self->rightMost;
-  }
-  int RegionImpl::getBoundsBottom() const
-  {
-    return self->bottomMost;
-  }
-  // ---------------------------------- NEIGHBOURS -----------------------------------------------------------
-  const std::set<RegionImpl*> &RegionImpl::getNeighbors() const
-  {
-    return this->neighbors;
-  }
-  BWAPI::RegionImpl* RegionImpl::getClosestAccessibleRegion() const
-  {
-    return this->closestAccessibleRgn;
-  }
-  BWAPI::RegionImpl* RegionImpl::getClosestInaccessibleRegion() const
-  {
-    return this->closestInaccessibleRgn;
+    return data.id;
   }
 };
