@@ -1,34 +1,34 @@
 #include "OrderTypes.h"
 
-#include <BWAPI4/Order.h>
-#include <BWAPI4/Race.h>
+#include <BWAPI/Order.h>
+#include <BWAPI/Race.h>
 
 namespace BW
 {
   namespace Orders
   {
     //--------------------------------------- ATTACK LOCATION CONSTRUCTOR -----------------------------------
-    Attack::Attack(BWAPI4::Unit target, BWAPI4::Order OrderID, bool queued)
+    Attack::Attack(BWAPI4::Unit target, BWAPI::Order OrderID, bool queued)
         : target(target)
         , order(static_cast<u8>(OrderID))
         , type(queued ? 1 : 0)
     {
     }
     //--------------------------------------- ATTACK LOCATION CONSTRUCTOR -----------------------------------
-    Attack::Attack(const BW::Position& target, BWAPI4::Order OrderID, bool queued)
+    Attack::Attack(const BW::Position& target, BWAPI::Order OrderID, bool queued)
         : target(target)
         , order(static_cast<u8>(OrderID))
         , type(queued ? 1 : 0)
     {
     }
-    Attack::Attack(int x, int y, BWAPI4::Order OrderID, bool queued)
+    Attack::Attack(int x, int y, BWAPI::Order OrderID, bool queued)
         : target(x,y)
         , order(static_cast<u8>(OrderID))
         , type(queued ? 1 : 0)
     {
     }
     //--------------------------------------- ATTACK LOCATION CONSTRUCTOR -----------------------------------
-    Attack::Attack(const PositionUnitTarget& target, BWAPI4::Order OrderID, bool queued)
+    Attack::Attack(const PositionUnitTarget& target, BWAPI::Order OrderID, bool queued)
         : target(target)
         , order(static_cast<u8>(OrderID))
         , type(queued ? 1 : 0)
@@ -108,41 +108,41 @@ namespace BW
       return 2 + targCount * 2;
     }
     //---------------------------------------- TRAIN UNIT CONSTRUCTOR ----------------------------------------
-    TrainUnit::TrainUnit(BWAPI4::UnitType type)
+    TrainUnit::TrainUnit(BWAPI::UnitType type)
       : type(static_cast<u16>(type))
     {
     }
     //--------------------------------------------- MAKE BULDING ---------------------------------------------
-    MakeBuilding::MakeBuilding(BW::TilePosition position, BWAPI4::UnitType type)
+    MakeBuilding::MakeBuilding(BW::TilePosition position, BWAPI::UnitType type)
         : position(position)
         , type(static_cast<u16>(type))
     {
-      switch( BWAPI4::UnitType(type).getRace() )
+      switch( BWAPI::UnitType(type).getRace() )
       {
-      case BWAPI4::Races::Enum::Zerg:
-        raceDependant = BWAPI4::Orders::Enum::DroneStartBuild;
+      case BWAPI::Races::Enum::Zerg:
+        raceDependant = BWAPI::Orders::Enum::DroneStartBuild;
         break;
-      case BWAPI4::Races::Enum::Terran:
-        raceDependant = BWAPI4::Orders::Enum::PlaceBuilding;
+      case BWAPI::Races::Enum::Terran:
+        raceDependant = BWAPI::Orders::Enum::PlaceBuilding;
         break;
-      case BWAPI4::Races::Enum::Protoss:
-        raceDependant = BWAPI4::Orders::Enum::PlaceProtossBuilding;
+      case BWAPI::Races::Enum::Protoss:
+        raceDependant = BWAPI::Orders::Enum::PlaceProtossBuilding;
         break;
       default:
         break;
       }
     }
-    MakeBuilding::MakeBuilding(int tileX, int tileY, BWAPI4::UnitType type)
+    MakeBuilding::MakeBuilding(int tileX, int tileY, BWAPI::UnitType type)
       : MakeBuilding(BW::TilePosition(static_cast<s16>(tileX), static_cast<s16>(tileY)), type)
     {
     }
     //---------------------------------------------- PLACE COP -----------------------------------------------
-    PlaceCOP::PlaceCOP(BW::TilePosition position, BWAPI4::UnitType type)
+    PlaceCOP::PlaceCOP(BW::TilePosition position, BWAPI::UnitType type)
         : position(position)
         , type(static_cast<u16>(type))
     {
     }
-    PlaceCOP::PlaceCOP(int x, int y, BWAPI4::UnitType type)
+    PlaceCOP::PlaceCOP(int x, int y, BWAPI::UnitType type)
       : PlaceCOP(BW::TilePosition(static_cast<s16>(x), static_cast<s16>(y)), type)
     {
     }
@@ -157,12 +157,12 @@ namespace BW
     {
     }
     //---------------------------------------------- MAKE ADDON ----------------------------------------------
-    MakeAddon::MakeAddon(BW::TilePosition position, BWAPI4::UnitType type)
+    MakeAddon::MakeAddon(BW::TilePosition position, BWAPI::UnitType type)
         : position(position)
         , type(static_cast<u16>(type))
     {
     }
-    MakeAddon::MakeAddon(int tileX, int tileY, BWAPI4::UnitType type)
+    MakeAddon::MakeAddon(int tileX, int tileY, BWAPI::UnitType type)
       : MakeAddon(BW::TilePosition(static_cast<s16>(tileX), static_cast<s16>(tileY)), type)
     {
     }
@@ -210,17 +210,17 @@ namespace BW
     {
     }
     //---------------------------------------- BUILDING MORPH CONSTRUCTOR ------------------------------------
-    BuildingMorph::BuildingMorph(BWAPI4::UnitType type)
+    BuildingMorph::BuildingMorph(BWAPI::UnitType type)
       : type(static_cast<u16>(type))
     {
     }
     //------------------------------------------------- LAND -------------------------------------------------
-    Land::Land(BW::TilePosition position, BWAPI4::UnitType type)
+    Land::Land(BW::TilePosition position, BWAPI::UnitType type)
         : position(position)
         , type(static_cast<u16>(type))
     {
     }
-    Land::Land(int x, int y, BWAPI4::UnitType type)
+    Land::Land(int x, int y, BWAPI::UnitType type)
       : Land(BW::TilePosition(static_cast<s16>(x), static_cast<s16>(y)), type)
     {
     }
@@ -235,7 +235,7 @@ namespace BW
     {
     }
     //----------------------------------------- UNIT MORPH CONSTRUCTOR ---------------------------------------
-    UnitMorph::UnitMorph(BWAPI4::UnitType type)
+    UnitMorph::UnitMorph(BWAPI::UnitType type)
       : type(static_cast<u16>(type))
     {
     }

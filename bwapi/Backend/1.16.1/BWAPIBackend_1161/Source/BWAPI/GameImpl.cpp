@@ -139,11 +139,11 @@ namespace BWAPI4
     return fpsCounter.getAverageFps();
   }
   //------------------------------------------- GET MOUSE POSITION -------------------------------------------
-  BWAPI4::Position GameImpl::getMousePosition() const
+  BWAPI::Position GameImpl::getMousePosition() const
   {
     if ( !this->isFlagEnabled(BWAPI4::Flag::UserInput) )
       return BWAPI4::Positions::Unknown;
-    return BWAPI4::Position(BW::BWDATA::Mouse.x, BW::BWDATA::Mouse.y);
+    return BWAPI::Position(BW::BWDATA::Mouse.x, BW::BWDATA::Mouse.y);
   }
   //--------------------------------------------- GET MOUSE STATE --------------------------------------------
   bool GameImpl::getMouseState(MouseButton button) const
@@ -180,11 +180,11 @@ namespace BWAPI4
     return (GetKeyState(key) & 128) > 0;
   }
   //------------------------------------------- GET SCREEN POSITION ------------------------------------------
-  BWAPI4::Position GameImpl::getScreenPosition() const
+  BWAPI::Position GameImpl::getScreenPosition() const
   {
     if ( !this->isFlagEnabled(BWAPI4::Flag::UserInput) )
       return BWAPI4::Positions::Unknown;
-    return BWAPI4::Position(BW::BWDATA::ScreenX, BW::BWDATA::ScreenY);
+    return BWAPI::Position(BW::BWDATA::ScreenX, BW::BWDATA::ScreenY);
   }
   //------------------------------------------- SET SCREEN POSITION ------------------------------------------
   void GameImpl::setScreenPosition(int x, int y)
@@ -777,7 +777,7 @@ namespace BWAPI4
   BWAPI4::RegionImpl* GameImpl::getRegionAt(int x, int y) const
   {
     this->setLastError();
-    if ( !Position(x, y) )
+    if ( !isValid(Position(x, y)) )
     {
       this->setLastError(BWAPI4::Errors::Invalid_Parameter);
       return nullptr;

@@ -1,5 +1,5 @@
 #pragma once
-#include <BWAPI4/Position.h>
+#include <BWAPI/Position.h>
 #include <BWAPI4/EventType.h>
 
 #include <string>
@@ -29,7 +29,7 @@ namespace BWAPI4
       static Event SendText(const std::string& text);
       static Event ReceiveText(Player player, const std::string& text);
       static Event PlayerLeft(Player player);
-      static Event NukeDetect(Position target);
+      static Event NukeDetect(BWAPI::Position target);
       static Event UnitDiscover(Unit unit);
       static Event UnitEvade(Unit unit);
       static Event UnitShow(Unit unit);
@@ -41,21 +41,21 @@ namespace BWAPI4
       static Event SaveGame(const std::string& gameName);
       static Event UnitComplete(Unit unit);
       EventType::Enum getType() const;
-      Position getPosition() const;
+      BWAPI::Position getPosition() const;
       const std::string& getText() const;
       Unit getUnit() const;
       Player getPlayer() const;
       bool isWinner() const;
 
       Event& setType(EventType::Enum type);
-      Event& setPosition(Position position);
+      Event& setPosition(BWAPI::Position position);
       Event& setText(const std::string& text);
       Event& setUnit(Unit unit);
       Event& setPlayer(Player player);
       Event& setWinner(bool isWinner);
       //static Event TriggerAction();
     private:
-      Position        position = Positions::None;
+      BWAPI::Position        position = BWAPI::Positions::None;
       std::string     text;
       Unit            unit = nullptr;
       Player          player = nullptr;

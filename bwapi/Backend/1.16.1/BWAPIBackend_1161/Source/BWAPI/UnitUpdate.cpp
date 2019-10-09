@@ -6,11 +6,11 @@
 
 #include "../Convenience.h"
 
-#include <BWAPI4/Order.h>
+#include <BWAPI/Order.h>
 #include <BWAPI/GameImpl.h>
 #include <BWAPI/PlayerImpl.h>
-#include <BWAPI4/WeaponType.h>
-#include <BWAPI4/Race.h>
+#include <BWAPI/WeaponType.h>
+#include <BWAPI/Race.h>
 
 #include <BW/CUnit.h>
 #include <BW/CSprite.h>
@@ -126,7 +126,7 @@ namespace BWAPI4
 
       getBuildQueueSlot = o->buildQueueSlot; //getBuildQueueSlot
       for ( unsigned int i = 0; i < 5; ++i )
-        getBuildQueue[i] = BWAPI4::UnitType(o->buildQueue[i]);  //getBuildQueue
+        getBuildQueue[i] = BWAPI::UnitType(o->buildQueue[i]);  //getBuildQueue
 
       if (_getType.isBuilding())
       {
@@ -157,7 +157,7 @@ namespace BWAPI4
 
       //------------------------------------------------------------------------------------------------------
       //_getPosition
-      _getPosition = BWAPI4::Position(_getTransport ? static_cast<UnitImpl*>(_getTransport)->getOriginalRawData->position : o->position);
+      _getPosition = BWAPI::Position(_getTransport ? static_cast<UnitImpl*>(_getTransport)->getOriginalRawData->position : o->position);
 
       _getHitPoints = (int)std::ceil(o->hitPoints / 256.0); //_getHitPoints
       //------------------------------------------------------------------------------------------------------

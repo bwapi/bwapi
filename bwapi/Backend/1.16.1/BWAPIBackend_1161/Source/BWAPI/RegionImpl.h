@@ -1,5 +1,5 @@
 #pragma once
-#include <BWAPI4/Position.h>
+#include <BWAPI/Position.h>
 #include <set>
 #include <BWAPI4/Client/RegionData.h>
 
@@ -10,7 +10,7 @@ namespace BWAPI4
   public:
     int getID() const;
     int getRegionGroupID() const;
-    BWAPI4::Position getCenter() const;
+    BWAPI::Position getCenter() const;
 
     RegionImpl(int id);
     void UpdateRegionRelations();

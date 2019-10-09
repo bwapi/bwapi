@@ -1,13 +1,19 @@
 #pragma once
-#include <BWAPI4/Position.h>
-#include <BWAPI4/UnitCommandType.h>
+#include <BWAPI/Position.h>
+#include <BWAPI/UnitCommandType.h>
 
-namespace BWAPI4
+namespace BWAPI
 {
-  // Forwards
   class UnitType;
   class TechType;
   class UpgradeType;
+}
+
+namespace BWAPI4
+{
+  using namespace BWAPI;
+
+  // Forwards
   class UnitImpl;
   typedef UnitImpl *Unit;
 
@@ -79,7 +85,6 @@ namespace BWAPI4
       template <class T, int S>
       void assignTarget(Point<T, S> target)
       {
-        target.makeValid();
         x = target.x;
         y = target.y;
       }

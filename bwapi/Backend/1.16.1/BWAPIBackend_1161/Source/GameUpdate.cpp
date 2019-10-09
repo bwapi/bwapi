@@ -17,7 +17,7 @@
 #include <BW/CUnit.h>
 #include <BW/OrderTypes.h>
 #include <BW/Pathing.h>
-#include <BWAPI4/Color.h>
+#include <BWAPI/Color.h>
 
 #include "../svnrev.h"
 
@@ -235,7 +235,7 @@ void GameImpl::updateOverlays()
   // grid
   if ( grid )
   {
-    BWAPI4::Position scrPos = getScreenPosition();
+    BWAPI::Position scrPos = getScreenPosition();
 
     // draw mtx grid
     for ( int y = scrPos.y/32; y < (scrPos.y + BW::BWDATA::GameScreenBuffer.height())/32 + 1; ++y )

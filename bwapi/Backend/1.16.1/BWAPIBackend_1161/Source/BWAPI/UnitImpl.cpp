@@ -3,8 +3,8 @@
 
 #include <cmath>
 
-#include <BWAPI4/Order.h>
-#include <BWAPI4/WeaponType.h>
+#include <BWAPI/Order.h>
+#include <BWAPI/WeaponType.h>
 
 #include "Command.h"
 #include "../DLLMain.h"
@@ -919,7 +919,7 @@ namespace BWAPI4
   {
     return Templates::canBuild(const_cast<UnitImpl*>(this), uType, checkCanIssueCommandType, checkCommandibility);
   }
-  bool UnitImpl::canBuild(UnitType uType, BWAPI4::TilePosition tilePos, bool checkTargetUnitType, bool checkCanIssueCommandType, bool checkCommandibility) const
+  bool UnitImpl::canBuild(UnitType uType, BWAPI::TilePosition tilePos, bool checkTargetUnitType, bool checkCanIssueCommandType, bool checkCommandibility) const
   {
     return Templates::canBuild(const_cast<UnitImpl*>(this), uType, tilePos, checkTargetUnitType, checkCanIssueCommandType, checkCommandibility);
   }
@@ -1310,7 +1310,7 @@ namespace BWAPI4
   int UnitImpl::getDistance(Position target) const
   {
     // If this unit does not exist or target is invalid
-    if (!exists() || !target)
+    if (!exists() || !BroodwarImpl.isValid(target))
       return std::numeric_limits<int>::max();
 
     /////// Compute distance
@@ -1386,7 +1386,7 @@ namespace BWAPI4
   {
     BroodwarImpl.setLastError();
     // Return error if the position is invalid
-    if (!target)
+    if (!BroodwarImpl.isValid(target))
       return BroodwarImpl.setLastError(Errors::Invalid_Parameter);
 
     // Return true if this unit is an air unit

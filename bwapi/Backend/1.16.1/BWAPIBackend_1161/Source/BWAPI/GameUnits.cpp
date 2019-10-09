@@ -6,8 +6,8 @@
 
 #include <BWAPI/UnitImpl.h>
 #include <BWAPI/PlayerImpl.h>
-#include <BWAPI4/Race.h>
-#include <BWAPI4/Order.h>
+#include <BWAPI/Race.h>
+#include <BWAPI/Order.h>
 #include <cassert>
 
 namespace BWAPI4
@@ -31,7 +31,7 @@ namespace BWAPI4
     BW::CUnit *u = i->getOriginalRawData;
     if ( !u ) return false;
 
-    UnitType _getType = BWAPI4::UnitType(u->unitType);
+    UnitType _getType = BWAPI::UnitType(u->unitType);
 
     // Replica of official UnitImpl::IsDead function
     if ( !u->sprite || (u->orderID == Orders::Die && u->orderState == 1) )
@@ -231,7 +231,7 @@ namespace BWAPI4
       if ( u->getOriginalRawData->unitType == UnitTypes::Terran_Ghost)
       {
         if (u->getOriginalRawData->orderID == Orders::NukePaint)
-          u->nukePosition = BWAPI4::Position(u->getOriginalRawData->orderTarget.pt);
+          u->nukePosition = BWAPI::Position(u->getOriginalRawData->orderTarget.pt);
         if (u->getOriginalRawData->orderID != Orders::NukeTrack)
           u->nukeDetected = false;
         else
@@ -488,7 +488,7 @@ namespace BWAPI4
     // Get all units under disruption web and dark swarm
     for ( Unit u : neutralUnits )
     {
-      BWAPI4::UnitType ut = u->getType();
+      BWAPI::UnitType ut = u->getType();
       if ( ut != UnitTypes::Spell_Dark_Swarm &&
            ut != UnitTypes::Spell_Disruption_Web )
         continue;
@@ -523,7 +523,7 @@ namespace BWAPI4
     pos -= Position(BW::BWDATA::GameScreenBuffer.width() / 2, BW::BWDATA::GameScreenBuffer.height() / 2 - 40);
 
     // Make this position a valid position
-    pos.makeValid();
+    pos = makeValid(pos);
 
     // Move to the screen position
     this->setScreenPosition(pos.x, pos.y);

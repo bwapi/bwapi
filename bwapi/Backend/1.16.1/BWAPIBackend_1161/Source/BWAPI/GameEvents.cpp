@@ -10,10 +10,10 @@
 #include <BW/Offsets.h>
 
 #include <BWAPI/PlayerImpl.h>
-#include <BWAPI4/Race.h>
+#include <BWAPI/Race.h>
 #include <BWAPI/RegionImpl.h>
 
-#include <BWAPI4/PlayerType.h>
+#include <BWAPI/PlayerType.h>
 
 namespace BWAPI4
 {

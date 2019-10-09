@@ -10,9 +10,9 @@
 #include <BWAPI/Map.h>
 #include <BWAPI4/Client/GameData.h>
 #include <BWAPI4/CoordinateType.h>
-#include <BWAPI4/Error.h>
-#include <BWAPI4/GameType.h>
-#include <BWAPI4/Color.h>
+#include <BWAPI/Error.h>
+#include <BWAPI/GameType.h>
+#include <BWAPI/Color.h>
 
 #include "Command.h"
 #include "APMCounter.h"
@@ -178,11 +178,11 @@ namespace BWAPI4
 
       unsigned getRandomSeed() const;
 
-      void setScreenPosition(BWAPI4::Position p);
-      void pingMinimap(BWAPI4::Position p);
+      void setScreenPosition(BWAPI::Position p);
+      void pingMinimap(BWAPI::Position p);
       Unitset getUnitsOnTile(int tileX, int tileY, std::function<bool(Unit)> pred = nullptr) const;
-      Unitset getUnitsOnTile(BWAPI4::TilePosition tile, std::function<bool(Unit)> pred = nullptr) const;
-      Unitset getUnitsInRectangle(BWAPI4::Position topLeft, BWAPI4::Position bottomRight, std::function<bool(Unit)> pred = nullptr) const;
+      Unitset getUnitsOnTile(BWAPI::TilePosition tile, std::function<bool(Unit)> pred = nullptr) const;
+      Unitset getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight, std::function<bool(Unit)> pred = nullptr) const;
       bool isWalkable(BWAPI4::WalkPosition position) const;
       int  getGroundHeight(TilePosition position) const;
       bool isBuildable(TilePosition position, bool includeBuildings = false) const;
@@ -199,7 +199,7 @@ namespace BWAPI4
       void sendTextEx(bool toAllies, const char *format, ...);
       void drawText(CoordinateType::Enum ctype, int x, int y, const char *format, ...);
       bool hasPath(Position source, Position destination) const;
-      BWAPI4::RegionImpl* getRegionAt(BWAPI4::Position position) const;
+      BWAPI4::RegionImpl* getRegionAt(BWAPI::Position position) const;
 
       void updateKillAndRemoveUnits();
       Unitset unitsToKill;
@@ -222,6 +222,30 @@ namespace BWAPI4
         bool lifted = false,
         bool hallucinated = false,
         bool invincible = false);
+
+      template<typename T, int Scale>
+      bool isValid(BWAPI::Point<T, Scale> pos) const {
+        BWAPI::Position temp{ pos };
+
+        return temp.x >= 0 &&
+          temp.y >= 0 &&
+          temp.x < mapWidth() * 32 &&
+          temp.y < mapHeight() * 32;
+      }
+
+      template<typename T, int Scale>
+      auto makeValid(BWAPI::Point<T, Scale> &pos) const -> BWAPI::Point<T, Scale>& {
+        pos.setMin(0, 0);
+        pos.setMax(mapWidth() * 32 / Scale - 1, mapHeight() * 32 / Scale - 1);
+        return pos;
+      }
+
+      template<typename T, int Scale>
+      auto makeValid(BWAPI::Point<T, Scale> &&pos) const -> BWAPI::Point<T, Scale> {
+        pos.setMin(0, 0);
+        pos.setMax(mapWidth() * 32 / Scale - 1, mapHeight() * 32 / Scale - 1);
+        return std::move(pos);
+      }
 
       //Internal BWAPI commands:
       GameImpl();
@@ -255,7 +279,7 @@ namespace BWAPI4
       bool inScreen(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2) const;
       bool inScreen(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, int x3, int y3) const;
       static void _startGame();
-      static void _changeRace(int slot, BWAPI4::Race race);
+      static void _changeRace(int slot, BWAPI::Race race);
 
       void moveToSelectedUnits();
       void executeCommand(UnitCommand command);

@@ -6,7 +6,7 @@
 #include <BW/Path.h>
 
 #pragma pack(1)
-namespace BWAPI4
+namespace BWAPI
 {
   class UnitType;
 }
@@ -28,7 +28,7 @@ namespace BW
   class CUnit
   {
   public:
-    BWAPI4::UnitType type() const;
+    BWAPI::UnitType type() const;
     bool movementFlag(u8 flags) const;
     bool statusFlag(u32 flags) const;
 

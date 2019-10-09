@@ -1,15 +1,17 @@
 #pragma once
-#include <BWAPI4/Position.h>
+#include <BWAPI/Position.h>
 #include <iterator>
 #include <set>
 
+namespace BWAPI
+{
+  class UnitType;
+  class TechType;
+}
 namespace BWAPI4
 {
   // Forward declarations
-  class UnitType;
   class UnitCommand;
-  class TechType;
-
   class UnitImpl;
 
   /// <summary>The Unitset is a container for a set of pointers to Unit objects. It is typically
@@ -34,7 +36,7 @@ namespace BWAPI4
     /// @returns Average Position of all units in the set.
     ///
     /// @see UnitImpl::getPosition
-    Position getPosition() const;
+    BWAPI::Position getPosition() const;
   };
 }
 

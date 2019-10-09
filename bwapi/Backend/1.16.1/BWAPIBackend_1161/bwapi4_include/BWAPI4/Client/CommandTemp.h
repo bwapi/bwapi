@@ -1,10 +1,10 @@
 #pragma once
-#include <BWAPI4/Position.h>
-#include <BWAPI4/UnitType.h>
-#include <BWAPI4/UpgradeType.h>
-#include <BWAPI4/TechType.h>
+#include <BWAPI/Position.h>
+#include <BWAPI/UnitType.h>
+#include <BWAPI/UpgradeType.h>
+#include <BWAPI/TechType.h>
 #include <BWAPI4/UnitCommand.h>
-#include <BWAPI4/UnitCommandType.h>
+#include <BWAPI/UnitCommandType.h>
 
 namespace BWAPI4
 {
@@ -525,7 +525,7 @@ namespace BWAPI4
       {
       case EventType::Resource:
         {
-          UpgradeType upgradeType = unit->self->upgrade;
+          UpgradeType upgradeType = UpgradeType(unit->self->upgrade);
           const int nextLevel     = unit->getPlayer()->getUpgradeLevel(upgradeType) + 1;
 
           player->self->minerals += upgradeType.mineralPrice(nextLevel);
@@ -863,7 +863,7 @@ namespace BWAPI4
       // We just pretend that it happens on RLF.
     case UnitCommandTypes::Train:
       {
-        UnitType unitType = command.extra;
+        UnitType unitType = UnitType(command.extra);
 
         if (!isCurrentFrame)
         {

@@ -4,20 +4,24 @@
 
 #include <BWAPI4/Client/PlayerData.h>
 #include <BWAPI4/Unitset.h>
-#include <BWAPI4/Color.h>
-#include <BWAPI4/Race.h>
+#include <BWAPI/Color.h>
+#include <BWAPI/Race.h>
 
 #include "UnitImpl.h"
 #include "ForceImpl.h"
 
-namespace BWAPI4
+namespace BWAPI
 {
-  // Forwards
   class UnitType;
   class UpgradeType;
   class TechType;
   class PlayerType;
   class Race;
+}
+
+namespace BWAPI4
+{
+  // Forwards
   class ForceImpl;
   typedef ForceImpl* Force;
 

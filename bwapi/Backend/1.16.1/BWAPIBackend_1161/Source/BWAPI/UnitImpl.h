@@ -5,8 +5,8 @@
 
 #include <BWAPI4/UnitCommand.h>
 #include <BWAPI4/Client/UnitData.h>
-#include <BWAPI4/UnitType.h>
-#include <BWAPI4/Order.h>
+#include <BWAPI/UnitType.h>
+#include <BWAPI/Order.h>
 
 namespace BW
 { 
@@ -156,7 +156,7 @@ namespace BWAPI4
       bool canAttackUnitGrouped(Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
       bool canBuild(bool checkCommandibility = true) const;
       bool canBuild(UnitType uType, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
-      bool canBuild(UnitType uType, BWAPI4::TilePosition tilePos, bool checkTargetUnitType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
+      bool canBuild(UnitType uType, BWAPI::TilePosition tilePos, bool checkTargetUnitType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
       bool canBuildAddon(bool checkCommandibility = true) const;
       bool canBuildAddon(UnitType uType, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
       bool canTrain(bool checkCommandibility = true) const;
@@ -309,7 +309,7 @@ namespace BWAPI4
       /** Gets #bwUnitLocal */
       u8 getBuildQueueSlot;
       /** Gets #bwUnit->BW#Unit#buildQueue */
-      BWAPI4::UnitType getBuildQueue[5];
+      BWAPI::UnitType getBuildQueue[5];
       /** Returns if the unit has empty building queue */
       bool hasEmptyBuildQueue;
 
@@ -351,7 +351,7 @@ namespace BWAPI4
 
       u16 index; /**< Index of the unit in the array (can be computed, it's just optimisation) */
       UnitType initialType;
-      BWAPI4::Position initialPosition;
+      BWAPI::Position initialPosition;
       int initialResources;
       int initialHitPoints;
   };

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <BWAPI4/UnitType.h>
-#include <BWAPI4/UpgradeType.h>
-#include <BWAPI4/TechType.h>
+#include <BWAPI/UnitType.h>
+#include <BWAPI/UpgradeType.h>
+#include <BWAPI/TechType.h>
 
 namespace BWAPI4
 {
@@ -33,16 +33,16 @@ namespace BWAPI4
     int supplyTotal[3];
     int supplyUsed[3];
 
-    int allUnitCount[UnitTypes::Enum::MAX];
-    int visibleUnitCount[UnitTypes::Enum::MAX];
-    int completedUnitCount[UnitTypes::Enum::MAX];
-    int deadUnitCount[UnitTypes::Enum::MAX];
-    int killedUnitCount[UnitTypes::Enum::MAX];
+    int allUnitCount[BWAPI::UnitTypes::Enum::MAX];
+    int visibleUnitCount[BWAPI::UnitTypes::Enum::MAX];
+    int completedUnitCount[BWAPI::UnitTypes::Enum::MAX];
+    int deadUnitCount[BWAPI::UnitTypes::Enum::MAX];
+    int killedUnitCount[BWAPI::UnitTypes::Enum::MAX];
 
-    int  upgradeLevel[UpgradeTypes::Enum::MAX];
-    bool hasResearched[TechTypes::Enum::MAX];
-    bool isResearching[TechTypes::Enum::MAX];
-    bool isUpgrading[UpgradeTypes::Enum::MAX];
+    int  upgradeLevel[BWAPI::UpgradeTypes::Enum::MAX];
+    bool hasResearched[BWAPI::TechTypes::Enum::MAX];
+    bool isResearching[BWAPI::TechTypes::Enum::MAX];
+    bool isUpgrading[BWAPI::UpgradeTypes::Enum::MAX];
 
     int color;
 
@@ -52,8 +52,8 @@ namespace BWAPI4
     int totalRazingScore;
     int customScore;
 
-    int   maxUpgradeLevel[UpgradeTypes::Enum::MAX];
-    bool  isResearchAvailable[TechTypes::Enum::MAX];
-    bool  isUnitAvailable[UnitTypes::Enum::MAX];
+    int   maxUpgradeLevel[BWAPI::UpgradeTypes::Enum::MAX];
+    bool  isResearchAvailable[BWAPI::TechTypes::Enum::MAX];
+    bool  isUnitAvailable[BWAPI::UnitTypes::Enum::MAX];
   };
 }

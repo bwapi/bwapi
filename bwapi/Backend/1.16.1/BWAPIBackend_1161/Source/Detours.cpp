@@ -16,7 +16,7 @@
 #include "../Convenience.h"
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/PlayerImpl.h"
-#include <BWAPI4/Race.h>
+#include <BWAPI/Race.h>
 
 #include <BW/Offsets.h>
 #include <BW/TriggerEngine.h>
@@ -86,7 +86,7 @@ void _InitializePlayerConsole()   // after
   {
     // Retrieve the original race value before randomization occurred from the mapped index
     int mapID = getMappedIndex(BW::BWDATA::Players[i].dwStormId);
-    BWAPI4::BroodwarImpl.lastKnownRaceBeforeStart[i] = (mapID == -1) ? BWAPI4::Races::None : BWAPI4::Race( savedRace[mapID] );
+    BWAPI4::BroodwarImpl.lastKnownRaceBeforeStart[i] = (mapID == -1) ? BWAPI::Races::None : BWAPI::Race( savedRace[mapID] );
 
     // Reset the computer player's storm ID
     if ( BW::BWDATA::Players[i].dwStormId < 0 )

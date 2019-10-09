@@ -1,9 +1,9 @@
 #pragma once
 #include <algorithm>
 
-#include <BWAPI4/Order.h>
-#include <BWAPI4/Race.h>
-#include <BWAPI4/WeaponType.h>
+#include <BWAPI/Order.h>
+#include <BWAPI/Race.h>
+#include <BWAPI/WeaponType.h>
 #include "UnitImpl.h"
 #include "GameImpl.h"
 
@@ -169,7 +169,7 @@ namespace BWAPI4
       TilePosition rb = lt + type.tileSize();
 
       // Map limit check
-      if ( !lt.isValid() || !(Position(rb) - Position(1,1)).isValid() )
+      if ( !BroodwarImpl.isValid(lt) || !BroodwarImpl.isValid(Position(rb) - Position(1,1)) )
         return false;
 
       //if the unit is a refinery, we just need to check the set of geysers to see if the position
@@ -233,7 +233,7 @@ namespace BWAPI4
         Unitset unitsInRect = BroodwarImpl.getUnitsInRectangle(Position(lt), Position(rb), collisionUnitsCondition);
         for (Unit u : unitsInRect)
         {
-          BWAPI4::UnitType iterType = u->getType();
+          BWAPI::UnitType iterType = u->getType();
           // Addons can be placed over units that can move, pushing them out of the way
           if ( !(type.isAddon() && iterType.canMove()) )
             return false;
@@ -310,7 +310,7 @@ namespace BWAPI4
         return BroodwarImpl.setLastError(Errors::Access_Denied);
 
       // Get the required UnitType
-      BWAPI4::UnitType requiredType = type.whatBuilds().first;
+      BWAPI::UnitType requiredType = type.whatBuilds().first;
 
       Player pSelf = BroodwarImpl.self();
       if ( builder != nullptr ) // do checks if a builder is provided
@@ -319,7 +319,7 @@ namespace BWAPI4
         if (builder->getPlayer() != pSelf)
           return BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
 
-        BWAPI4::UnitType builderType = builder->getType();
+        BWAPI::UnitType builderType = builder->getType();
         if ( type == UnitTypes::Zerg_Nydus_Canal && builderType == UnitTypes::Zerg_Nydus_Canal )
         {
           if ( !builder->isCompleted() )
@@ -380,7 +380,7 @@ namespace BWAPI4
         return BroodwarImpl.setLastError(Errors::Insufficient_Gas);
       
       // Check if player has enough supplies
-      BWAPI4::Race typeRace = type.getRace();
+      BWAPI::Race typeRace = type.getRace();
       const int supplyRequired = type.supplyRequired() * (type.isTwoUnitsInOneEgg() ? 2 : 1);
       if (supplyRequired > 0 && pSelf->supplyTotal(typeRace) < pSelf->supplyUsed(typeRace) + supplyRequired - (requiredType.getRace() == typeRace ? requiredType.supplyRequired() : 0))
         return BroodwarImpl.setLastError(Errors::Insufficient_Supply);
@@ -816,7 +816,7 @@ namespace BWAPI4
 
       return true;
     }
-    static inline bool canBuild(Unit thisUnit, UnitType uType, BWAPI4::TilePosition tilePos, bool checkTargetUnitType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canBuild(Unit thisUnit, UnitType uType, BWAPI::TilePosition tilePos, bool checkTargetUnitType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
         BroodwarImpl.setLastError();
@@ -829,7 +829,7 @@ namespace BWAPI4
       if ( checkTargetUnitType && !canBuild(thisUnit, uType, false, false) )
         return false;
 
-      if ( tilePos.isValid() == false )
+      if (BroodwarImpl.isValid(tilePos) == false )
         return BroodwarImpl.setLastError(Errors::Invalid_Tile_Position);
 
       if ( !BroodwarImpl.canBuildHere(tilePos, uType, thisUnit, true) )
@@ -1472,7 +1472,7 @@ namespace BWAPI4
 
       if ( !thisUnit->isInterruptible() )
         return BroodwarImpl.setLastError(Errors::Unit_Busy);
-      if ( thisUnit->getType() != BWAPI4::UnitTypes::Terran_SCV )
+      if ( thisUnit->getType() != BWAPI::UnitTypes::Terran_SCV )
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       if ( !thisUnit->isCompleted() )
         return BroodwarImpl.setLastError(Errors::Incompatible_State);
@@ -1497,7 +1497,7 @@ namespace BWAPI4
         return false;
 
       UnitType targType = targetUnit->getType();
-      if ( targType.getRace() != BWAPI4::Races::Terran || !targType.isMechanical() )
+      if ( targType.getRace() != BWAPI::Races::Terran || !targType.isMechanical() )
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       if ( targetUnit->getHitPoints() == targType.maxHitPoints() )
         return BroodwarImpl.setLastError(Errors::Incompatible_State);
@@ -1763,7 +1763,7 @@ namespace BWAPI4
 
       if ( thisUnit->getType() != UnitTypes::Terran_Bunker )
       {
-        if ( WalkPosition(targDropPos.x/8, targDropPos.y/8).isValid() == false )
+        if (BroodwarImpl.isValid(WalkPosition(targDropPos.x/8, targDropPos.y/8)) == false )
           return BroodwarImpl.setLastError(Errors::Invalid_Tile_Position);
         else if ( !BroodwarImpl.isWalkable(targDropPos.x/8, targDropPos.y/8) )
           return BroodwarImpl.setLastError(Errors::Unreachable_Location);
@@ -2496,7 +2496,7 @@ namespace BWAPI4
       if ( !thisUnit->getType().isFlagBeacon() )
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
 
-      if ( static_cast<UnitImpl*>(thisUnit)->self->buttonset == 228 || thisUnit->getOrder() != BWAPI4::Orders::CTFCOPInit )
+      if ( static_cast<UnitImpl*>(thisUnit)->self->buttonset == 228 || thisUnit->getOrder() != BWAPI::Orders::CTFCOPInit )
         return BroodwarImpl.setLastError(Errors::Incompatible_State);
 
       return true;
@@ -2821,7 +2821,7 @@ namespace BWAPI4
           return canAttackUnit(thisUnit, c.target, checkCanTargetUnit, false, false);
 
         case UnitCommandTypes::Enum::Build:
-          return canBuild(thisUnit, c.getUnitType(), BWAPI4::TilePosition(c.x, c.y), checkCanBuildUnitType, false, false);
+          return canBuild(thisUnit, c.getUnitType(), BWAPI::TilePosition(c.x, c.y), checkCanBuildUnitType, false, false);
 
         case UnitCommandTypes::Enum::Build_Addon:
           return canBuildAddon(thisUnit, c.getUnitType(), false, false);
@@ -2890,7 +2890,7 @@ namespace BWAPI4
           return true;
 
         case UnitCommandTypes::Enum::Land:
-          return canLand(thisUnit, BWAPI4::TilePosition(c.x, c.y), false, false);
+          return canLand(thisUnit, BWAPI::TilePosition(c.x, c.y), false, false);
 
         case UnitCommandTypes::Enum::Load:
           return canLoad(thisUnit, c.target, checkCanTargetUnit, false, false);
@@ -2935,16 +2935,16 @@ namespace BWAPI4
           return true;
 
         case UnitCommandTypes::Enum::Use_Tech:
-          return canUseTechWithoutTarget(thisUnit, c.extra, false, false);
+          return canUseTechWithoutTarget(thisUnit, TechType(c.extra), false, false);
 
         case UnitCommandTypes::Enum::Use_Tech_Unit:
-          return canUseTechUnit(thisUnit, c.extra, c.target, checkCanTargetUnit, checkCanUseTechUnitOnUnits, false, false);
+          return canUseTechUnit(thisUnit, TechType(c.extra), c.target, checkCanTargetUnit, checkCanUseTechUnitOnUnits, false, false);
 
         case UnitCommandTypes::Enum::Use_Tech_Position:
-          return canUseTechPosition(thisUnit, c.extra, c.getTargetPosition(), checkCanUseTechPositionOnPositions, false, false);
+          return canUseTechPosition(thisUnit, TechType(c.extra), c.getTargetPosition(), checkCanUseTechPositionOnPositions, false, false);
 
         case UnitCommandTypes::Enum::Place_COP:
-          return canPlaceCOP(thisUnit, BWAPI4::TilePosition(c.x, c.y), false, false);
+          return canPlaceCOP(thisUnit, BWAPI::TilePosition(c.x, c.y), false, false);
       }
 
       return true;
@@ -3086,13 +3086,13 @@ namespace BWAPI4
           return false;
 
         case UnitCommandTypes::Enum::Use_Tech:
-          return canUseTechWithoutTarget(thisUnit, c.extra, false, false);
+          return canUseTechWithoutTarget(thisUnit, TechType(c.extra), false, false);
 
         case UnitCommandTypes::Enum::Use_Tech_Unit:
-          return canUseTechUnit(thisUnit, c.extra, c.target, checkCanTargetUnit, checkCanUseTechUnitOnUnits, false, false);
+          return canUseTechUnit(thisUnit, TechType(c.extra), c.target, checkCanTargetUnit, checkCanUseTechUnitOnUnits, false, false);
 
         case UnitCommandTypes::Enum::Use_Tech_Position:
-          return canUseTechPosition(thisUnit, c.extra, c.getTargetPosition(), checkCanUseTechPositionOnPositions, false, false);
+          return canUseTechPosition(thisUnit, TechType(c.extra), c.getTargetPosition(), checkCanUseTechPositionOnPositions, false, false);
 
         case UnitCommandTypes::Enum::Place_COP:
           return false;

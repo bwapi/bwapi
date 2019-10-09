@@ -43,7 +43,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>Source/BWAPI;Source;bwapi4_include;../Storm;$(SolutionDir)contrib/SFML-2.5.1/include;$(SolutionDir)Backend/libprotobuf-lite/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Source/BWAPI;Source;bwapi4_include;../Storm;$(SolutionDir)contrib/SFML-2.5.1/include;$(SolutionDir)Backend/libprotobuf-lite/src;$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32_LEAN_AND_MEAN;WIN32;_DEBUG;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -77,7 +77,7 @@ popd</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>Source/BWAPI;Source;bwapi4_include;../Storm;$(SolutionDir)contrib/SFML-2.5.1/include;$(SolutionDir)Backend/libprotobuf-lite/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Source/BWAPI;Source;bwapi4_include;../Storm;$(SolutionDir)contrib/SFML-2.5.1/include;$(SolutionDir)Backend/libprotobuf-lite/src;$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32_LEAN_AND_MEAN;WIN32;NDEBUG;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -136,7 +136,6 @@ popd</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bwapi4_include\BWAPI4\BulletType.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Client\BulletData.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Client\CommandTemp.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Client\GameData.h" />
@@ -146,30 +145,14 @@ popd</Command>
     <ClInclude Include="bwapi4_include\BWAPI4\Client\ShapeType.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Client\UnitCommand.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Client\UnitData.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\Color.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\CoordinateType.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\DamageType.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\Error.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Event.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\EventType.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\ExplosionType.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Flag.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\GameType.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Input.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Latency.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\Order.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\PlayerType.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\Position.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\Race.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\TechType.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\Type.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\UnitCommand.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\UnitCommandType.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Unitset.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\UnitSizeType.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\UnitType.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\UpgradeType.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\WeaponType.h" />
     <ClInclude Include="Source\Assembly.h" />
     <ClInclude Include="Source\BWAPI\AutoMenuManager.h" />
     <ClInclude Include="Source\BWAPI\BulletImpl.h" />
@@ -232,25 +215,9 @@ popd</Command>
     <ClInclude Include="starcraftver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BWAPILIB_4_3_0\BulletType.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\Color.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\DamageType.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\Error.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Event.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\ExplosionType.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\GameType.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\Order.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\PlayerType.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\Position.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\Race.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\TechType.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\UnitCommand.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\UnitCommandType.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Unitset.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\UnitSizeType.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\UnitType.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\UpgradeType.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\WeaponType.cpp" />
     <ClCompile Include="Source\Assembly.cpp" />
     <ClCompile Include="Source\BWAPI\AutoMenuManager.cpp" />
     <ClCompile Include="Source\BWAPI\BulletImpl.cpp" />

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Types.h"
-#include <BWAPI4/Position.h>
+#include <BWAPI/Position.h>
 #include <BWAPI4/Client/BulletData.h>
 namespace BW    { class CBullet; };
 

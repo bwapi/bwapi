@@ -8,7 +8,7 @@
 
 #include "../Convenience.h"
 
-#include <BWAPI4/Color.h>
+#include <BWAPI/Color.h>
 
 #include "../starcraftver.h"
 

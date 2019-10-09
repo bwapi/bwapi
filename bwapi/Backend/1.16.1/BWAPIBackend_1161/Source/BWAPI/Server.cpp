@@ -13,8 +13,8 @@
 
 #include <BW/Pathing.h>
 #include <BW/Offsets.h>
-#include <BWAPI4/PlayerType.h>
-#include <BWAPI4/Race.h>
+#include <BWAPI/PlayerType.h>
+#include <BWAPI/Race.h>
 
 #include "../Config.h"
 #include "../svnrev.h"
@@ -1103,7 +1103,7 @@ namespace BWAPI4
           {
             auto unit = unitVector[unitID];
             unit->issueCommand(UnitCommand(unit, 
-                                           command.unitcommand().unitcommandtype(),
+                                           UnitCommandType(command.unitcommand().unitcommandtype()),
                                            target, command.unitcommand().x(),
                                            command.unitcommand().y(),
                                            command.unitcommand().extra()));

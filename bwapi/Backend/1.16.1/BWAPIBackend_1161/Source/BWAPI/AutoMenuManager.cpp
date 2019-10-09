@@ -10,8 +10,8 @@
 #include <BW/MenuPosition.h>
 #include <BW/Dialog.h>
 #include <BWAPI/GameImpl.h>
-#include <BWAPI4/PlayerType.h>
-#include <BWAPI4/Race.h>
+#include <BWAPI/PlayerType.h>
+#include <BWAPI/Race.h>
 #include <BW/Offsets.h>
 
 using namespace BWAPI4;

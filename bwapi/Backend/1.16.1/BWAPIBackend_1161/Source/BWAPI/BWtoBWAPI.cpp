@@ -2,6 +2,8 @@
 
 namespace BWAPI4
 {
+  using namespace BWAPI;
+
   int BWtoBWAPI_Order[Orders::Enum::MAX];
   int AttackAnimationRestFrame[UnitTypes::Enum::MAX];
   void BWtoBWAPI_init()

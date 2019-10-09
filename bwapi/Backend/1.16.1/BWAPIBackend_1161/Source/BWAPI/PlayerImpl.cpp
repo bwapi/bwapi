@@ -7,10 +7,10 @@
 
 #include <BW/Offsets.h>
 
-#include <BWAPI4/PlayerType.h>
-#include <BWAPI4/Color.h>
-#include <BWAPI4/Race.h>
-#include <BWAPI4/WeaponType.h>
+#include <BWAPI/PlayerType.h>
+#include <BWAPI/Color.h>
+#include <BWAPI/Race.h>
+#include <BWAPI/WeaponType.h>
 
 namespace BWAPI4
 {
@@ -39,7 +39,7 @@ namespace BWAPI4
     return std::string(BW::BWDATA::Players[index].szName);
   }
   //--------------------------------------------- GET RACE ---------------------------------------------------
-  BWAPI4::Race PlayerImpl::getRace() const
+  BWAPI::Race PlayerImpl::getRace() const
   {
     BroodwarImpl.setLastError();
     if ( this->index < BW::PLAYABLE_PLAYER_COUNT )
@@ -55,7 +55,7 @@ namespace BWAPI4
         return Races::Unknown;
       }
     }
-    return BWAPI4::Race( BW::BWDATA::Players[index].nRace );
+    return BWAPI::Race( BW::BWDATA::Players[index].nRace );
   }
   //--------------------------------------------- GET TYPE ---------------------------------------------------
   BWAPI4::PlayerType PlayerImpl::getType() const

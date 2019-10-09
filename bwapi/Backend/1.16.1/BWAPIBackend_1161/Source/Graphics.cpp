@@ -5,7 +5,7 @@
 #include "BW/Bitmap.h"
 
 #include <BWAPI4/CoordinateType.h>
-#include <BWAPI4/Color.h>
+#include <BWAPI/Color.h>
 
 static inline void bwPlot(const int &x, const int &y, const int &color)
 {

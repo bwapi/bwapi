@@ -96,7 +96,7 @@ namespace BWAPI4
     e.player = player;
     return e;
   }
-  Event Event::NukeDetect(Position target)
+  Event Event::NukeDetect(BWAPI::Position target)
   {
     Event e;
     e.type     = EventType::NukeDetect;
@@ -177,7 +177,7 @@ namespace BWAPI4
   {
     return type;
   }
-  Position Event::getPosition() const
+  BWAPI::Position Event::getPosition() const
   {
     return position;
   }
@@ -202,7 +202,7 @@ namespace BWAPI4
     this->type = type_;
     return *this;
   }
-  Event& Event::setPosition(Position position_)
+  Event& Event::setPosition(BWAPI::Position position_)
   {
     this->position = position_;
     return *this;

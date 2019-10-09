@@ -4,8 +4,8 @@
 #include "../DLLMain.h"
 #include "../NewHackUtil.h"
 
-#include <BWAPI4/PlayerType.h>
-#include <BWAPI4/Race.h>
+#include <BWAPI/PlayerType.h>
+#include <BWAPI/Race.h>
 
 #include <BW/MenuPosition.h>
 #include <BW/Dialog.h>
@@ -54,7 +54,7 @@ namespace BWAPI4
     this->autoMenuManager.onMenuFrame();
   }
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
-  void GameImpl::_changeRace(int slot, BWAPI4::Race race)
+  void GameImpl::_changeRace(int slot, BWAPI::Race race)
   {
     if ( race == Races::Unknown || race == Races::None )
       return;

@@ -2,8 +2,8 @@
 #include "../DLLMain.h"
 
 #include <BWAPI/Command.h>
-#include <BWAPI4/TechType.h>
-#include <BWAPI4/UnitType.h>
+#include <BWAPI/TechType.h>
+#include <BWAPI/UnitType.h>
 
 #include <BW/OrderTypes.h>
 
@@ -55,26 +55,26 @@ namespace BWAPI4
     if (ct == UnitCommandTypes::Attack_Move)
     {
       if ( command.unit && command.unit->getType() == UnitTypes::Zerg_Infested_Terran )
-        QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, Orders::Enum::Attack1, queued);
+        QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, Order(Orders::Enum::Attack1), queued);
       else
-        QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, Orders::Enum::AttackMove, queued);
+        QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, Order(Orders::Enum::AttackMove), queued);
     }
     else if (ct == UnitCommandTypes::Attack_Unit)
     {
       UnitType ut      = command.unit ? command.unit->getType() : UnitTypes::None;
       if ( ut == UnitTypes::Protoss_Carrier || ut == UnitTypes::Hero_Gantrithor )
-        QUEUE_COMMAND(BW::Orders::Attack, command.target, Orders::Enum::CarrierAttack, queued);
+        QUEUE_COMMAND(BW::Orders::Attack, command.target, Order(Orders::Enum::CarrierAttack), queued);
       else if ( ut == UnitTypes::Protoss_Reaver || ut == UnitTypes::Hero_Warbringer )
-        QUEUE_COMMAND(BW::Orders::Attack, command.target, Orders::Enum::ReaverAttack, queued);
+        QUEUE_COMMAND(BW::Orders::Attack, command.target, Order(Orders::Enum::ReaverAttack), queued);
       else if ( ut.isBuilding() )
-        QUEUE_COMMAND(BW::Orders::Attack, command.target, Orders::Enum::TowerAttack, queued);
+        QUEUE_COMMAND(BW::Orders::Attack, command.target, Order(Orders::Enum::TowerAttack), queued);
       else
-        QUEUE_COMMAND(BW::Orders::Attack, command.target, Orders::Enum::Attack1, queued);
+        QUEUE_COMMAND(BW::Orders::Attack, command.target, Order(Orders::Enum::Attack1), queued);
     }
     else if (ct == UnitCommandTypes::Build)
     {
       UnitType extraType(command.extra);
-      if ( command.unit && command.unit->getType() == BWAPI4::UnitTypes::Zerg_Nydus_Canal &&
+      if ( command.unit && command.unit->getType() == BWAPI::UnitTypes::Zerg_Nydus_Canal &&
            extraType == UnitTypes::Zerg_Nydus_Canal )
         QUEUE_COMMAND(BW::Orders::MakeNydusExit, command.x, command.y);
       else if ( extraType.isAddon() )
@@ -85,7 +85,7 @@ namespace BWAPI4
     else if ( ct == UnitCommandTypes::Build_Addon && command.unit )
     {
       TilePosition target = command.unit->getTilePosition() + TilePosition(4, 1);
-      QUEUE_COMMAND(BW::Orders::MakeAddon, BW::TilePosition(target.makeValid()), command.getUnitType());
+      QUEUE_COMMAND(BW::Orders::MakeAddon, BW::TilePosition(makeValid(target)), command.getUnitType());
     }
     else if ( ct == UnitCommandTypes::Train )
     {
@@ -127,13 +127,13 @@ namespace BWAPI4
     else if (ct == UnitCommandTypes::Upgrade)
       QUEUE_COMMAND(BW::Orders::Upgrade, command.getUpgradeType());
     else if (ct == UnitCommandTypes::Set_Rally_Position)
-      QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, Orders::Enum::RallyPointTile);
+      QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, Order(Orders::Enum::RallyPointTile));
     else if (ct == UnitCommandTypes::Set_Rally_Unit)
-      QUEUE_COMMAND(BW::Orders::Attack, command.target, Orders::Enum::RallyPointUnit);
+      QUEUE_COMMAND(BW::Orders::Attack, command.target, Order(Orders::Enum::RallyPointUnit));
     else if (ct == UnitCommandTypes::Move)
-      QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, Orders::Enum::Move, queued);
+      QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, Order(Orders::Enum::Move), queued);
     else if (ct == UnitCommandTypes::Patrol)
-      QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, Orders::Enum::Patrol, queued);
+      QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, Order(Orders::Enum::Patrol), queued);
     else if (ct == UnitCommandTypes::Hold_Position)
       QUEUE_COMMAND(BW::Orders::HoldPosition, queued);
     else if (ct == UnitCommandTypes::Stop)
@@ -154,13 +154,13 @@ namespace BWAPI4
       }
     }
     else if (ct == UnitCommandTypes::Follow)
-      QUEUE_COMMAND(BW::Orders::Attack, command.target, Orders::Enum::Follow, queued);
+      QUEUE_COMMAND(BW::Orders::Attack, command.target, Order(Orders::Enum::Follow), queued);
     else if (ct == UnitCommandTypes::Gather)
-      QUEUE_COMMAND(BW::Orders::Attack, command.target, Orders::Enum::Harvest1, queued);
+      QUEUE_COMMAND(BW::Orders::Attack, command.target, Order(Orders::Enum::Harvest1), queued);
     else if (ct == UnitCommandTypes::Return_Cargo)
       QUEUE_COMMAND(BW::Orders::ReturnCargo, queued);
     else if (ct == UnitCommandTypes::Repair)
-      QUEUE_COMMAND(BW::Orders::Attack, command.target, Orders::Enum::Repair, queued);
+      QUEUE_COMMAND(BW::Orders::Attack, command.target, Order(Orders::Enum::Repair), queued);
     else if (ct == UnitCommandTypes::Burrow)
       QUEUE_COMMAND(BW::Orders::Burrow);
     else if (ct == UnitCommandTypes::Unburrow)
@@ -182,14 +182,14 @@ namespace BWAPI4
     }
     else if (ct == UnitCommandTypes::Load)
     {
-      BWAPI4::UnitType thisType = command.unit ? command.unit->getType() : UnitTypes::None;
+      BWAPI::UnitType thisType = command.unit ? command.unit->getType() : UnitTypes::None;
       if ( thisType == UnitTypes::Terran_Bunker )
-        QUEUE_COMMAND(BW::Orders::Attack, command.target, Orders::Enum::PickupBunker, queued);
+        QUEUE_COMMAND(BW::Orders::Attack, command.target, Order(Orders::Enum::PickupBunker), queued);
       else if ( thisType == UnitTypes::Terran_Dropship || 
                 thisType == UnitTypes::Protoss_Shuttle || 
                 thisType == UnitTypes::Zerg_Overlord   ||
                 thisType == UnitTypes::Hero_Yggdrasill )
-        QUEUE_COMMAND(BW::Orders::Attack, command.target, Orders::Enum::PickupTransport, queued);
+        QUEUE_COMMAND(BW::Orders::Attack, command.target, Order(Orders::Enum::PickupTransport), queued);
       else if ( command.target->getType() == UnitTypes::Terran_Bunker   ||
                 command.target->getType() == UnitTypes::Terran_Dropship ||
                 command.target->getType() == UnitTypes::Protoss_Shuttle ||
@@ -206,11 +206,11 @@ namespace BWAPI4
       if ( command.unit->getType() == UnitTypes::Terran_Bunker )
         QUEUE_COMMAND(BW::Orders::UnloadAll);
       else
-        QUEUE_COMMAND(BW::Orders::Attack, command.unit->getPosition(), Orders::Enum::MoveUnload, queued);
+        QUEUE_COMMAND(BW::Orders::Attack, command.unit->getPosition(), Order(Orders::Enum::MoveUnload), queued);
     }
     else if (ct == UnitCommandTypes::Unload_All_Position)
     {
-      QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, Orders::Enum::MoveUnload, queued);
+      QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, Order(Orders::Enum::MoveUnload), queued);
     }
     else if (ct == UnitCommandTypes::Right_Click_Position)
       QUEUE_COMMAND(BW::Orders::RightClick, command.x, command.y, queued);

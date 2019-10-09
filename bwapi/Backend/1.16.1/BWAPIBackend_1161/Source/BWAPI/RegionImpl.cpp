@@ -63,9 +63,9 @@ namespace BWAPI4
     return data.islandID;
   }
   // --------------------------------- GET CENTER ------------------------------------------------------------
-  BWAPI4::Position RegionImpl::getCenter() const
+  BWAPI::Position RegionImpl::getCenter() const
   {
-    return BWAPI4::Position(data.center_x, data.center_y);
+    return BWAPI::Position(data.center_x, data.center_y);
   }
   // ------------------------------------ GET ID -------------------------------------------------------------
   int RegionImpl::getID() const
