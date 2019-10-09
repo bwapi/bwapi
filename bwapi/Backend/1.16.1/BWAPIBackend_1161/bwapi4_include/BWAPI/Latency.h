@@ -1,5 +1,5 @@
 #pragma once
-namespace BWAPI
+namespace BWAPI4
 {
   /// <summary>Contains enumeration of known latency values.</summary>
   /// @see Game::getLatency

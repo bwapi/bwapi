@@ -42,7 +42,7 @@
 
 #include "../BW/Pathing.h"
 
-namespace BWAPI
+namespace BWAPI4
 {
   //----------------------------------------------------------------------------------------------------------
   Force GameImpl::getForce(int forceID) const
@@ -87,20 +87,20 @@ namespace BWAPI
   {
     // Returns the real latency values
     if ( !this->isMultiplayer() )
-      return BWAPI::Latency::SinglePlayer;
+      return BWAPI4::Latency::SinglePlayer;
 
     if ( this->isBattleNet() )
     {
       switch(BW::BWDATA::Latency)
       {
         case 0:
-          return BWAPI::Latency::BattlenetLow;
+          return BWAPI4::Latency::BattlenetLow;
         case 1:
-          return BWAPI::Latency::BattlenetMedium;
+          return BWAPI4::Latency::BattlenetMedium;
         case 2:
-          return BWAPI::Latency::BattlenetHigh;
+          return BWAPI4::Latency::BattlenetHigh;
         default:
-          return BWAPI::Latency::BattlenetLow;
+          return BWAPI4::Latency::BattlenetLow;
       }
     }
     else
@@ -108,13 +108,13 @@ namespace BWAPI
       switch(BW::BWDATA::Latency)
       {
         case 0:
-          return BWAPI::Latency::LanLow;
+          return BWAPI4::Latency::LanLow;
         case 1:
-          return BWAPI::Latency::LanMedium;
+          return BWAPI4::Latency::LanMedium;
         case 2:
-          return BWAPI::Latency::LanHigh;
+          return BWAPI4::Latency::LanHigh;
         default:
-          return BWAPI::Latency::LanLow;
+          return BWAPI4::Latency::LanLow;
       }
     }
   }
@@ -139,28 +139,28 @@ namespace BWAPI
     return fpsCounter.getAverageFps();
   }
   //------------------------------------------- GET MOUSE POSITION -------------------------------------------
-  BWAPI::Position GameImpl::getMousePosition() const
+  BWAPI4::Position GameImpl::getMousePosition() const
   {
-    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
-      return BWAPI::Positions::Unknown;
-    return BWAPI::Position(BW::BWDATA::Mouse.x, BW::BWDATA::Mouse.y);
+    if ( !this->isFlagEnabled(BWAPI4::Flag::UserInput) )
+      return BWAPI4::Positions::Unknown;
+    return BWAPI4::Position(BW::BWDATA::Mouse.x, BW::BWDATA::Mouse.y);
   }
   //--------------------------------------------- GET MOUSE STATE --------------------------------------------
   bool GameImpl::getMouseState(MouseButton button) const
   {
-    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
+    if ( !this->isFlagEnabled(BWAPI4::Flag::UserInput) )
       return false;
 
     int vkValue;
     switch ( button )
     {
-      case BWAPI::M_LEFT:
+      case BWAPI4::M_LEFT:
         vkValue = VK_LBUTTON;
         break;
-      case BWAPI::M_RIGHT:
+      case BWAPI4::M_RIGHT:
         vkValue = VK_RBUTTON;
         break;
-      case BWAPI::M_MIDDLE:
+      case BWAPI4::M_MIDDLE:
         vkValue = VK_MBUTTON;
         break;
       default:
@@ -171,7 +171,7 @@ namespace BWAPI
   //---------------------------------------------- GET KEY STATE ---------------------------------------------
   bool GameImpl::getKeyState(Key key) const
   {
-    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
+    if ( !this->isFlagEnabled(BWAPI4::Flag::UserInput) )
       return false;
 
     if ( key < 0 || key >= K_MAX )
@@ -180,11 +180,11 @@ namespace BWAPI
     return (GetKeyState(key) & 128) > 0;
   }
   //------------------------------------------- GET SCREEN POSITION ------------------------------------------
-  BWAPI::Position GameImpl::getScreenPosition() const
+  BWAPI4::Position GameImpl::getScreenPosition() const
   {
-    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
-      return BWAPI::Positions::Unknown;
-    return BWAPI::Position(BW::BWDATA::ScreenX, BW::BWDATA::ScreenY);
+    if ( !this->isFlagEnabled(BWAPI4::Flag::UserInput) )
+      return BWAPI4::Positions::Unknown;
+    return BWAPI4::Position(BW::BWDATA::ScreenX, BW::BWDATA::ScreenY);
   }
   //------------------------------------------- SET SCREEN POSITION ------------------------------------------
   void GameImpl::setScreenPosition(int x, int y)
@@ -216,7 +216,7 @@ namespace BWAPI
   bool  GameImpl::isFlagEnabled(int flag) const
   {
     // Check if index is valid
-    if ( flag < 0 || flag >= BWAPI::Flag::Max ) 
+    if ( flag < 0 || flag >= BWAPI4::Flag::Max ) 
       return false;
 
     // Make completeMapInfo appear true if the match has ended
@@ -240,7 +240,7 @@ namespace BWAPI
     }
 
     // check if index is valid
-    if ( flag < 0 || flag >= BWAPI::Flag::Max )
+    if ( flag < 0 || flag >= BWAPI4::Flag::Max )
     {
       this->setLastError(Errors::Invalid_Parameter);
       return;
@@ -250,10 +250,10 @@ namespace BWAPI
     this->flags[flag] = true;
     switch(flag)
     {
-    case BWAPI::Flag::CompleteMapInformation:
+    case BWAPI4::Flag::CompleteMapInformation:
       this->sendText("Enabled Flag CompleteMapInformation");
       break;
-    case BWAPI::Flag::UserInput:
+    case BWAPI4::Flag::UserInput:
       this->sendText("Enabled Flag UserInput");
       break;
     }
@@ -505,7 +505,7 @@ namespace BWAPI
     QUEUE_COMMAND(BW::Orders::RestartGame);
   }
   //--------------------------------------------- SET ALLIANCE -----------------------------------------------
-  bool GameImpl::setAlliance(BWAPI::Player player, bool allied, bool alliedVictory)
+  bool GameImpl::setAlliance(BWAPI4::Player player, bool allied, bool alliedVictory)
   {
     // Set the current player's alliance status 
     if ( !BWAPIPlayer || isReplay() || !player || player == BWAPIPlayer )
@@ -524,7 +524,7 @@ namespace BWAPI
     return this->setLastError();
   }
   //----------------------------------------------- SET VISION -----------------------------------------------
-  bool GameImpl::setVision(BWAPI::Player player, bool enabled)
+  bool GameImpl::setVision(BWAPI4::Player player, bool enabled)
   {
     if ( !player )  // Parameter check
       return this->setLastError(Errors::Invalid_Parameter);
@@ -642,7 +642,7 @@ namespace BWAPI
       command.unit  = v.front();
 
       // Command optimization (no select) for unit unloading, but only if optimizer level >= 2
-      //if ( command.type != BWAPI::UnitCommandTypes::Unload || commandOptimizer.level < 2 )
+      //if ( command.type != BWAPI4::UnitCommandTypes::Unload || commandOptimizer.level < 2 )
       {
         // Select the unit group
         BW::Orders::Select sel(v);
@@ -659,7 +659,7 @@ namespace BWAPI
   const Unitset& GameImpl::getSelectedUnits() const
   {
     this->setLastError();
-    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
+    if ( !this->isFlagEnabled(BWAPI4::Flag::UserInput) )
     {
       this->setLastError(Errors::Access_Denied);
       return Unitset::none;
@@ -774,18 +774,18 @@ namespace BWAPI
     return BW::BWDATA::Game.countdownTimer;
   }
   //------------------------------------------------- GET REGION AT ------------------------------------------
-  BWAPI::RegionImpl* GameImpl::getRegionAt(int x, int y) const
+  BWAPI4::RegionImpl* GameImpl::getRegionAt(int x, int y) const
   {
     this->setLastError();
     if ( !Position(x, y) )
     {
-      this->setLastError(BWAPI::Errors::Invalid_Parameter);
+      this->setLastError(BWAPI4::Errors::Invalid_Parameter);
       return nullptr;
     }
     const BW::region * const rgn = BW::getRegionAt(x,y);
     if ( !rgn )
     {
-      this->setLastError(BWAPI::Errors::Invalid_Parameter);
+      this->setLastError(BWAPI4::Errors::Invalid_Parameter);
       return nullptr;
     }
     return getRegion(rgn->getIndex());
@@ -920,7 +920,7 @@ namespace BWAPI
     return lastError;
   }
   //--------------------------------------------- SET LAST ERROR ---------------------------------------------
-  bool GameImpl::setLastError(BWAPI::Error e) const
+  bool GameImpl::setLastError(BWAPI4::Error e) const
   {
     // implies that an error has occured
     lastError = e;

@@ -1,5 +1,5 @@
 #pragma once
-namespace BWAPI
+namespace BWAPI4
 {
   /// <summary>Contains flag enumerations for BWAPI.</summary>
   /// @see Game::enableFlag, Game::isFlagEnabled

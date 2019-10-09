@@ -10,7 +10,7 @@ namespace BW
   class dialog;
 }
 
-namespace BWAPI
+namespace BWAPI4
 {
   class AutoMenuManager
   {

@@ -1,7 +1,7 @@
 #include <string>
 #include <BWAPI/Order.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   template <>
   const std::string Type<Order, Orders::Enum::Unknown>::typeNames[Orders::Enum::MAX] =

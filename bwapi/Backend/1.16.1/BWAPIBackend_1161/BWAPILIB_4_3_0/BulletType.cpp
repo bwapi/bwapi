@@ -1,7 +1,7 @@
 #include <string>
 #include <BWAPI/BulletType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   template <>
   const std::string Type<BulletType, BulletTypes::Enum::Unknown>::typeNames[BulletTypes::Enum::MAX] =

@@ -29,7 +29,7 @@ namespace BW
  * Everything in the BWAPI library that doesn't map or work directly with the bw
  * data.
  */
-namespace BWAPI
+namespace BWAPI4
 {
   // forwards
   class BulletImpl;
@@ -89,7 +89,7 @@ namespace BWAPI
       Unitset getUnitsInRectangle(int left, int top, int right, int bottom, std::function<bool(Unit)> pred = nullptr) const;
 
       Error   getLastError() const;
-      bool    setLastError(BWAPI::Error e = Errors::None) const;
+      bool    setLastError(BWAPI4::Error e = Errors::None) const;
 
       int         mapWidth() const;
       int         mapHeight() const;
@@ -170,7 +170,7 @@ namespace BWAPI
       int  countdownTimer() const;
 
       const std::set<RegionImpl*> &getAllRegions() const;
-      BWAPI::RegionImpl*   getRegionAt(int x, int y) const;
+      BWAPI4::RegionImpl*   getRegionAt(int x, int y) const;
 
       int getLastEventTime() const;
 
@@ -178,12 +178,12 @@ namespace BWAPI
 
       unsigned getRandomSeed() const;
 
-      void setScreenPosition(BWAPI::Position p);
-      void pingMinimap(BWAPI::Position p);
+      void setScreenPosition(BWAPI4::Position p);
+      void pingMinimap(BWAPI4::Position p);
       Unitset getUnitsOnTile(int tileX, int tileY, std::function<bool(Unit)> pred = nullptr) const;
-      Unitset getUnitsOnTile(BWAPI::TilePosition tile, std::function<bool(Unit)> pred = nullptr) const;
-      Unitset getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight, std::function<bool(Unit)> pred = nullptr) const;
-      bool isWalkable(BWAPI::WalkPosition position) const;
+      Unitset getUnitsOnTile(BWAPI4::TilePosition tile, std::function<bool(Unit)> pred = nullptr) const;
+      Unitset getUnitsInRectangle(BWAPI4::Position topLeft, BWAPI4::Position bottomRight, std::function<bool(Unit)> pred = nullptr) const;
+      bool isWalkable(BWAPI4::WalkPosition position) const;
       int  getGroundHeight(TilePosition position) const;
       bool isBuildable(TilePosition position, bool includeBuildings = false) const;
       bool isVisible(TilePosition position) const;
@@ -199,7 +199,7 @@ namespace BWAPI
       void sendTextEx(bool toAllies, const char *format, ...);
       void drawText(CoordinateType::Enum ctype, int x, int y, const char *format, ...);
       bool hasPath(Position source, Position destination) const;
-      BWAPI::RegionImpl* getRegionAt(BWAPI::Position position) const;
+      BWAPI4::RegionImpl* getRegionAt(BWAPI4::Position position) const;
 
       void updateKillAndRemoveUnits();
       Unitset unitsToKill;
@@ -255,7 +255,7 @@ namespace BWAPI
       bool inScreen(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2) const;
       bool inScreen(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, int x3, int y3) const;
       static void _startGame();
-      static void _changeRace(int slot, BWAPI::Race race);
+      static void _changeRace(int slot, BWAPI4::Race race);
 
       void moveToSelectedUnits();
       void executeCommand(UnitCommand command);
@@ -350,8 +350,8 @@ namespace BWAPI
       void applyLatencyCompensation();
       void computeSecondaryUnitSets();
 
-      std::array<bool,BWAPI::Flag::Max> flags;
-      mutable BWAPI::Error lastError;
+      std::array<bool,BWAPI4::Flag::Max> flags;
+      mutable BWAPI4::Error lastError;
       Unitset deadUnits;    // Keeps track of units that were removed from the game, used only to deallocate them
       u32 cheatFlags;
 
@@ -369,7 +369,7 @@ namespace BWAPI
 
       bool inGame = false;
 
-      FPSCounter fpsCounter;
+      BWAPI::FPSCounter fpsCounter;
 
       Text::Size::Enum textSize;
 
@@ -382,12 +382,12 @@ namespace BWAPI
       int lastEventTime = 0;
 
     public:
-      APMCounter apmCounter;
+      BWAPI::APMCounter apmCounter;
 
-      void addShape(const BWAPIC::Shape &s);
+      void addShape(const BWAPIC4::Shape &s);
 
     private:
-      std::vector<BWAPIC::Shape> shapes;
+      std::vector<BWAPIC4::Shape> shapes;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.

@@ -1,7 +1,7 @@
 #pragma once
 #include <BWAPI/Type.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   /// <summary>The Color object is used in drawing routines to specify the color to use.</summary>
   ///

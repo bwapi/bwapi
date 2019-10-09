@@ -3,7 +3,7 @@
  *  Used in UnitCommand
  */
 
-namespace BWAPIC
+namespace BWAPIC4
 {
   namespace ShapeType
   {

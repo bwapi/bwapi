@@ -7,9 +7,9 @@
 
 namespace BW
 {
-  BWAPI::UnitType CUnit::type() const
+  BWAPI4::UnitType CUnit::type() const
   {
-    return BWAPI::UnitType(this->unitType);
+    return BWAPI4::UnitType(this->unitType);
   }
   bool CUnit::movementFlag(u8 flags) const
   {
@@ -39,8 +39,8 @@ namespace BW
   }
   int CUnit::getGroundWeaponCooldown() const
   {
-    const BWAPI::UnitType type = this->type();
-    if (type == BWAPI::UnitTypes::Protoss_Reaver || type == BWAPI::UnitTypes::Hero_Warbringer)
+    const BWAPI4::UnitType type = this->type();
+    if (type == BWAPI4::UnitTypes::Protoss_Reaver || type == BWAPI4::UnitTypes::Hero_Warbringer)
     {
       return this->mainOrderTimer;
     }

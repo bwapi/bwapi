@@ -2,7 +2,7 @@
 #include <BWAPI/Position.h>
 #include <BWAPI/UnitImpl.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   // initialize no-set
   const Unitset Unitset::none;

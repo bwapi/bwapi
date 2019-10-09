@@ -1,7 +1,7 @@
 #include <string>
 #include <BWAPI/DamageType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   template <>
   const std::string Type<DamageType, DamageTypes::Enum::Unknown>::typeNames[DamageTypes::Enum::MAX] =

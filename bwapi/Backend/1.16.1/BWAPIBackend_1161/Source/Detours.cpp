@@ -86,7 +86,7 @@ void _InitializePlayerConsole()   // after
   {
     // Retrieve the original race value before randomization occurred from the mapped index
     int mapID = getMappedIndex(BW::BWDATA::Players[i].dwStormId);
-    BWAPI::BroodwarImpl.lastKnownRaceBeforeStart[i] = (mapID == -1) ? BWAPI::Races::None : BWAPI::Race( savedRace[mapID] );
+    BWAPI4::BroodwarImpl.lastKnownRaceBeforeStart[i] = (mapID == -1) ? BWAPI4::Races::None : BWAPI4::Race( savedRace[mapID] );
 
     // Reset the computer player's storm ID
     if ( BW::BWDATA::Players[i].dwStormId < 0 )
@@ -107,7 +107,7 @@ void __stdcall ExecuteGameTriggers(DWORD dwMillisecondsPerFrame)
 //--------------------------------------- GetSystemTimeAsFileTime --------------------------------------------
 void WINAPI _GetSystemTimeAsFileTime(LPFILETIME lpSystemTimeAsFileTime)
 {
-  auto replacementSeed = BWAPI::BroodwarImpl.seedOverride;
+  auto replacementSeed = BWAPI4::BroodwarImpl.seedOverride;
   if (lpSystemTimeAsFileTime != nullptr && replacementSeed != std::numeric_limits<decltype(replacementSeed)>::max())
   {
     // Convert time_t to Windows file time https://support.microsoft.com/kb/167296
@@ -179,7 +179,7 @@ VOID WINAPI _Sleep(DWORD dwMilliseconds)
 //----------------------------------------------- FILE HOOKS -------------------------------------------------
 HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATAA lpFindFileData)
 {
-  lpFileName = BWAPI::BroodwarImpl.autoMenuManager.interceptFindFirstFile(lpFileName);
+  lpFileName = BWAPI4::BroodwarImpl.autoMenuManager.interceptFindFirstFile(lpFileName);
 
   auto FindFirstFileProc = _FindFirstFileAOld ? _FindFirstFileAOld : &FindFirstFileA;
   return FindFirstFileProc(lpFileName, lpFindFileData);
@@ -250,7 +250,7 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
 //----------------------------------------------- ON GAME END ------------------------------------------------
 BOOL __stdcall _SNetLeaveGame(int type)
 {
-  BWAPI::BroodwarImpl.onGameEnd();
+  BWAPI4::BroodwarImpl.onGameEnd();
   auto SNetLeaveGameProc = _SNetLeaveGameOld ? _SNetLeaveGameOld : &SNetLeaveGame;
   return SNetLeaveGameProc(type);
 }
@@ -259,7 +259,7 @@ BOOL __stdcall _SNetLeaveGame(int type)
 // Broodwar isGamePaused()
 int __cdecl _nextFrameHook()
 {
-  BWAPI::BroodwarImpl.update();
+  BWAPI4::BroodwarImpl.update();
   return BW::BWDATA::isGamePaused;
 }
 
@@ -273,12 +273,12 @@ int __stdcall _SStrCopy(char *dest, const char *source, int size)
       if ( dest == BW::BWDATA::SaveGameFile.data() )
       {
         // onSaveGame
-        BWAPI::BroodwarImpl.onSaveGame(source);
+        BWAPI4::BroodwarImpl.onSaveGame(source);
       }
       else
       {
         // onSend Game
-        BWAPI::BroodwarImpl.queueSentMessage(source);
+        BWAPI4::BroodwarImpl.queueSentMessage(source);
         if (size > 0) dest[0] = '\0';
         if (size > 1) dest[1] = '\0';
         return 0;
@@ -300,7 +300,7 @@ BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, char **data, int *databy
   BOOL rval = SNetReceiveMessageProc(senderplayerid, data, databytes);
 
   if ( rval && *databytes > 2 && (*data)[0] == 0)
-    BWAPI::BroodwarImpl.onReceiveText(*senderplayerid, std::string((char*)&(*data)[2]) );
+    BWAPI4::BroodwarImpl.onReceiveText(*senderplayerid, std::string((char*)&(*data)[2]) );
 
   return rval;
 }
@@ -323,7 +323,7 @@ void __stdcall DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
 
   if ( BW::BWDATA::GameScreenBuffer.isValid() )
   {
-    if (BWAPI::BroodwarImpl.drawShapes())
+    if (BWAPI4::BroodwarImpl.drawShapes())
     {
       wantRefresh = true;
     }
@@ -336,14 +336,14 @@ void __stdcall DrawDialogHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
     BW::pOldDrawDialogProc(pSurface, pBounds);
 
   if ( BW::BWDATA::gwGameMode == BW::GAME_GLUES )
-    BWAPI::BroodwarImpl.onMenuFrame();
+    BWAPI4::BroodwarImpl.onMenuFrame();
 
   BW::dialog *timeout = BW::FindDialogGlobal("TimeOut");
   if ( timeout )
   {
     BW::dialog *dropbtn = timeout->findIndex(2);
-    if ( !dropbtn->isDisabled() && BWAPI::BroodwarImpl.wantDropPlayers )
-      BWAPI::BroodwarImpl.dropPlayers();
+    if ( !dropbtn->isDisabled() && BWAPI4::BroodwarImpl.wantDropPlayers )
+      BWAPI4::BroodwarImpl.dropPlayers();
   }
 
   //click the menu dialog that pops up when you win/lose a game
@@ -427,7 +427,7 @@ BOOL __stdcall _SNetSendTurn(char *data, unsigned int databytes)
 {
   /* Save tick/frame counts for getRemainingLatency*  */
   lastTurnTime  = GetTickCount();
-  lastTurnFrame = BWAPI::BroodwarImpl.getFrameCount();
+  lastTurnFrame = BWAPI4::BroodwarImpl.getFrameCount();
   auto SNetSendTurnProc = _SNetSendTurnOld ? _SNetSendTurnOld : &SNetSendTurn;
   return SNetSendTurnProc(data, databytes);
 }
@@ -441,8 +441,8 @@ void __fastcall CommandFilter(BYTE *buffer, DWORD length)
     return;
 
   // Filter commands using BWAPI rules
-  if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) ||
-       !BWAPI::BroodwarImpl.onStartCalled ||
+  if ( BWAPI4::BroodwarImpl.isFlagEnabled(BWAPI4::Flag::UserInput) ||
+       !BWAPI4::BroodwarImpl.onStartCalled ||
        buffer[0] <= 0x0B ||
        (buffer[0] >= 0x0F && buffer[0] <= 0x12) ||
        (length >= 3 && buffer[0] == 0x13 && buffer[1] == 1)    || // Hotkey (select only)
@@ -462,7 +462,7 @@ void __fastcall CommandFilter(BYTE *buffer, DWORD length)
         if ( lastHotkey == buffer[2] && (thisHotkeyTime - lastHotkeyTime) < 800 )
         {
           // do center view here
-          BWAPI::BroodwarImpl.moveToSelectedUnits();
+          BWAPI4::BroodwarImpl.moveToSelectedUnits();
           lastHotkeyTime = 0;
           lastHotkey     = -1;
         }
@@ -472,7 +472,7 @@ void __fastcall CommandFilter(BYTE *buffer, DWORD length)
           lastHotkey     = buffer[2];
         }
       }
-      BWAPI::BroodwarImpl.wantSelectionUpdate = true;
+      BWAPI4::BroodwarImpl.wantSelectionUpdate = true;
       return;
     } // selections
 

@@ -8,7 +8,7 @@
 #include <BW/Dialog.h>
 #include <BWAPI/Color.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   //-------------------------------------------------- IN SCREEN ---------------------------------------------
   bool GameImpl::inScreen(CoordinateType::Enum ctype, int x, int y) const
@@ -19,11 +19,11 @@ namespace BWAPI
     Position p(x,y);
     switch ( ctype )
     {
-    case BWAPI::CoordinateType::Map: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
+    case BWAPI4::CoordinateType::Map: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
       p.x -= BW::BWDATA::ScreenX;
       p.y -= BW::BWDATA::ScreenY;
       break;
-    case BWAPI::CoordinateType::Mouse: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
+    case BWAPI4::CoordinateType::Mouse: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
       p.x += BW::BWDATA::Mouse.x;
       p.y += BW::BWDATA::Mouse.y;
       break;
@@ -44,7 +44,7 @@ namespace BWAPI
     Position p1(x1,y1), p2(x2,y2);
     switch ( ctype )
     {
-    case BWAPI::CoordinateType::Map: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
+    case BWAPI4::CoordinateType::Map: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
       {
         int maxW = BroodwarImpl.mapWidth()*32;
         int maxH = BroodwarImpl.mapHeight()*32;
@@ -60,7 +60,7 @@ namespace BWAPI
         p2.y -= BW::BWDATA::ScreenY;
         break;
       }
-    case BWAPI::CoordinateType::Mouse: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
+    case BWAPI4::CoordinateType::Mouse: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
       p1.x += BW::BWDATA::Mouse.x;
       p1.y += BW::BWDATA::Mouse.y;
       p2.x += BW::BWDATA::Mouse.x;
@@ -84,7 +84,7 @@ namespace BWAPI
     Position p1(x1,y1), p2(x2,y2), p3(x3,y3);
     switch ( ctype )
     {
-    case BWAPI::CoordinateType::Map: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
+    case BWAPI4::CoordinateType::Map: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
       {
         int maxW = BroodwarImpl.mapWidth()*32;
         int maxH = BroodwarImpl.mapHeight()*32;
@@ -101,7 +101,7 @@ namespace BWAPI
         p3.y -= BW::BWDATA::ScreenY;
         break;
       }
-    case BWAPI::CoordinateType::Mouse: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
+    case BWAPI4::CoordinateType::Mouse: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
       p1.x += BW::BWDATA::Mouse.x;
       p1.y += BW::BWDATA::Mouse.y;
       p2.x += BW::BWDATA::Mouse.x;
@@ -118,7 +118,7 @@ namespace BWAPI
       return false;
     return true;
   }
-  void GameImpl::addShape(const BWAPIC::Shape &s)
+  void GameImpl::addShape(const BWAPIC4::Shape &s)
   {
     this->shapes.emplace_back(s);
   }
@@ -132,44 +132,44 @@ namespace BWAPI
     if ( !data->hasGUI ) return;
     char buffer[2048];
     VSNPrintf(buffer, format, arg);
-    BWAPIC::Shape s(BWAPIC::ShapeType::Text, ctype, x, y, 0, 0, 0, textSize, 0, false, buffer);
+    BWAPIC4::Shape s(BWAPIC4::ShapeType::Text, ctype, x, y, 0, 0, 0, textSize, 0, false, buffer);
     addShape(s);
   }
   //--------------------------------------------------- DRAW BOX ---------------------------------------------
   void GameImpl::drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
   {
     if (!inScreen(ctype,left,top,right,bottom)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,ctype,left,top,right,bottom,0,0,color,isSolid));
+    addShape(BWAPIC4::Shape(BWAPIC4::ShapeType::Box,ctype,left,top,right,bottom,0,0,color,isSolid));
   }
   //------------------------------------------------ DRAW TRIANGLE -------------------------------------------
   void GameImpl::drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
     if (!inScreen(ctype,ax,ay,bx,by,cx,cy)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,ctype,ax,ay,bx,by,cx,cy,color,isSolid));
+    addShape(BWAPIC4::Shape(BWAPIC4::ShapeType::Triangle,ctype,ax,ay,bx,by,cx,cy,color,isSolid));
   }
   //------------------------------------------------- DRAW CIRCLE --------------------------------------------
   void GameImpl::drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid)
   {
     if (!inScreen(ctype,x-radius,y-radius,x+radius,y+radius)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,ctype,x,y,0,0,radius,0,color,isSolid));
+    addShape(BWAPIC4::Shape(BWAPIC4::ShapeType::Circle,ctype,x,y,0,0,radius,0,color,isSolid));
   }
   //------------------------------------------------- DRAW ELIPSE --------------------------------------------
   void GameImpl::drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
     if (!inScreen(ctype,x-xrad,y-yrad,x+xrad,y+yrad)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,ctype,x,y,0,0,xrad,yrad,color,isSolid));
+    addShape(BWAPIC4::Shape(BWAPIC4::ShapeType::Ellipse,ctype,x,y,0,0,xrad,yrad,color,isSolid));
   }
   //--------------------------------------------------- DRAW DOT ---------------------------------------------
   void GameImpl::drawDot(CoordinateType::Enum ctype, int x, int y, Color color)
   {
     if (!inScreen(ctype,x,y)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,ctype,x,y,0,0,0,0,color,false));
+    addShape(BWAPIC4::Shape(BWAPIC4::ShapeType::Dot,ctype,x,y,0,0,0,0,color,false));
   }
   //-------------------------------------------------- DRAW LINE ---------------------------------------------
   void GameImpl::drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color)
   {
     if (!inScreen(ctype,x1,y1,x2,y2)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,ctype,x1,y1,x2,y2,0,0,color,false));
+    addShape(BWAPIC4::Shape(BWAPIC4::ShapeType::Line,ctype,x1,y1,x2,y2,0,0,color,false));
   }
   //--------------------------------------------------- HAS GUI ----------------------------------------------
   bool GameImpl::isGUIEnabled() const
@@ -190,9 +190,9 @@ namespace BWAPI
   //--------------------------------------------- DRAW SHAPES ------------------------------------------------
   bool GameImpl::drawShapes()
   {
-    for (BWAPIC::Shape& shape : this->shapes)
+    for (BWAPIC4::Shape& shape : this->shapes)
     {
-      BWAPIC::ShapeType::Enum s = shape.type;
+      BWAPIC4::ShapeType::Enum s = shape.type;
       int x1 = shape.x1;
       int y1 = shape.y1;
       int x2, y2, w, h;
@@ -200,13 +200,13 @@ namespace BWAPI
       int xrad, yrad;
       CoordinateType::Enum ctype = shape.ctype;
       bool isSolid = shape.isSolid;
-      BWAPI::Color color = Color(shape.color);
+      BWAPI4::Color color = Color(shape.color);
       switch ( s )
       {
-        case BWAPIC::ShapeType::Text:
+        case BWAPIC4::ShapeType::Text:
            bwDrawText(x1, y1, shape.text.c_str(), ctype, (char)shape.extra2);
            break;
-        case BWAPIC::ShapeType::Box:
+        case BWAPIC4::ShapeType::Box:
           x2 = shape.x2;
           y2 = shape.y2;
           w = abs(x2 - x1);
@@ -223,7 +223,7 @@ namespace BWAPI
             bwDrawBox(  x1, y2-1, w, 1, color, ctype);
           }
           break;
-        case BWAPIC::ShapeType::Triangle:
+        case BWAPIC4::ShapeType::Triangle:
         {
           x2 = shape.x2;
           y2 = shape.y2;
@@ -270,7 +270,7 @@ namespace BWAPI
           }
           break;
         }
-        case BWAPIC::ShapeType::Circle:
+        case BWAPIC4::ShapeType::Circle:
           radius = shape.extra1;
           if (isSolid)
           {
@@ -336,7 +336,7 @@ namespace BWAPI
             }
           }
           break;
-        case BWAPIC::ShapeType::Ellipse:
+        case BWAPIC4::ShapeType::Ellipse:
           xrad = shape.extra1;
           yrad = shape.extra2;
           if (xrad != 0 && yrad != 0)
@@ -462,10 +462,10 @@ namespace BWAPI
             bwDrawBox(x1 - xrad, y1, xrad*2, 1, color, ctype);
           }
           break;
-        case BWAPIC::ShapeType::Dot:
+        case BWAPIC4::ShapeType::Dot:
           bwDrawDot(x1, y1, color, ctype);
           break;
-        case BWAPIC::ShapeType::Line:
+        case BWAPIC4::ShapeType::Line:
           x2 = shape.x2;
           y2 = shape.y2;
           if ( x1 == x2 && y1 == y2 )

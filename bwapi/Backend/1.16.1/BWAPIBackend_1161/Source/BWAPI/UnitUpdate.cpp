@@ -21,7 +21,7 @@
 #include <BW/Path.h>
 #include "BWtoBWAPI.h"
 
-namespace BWAPI
+namespace BWAPI4
 {
   // Just hardcode some values that encompass the majority of the scanner graphic (as a hack for now)
   // Note that scanner sweeps are tricky, since the scanning graphic isn't associated with the scanner unit
@@ -48,7 +48,7 @@ namespace BWAPI
     if ( !o )
       return;
     int selfPlayerID = BroodwarImpl.server.getPlayerID(BroodwarImpl.self());
-    self->replayID   = BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) ? BW::UnitTarget(o).getTarget() : 0;
+    self->replayID   = BWAPI4::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) ? BW::UnitTarget(o).getTarget() : 0;
     if (isAlive)
     {
       _getPlayer = BroodwarImpl._getPlayer(getOriginalRawData->playerID); //_getPlayer
@@ -61,7 +61,7 @@ namespace BWAPI
         PlayerImpl* player = BroodwarImpl.getPlayer(i);
         if ( !o->sprite || !player )
           self->isVisible[i] = false;
-        else if (!BroodwarImpl.isReplay() && !BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+        else if (!BroodwarImpl.isReplay() && !BWAPI4::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
           self->isVisible[i] = false;
         else if ( _getPlayer == player )
           self->isVisible[i] = true;
@@ -77,7 +77,7 @@ namespace BWAPI
           self->isVisible[selfPlayerID] = false;
           self->isDetected              = false;
         }
-        else if (_getPlayer == BWAPI::BroodwarImpl.self())
+        else if (_getPlayer == BWAPI4::BroodwarImpl.self())
         {
           self->isVisible[selfPlayerID] = true;
           self->isDetected              = true;
@@ -126,7 +126,7 @@ namespace BWAPI
 
       getBuildQueueSlot = o->buildQueueSlot; //getBuildQueueSlot
       for ( unsigned int i = 0; i < 5; ++i )
-        getBuildQueue[i] = BWAPI::UnitType(o->buildQueue[i]);  //getBuildQueue
+        getBuildQueue[i] = BWAPI4::UnitType(o->buildQueue[i]);  //getBuildQueue
 
       if (_getType.isBuilding())
       {
@@ -157,7 +157,7 @@ namespace BWAPI
 
       //------------------------------------------------------------------------------------------------------
       //_getPosition
-      _getPosition = BWAPI::Position(_getTransport ? static_cast<UnitImpl*>(_getTransport)->getOriginalRawData->position : o->position);
+      _getPosition = BWAPI4::Position(_getTransport ? static_cast<UnitImpl*>(_getTransport)->getOriginalRawData->position : o->position);
 
       _getHitPoints = (int)std::ceil(o->hitPoints / 256.0); //_getHitPoints
       //------------------------------------------------------------------------------------------------------
@@ -248,8 +248,8 @@ namespace BWAPI
     }
     else
     {
-      self->positionX             = BWAPI::Positions::Unknown.x;  //getPosition
-      self->positionY             = BWAPI::Positions::Unknown.y;  //getPosition
+      self->positionX             = BWAPI4::Positions::Unknown.x;  //getPosition
+      self->positionY             = BWAPI4::Positions::Unknown.y;  //getPosition
       self->angle                 = 0;      //getAngle
       self->velocityX             = 0;      //getVelocityX
       self->velocityY             = 0;      //getVelocityY
@@ -404,7 +404,7 @@ namespace BWAPI
       self->isLifted        = o->statusFlag(BW::StatusFlags::InAir) &&
                               o->type().isBuilding(); //isLifted
       self->isParasited     = o->status.parasiteFlags != 0; //isParasited
-      self->isSelected      = BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) && userSelected; //isSelected
+      self->isSelected      = BWAPI4::BroodwarImpl.isFlagEnabled(BWAPI4::Flag::UserInput) && userSelected; //isSelected
       self->isUnderStorm    = o->status.stormTimer != 0; //isUnderStorm
       self->isPowered       = !(_getType.getRace() == Races::Protoss && _getType.isBuilding() && o->statusFlag(BW::StatusFlags::DoodadStatesThing)); // !isUnpowered
       self->isStuck         = o->movementState == BW::UM_MoveToLegal;

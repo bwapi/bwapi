@@ -1,7 +1,7 @@
 #include <string>
 #include <BWAPI/UnitSizeType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   template <>
   const std::string Type<UnitSizeType, UnitSizeTypes::Enum::Unknown>::typeNames[UnitSizeTypes::Enum::MAX] =

@@ -3,7 +3,7 @@
 #include <iterator>
 #include <set>
 
-namespace BWAPI
+namespace BWAPI4
 {
   // Forward declarations
   class UnitType;
@@ -16,7 +16,7 @@ namespace BWAPI
   /// used for groups of units instead of having to manage each Unit individually.</summary>
   ///
   /// @see Unit
-  class Unitset : public std::set<BWAPI::UnitImpl*>
+  class Unitset : public std::set<BWAPI4::UnitImpl*>
   {
   public:
     /// <summary>A blank Unitset containing no elements.</summary> This is typically used as a

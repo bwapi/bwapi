@@ -7,7 +7,7 @@
 namespace BW
 {
   // Direct mapping of bw representation of map position.
-  typedef BWAPI::Point<s16, 1> Position;
+  typedef BWAPI4::Point<s16, 1> Position;
   namespace Positions
   {
     const Position Invalid(32000 / 1, 32000 / 1);
@@ -16,7 +16,7 @@ namespace BW
     const Position Origin(0, 0);
   }
 
-  typedef BWAPI::Point<s16, 32> TilePosition;
+  typedef BWAPI4::Point<s16, 32> TilePosition;
   namespace TilePositions
   {
     const TilePosition Invalid(32000 / 32, 32000 / 32);

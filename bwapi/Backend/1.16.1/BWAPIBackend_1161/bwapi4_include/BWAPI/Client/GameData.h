@@ -12,7 +12,7 @@
 #include <BWAPI/Flag.h>
 #include <BWAPI/Input.h>
 
-namespace BWAPIC
+namespace BWAPIC4
 {
   struct Position
   {
@@ -21,7 +21,7 @@ namespace BWAPIC
     int y;
   };
 }
-namespace BWAPI
+namespace BWAPI4
 {
   struct GameData
   {
@@ -50,7 +50,7 @@ namespace BWAPI
 
     // nuke dots
     int nukeDotCount;
-    BWAPIC::Position nukeDots[200];
+    BWAPIC4::Position nukeDots[200];
 
     int gameType;
     int latency;
@@ -76,7 +76,7 @@ namespace BWAPI
     int screenX;
     int screenY;
 
-    bool flags[BWAPI::Flag::Max];
+    bool flags[BWAPI4::Flag::Max];
 
     // map
     int mapWidth;
@@ -105,7 +105,7 @@ namespace BWAPI
 
     // start locations
     int startLocationCount;
-    BWAPIC::Position startLocations[8];
+    BWAPIC4::Position startLocations[8];
 
     // match mode
     bool isInGame;

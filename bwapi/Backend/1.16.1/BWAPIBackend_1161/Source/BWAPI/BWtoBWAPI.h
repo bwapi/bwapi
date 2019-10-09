@@ -3,7 +3,7 @@
 #include <BWAPI/Order.h>
 #include <BWAPI/UnitType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   extern int BWtoBWAPI_Order[Orders::Enum::MAX];
   extern int AttackAnimationRestFrame[UnitTypes::Enum::MAX];

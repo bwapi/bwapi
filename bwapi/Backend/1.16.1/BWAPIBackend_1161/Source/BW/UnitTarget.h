@@ -1,7 +1,7 @@
 #pragma once
 #include "../Types.h"
 
-namespace BWAPI { class UnitImpl; typedef UnitImpl* Unit; }
+namespace BWAPI4 { class UnitImpl; typedef UnitImpl* Unit; }
 #pragma pack(1)
 namespace BW
 {
@@ -24,7 +24,7 @@ namespace BW
       UnitTarget();
 
       /// Constructor, takes BWAPI unit pointer, and decodes it to bw index type.
-      UnitTarget(const BWAPI::Unit target);
+      UnitTarget(const BWAPI4::Unit target);
       UnitTarget(const BW::CUnit* target);
       u16 getTarget() const;
     private :

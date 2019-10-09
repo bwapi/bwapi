@@ -5,7 +5,7 @@
 #include <vector>
 #include <unordered_map>
 
-namespace BWAPI
+namespace BWAPI4
 {
   // Forwards
   struct GameData;
@@ -28,7 +28,7 @@ namespace BWAPI
     
     void      update();
     bool      isConnected() const;
-    void      addEvent(const BWAPI::Event& e);
+    void      addEvent(const BWAPI4::Event& e);
     void      clearAll();
 
     int       getForceID(ForceImpl* force);
@@ -70,6 +70,6 @@ namespace BWAPI
     std::unordered_map<Unit, int> unitLookup;
 
 
-    BWAPIProtoClient protoClient;
+    BWAPI::BWAPIProtoClient protoClient;
   };
 }

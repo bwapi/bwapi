@@ -3,7 +3,7 @@
 
 #include "GameImpl.h"
 
-namespace BWAPI
+namespace BWAPI4
 {
   template<typename _T, int __Scale>
   bool Point<_T,__Scale>::isValid() const

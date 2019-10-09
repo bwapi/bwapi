@@ -5,7 +5,7 @@
 #include <BWAPI/UnitType.h>
 #include <BWAPI/WeaponType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   // NAMES
   template <>

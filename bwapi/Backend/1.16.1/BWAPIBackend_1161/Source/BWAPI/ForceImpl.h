@@ -2,7 +2,7 @@
 #include <string>
 #include <set>
 
-namespace BWAPI
+namespace BWAPI4
 {
   // Forwards
   class PlayerImpl;

@@ -16,7 +16,7 @@
 #include <BW/Offsets.h>
 #include <BW/OrderTypes.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
   UnitImpl::UnitImpl(BW::CUnit* originalUnit, u16 index)
@@ -313,7 +313,7 @@ namespace BWAPI
     return lastCommand;
   }
   //--------------------------------------------- GET LAST ATTACKING PLAYER ----------------------------------
-  BWAPI::Player UnitImpl::getLastAttackingPlayer() const
+  BWAPI4::Player UnitImpl::getLastAttackingPlayer() const
   {
     return BroodwarImpl.getPlayer(self->lastAttackerPlayer);
   }
@@ -919,7 +919,7 @@ namespace BWAPI
   {
     return Templates::canBuild(const_cast<UnitImpl*>(this), uType, checkCanIssueCommandType, checkCommandibility);
   }
-  bool UnitImpl::canBuild(UnitType uType, BWAPI::TilePosition tilePos, bool checkTargetUnitType, bool checkCanIssueCommandType, bool checkCommandibility) const
+  bool UnitImpl::canBuild(UnitType uType, BWAPI4::TilePosition tilePos, bool checkTargetUnitType, bool checkCanIssueCommandType, bool checkCommandibility) const
   {
     return Templates::canBuild(const_cast<UnitImpl*>(this), uType, tilePos, checkTargetUnitType, checkCanIssueCommandType, checkCommandibility);
   }
@@ -1239,37 +1239,37 @@ namespace BWAPI
   {
     return Templates::canUseTechWithOrWithoutTarget(const_cast<UnitImpl*>(this), checkCommandibility);
   }
-  bool UnitImpl::canUseTechWithOrWithoutTarget(BWAPI::TechType tech, bool checkCanIssueCommandType, bool checkCommandibility) const
+  bool UnitImpl::canUseTechWithOrWithoutTarget(BWAPI4::TechType tech, bool checkCanIssueCommandType, bool checkCommandibility) const
   {
     return Templates::canUseTechWithOrWithoutTarget(const_cast<UnitImpl*>(this), tech, checkCanIssueCommandType, checkCommandibility);
   }
-  bool UnitImpl::canUseTech(BWAPI::TechType tech, Unit target, bool checkCanTargetUnit, bool checkTargetsType, bool checkCanIssueCommandType, bool checkCommandibility) const
+  bool UnitImpl::canUseTech(BWAPI4::TechType tech, Unit target, bool checkCanTargetUnit, bool checkTargetsType, bool checkCanIssueCommandType, bool checkCommandibility) const
   {
     return Templates::canUseTech(const_cast<UnitImpl*>(this), tech, target, checkCanTargetUnit, checkTargetsType, checkCanIssueCommandType, checkCommandibility);
   }
-  bool UnitImpl::canUseTech(BWAPI::TechType tech, Position target, bool checkCanTargetUnit, bool checkTargetsType, bool checkCanIssueCommandType, bool checkCommandibility) const
+  bool UnitImpl::canUseTech(BWAPI4::TechType tech, Position target, bool checkCanTargetUnit, bool checkTargetsType, bool checkCanIssueCommandType, bool checkCommandibility) const
   {
     return Templates::canUseTech(const_cast<UnitImpl*>(this), tech, target, checkCanTargetUnit, checkTargetsType, checkCanIssueCommandType, checkCommandibility);
   }
-  bool UnitImpl::canUseTechWithoutTarget(BWAPI::TechType tech, bool checkCanIssueCommandType, bool checkCommandibility) const
+  bool UnitImpl::canUseTechWithoutTarget(BWAPI4::TechType tech, bool checkCanIssueCommandType, bool checkCommandibility) const
   {
     return Templates::canUseTechWithoutTarget(const_cast<UnitImpl*>(this), tech, checkCanIssueCommandType, checkCommandibility);
   }
   //--------------------------------------------- CAN USE TECH UNIT ------------------------------------------
-  bool UnitImpl::canUseTechUnit(BWAPI::TechType tech, bool checkCanIssueCommandType, bool checkCommandibility) const
+  bool UnitImpl::canUseTechUnit(BWAPI4::TechType tech, bool checkCanIssueCommandType, bool checkCommandibility) const
   {
     return Templates::canUseTechUnit(const_cast<UnitImpl*>(this), tech, checkCanIssueCommandType, checkCommandibility);
   }
-  bool UnitImpl::canUseTechUnit(BWAPI::TechType tech, Unit targetUnit, bool checkCanTargetUnit, bool checkTargetsUnits, bool checkCanIssueCommandType, bool checkCommandibility) const
+  bool UnitImpl::canUseTechUnit(BWAPI4::TechType tech, Unit targetUnit, bool checkCanTargetUnit, bool checkTargetsUnits, bool checkCanIssueCommandType, bool checkCommandibility) const
   {
     return Templates::canUseTechUnit(const_cast<UnitImpl*>(this), tech, targetUnit, checkCanTargetUnit, checkTargetsUnits, checkCanIssueCommandType, checkCommandibility);
   }
   //--------------------------------------------- CAN USE TECH POSITION --------------------------------------
-  bool UnitImpl::canUseTechPosition(BWAPI::TechType tech, bool checkCanIssueCommandType, bool checkCommandibility) const
+  bool UnitImpl::canUseTechPosition(BWAPI4::TechType tech, bool checkCanIssueCommandType, bool checkCommandibility) const
   {
     return Templates::canUseTechPosition(const_cast<UnitImpl*>(this), tech, checkCanIssueCommandType, checkCommandibility);
   }
-  bool UnitImpl::canUseTechPosition(BWAPI::TechType tech, Position target, bool checkTargetsPositions, bool checkCanIssueCommandType, bool checkCommandibility) const
+  bool UnitImpl::canUseTechPosition(BWAPI4::TechType tech, Position target, bool checkTargetsPositions, bool checkCanIssueCommandType, bool checkCommandibility) const
   {
     return Templates::canUseTechPosition(const_cast<UnitImpl*>(this), tech, target, checkTargetsPositions, checkCanIssueCommandType, checkCommandibility);
   }
@@ -1283,11 +1283,11 @@ namespace BWAPI
     return Templates::canPlaceCOP(const_cast<UnitImpl*>(this), target, checkCanIssueCommandType, checkCommandibility);
   }
   //--------------------------------------------- CAN ISSUE COMMAND TYPE -------------------------------------
-  bool UnitImpl::canIssueCommandType(BWAPI::UnitCommandType ct, bool checkCommandibility) const
+  bool UnitImpl::canIssueCommandType(BWAPI4::UnitCommandType ct, bool checkCommandibility) const
   {
     return Templates::canIssueCommandType(const_cast<UnitImpl*>(this), ct, checkCommandibility);
   }
-  bool UnitImpl::canIssueCommandTypeGrouped(BWAPI::UnitCommandType ct, bool checkCommandibilityGrouped, bool checkCommandibility) const
+  bool UnitImpl::canIssueCommandTypeGrouped(BWAPI4::UnitCommandType ct, bool checkCommandibilityGrouped, bool checkCommandibility) const
   {
     return Templates::canIssueCommandTypeGrouped(const_cast<UnitImpl*>(this), ct, checkCommandibilityGrouped, checkCommandibility);
   }

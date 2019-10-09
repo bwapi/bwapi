@@ -19,7 +19,7 @@
 #include "../Config.h"
 #include "../svnrev.h"
 
-namespace BWAPI
+namespace BWAPI4
 {
   const int CLIENT_VERSION = 10002;
 
@@ -56,44 +56,44 @@ namespace BWAPI
   {
     return protoClient.isConnected();
   }
-  void Server::addEvent(const BWAPI::Event& e)
+  void Server::addEvent(const BWAPI4::Event& e)
   {
     auto newMessage = std::make_unique<bwapi::message::Message>();
     auto newEvent = newMessage->mutable_event();
     switch (e.getType())
     {
-    case BWAPI::EventType::MatchEnd:
+    case BWAPI4::EventType::MatchEnd:
     {
       auto newMatchEnd = newEvent->mutable_matchend();
       newMatchEnd->set_winner(e.isWinner());
     }
       break;
-    case BWAPI::EventType::SendText:
+    case BWAPI4::EventType::SendText:
     {
       auto newSendText = newEvent->mutable_sendtext();
       newSendText->set_text(e.getText());
     }
     break;
-    case BWAPI::EventType::SaveGame:
+    case BWAPI4::EventType::SaveGame:
     {
       auto newSaveGame = newEvent->mutable_savegame();
       newSaveGame->set_text(e.getText());
     }
       break;
-    case BWAPI::EventType::PlayerLeft:
+    case BWAPI4::EventType::PlayerLeft:
     {
       auto newPlayerLeft = newEvent->mutable_playerleft();
       newPlayerLeft->set_player(getPlayerID(e.getPlayer()));
     }
       break;
-    case BWAPI::EventType::ReceiveText:
+    case BWAPI4::EventType::ReceiveText:
     {
       auto newReceiveText = newEvent->mutable_receivetext();
       newReceiveText->set_player(getPlayerID(e.getPlayer()));
       newReceiveText->set_text(e.getText());
     }
       break;
-    case BWAPI::EventType::NukeDetect:
+    case BWAPI4::EventType::NukeDetect:
     {
       auto newNukeDetect = newEvent->mutable_nukedetect();
       auto target = newNukeDetect->mutable_target();
@@ -102,55 +102,55 @@ namespace BWAPI
       target->set_scale(1);
     }
       break;
-    case BWAPI::EventType::UnitDiscover:
+    case BWAPI4::EventType::UnitDiscover:
     {
       auto newUnitDiscover = newEvent->mutable_unitdiscover();
       newUnitDiscover->set_unit(getUnitID(e.getUnit()));
     }
       break;
-    case BWAPI::EventType::UnitEvade:
+    case BWAPI4::EventType::UnitEvade:
     {
       auto newUnitEvade = newEvent->mutable_unitevade();
       newUnitEvade->set_unit(getUnitID(e.getUnit()));
     }
       break;
-    case BWAPI::EventType::UnitCreate:
+    case BWAPI4::EventType::UnitCreate:
     {
       auto newUnitCreate = newEvent->mutable_unitcreate();
       newUnitCreate->set_unit(getUnitID(e.getUnit()));
     }
       break;
-    case BWAPI::EventType::UnitDestroy:
+    case BWAPI4::EventType::UnitDestroy:
     {
       auto newUnitDestroy = newEvent->mutable_unitdestroy();
       newUnitDestroy->set_unit(getUnitID(e.getUnit()));
     }
       break;
-    case BWAPI::EventType::UnitMorph:
+    case BWAPI4::EventType::UnitMorph:
     {
       auto newUnitMorph = newEvent->mutable_unitmorph();
       newUnitMorph->set_unit(getUnitID(e.getUnit()));
     }
       break;
-    case BWAPI::EventType::UnitShow:
+    case BWAPI4::EventType::UnitShow:
     {
       auto newUnitShow = newEvent->mutable_unitshow();
       newUnitShow->set_unit(getUnitID(e.getUnit()));
     }
       break;
-    case BWAPI::EventType::UnitHide:
+    case BWAPI4::EventType::UnitHide:
     {
       auto newUnitHide = newEvent->mutable_unithide();
       newUnitHide->set_unit(getUnitID(e.getUnit()));
     }
       break;
-    case BWAPI::EventType::UnitRenegade:
+    case BWAPI4::EventType::UnitRenegade:
     {
       auto newUnitRenegade = newEvent->mutable_unitrenegade();
       newUnitRenegade->set_unit(getUnitID(e.getUnit()));
     }
     break;
-    case BWAPI::EventType::UnitComplete:
+    case BWAPI4::EventType::UnitComplete:
     {
       auto newUnitComplete = newEvent->mutable_unitcomplete();
       newUnitComplete->set_unit(getUnitID(e.getUnit()));
@@ -306,7 +306,7 @@ namespace BWAPI
         data->mapSplitTilesRegion1[i] = BW::BWDATA::SAIPathing->splitTiles[i].rgn1;
         data->mapSplitTilesRegion2[i] = BW::BWDATA::SAIPathing->splitTiles[i].rgn2;
 
-        BWAPI::RegionImpl* r = BroodwarImpl.getRegion(i);
+        BWAPI4::RegionImpl* r = BroodwarImpl.getRegion(i);
         if (r)
         {
           auto fillRegionData = [](const RegionData &regionData, bwapi::data::Region *r)
@@ -521,7 +521,7 @@ namespace BWAPI
       data->screenX = BroodwarImpl.getScreenPosition().x;
       data->screenY = BroodwarImpl.getScreenPosition().y;
 
-      for (int i = 0; i < BWAPI::Flag::Max; ++i)
+      for (int i = 0; i < BWAPI4::Flag::Max; ++i)
         data->flags[i] = BroodwarImpl.isFlagEnabled(i);
 
       data->isPaused = BroodwarImpl.isPaused();
@@ -1112,7 +1112,7 @@ namespace BWAPI
         else if (command.has_shape() && BroodwarImpl.isInGame())
         {
           auto shapeCmd = command.shape();
-          BWAPIC::Shape shape { static_cast<BWAPIC::ShapeType::Enum>(shapeCmd.type()), static_cast<BWAPI::CoordinateType::Enum>(shapeCmd.ctype()), shapeCmd.x1(), shapeCmd.y1(), shapeCmd.x2(), shapeCmd.y2(), shapeCmd.extra1(), shapeCmd.extra2(), shapeCmd.color(), shapeCmd.issolid(), shapeCmd.text() };
+          BWAPIC4::Shape shape { static_cast<BWAPIC4::ShapeType::Enum>(shapeCmd.type()), static_cast<BWAPI4::CoordinateType::Enum>(shapeCmd.ctype()), shapeCmd.x1(), shapeCmd.y1(), shapeCmd.x2(), shapeCmd.y2(), shapeCmd.extra1(), shapeCmd.extra2(), shapeCmd.color(), shapeCmd.issolid(), shapeCmd.text() };
           BroodwarImpl.addShape(shape);
         }
         else if (command.has_createunit() && BroodwarImpl.isInGame())

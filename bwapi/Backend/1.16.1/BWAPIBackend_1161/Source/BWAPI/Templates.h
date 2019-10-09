@@ -7,7 +7,7 @@
 #include "UnitImpl.h"
 #include "GameImpl.h"
 
-namespace BWAPI
+namespace BWAPI4
 {
   namespace Templates
   {
@@ -28,9 +28,9 @@ namespace BWAPI
     static inline bool canRightClickUnit(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
     static inline bool canRightClickUnitGrouped(Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true);
     static inline bool canRightClickUnitGrouped(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandTypeGrouped = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true);
-    static inline bool canUseTechWithoutTarget(Unit thisUnit, BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
-    static inline bool canUseTechUnit(Unit thisUnit, BWAPI::TechType tech, Unit targetUnit, bool checkCanTargetUnit = true, bool checkTargetsUnits = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
-    static inline bool canUseTechPosition(Unit thisUnit, BWAPI::TechType tech, Position target, bool checkTargetsPositions = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
+    static inline bool canUseTechWithoutTarget(Unit thisUnit, BWAPI4::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
+    static inline bool canUseTechUnit(Unit thisUnit, BWAPI4::TechType tech, Unit targetUnit, bool checkCanTargetUnit = true, bool checkTargetsUnits = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
+    static inline bool canUseTechPosition(Unit thisUnit, BWAPI4::TechType tech, Position target, bool checkTargetsPositions = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
     //--------------------------------------------- HAS POWER ------------------------------------------------
     const bool bPsiFieldMask[10][16] = {
       { 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 },
@@ -233,7 +233,7 @@ namespace BWAPI
         Unitset unitsInRect = BroodwarImpl.getUnitsInRectangle(Position(lt), Position(rb), collisionUnitsCondition);
         for (Unit u : unitsInRect)
         {
-          BWAPI::UnitType iterType = u->getType();
+          BWAPI4::UnitType iterType = u->getType();
           // Addons can be placed over units that can move, pushing them out of the way
           if ( !(type.isAddon() && iterType.canMove()) )
             return false;
@@ -263,7 +263,7 @@ namespace BWAPI
       // Resource Check (CC, Nex, Hatch)
       if ( type.isResourceDepot() )
       {
-        for (BWAPI::Unit m : BroodwarImpl.getStaticMinerals())
+        for (BWAPI4::Unit m : BroodwarImpl.getStaticMinerals())
         {
           TilePosition tp = m->getInitialTilePosition();
           if ( (BroodwarImpl.isVisible(tp) || BroodwarImpl.isVisible(tp.x + 1, tp.y)) && !m->exists() )
@@ -274,7 +274,7 @@ namespace BWAPI
               tp.y < lt.y + 6)
             return false;
         }
-        for (BWAPI::Unit g : BroodwarImpl.getStaticGeysers())
+        for (BWAPI4::Unit g : BroodwarImpl.getStaticGeysers())
         {
           TilePosition tp = g->getInitialTilePosition();
           if (tp.x > lt.x - 7 &&
@@ -310,7 +310,7 @@ namespace BWAPI
         return BroodwarImpl.setLastError(Errors::Access_Denied);
 
       // Get the required UnitType
-      BWAPI::UnitType requiredType = type.whatBuilds().first;
+      BWAPI4::UnitType requiredType = type.whatBuilds().first;
 
       Player pSelf = BroodwarImpl.self();
       if ( builder != nullptr ) // do checks if a builder is provided
@@ -319,7 +319,7 @@ namespace BWAPI
         if (builder->getPlayer() != pSelf)
           return BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
 
-        BWAPI::UnitType builderType = builder->getType();
+        BWAPI4::UnitType builderType = builder->getType();
         if ( type == UnitTypes::Zerg_Nydus_Canal && builderType == UnitTypes::Zerg_Nydus_Canal )
         {
           if ( !builder->isCompleted() )
@@ -380,7 +380,7 @@ namespace BWAPI
         return BroodwarImpl.setLastError(Errors::Insufficient_Gas);
       
       // Check if player has enough supplies
-      BWAPI::Race typeRace = type.getRace();
+      BWAPI4::Race typeRace = type.getRace();
       const int supplyRequired = type.supplyRequired() * (type.isTwoUnitsInOneEgg() ? 2 : 1);
       if (supplyRequired > 0 && pSelf->supplyTotal(typeRace) < pSelf->supplyUsed(typeRace) + supplyRequired - (requiredType.getRace() == typeRace ? requiredType.supplyRequired() : 0))
         return BroodwarImpl.setLastError(Errors::Insufficient_Supply);
@@ -816,7 +816,7 @@ namespace BWAPI
 
       return true;
     }
-    static inline bool canBuild(Unit thisUnit, UnitType uType, BWAPI::TilePosition tilePos, bool checkTargetUnitType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canBuild(Unit thisUnit, UnitType uType, BWAPI4::TilePosition tilePos, bool checkTargetUnitType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
         BroodwarImpl.setLastError();
@@ -1472,7 +1472,7 @@ namespace BWAPI
 
       if ( !thisUnit->isInterruptible() )
         return BroodwarImpl.setLastError(Errors::Unit_Busy);
-      if ( thisUnit->getType() != BWAPI::UnitTypes::Terran_SCV )
+      if ( thisUnit->getType() != BWAPI4::UnitTypes::Terran_SCV )
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       if ( !thisUnit->isCompleted() )
         return BroodwarImpl.setLastError(Errors::Incompatible_State);
@@ -1497,7 +1497,7 @@ namespace BWAPI
         return false;
 
       UnitType targType = targetUnit->getType();
-      if ( targType.getRace() != BWAPI::Races::Terran || !targType.isMechanical() )
+      if ( targType.getRace() != BWAPI4::Races::Terran || !targType.isMechanical() )
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       if ( targetUnit->getHitPoints() == targType.maxHitPoints() )
         return BroodwarImpl.setLastError(Errors::Incompatible_State);
@@ -1516,7 +1516,7 @@ namespace BWAPI
       else if ( !canCommand(thisUnit) )
         return false;
 
-      if ( !canUseTechWithoutTarget(thisUnit, BWAPI::TechTypes::Burrowing, true, false) )
+      if ( !canUseTechWithoutTarget(thisUnit, BWAPI4::TechTypes::Burrowing, true, false) )
         return false;
 
       return true;
@@ -1572,7 +1572,7 @@ namespace BWAPI
       else if ( !canCommand(thisUnit) )
         return false;
 
-      if ( !canUseTechWithoutTarget(thisUnit, BWAPI::TechTypes::Tank_Siege_Mode, true, false) )
+      if ( !canUseTechWithoutTarget(thisUnit, BWAPI4::TechTypes::Tank_Siege_Mode, true, false) )
         return false;
 
       return true;
@@ -1695,7 +1695,7 @@ namespace BWAPI
       if ( thisUnitSpaceProvided <= 0 && targetSpaceProvided <= 0 )
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
 
-      const BWAPI::Unit unitToBeLoaded = ( thisUnitSpaceProvided > 0 ? targetUnit : thisUnit );
+      const BWAPI4::Unit unitToBeLoaded = ( thisUnitSpaceProvided > 0 ? targetUnit : thisUnit );
       if ( unitToBeLoaded->getType().canMove() == false || unitToBeLoaded->getType().isFlyer() || unitToBeLoaded->getType().spaceRequired() > 8 )
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       if ( !unitToBeLoaded->isCompleted() )
@@ -1703,7 +1703,7 @@ namespace BWAPI
       if ( unitToBeLoaded->isBurrowed() )
         return BroodwarImpl.setLastError(Errors::Incompatible_State);
 
-      const BWAPI::Unit unitThatLoads = ( thisUnitSpaceProvided > 0 ? thisUnit : targetUnit );
+      const BWAPI4::Unit unitThatLoads = ( thisUnitSpaceProvided > 0 ? thisUnit : targetUnit );
       if ( unitThatLoads->isHallucination() )
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
 
@@ -2173,7 +2173,7 @@ namespace BWAPI
 
       return true;
     }
-    static inline bool canUseTechWithOrWithoutTarget(Unit thisUnit, BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canUseTechWithOrWithoutTarget(Unit thisUnit, BWAPI4::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
         BroodwarImpl.setLastError();
@@ -2234,7 +2234,7 @@ namespace BWAPI
 
       return true;
     }
-    static inline bool canUseTech(Unit thisUnit, BWAPI::TechType tech, Position target, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canUseTech(Unit thisUnit, BWAPI4::TechType tech, Position target, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if (!checkCommandibility)
         BroodwarImpl.setLastError();
@@ -2246,7 +2246,7 @@ namespace BWAPI
 
       return true;
     }
-    static inline bool canUseTech(Unit thisUnit, BWAPI::TechType tech, Unit target = nullptr, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canUseTech(Unit thisUnit, BWAPI4::TechType tech, Unit target = nullptr, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if (!checkCommandibility)
         BroodwarImpl.setLastError();
@@ -2266,7 +2266,7 @@ namespace BWAPI
 
       return true;
     }
-    static inline bool canUseTechWithoutTarget(Unit thisUnit, BWAPI::TechType tech, bool checkCanIssueCommandType, bool checkCommandibility)
+    static inline bool canUseTechWithoutTarget(Unit thisUnit, BWAPI4::TechType tech, bool checkCanIssueCommandType, bool checkCommandibility)
     {
       if ( !checkCommandibility )
         BroodwarImpl.setLastError();
@@ -2284,7 +2284,7 @@ namespace BWAPI
       return true;
     }
     //------------------------------------------- CAN USE TECH UNIT ------------------------------------------
-    static inline bool canUseTechUnit(Unit thisUnit, BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canUseTechUnit(Unit thisUnit, BWAPI4::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
         BroodwarImpl.setLastError();
@@ -2301,7 +2301,7 @@ namespace BWAPI
 
       return true;
     }
-    static inline bool canUseTechUnit(Unit thisUnit, BWAPI::TechType tech, Unit targetUnit, bool checkCanTargetUnit, bool checkTargetsUnits, bool checkCanIssueCommandType, bool checkCommandibility)
+    static inline bool canUseTechUnit(Unit thisUnit, BWAPI4::TechType tech, Unit targetUnit, bool checkCanTargetUnit, bool checkTargetsUnits, bool checkCanIssueCommandType, bool checkCommandibility)
     {
       if ( !checkCommandibility )
         BroodwarImpl.setLastError();
@@ -2450,7 +2450,7 @@ namespace BWAPI
       return true;
     }
     //------------------------------------------- CAN USE TECH POSITION --------------------------------------
-    static inline bool canUseTechPosition(Unit thisUnit, BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canUseTechPosition(Unit thisUnit, BWAPI4::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
         BroodwarImpl.setLastError();
@@ -2467,7 +2467,7 @@ namespace BWAPI
 
       return true;
     }
-    static inline bool canUseTechPosition(Unit thisUnit, BWAPI::TechType tech, Position target, bool checkTargetsPositions, bool checkCanIssueCommandType, bool checkCommandibility)
+    static inline bool canUseTechPosition(Unit thisUnit, BWAPI4::TechType tech, Position target, bool checkTargetsPositions, bool checkCanIssueCommandType, bool checkCommandibility)
     {
       if ( !checkCommandibility )
         BroodwarImpl.setLastError();
@@ -2496,7 +2496,7 @@ namespace BWAPI
       if ( !thisUnit->getType().isFlagBeacon() )
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
 
-      if ( static_cast<UnitImpl*>(thisUnit)->self->buttonset == 228 || thisUnit->getOrder() != BWAPI::Orders::CTFCOPInit )
+      if ( static_cast<UnitImpl*>(thisUnit)->self->buttonset == 228 || thisUnit->getOrder() != BWAPI4::Orders::CTFCOPInit )
         return BroodwarImpl.setLastError(Errors::Incompatible_State);
 
       return true;
@@ -2517,7 +2517,7 @@ namespace BWAPI
       return true;
     }
     //------------------------------------------- CAN ISSUE COMMAND TYPE -------------------------------------
-    static inline bool canIssueCommandType(Unit thisUnit, BWAPI::UnitCommandType ct, bool checkCommandibility = true)
+    static inline bool canIssueCommandType(Unit thisUnit, BWAPI4::UnitCommandType ct, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
         BroodwarImpl.setLastError();
@@ -2657,7 +2657,7 @@ namespace BWAPI
 
       return true;
     }
-    static inline bool canIssueCommandTypeGrouped(Unit thisUnit, BWAPI::UnitCommandType ct, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
+    static inline bool canIssueCommandTypeGrouped(Unit thisUnit, BWAPI4::UnitCommandType ct, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
         BroodwarImpl.setLastError();
@@ -2808,7 +2808,7 @@ namespace BWAPI
       else if ( !canCommand(thisUnit) )
         return false;
 
-      BWAPI::UnitCommandType ct = c.type;
+      BWAPI4::UnitCommandType ct = c.type;
       if ( checkCanIssueCommandType && !canIssueCommandType(thisUnit, ct, false) )
         return false;
 
@@ -2821,7 +2821,7 @@ namespace BWAPI
           return canAttackUnit(thisUnit, c.target, checkCanTargetUnit, false, false);
 
         case UnitCommandTypes::Enum::Build:
-          return canBuild(thisUnit, c.getUnitType(), BWAPI::TilePosition(c.x, c.y), checkCanBuildUnitType, false, false);
+          return canBuild(thisUnit, c.getUnitType(), BWAPI4::TilePosition(c.x, c.y), checkCanBuildUnitType, false, false);
 
         case UnitCommandTypes::Enum::Build_Addon:
           return canBuildAddon(thisUnit, c.getUnitType(), false, false);
@@ -2890,7 +2890,7 @@ namespace BWAPI
           return true;
 
         case UnitCommandTypes::Enum::Land:
-          return canLand(thisUnit, BWAPI::TilePosition(c.x, c.y), false, false);
+          return canLand(thisUnit, BWAPI4::TilePosition(c.x, c.y), false, false);
 
         case UnitCommandTypes::Enum::Load:
           return canLoad(thisUnit, c.target, checkCanTargetUnit, false, false);
@@ -2944,7 +2944,7 @@ namespace BWAPI
           return canUseTechPosition(thisUnit, c.extra, c.getTargetPosition(), checkCanUseTechPositionOnPositions, false, false);
 
         case UnitCommandTypes::Enum::Place_COP:
-          return canPlaceCOP(thisUnit, BWAPI::TilePosition(c.x, c.y), false, false);
+          return canPlaceCOP(thisUnit, BWAPI4::TilePosition(c.x, c.y), false, false);
       }
 
       return true;
@@ -2959,7 +2959,7 @@ namespace BWAPI
       if ( checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false) )
         return false;
 
-      BWAPI::UnitCommandType ct = c.type;
+      BWAPI4::UnitCommandType ct = c.type;
       if ( checkCanIssueCommandType && !canIssueCommandTypeGrouped(thisUnit, ct, false, false) )
         return false;
 

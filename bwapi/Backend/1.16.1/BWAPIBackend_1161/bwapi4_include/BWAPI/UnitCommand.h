@@ -2,7 +2,7 @@
 #include <BWAPI/Position.h>
 #include <BWAPI/UnitCommandType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   // Forwards
   class UnitType;

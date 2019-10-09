@@ -107,18 +107,18 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
 
     // BWAPI/Broodwar specific
     fprintf(hFile, "BWAPI:\n");
-    //fprintf(hFile, "  REVISION: %d\n", BWAPI::BroodwarImpl.getRevision());
-    //fprintf(hFile, "  CLIENT VERSION: %d\n", BWAPI::BroodwarImpl.getClientVersion());
-    fprintf(hFile, "  BUILD: %s\n", BWAPI::BroodwarImpl.isDebug() ? "DEBUG" : "RELEASE");
-    fprintf(hFile, "  ERROR: %s\n", BWAPI::BroodwarImpl.getLastError().c_str());
-    fprintf(hFile, "  LOCATION: %s %s\n", BWAPI::BroodwarImpl.isMultiplayer() ? (BWAPI::BroodwarImpl.isBattleNet() ? "Battle.net" : "Multiplayer") : "Single Player", BWAPI::BroodwarImpl.isReplay() ? "Replay" : "");
+    //fprintf(hFile, "  REVISION: %d\n", BWAPI4::BroodwarImpl.getRevision());
+    //fprintf(hFile, "  CLIENT VERSION: %d\n", BWAPI4::BroodwarImpl.getClientVersion());
+    fprintf(hFile, "  BUILD: %s\n", BWAPI4::BroodwarImpl.isDebug() ? "DEBUG" : "RELEASE");
+    fprintf(hFile, "  ERROR: %s\n", BWAPI4::BroodwarImpl.getLastError().c_str());
+    fprintf(hFile, "  LOCATION: %s %s\n", BWAPI4::BroodwarImpl.isMultiplayer() ? (BWAPI4::BroodwarImpl.isBattleNet() ? "Battle.net" : "Multiplayer") : "Single Player", BWAPI4::BroodwarImpl.isReplay() ? "Replay" : "");
     
-    if ( BWAPI::BroodwarImpl.isInGame() )
+    if ( BWAPI4::BroodwarImpl.isInGame() )
     {
-      fprintf(hFile, "MAP: %s\n     %s\n", BWAPI::BroodwarImpl.mapName().c_str(), BWAPI::BroodwarImpl.mapFileName().c_str());
-      NULLCHECK(BWAPI::BroodwarImpl.self());
-      NULLCHECK(BWAPI::BroodwarImpl.enemy());
-      NULLCHECK(BWAPI::BroodwarImpl.neutral());
+      fprintf(hFile, "MAP: %s\n     %s\n", BWAPI4::BroodwarImpl.mapName().c_str(), BWAPI4::BroodwarImpl.mapFileName().c_str());
+      NULLCHECK(BWAPI4::BroodwarImpl.self());
+      NULLCHECK(BWAPI4::BroodwarImpl.enemy());
+      NULLCHECK(BWAPI4::BroodwarImpl.neutral());
     }
 
     // Print the exception info

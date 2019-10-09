@@ -5,7 +5,7 @@
 #include <BW/Offsets.h>
 #include <BW/Pathing.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   RegionImpl::RegionImpl(int id)
   {
@@ -39,7 +39,7 @@ namespace BWAPI
     for ( int n = 0; n < r->neighborCount; ++n )
     {
       BW::region *neighbor = r->getNeighbor(static_cast<u8>(n));
-      BWAPI::RegionImpl* bwapiNeighbor = BroodwarImpl.getRegion(neighbor->getIndex());
+      BWAPI4::RegionImpl* bwapiNeighbor = BroodwarImpl.getRegion(neighbor->getIndex());
 
       // continue if this is null (but it shouldn't be)
       if ( !bwapiNeighbor )
@@ -63,9 +63,9 @@ namespace BWAPI
     return data.islandID;
   }
   // --------------------------------- GET CENTER ------------------------------------------------------------
-  BWAPI::Position RegionImpl::getCenter() const
+  BWAPI4::Position RegionImpl::getCenter() const
   {
-    return BWAPI::Position(data.center_x, data.center_y);
+    return BWAPI4::Position(data.center_x, data.center_y);
   }
   // ------------------------------------ GET ID -------------------------------------------------------------
   int RegionImpl::getID() const

@@ -1,7 +1,7 @@
 #include <string>
 #include <BWAPI/PlayerType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   template <>
   const std::string Type<PlayerType, PlayerTypes::Enum::Unknown>::typeNames[PlayerTypes::Enum::MAX] =

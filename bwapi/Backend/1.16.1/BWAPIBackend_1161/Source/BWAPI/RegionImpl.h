@@ -3,14 +3,14 @@
 #include <set>
 #include <BWAPI/Client/RegionData.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   class RegionImpl
   {
   public:
     int getID() const;
     int getRegionGroupID() const;
-    BWAPI::Position getCenter() const;
+    BWAPI4::Position getCenter() const;
 
     RegionImpl(int id);
     void UpdateRegionRelations();

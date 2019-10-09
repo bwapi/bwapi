@@ -1,7 +1,7 @@
 #pragma once
 #include <BWAPI/Type.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   /// <summary>Namespace containing unit size types.</summary>
   ///

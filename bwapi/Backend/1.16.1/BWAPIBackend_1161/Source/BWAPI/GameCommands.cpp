@@ -7,7 +7,7 @@
 
 #include <BW/OrderTypes.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
   void GameImpl::addToCommandBuffer(Command command)
@@ -74,7 +74,7 @@ namespace BWAPI
     else if (ct == UnitCommandTypes::Build)
     {
       UnitType extraType(command.extra);
-      if ( command.unit && command.unit->getType() == BWAPI::UnitTypes::Zerg_Nydus_Canal &&
+      if ( command.unit && command.unit->getType() == BWAPI4::UnitTypes::Zerg_Nydus_Canal &&
            extraType == UnitTypes::Zerg_Nydus_Canal )
         QUEUE_COMMAND(BW::Orders::MakeNydusExit, command.x, command.y);
       else if ( extraType.isAddon() )
@@ -182,7 +182,7 @@ namespace BWAPI
     }
     else if (ct == UnitCommandTypes::Load)
     {
-      BWAPI::UnitType thisType = command.unit ? command.unit->getType() : UnitTypes::None;
+      BWAPI4::UnitType thisType = command.unit ? command.unit->getType() : UnitTypes::None;
       if ( thisType == UnitTypes::Terran_Bunker )
         QUEUE_COMMAND(BW::Orders::Attack, command.target, Orders::Enum::PickupBunker, queued);
       else if ( thisType == UnitTypes::Terran_Dropship || 

@@ -22,7 +22,7 @@
   This files holds all functions of the GameImpl class that are not part of the Game interface.
  */
 
-namespace BWAPI
+namespace BWAPI4
 {
   GameImpl BroodwarImpl;
 
@@ -82,7 +82,7 @@ namespace BWAPI
     selectedUnitSet.clear();
     for (int i = 0; i < BW::BWDATA::ClientSelectionCount && i < BW::MAX_SELECTION_COUNT; ++i)
     {
-      BWAPI::UnitImpl *u = UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA::ClientSelectionGroup[i]);
+      BWAPI4::UnitImpl *u = UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA::ClientSelectionGroup[i]);
       if (u)
       {
         u->setSelected(true);

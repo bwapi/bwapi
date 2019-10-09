@@ -16,14 +16,14 @@
 
 #include "GameImpl.h"
 
-namespace BWAPI
+namespace BWAPI4
 {
   //------------------------------------ DAMAGE CALCULATION ------------------------------------------
-  void GameImpl::setScreenPosition(BWAPI::Position p)
+  void GameImpl::setScreenPosition(BWAPI4::Position p)
   {
     this->setScreenPosition(p.x, p.y);
   }
-  void GameImpl::pingMinimap(BWAPI::Position p)
+  void GameImpl::pingMinimap(BWAPI4::Position p)
   {
     this->pingMinimap(p.x, p.y);
   }
@@ -72,7 +72,7 @@ namespace BWAPI
     return hasPowerPrecise(position.x, position.y, unitType);
   }
   //------------------------------------------ MAP DATA -----------------------------------------------
-  bool GameImpl::isWalkable(BWAPI::WalkPosition position) const
+  bool GameImpl::isWalkable(BWAPI4::WalkPosition position) const
   {
     return this->isWalkable(position.x, position.y);
   }
@@ -100,7 +100,7 @@ namespace BWAPI
   {
     return this->getUnitsOnTile(TilePosition(tileX,tileY), pred);
   }
-  Unitset GameImpl::getUnitsOnTile(BWAPI::TilePosition tile, std::function<bool(Unit)> pred) const
+  Unitset GameImpl::getUnitsOnTile(BWAPI4::TilePosition tile, std::function<bool(Unit)> pred) const
   {
     if ( !tile )  // if tileposition not valid
       return Unitset::none;
@@ -108,12 +108,12 @@ namespace BWAPI
     Position p(tile); // convert to pixel position
     return this->getUnitsInRectangle(p.x, p.y, p.x + 32, p.y + 32, pred);
   }
-  Unitset GameImpl::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight, std::function<bool(Unit)> pred) const
+  Unitset GameImpl::getUnitsInRectangle(BWAPI4::Position topLeft, BWAPI4::Position bottomRight, std::function<bool(Unit)> pred) const
   {
     return this->getUnitsInRectangle(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y, pred);
   }
   //------------------------------------------ REGIONS -----------------------------------------------
-  BWAPI::RegionImpl* GameImpl::getRegionAt(BWAPI::Position position) const
+  BWAPI4::RegionImpl* GameImpl::getRegionAt(BWAPI4::Position position) const
   {
     return this->getRegionAt(position.x, position.y);
   }

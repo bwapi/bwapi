@@ -6,7 +6,7 @@
 #include <BWAPI/DamageType.h>
 #include <BWAPI/ExplosionType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   // NAMES
   template <>

@@ -5,7 +5,7 @@
 #include <BWAPI/Client/BulletData.h>
 namespace BW    { class CBullet; };
 
-namespace BWAPI
+namespace BWAPI4
 {
   // forwards
   class UnitImpl;

@@ -2,7 +2,7 @@
 #include <BWAPI/Type.h>
 #include <string>
 
-namespace BWAPI
+namespace BWAPI4
 {
   class UnitType;
 

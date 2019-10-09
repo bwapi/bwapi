@@ -1,7 +1,7 @@
 #include <string>
 #include <BWAPI/UnitCommandType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   template <>
   const std::string Type<UnitCommandType, UnitCommandTypes::Enum::Unknown>::typeNames[UnitCommandTypes::Enum::MAX] =

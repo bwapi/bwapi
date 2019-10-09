@@ -12,7 +12,7 @@ namespace BW
 { 
   class CUnit;
 };
-namespace BWAPI
+namespace BWAPI4
 {
   // Forwards
   class PlayerImpl;
@@ -42,7 +42,7 @@ namespace BWAPI
 
       int           getLastCommandFrame() const;
       UnitCommand   getLastCommand() const;
-      BWAPI::Player getLastAttackingPlayer() const;
+      BWAPI4::Player getLastAttackingPlayer() const;
 
       UnitType      getInitialType() const;
       Position      getInitialPosition() const;
@@ -156,7 +156,7 @@ namespace BWAPI
       bool canAttackUnitGrouped(Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
       bool canBuild(bool checkCommandibility = true) const;
       bool canBuild(UnitType uType, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
-      bool canBuild(UnitType uType, BWAPI::TilePosition tilePos, bool checkTargetUnitType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
+      bool canBuild(UnitType uType, BWAPI4::TilePosition tilePos, bool checkTargetUnitType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
       bool canBuildAddon(bool checkCommandibility = true) const;
       bool canBuildAddon(UnitType uType, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
       bool canTrain(bool checkCommandibility = true) const;
@@ -226,19 +226,19 @@ namespace BWAPI
       bool canCancelResearch(bool checkCommandibility = true) const;
       bool canCancelUpgrade(bool checkCommandibility = true) const;
       bool canUseTechWithOrWithoutTarget(bool checkCommandibility = true) const;
-      bool canUseTechWithOrWithoutTarget(BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
-      bool canUseTech(BWAPI::TechType tech, Unit target = nullptr, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
-      bool canUseTech(BWAPI::TechType tech, Position target, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
-      bool canUseTechWithoutTarget(BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
-      bool canUseTechUnit(BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
-      bool canUseTechUnit(BWAPI::TechType tech, Unit targetUnit, bool checkCanTargetUnit = true, bool checkTargetsUnits = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
-      bool canUseTechPosition(BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
-      bool canUseTechPosition(BWAPI::TechType tech, Position target, bool checkTargetsPositions = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
+      bool canUseTechWithOrWithoutTarget(BWAPI4::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
+      bool canUseTech(BWAPI4::TechType tech, Unit target = nullptr, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
+      bool canUseTech(BWAPI4::TechType tech, Position target, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
+      bool canUseTechWithoutTarget(BWAPI4::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
+      bool canUseTechUnit(BWAPI4::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
+      bool canUseTechUnit(BWAPI4::TechType tech, Unit targetUnit, bool checkCanTargetUnit = true, bool checkTargetsUnits = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
+      bool canUseTechPosition(BWAPI4::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
+      bool canUseTechPosition(BWAPI4::TechType tech, Position target, bool checkTargetsPositions = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
       bool canPlaceCOP(bool checkCommandibility = true) const;
       bool canPlaceCOP(TilePosition target, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
-      bool canIssueCommandType(BWAPI::UnitCommandType ct, bool checkCommandibility = true) const;
-      bool canIssueCommandTypeGrouped(BWAPI::UnitCommandType ct, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
+      bool canIssueCommandType(BWAPI4::UnitCommandType ct, bool checkCommandibility = true) const;
+      bool canIssueCommandTypeGrouped(BWAPI4::UnitCommandType ct, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
       bool canIssueCommand(UnitCommand command, bool checkCanUseTechPositionOnPositions = true, bool checkCanUseTechUnitOnUnits = true, bool checkCanBuildUnitType = true, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
       bool canIssueCommandGrouped(UnitCommand command, bool checkCanUseTechPositionOnPositions = true, bool checkCanUseTechUnitOnUnits = true, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
 
@@ -284,7 +284,7 @@ namespace BWAPI
 
       /**
        * Gets index of the unit in the unit array. Note that the index is same
-       * for the original unit array, BWAPI::Unit array and BWAI::Unit array, so
+       * for the original unit array, BWAPI4::Unit array and BWAI::Unit array, so
        * it is good way to compare units of different types and for conversion.
        * @return 0-based index of the unit in the unit array.
        */
@@ -309,7 +309,7 @@ namespace BWAPI
       /** Gets #bwUnitLocal */
       u8 getBuildQueueSlot;
       /** Gets #bwUnit->BW#Unit#buildQueue */
-      BWAPI::UnitType getBuildQueue[5];
+      BWAPI4::UnitType getBuildQueue[5];
       /** Returns if the unit has empty building queue */
       bool hasEmptyBuildQueue;
 
@@ -351,7 +351,7 @@ namespace BWAPI
 
       u16 index; /**< Index of the unit in the array (can be computed, it's just optimisation) */
       UnitType initialType;
-      BWAPI::Position initialPosition;
+      BWAPI4::Position initialPosition;
       int initialResources;
       int initialHitPoints;
   };

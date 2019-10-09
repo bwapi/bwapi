@@ -5,7 +5,7 @@
 
 #include <BWAPI/BulletImpl.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   //----------------------------------------------- GET BULLET FROM INDEX ------------------------------------
   BulletImpl* GameImpl::getBulletFromIndex(int index)

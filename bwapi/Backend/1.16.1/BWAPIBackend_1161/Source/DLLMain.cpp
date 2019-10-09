@@ -98,7 +98,7 @@ void vBWAPIError(const char *format, va_list arg)
   VSNPrintf(buffer, format, arg);
 
   // Send error message to Broodwar
-  BWAPI::BroodwarImpl.printf("%cERROR: %s", BWAPI::Text::Red, buffer);
+  BWAPI4::BroodwarImpl.printf("%cERROR: %s", BWAPI4::Text::Red, buffer);
 
   // Retrieve system time
   SYSTEMTIME time;

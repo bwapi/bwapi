@@ -12,7 +12,7 @@
 #include <BWAPI/Race.h>
 #include <BWAPI/WeaponType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
   PlayerImpl::PlayerImpl(u8 index)
@@ -39,7 +39,7 @@ namespace BWAPI
     return std::string(BW::BWDATA::Players[index].szName);
   }
   //--------------------------------------------- GET RACE ---------------------------------------------------
-  BWAPI::Race PlayerImpl::getRace() const
+  BWAPI4::Race PlayerImpl::getRace() const
   {
     BroodwarImpl.setLastError();
     if ( this->index < BW::PLAYABLE_PLAYER_COUNT )
@@ -55,12 +55,12 @@ namespace BWAPI
         return Races::Unknown;
       }
     }
-    return BWAPI::Race( BW::BWDATA::Players[index].nRace );
+    return BWAPI4::Race( BW::BWDATA::Players[index].nRace );
   }
   //--------------------------------------------- GET TYPE ---------------------------------------------------
-  BWAPI::PlayerType PlayerImpl::getType() const
+  BWAPI4::PlayerType PlayerImpl::getType() const
   {
-    return BWAPI::PlayerType((int)(BW::BWDATA::Players[index].nType));
+    return BWAPI4::PlayerType((int)(BW::BWDATA::Players[index].nType));
   }
   //--------------------------------------------- GET FORCE --------------------------------------------------
   Force PlayerImpl::getForce() const
@@ -106,7 +106,7 @@ namespace BWAPI
       return TilePositions::Unknown;
     }
     // return the start location as a tile position
-    return TilePosition(BW::BWDATA::Game.startPositions[index] - BW::Position((BWAPI::TILEPOSITION_SCALE * 4) / 2, (BWAPI::TILEPOSITION_SCALE * 3) / 2));
+    return TilePosition(BW::BWDATA::Game.startPositions[index] - BW::Position((BWAPI4::TILEPOSITION_SCALE * 4) / 2, (BWAPI4::TILEPOSITION_SCALE * 3) / 2));
   }
   //--------------------------------------------- IS VICTORIOUS ----------------------------------------------
   bool PlayerImpl::isVictorious() const
@@ -455,9 +455,9 @@ namespace BWAPI
     return upgrade.isValid() ? self->isUpgrading[upgrade] : false;
   }
   //-------------------------------------------------- COLOUR ------------------------------------------------
-  BWAPI::Color PlayerImpl::getColor() const
+  BWAPI4::Color PlayerImpl::getColor() const
   {
-    return BWAPI::Color(self->color);
+    return BWAPI4::Color(self->color);
   }
   //------------------------------------------------- OBSERVER -----------------------------------------------
   bool PlayerImpl::isObserver() const

@@ -1,5 +1,5 @@
 #pragma once
-namespace BWAPI
+namespace BWAPI4
 {
   /// <summary>An enumeration of mouse button inputs.</summary>
   /// @see Game::getMouseState

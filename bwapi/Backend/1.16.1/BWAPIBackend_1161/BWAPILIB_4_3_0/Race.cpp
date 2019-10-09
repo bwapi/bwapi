@@ -2,7 +2,7 @@
 #include <BWAPI/Race.h>
 #include <BWAPI/UnitType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   // NAMES
   template <>

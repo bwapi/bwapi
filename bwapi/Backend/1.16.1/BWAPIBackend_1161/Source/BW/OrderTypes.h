@@ -10,7 +10,7 @@
 #include "PositionUnitTarget.h"
 #include "Constants.h"
 
-namespace BWAPI
+namespace BWAPI4
 { 
   class UnitType;
 }
@@ -31,15 +31,15 @@ namespace BW
     {
     public:
       // Attack Location on position. 
-      Attack(const BW::Position& target, BWAPI::Order order, bool queued = false);
-      Attack(int x, int y, BWAPI::Order order, bool queued = false);
+      Attack(const BW::Position& target, BWAPI4::Order order, bool queued = false);
+      Attack(int x, int y, BWAPI4::Order order, bool queued = false);
       // Attack Location on unit. 
-      Attack(BWAPI::Unit target, BWAPI::Order order, bool queued = false);
+      Attack(BWAPI4::Unit target, BWAPI4::Order order, bool queued = false);
       // Attack Location on general target. 
-      Attack(const PositionUnitTarget& target, BWAPI::Order order, bool queued = false);
+      Attack(const PositionUnitTarget& target, BWAPI4::Order order, bool queued = false);
     private:
       BW::PositionUnitTarget target;
-      u16 always0xe4 = BWAPI::UnitTypes::Enum::None;
+      u16 always0xe4 = BWAPI4::UnitTypes::Enum::None;
       u8 order;
       u8 type;
     };
@@ -52,12 +52,12 @@ namespace BW
       RightClick(const BW::Position& target, bool queued = false);
       RightClick(int x, int y, bool queued = false);
       // Right-click on unit. 
-      RightClick(BWAPI::Unit target, bool queued = false);
+      RightClick(BWAPI4::Unit target, bool queued = false);
       // Right-click on general target. 
       RightClick(const PositionUnitTarget& target, bool queued = false);
     private:
       BW::PositionUnitTarget target;
-      u16 always0xe4 = BWAPI::UnitTypes::Enum::None;
+      u16 always0xe4 = BWAPI4::UnitTypes::Enum::None;
       u8  type;
     };
 
@@ -65,7 +65,7 @@ namespace BW
     class SelectAdd : private BWCommand<0x0A>
     {
     public:
-      SelectAdd(int count, const BWAPI::Unit *units);
+      SelectAdd(int count, const BWAPI4::Unit *units);
       SelectAdd(int count, const BW::CUnit **units);
 
       size_t size() const;
@@ -78,9 +78,9 @@ namespace BW
     class Select : private BWCommand<0x09>
     {
     public:
-      Select(int count, const BWAPI::Unit *units);
+      Select(int count, const BWAPI4::Unit *units);
       Select(int count, const BW::CUnit **units);
-      Select(const std::vector<BWAPI::Unit>& units);
+      Select(const std::vector<BWAPI4::Unit>& units);
 
       size_t size() const;
     private:
@@ -92,7 +92,7 @@ namespace BW
     class TrainUnit : private BWCommand<0x1F>
     {
     public:
-      TrainUnit(BWAPI::UnitType type);
+      TrainUnit(BWAPI4::UnitType type);
     private:
       // Type of unit to train 
       u16 type;
@@ -107,8 +107,8 @@ namespace BW
     class MakeBuilding : private BWCommand<0x0c>
     {
     public:
-      MakeBuilding(BW::TilePosition position, BWAPI::UnitType type);
-      MakeBuilding(int tileX, int tileY, BWAPI::UnitType type);
+      MakeBuilding(BW::TilePosition position, BWAPI4::UnitType type);
+      MakeBuilding(int tileX, int tileY, BWAPI4::UnitType type);
 
     private:
       // Specifies race of builder: zerg = 0x19, terran = 1e, toss = 1f 
@@ -122,11 +122,11 @@ namespace BW
     class PlaceCOP : private BWCommand<0x0c>
     {
     public:
-      PlaceCOP(BW::TilePosition position, BWAPI::UnitType type);
-      PlaceCOP(int x, int y, BWAPI::UnitType type);
+      PlaceCOP(BW::TilePosition position, BWAPI4::UnitType type);
+      PlaceCOP(int x, int y, BWAPI4::UnitType type);
     
     private:
-      u8 always0x9B = BWAPI::Orders::Enum::CTFCOP2;
+      u8 always0x9B = BWAPI4::Orders::Enum::CTFCOP2;
       BW::TilePosition position;
       // Type of building to make 
       u16 type;
@@ -154,11 +154,11 @@ namespace BW
     class MakeAddon : private BWCommand<0x0c>
     {
     public:
-      MakeAddon(BW::TilePosition position, BWAPI::UnitType type);
-      MakeAddon(int tileX, int tileY, BWAPI::UnitType type);
+      MakeAddon(BW::TilePosition position, BWAPI4::UnitType type);
+      MakeAddon(int tileX, int tileY, BWAPI4::UnitType type);
     private:
       // 1e for terran 1f for protoss
-      u8 always0x24 = BWAPI::Orders::Enum::PlaceAddon;
+      u8 always0x24 = BWAPI4::Orders::Enum::PlaceAddon;
       BW::TilePosition position;
       // Type of building to make 
       u16 type;
@@ -171,10 +171,10 @@ namespace BW
       MakeNydusExit(int tileX, int tileY);
     private:
       // 1e for terran 1f for protoss
-      u8 always0x2E = BWAPI::Orders::Enum::BuildNydusExit;
+      u8 always0x2E = BWAPI4::Orders::Enum::BuildNydusExit;
       BW::TilePosition position;
       // Type of building to make 
-      u16 type = BWAPI::UnitTypes::Enum::Zerg_Nydus_Canal;
+      u16 type = BWAPI4::UnitTypes::Enum::Zerg_Nydus_Canal;
     };
 
     // Change slot command in bw. 
@@ -271,7 +271,7 @@ namespace BW
     class BuildingMorph : private BWCommand<0x35>
     {
     public:
-      BuildingMorph(BWAPI::UnitType type);
+      BuildingMorph(BWAPI4::UnitType type);
     private:
       // Type of unit to train 
       u16 type;
@@ -302,10 +302,10 @@ namespace BW
     class Land : private BWCommand<0x0c>
     {
     public:
-      Land(BW::TilePosition position, BWAPI::UnitType type);
-      Land(int x, int y, BWAPI::UnitType type);
+      Land(BW::TilePosition position, BWAPI4::UnitType type);
+      Land(int x, int y, BWAPI4::UnitType type);
     private:
-      u8 always0x47 = BWAPI::Orders::Enum::BuildingLand;
+      u8 always0x47 = BWAPI4::Orders::Enum::BuildingLand;
       BW::TilePosition position;
       u16 type;
     };
@@ -333,7 +333,7 @@ namespace BW
     class UnloadUnit : private BWCommand<0x29>
     {
     public:
-      UnloadUnit(BWAPI::Unit unload);
+      UnloadUnit(BWAPI4::Unit unload);
     private:
       // The unit to unload bw index 
       UnitTarget target;
@@ -360,7 +360,7 @@ namespace BW
     class UnitMorph : private BWCommand<0x23>
     {
     public:
-      UnitMorph(BWAPI::UnitType type);
+      UnitMorph(BWAPI4::UnitType type);
     private:
       // Type of unit to train 
       u16 type;

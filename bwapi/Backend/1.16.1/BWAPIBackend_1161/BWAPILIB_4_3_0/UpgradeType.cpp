@@ -3,7 +3,7 @@
 #include <BWAPI/Race.h>
 #include <BWAPI/UnitType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   template <>
   const std::string Type<UpgradeType, UpgradeTypes::Enum::Unknown>::typeNames[UpgradeTypes::Enum::MAX] =

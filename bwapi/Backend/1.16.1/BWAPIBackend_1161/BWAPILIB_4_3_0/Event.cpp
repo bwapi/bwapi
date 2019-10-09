@@ -3,7 +3,7 @@
 #include <BWAPI/UnitImpl.h>
 #include <tuple>
 
-namespace BWAPI
+namespace BWAPI4
 {
   namespace { std::string emptyString; }
 

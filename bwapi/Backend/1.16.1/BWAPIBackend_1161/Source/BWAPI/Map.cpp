@@ -17,7 +17,7 @@
 #include "PlayerImpl.h"
 
 using namespace std;
-namespace BWAPI
+namespace BWAPI4
 {
   //----------------------------------------------- GET WIDTH ------------------------------------------------
   u16 Map::getWidth()
@@ -217,7 +217,7 @@ namespace BWAPI
     int ty = y / 4;
     int mx = x % 4;
     int my = y % 4;
-    BW::TileID tileID = BWAPI::Map::getTile(tx, ty);
+    BW::TileID tileID = BWAPI4::Map::getTile(tx, ty);
     BW::TileType* tile = BW::TileSet::getTileType(tileID);
     if ( tile && BW::BWDATA::MiniTileFlags )
       return BW::BWDATA::MiniTileFlags->tile[tile->megaTileRef[Map::getTileVariation(tileID)]].miniTile[mx + my*4];

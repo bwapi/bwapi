@@ -2,7 +2,7 @@
 #include <BWAPI/Type.h>
 #include <BWAPI/UnitType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   class Race;
 

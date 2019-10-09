@@ -1,5 +1,5 @@
 #pragma once
-namespace BWAPI
+namespace BWAPI4
 {
   /// <summary>Contains the coordinate type enumeration for relative drawing positions.</summary>
   namespace CoordinateType

@@ -12,7 +12,7 @@
 #include <BW/OrderTypes.h>
 #include <algorithm>
 
-namespace BWAPI
+namespace BWAPI4
 {
   //------------------------------------------- LOAD AUTO MENU DATA ------------------------------------------
   void GameImpl::loadAutoMenuData()
@@ -54,7 +54,7 @@ namespace BWAPI
     this->autoMenuManager.onMenuFrame();
   }
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
-  void GameImpl::_changeRace(int slot, BWAPI::Race race)
+  void GameImpl::_changeRace(int slot, BWAPI4::Race race)
   {
     if ( race == Races::Unknown || race == Races::None )
       return;

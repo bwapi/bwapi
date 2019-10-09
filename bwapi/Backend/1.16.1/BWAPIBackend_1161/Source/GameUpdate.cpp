@@ -21,7 +21,7 @@
 
 #include "../svnrev.h"
 
-using namespace BWAPI;
+using namespace BWAPI4;
 
 //------------------------------------------------- UPDATE -------------------------------------------------
 void GameImpl::update()
@@ -235,7 +235,7 @@ void GameImpl::updateOverlays()
   // grid
   if ( grid )
   {
-    BWAPI::Position scrPos = getScreenPosition();
+    BWAPI4::Position scrPos = getScreenPosition();
 
     // draw mtx grid
     for ( int y = scrPos.y/32; y < (scrPos.y + BW::BWDATA::GameScreenBuffer.height())/32 + 1; ++y )
@@ -244,8 +244,8 @@ void GameImpl::updateOverlays()
       {
         for ( int i = 0; i < 32; i += 4 )
         {
-          drawLine(CoordinateType::Map, x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI::Colors::Grey);
-          drawLine(CoordinateType::Map, x*32 + i, y*32 + 32, x*32 + i + 2, y*32 + 32, BWAPI::Colors::Grey);
+          drawLine(CoordinateType::Map, x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI4::Colors::Grey);
+          drawLine(CoordinateType::Map, x*32 + i, y*32 + 32, x*32 + i + 2, y*32 + 32, BWAPI4::Colors::Grey);
         }
       }
     }
@@ -258,7 +258,7 @@ void GameImpl::updateOverlays()
   if ( showfps )
   {
     setTextSize(Text::Size::Small);
-    drawText(CoordinateType::Screen, 1,1, "%cFrame Rate (Logical Frames)\nLFPS: %d\nAvg LFPS:%.3lf", BWAPI::Text::Yellow, this->getFPS(), this->getAverageFPS());
+    drawText(CoordinateType::Screen, 1,1, "%cFrame Rate (Logical Frames)\nLFPS: %d\nAvg LFPS:%.3lf", BWAPI4::Text::Yellow, this->getFPS(), this->getAverageFPS());
     setTextSize();
   } // fps
 

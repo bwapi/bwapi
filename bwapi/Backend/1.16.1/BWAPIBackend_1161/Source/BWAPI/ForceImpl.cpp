@@ -1,7 +1,7 @@
 #include "ForceImpl.h"
 #include "GameImpl.h"
 
-namespace BWAPI
+namespace BWAPI4
 {
   ForceImpl::ForceImpl(std::string const & _name)
     : name(_name)

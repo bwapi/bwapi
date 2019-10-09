@@ -14,7 +14,7 @@
 #include <BWAPI/Race.h>
 #include <BW/Offsets.h>
 
-using namespace BWAPI;
+using namespace BWAPI4;
 
 AutoMenuManager::AutoMenuManager()
 {

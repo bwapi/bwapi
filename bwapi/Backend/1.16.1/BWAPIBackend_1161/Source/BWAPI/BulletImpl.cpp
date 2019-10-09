@@ -10,7 +10,7 @@
 #include "PlayerImpl.h"
 #include "UnitImpl.h"
 
-namespace BWAPI
+namespace BWAPI4
 {
   int BulletImpl::nextId = 0;
 
@@ -59,7 +59,7 @@ namespace BWAPI
 
         if ( !bwOriginalBullet->sprite || !player )
           self->isVisible[i] = false;
-        else if ( BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) )
+        else if ( BWAPI4::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) )
           self->isVisible[i] = true;
         else
           self->isVisible[i] = BroodwarImpl.isVisible( TilePosition(bwOriginalBullet->sprite->position) );
@@ -71,7 +71,7 @@ namespace BWAPI
     }
 
     if ( _exists && 
-         (BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) ||
+         (BWAPI4::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) ||
           BroodwarImpl.isReplay() || 
           isVisible()) )
     {
@@ -138,7 +138,7 @@ namespace BWAPI
     return self->exists;
   }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
-  bool BulletImpl::isVisible(BWAPI::Player player) const
+  bool BulletImpl::isVisible(BWAPI4::Player player) const
   {
     if (player == nullptr)  // Default to self
       player = BroodwarImpl.self();

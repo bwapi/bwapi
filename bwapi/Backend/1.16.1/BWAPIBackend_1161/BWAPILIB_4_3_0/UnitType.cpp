@@ -10,7 +10,7 @@
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/Race.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   // NAMES
   std::string unitLongNames[UnitTypes::Enum::MAX];

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace BWAPI
+namespace BWAPI4
 {
   struct BulletData
   {

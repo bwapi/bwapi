@@ -6,10 +6,6 @@
 
 namespace BW
 {
-  namespace Triggers
-  {
-    class Action;
-  }
   class Bitmap;
   struct bounds;
 }

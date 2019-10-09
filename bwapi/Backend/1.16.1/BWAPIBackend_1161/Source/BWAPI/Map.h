@@ -5,7 +5,7 @@
 
 #include "../../Messages/generated/cpp/message.pb.h"
 
-namespace BWAPI
+namespace BWAPI4
 {
   /**
    * Interface to acces broodwar map data. Loads buildability/walkability when

@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <iostream>
 
-namespace BWAPI
+namespace BWAPI4
 {
   template<class T, int UnknownId> class Type;
 

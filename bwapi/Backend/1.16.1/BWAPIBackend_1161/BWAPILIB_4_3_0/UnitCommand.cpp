@@ -4,7 +4,7 @@
 #include <tuple>
 #include <BWAPI/UnitImpl.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   UnitCommand::UnitCommand(Unit _unit, UnitCommandType _type, Unit _target, int _x, int _y, int _extra)
     : unit(_unit)

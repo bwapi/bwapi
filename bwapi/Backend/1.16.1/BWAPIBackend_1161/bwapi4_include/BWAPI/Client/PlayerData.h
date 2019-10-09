@@ -4,7 +4,7 @@
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/TechType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   struct PlayerData
   {

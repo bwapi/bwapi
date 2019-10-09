@@ -10,7 +10,7 @@
 #include <BWAPI/Order.h>
 #include <cassert>
 
-namespace BWAPI
+namespace BWAPI4
 {
   //------------------------------------------------ GET UNIT FROM INDEX -------------------------------------
   UnitImpl* GameImpl::getUnitFromIndex(int index)
@@ -31,7 +31,7 @@ namespace BWAPI
     BW::CUnit *u = i->getOriginalRawData;
     if ( !u ) return false;
 
-    UnitType _getType = BWAPI::UnitType(u->unitType);
+    UnitType _getType = BWAPI4::UnitType(u->unitType);
 
     // Replica of official UnitImpl::IsDead function
     if ( !u->sprite || (u->orderID == Orders::Die && u->orderState == 1) )
@@ -231,7 +231,7 @@ namespace BWAPI
       if ( u->getOriginalRawData->unitType == UnitTypes::Terran_Ghost)
       {
         if (u->getOriginalRawData->orderID == Orders::NukePaint)
-          u->nukePosition = BWAPI::Position(u->getOriginalRawData->orderTarget.pt);
+          u->nukePosition = BWAPI4::Position(u->getOriginalRawData->orderTarget.pt);
         if (u->getOriginalRawData->orderID != Orders::NukeTrack)
           u->nukeDetected = false;
         else
@@ -399,7 +399,7 @@ namespace BWAPI
       int thisUnit  = u->_getType;
       
       // Increment specific unit count
-      BWAPI::PlayerData *pSelf = u->_getPlayer->self;
+      BWAPI4::PlayerData *pSelf = u->_getPlayer->self;
       pSelf->allUnitCount[thisUnit]++;
       if (u->isVisible())
         pSelf->visibleUnitCount[thisUnit]++;
@@ -488,7 +488,7 @@ namespace BWAPI
     // Get all units under disruption web and dark swarm
     for ( Unit u : neutralUnits )
     {
-      BWAPI::UnitType ut = u->getType();
+      BWAPI4::UnitType ut = u->getType();
       if ( ut != UnitTypes::Spell_Dark_Swarm &&
            ut != UnitTypes::Spell_Disruption_Web )
         continue;

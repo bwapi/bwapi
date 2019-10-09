@@ -1,6 +1,6 @@
 #include "BWtoBWAPI.h"
 
-namespace BWAPI
+namespace BWAPI4
 {
   int BWtoBWAPI_Order[Orders::Enum::MAX];
   int AttackAnimationRestFrame[UnitTypes::Enum::MAX];

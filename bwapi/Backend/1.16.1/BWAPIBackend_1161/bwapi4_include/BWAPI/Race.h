@@ -1,7 +1,7 @@
 #pragma once
 #include <BWAPI/Type.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   class UnitType;
 

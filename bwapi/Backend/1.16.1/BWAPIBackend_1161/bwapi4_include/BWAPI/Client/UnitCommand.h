@@ -6,11 +6,11 @@
  * UnitOrder contains a single whole order
  */
 
-namespace BWAPIC
+namespace BWAPIC4
 {
   struct UnitCommand
   {
-    BWAPI::UnitCommandType type;
+    BWAPI4::UnitCommandType type;
     int unitIndex;
     int targetIndex;
     int x;

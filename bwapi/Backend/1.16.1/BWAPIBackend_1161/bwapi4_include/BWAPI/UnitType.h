@@ -4,7 +4,7 @@
 #include <BWAPI/Position.h>
 #include <BWAPI/Type.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   // Forward Declarations
   class TechType;
@@ -645,9 +645,9 @@ namespace BWAPI
     ///
     /// Example:
     /// @code
-    ///   if ( BWAPI::Broodwar->self() )
+    ///   if ( BWAPI4::Broodwar->self() )
     ///   {
-    ///     BWAPI::Unitset myUnits = BWAPI::Broodwar->self()->getUnits();
+    ///     BWAPI4::Unitset myUnits = BWAPI4::Broodwar->self()->getUnits();
     ///     for ( auto u : myUnits )
     ///     {
     ///       if ( u->isIdle() && u->getType().isResourceDepot() )
@@ -663,9 +663,9 @@ namespace BWAPI
     ///
     /// Example:
     /// @code
-    ///   if ( BWAPI::Broodwar->self() )
+    ///   if ( BWAPI4::Broodwar->self() )
     ///   {
-    ///     BWAPI::Unitset myUnits = BWAPI::Broodwar->self()->getUnits();
+    ///     BWAPI4::Unitset myUnits = BWAPI4::Broodwar->self()->getUnits();
     ///     for ( auto u : myUnits )
     ///     {
     ///       if ( u->getType().isRefinery() )
@@ -673,7 +673,7 @@ namespace BWAPI
     ///         int nWorkersAssigned = u->getClientInfo<int>('work');
     ///         if ( nWorkersAssigned < 3 )
     ///         {
-    ///           Unit pClosestIdleWorker = u->getClosestUnit(BWAPI::Filter::IsWorker && BWAPI::Filter::IsIdle);
+    ///           Unit pClosestIdleWorker = u->getClosestUnit(BWAPI4::Filter::IsWorker && BWAPI4::Filter::IsIdle);
     ///           if ( pClosestIdleWorker )
     ///           {
     ///             // gather from the refinery (and check if successful)
@@ -841,15 +841,15 @@ namespace BWAPI
     ///
     /// Example usage:
     /// @code
-    ///   BWAPI::Position myBasePosition( BWAPI::Broodwar->self()->getStartLocation() );
-    ///   BWAPI::UnitSet unitsAroundTheBase = BWAPI::Broodwar->getUnitsInRadius(myBasePosition, 1024, !BWAPI::Filter::IsOwned && !BWAPI::Filter::IsParasited);
+    ///   BWAPI4::Position myBasePosition( BWAPI4::Broodwar->self()->getStartLocation() );
+    ///   BWAPI4::UnitSet unitsAroundTheBase = BWAPI4::Broodwar->getUnitsInRadius(myBasePosition, 1024, !BWAPI4::Filter::IsOwned && !BWAPI4::Filter::IsParasited);
     ///   for ( auto u : unitsAroundTheBase )
     ///   {
     ///     if ( u->getType().isCritter() && !u->isInvincible() )
     ///     {
-    ///       BWAPI::Unit myQueen = u->getClosestUnit(BWAPI::Filter::GetType == BWAPI::UnitTypes::Zerg_Queen && BWAPI::Filter::IsOwned);
+    ///       BWAPI4::Unit myQueen = u->getClosestUnit(BWAPI4::Filter::GetType == BWAPI4::UnitTypes::Zerg_Queen && BWAPI4::Filter::IsOwned);
     ///       if ( myQueen )
-    ///         myQueen->useTech(BWAPI::TechTypes::Parasite, u);
+    ///         myQueen->useTech(BWAPI4::TechTypes::Parasite, u);
     ///     }
     ///   }
     /// @endcode

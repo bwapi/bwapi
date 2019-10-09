@@ -15,7 +15,7 @@
 
 #include <BWAPI/PlayerType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   //--------------------------------------------- ON GAME START ----------------------------------------------
   void GameImpl::onGameStart()
@@ -41,7 +41,7 @@ namespace BWAPI
       // Iterate regions and insert into region list
       for (u32 i = 0; i < rgnCount; ++i)
       {
-        RegionImpl* r = new BWAPI::RegionImpl(i);
+        RegionImpl* r = new BWAPI4::RegionImpl(i);
         this->regionsList.insert(r);
         this->regionMap[i] = r;
       }
@@ -108,7 +108,7 @@ namespace BWAPI
     else
     {
       // Get the current player
-      BWAPI::PlayerImpl *thisPlayer = this->_getPlayer(_currentPlayerId());
+      BWAPI4::PlayerImpl *thisPlayer = this->_getPlayer(_currentPlayerId());
       if ( !thisPlayer )
         return;
 
@@ -296,7 +296,7 @@ namespace BWAPI
   {
     if ( text.empty() ) return;
 
-    if ( !parseText(text) && isFlagEnabled(BWAPI::Flag::UserInput) )
+    if ( !parseText(text) && isFlagEnabled(BWAPI4::Flag::UserInput) )
     {
       if ( externalModuleConnected )
       {
@@ -316,7 +316,7 @@ namespace BWAPI
     if ( realId != -1 &&
          (!this->BWAPIPlayer ||
           realId != this->BWAPIPlayer->getIndex() ) &&
-         this->isFlagEnabled(BWAPI::Flag::UserInput) )
+         this->isFlagEnabled(BWAPI4::Flag::UserInput) )
     {
       events.push_back(Event::ReceiveText(this->players[realId], text));
     }

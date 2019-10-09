@@ -4,7 +4,7 @@
 
 #include <string>
 
-namespace BWAPI
+namespace BWAPI4
 {
   // Forward Declarations
   class PlayerImpl;

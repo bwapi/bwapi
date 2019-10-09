@@ -5,7 +5,7 @@
 #include <deque>
 #include <iostream>
 
-namespace BWAPI
+namespace BWAPI4
 {
   // Declaration
   template<typename T, int Scale = 1>
@@ -30,17 +30,17 @@ namespace BWAPI
   ///
   /// Consider the following:
   /// @code
-  /// class VectorPos : public BWAPI::Point<double, 1>   // Same as BWAPI::Position with underlying type double
+  /// class VectorPos : public BWAPI4::Point<double, 1>   // Same as BWAPI4::Position with underlying type double
   /// {
   /// public:
-  ///   VectorPos(double x_, double y_) : BWAPI::Point<double,1>(x_, y_) {}
+  ///   VectorPos(double x_, double y_) : BWAPI4::Point<double,1>(x_, y_) {}
   ///   // ... whatever members that operate with the underling type double
   /// };
   /// @endcode
   ///
   /// It then follows that this code will work without incident:
   /// @code
-  /// BWAPI::Unit myUnit; // assume that the unit is valid and assigned elsewhere
+  /// BWAPI4::Unit myUnit; // assume that the unit is valid and assigned elsewhere
   /// VectorPos myPos{5.7, 8.2};
   /// myUnit->move(myPos);  // Automatic type conversion, unit is moved to (5,8)
   /// @endcode
@@ -393,7 +393,7 @@ namespace BWAPI
 
   /// <summary>Indicates a position that is 1x1 pixel in size. This is the most precise position type.</summary>
   /// @see Positions
-  typedef BWAPI::Point<int, POSITION_SCALE> Position;
+  typedef BWAPI4::Point<int, POSITION_SCALE> Position;
 
   /// <summary>List of special @ref Position constants.</summary>
   namespace Positions
@@ -409,7 +409,7 @@ namespace BWAPI
 
   /// <summary>Indicates a position that is 8x8 pixels in size.</summary>
   /// @see Game::isWalkable, WalkPositions
-  typedef BWAPI::Point<int, WALKPOSITION_SCALE> WalkPosition;
+  typedef BWAPI4::Point<int, WALKPOSITION_SCALE> WalkPosition;
 
   /// <summary>List of special @ref WalkPosition constants.</summary>
   namespace WalkPositions
@@ -425,7 +425,7 @@ namespace BWAPI
 
   /// <summary>Indicates a position that is 32x32 pixels in size. Typically used for building placement.</summary>
   /// @see TilePositions
-  typedef BWAPI::Point<int, TILEPOSITION_SCALE> TilePosition;
+  typedef BWAPI4::Point<int, TILEPOSITION_SCALE> TilePosition;
 
   /// <summary>List of special @ref TilePosition constants.</summary>
   namespace TilePositions

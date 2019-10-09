@@ -6,7 +6,7 @@
 #include <BWAPI/UnitCommand.h>
 #include <BWAPI/UnitCommandType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   template <class UnitImpl, class PlayerImpl>
   class CommandTemp

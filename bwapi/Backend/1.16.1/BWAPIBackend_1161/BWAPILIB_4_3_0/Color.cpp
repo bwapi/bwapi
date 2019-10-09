@@ -9,7 +9,7 @@ typedef struct tagRGBQUAD {
   BYTE rgbReserved;
 } RGBQUAD;
 
-namespace BWAPI
+namespace BWAPI4
 {
   template <>
   const std::string Type<Color, 255>::typeNames[256] =

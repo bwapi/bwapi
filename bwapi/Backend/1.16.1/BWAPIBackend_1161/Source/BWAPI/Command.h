@@ -3,7 +3,7 @@
 #include "UnitImpl.h"
 #include "PlayerImpl.h"
 
-namespace BWAPI
+namespace BWAPI4
 {
   using Command = CommandTemp<UnitImpl, PlayerImpl>;
 }

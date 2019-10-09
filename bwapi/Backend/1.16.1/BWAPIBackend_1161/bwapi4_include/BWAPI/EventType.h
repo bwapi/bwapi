@@ -1,5 +1,5 @@
 #pragma once
-namespace BWAPI
+namespace BWAPI4
 {
   /// <summary>Contains a list of event types supported by BWAPI.</summary>
   namespace EventType

@@ -10,7 +10,7 @@
 #include "UnitImpl.h"
 #include "ForceImpl.h"
 
-namespace BWAPI
+namespace BWAPI4
 {
   // Forwards
   class UnitType;
@@ -68,7 +68,7 @@ namespace BWAPI
       bool isResearching(TechType tech) const;
       bool isUpgrading(UpgradeType upgrade) const;
 
-      BWAPI::Color getColor() const;
+      BWAPI4::Color getColor() const;
 
       int getUnitScore() const;
       int getKillScore() const;

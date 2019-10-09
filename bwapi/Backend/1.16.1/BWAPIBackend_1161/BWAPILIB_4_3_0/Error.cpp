@@ -1,7 +1,7 @@
 #include <string>
 #include <BWAPI/Error.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   template <>
   const std::string Type<Error, Errors::Enum::Unknown>::typeNames[Errors::Enum::MAX] =

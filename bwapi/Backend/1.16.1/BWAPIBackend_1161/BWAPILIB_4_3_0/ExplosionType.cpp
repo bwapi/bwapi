@@ -1,7 +1,7 @@
 #include <string>
 #include <BWAPI/ExplosionType.h>
 
-namespace BWAPI
+namespace BWAPI4
 {
   template <>
   const std::string Type<ExplosionType, ExplosionTypes::Enum::Unknown>::typeNames[ExplosionTypes::Enum::MAX] =
