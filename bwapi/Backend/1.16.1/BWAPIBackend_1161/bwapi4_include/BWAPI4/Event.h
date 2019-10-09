@@ -1,6 +1,6 @@
 #pragma once
 #include <BWAPI/Position.h>
-#include <BWAPI4/EventType.h>
+#include <BWAPI/EventType.h>
 
 #include <string>
 
@@ -40,14 +40,14 @@ namespace BWAPI4
       static Event UnitRenegade(Unit unit);
       static Event SaveGame(const std::string& gameName);
       static Event UnitComplete(Unit unit);
-      EventType::Enum getType() const;
+      BWAPI::EventType::Enum getType() const;
       BWAPI::Position getPosition() const;
       const std::string& getText() const;
       Unit getUnit() const;
       Player getPlayer() const;
       bool isWinner() const;
 
-      Event& setType(EventType::Enum type);
+      Event& setType(BWAPI::EventType::Enum type);
       Event& setPosition(BWAPI::Position position);
       Event& setText(const std::string& text);
       Event& setUnit(Unit unit);
@@ -59,7 +59,7 @@ namespace BWAPI4
       std::string     text;
       Unit            unit = nullptr;
       Player          player = nullptr;
-      EventType::Enum type = EventType::None;
+      BWAPI::EventType::Enum type = BWAPI::EventType::None;
       bool            winner = false;
   };
 }

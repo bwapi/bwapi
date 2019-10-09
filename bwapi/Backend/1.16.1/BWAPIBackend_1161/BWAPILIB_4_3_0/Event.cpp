@@ -1,10 +1,11 @@
 #include <BWAPI4/Event.h>
-#include <BWAPI4/EventType.h>
+#include <BWAPI/EventType.h>
 #include <BWAPI/UnitImpl.h>
 #include <tuple>
 
 namespace BWAPI4
 {
+  using namespace BWAPI;
   namespace { std::string emptyString; }
 
   Event::Event(const Event& other)

@@ -1,5 +1,5 @@
 #include <BWAPI/Position.h>
-#include <BWAPI4/CoordinateType.h>
+#include <BWAPI/CoordinateType.h>
 #include <BWAPI/Color.h>
 #include <BWAPI4/Unitset.h>
 #include <BWAPI/RegionImpl.h>

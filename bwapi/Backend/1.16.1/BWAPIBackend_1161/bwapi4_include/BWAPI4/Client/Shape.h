@@ -1,14 +1,14 @@
 #pragma once
-#include "ShapeType.h"
-#include <BWAPI4/CoordinateType.h>
+#include <BWAPI/Client/ShapeType.h>
+#include <BWAPI/CoordinateType.h>
 
 namespace BWAPIC4
 {
   struct Shape
   {
     Shape()
-    :type(ShapeType::None)
-    ,ctype(BWAPI4::CoordinateType::None)
+    :type(BWAPI::ShapeType::None)
+    ,ctype(BWAPI::CoordinateType::None)
     ,x1(0)
     ,y1(0)
     ,x2(0)
@@ -20,7 +20,7 @@ namespace BWAPIC4
     {
     }
 
-    Shape(ShapeType::Enum _shapeType, BWAPI4::CoordinateType::Enum _ctype, int _x1, int _y1, int _x2, int _y2, int _extra1, int _extra2, int _color, bool _isSolid, const std::string& _text = {})
+    Shape(BWAPI::ShapeType::Enum _shapeType, BWAPI::CoordinateType::Enum _ctype, int _x1, int _y1, int _x2, int _y2, int _extra1, int _extra2, int _color, bool _isSolid, const std::string& _text = {})
     :type(_shapeType)
     ,ctype(_ctype)
     ,x1(_x1)
@@ -35,8 +35,8 @@ namespace BWAPIC4
     {
     }
 
-    ShapeType::Enum type;
-    BWAPI4::CoordinateType::Enum ctype;
+    BWAPI::ShapeType::Enum type;
+    BWAPI::CoordinateType::Enum ctype;
     int x1;
     int y1;
     int x2;

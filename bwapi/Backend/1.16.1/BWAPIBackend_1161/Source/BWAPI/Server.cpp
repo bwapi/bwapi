@@ -1112,7 +1112,7 @@ namespace BWAPI4
         else if (command.has_shape() && BroodwarImpl.isInGame())
         {
           auto shapeCmd = command.shape();
-          BWAPIC4::Shape shape { static_cast<BWAPIC4::ShapeType::Enum>(shapeCmd.type()), static_cast<BWAPI4::CoordinateType::Enum>(shapeCmd.ctype()), shapeCmd.x1(), shapeCmd.y1(), shapeCmd.x2(), shapeCmd.y2(), shapeCmd.extra1(), shapeCmd.extra2(), shapeCmd.color(), shapeCmd.issolid(), shapeCmd.text() };
+          BWAPIC4::Shape shape { static_cast<BWAPI::ShapeType::Enum>(shapeCmd.type()), static_cast<BWAPI::CoordinateType::Enum>(shapeCmd.ctype()), shapeCmd.x1(), shapeCmd.y1(), shapeCmd.x2(), shapeCmd.y2(), shapeCmd.extra1(), shapeCmd.extra2(), shapeCmd.color(), shapeCmd.issolid(), shapeCmd.text() };
           BroodwarImpl.addShape(shape);
         }
         else if (command.has_createunit() && BroodwarImpl.isInGame())

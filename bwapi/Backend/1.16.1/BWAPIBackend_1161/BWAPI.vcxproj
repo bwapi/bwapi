@@ -142,12 +142,9 @@ popd</Command>
     <ClInclude Include="bwapi4_include\BWAPI4\Client\PlayerData.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Client\RegionData.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Client\Shape.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\Client\ShapeType.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Client\UnitCommand.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Client\UnitData.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\CoordinateType.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Event.h" />
-    <ClInclude Include="bwapi4_include\BWAPI4\EventType.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Flag.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Input.h" />
     <ClInclude Include="bwapi4_include\BWAPI4\Latency.h" />

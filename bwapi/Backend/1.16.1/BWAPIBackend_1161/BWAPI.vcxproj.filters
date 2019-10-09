@@ -221,13 +221,7 @@
     <ClInclude Include="Source\BWAPI\Templates.h">
       <Filter>BWAPI\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI4\CoordinateType.h">
-      <Filter>Old_BWAPILIB\BWAPI4</Filter>
-    </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI4\Event.h">
-      <Filter>Old_BWAPILIB\BWAPI4</Filter>
-    </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI4\EventType.h">
       <Filter>Old_BWAPILIB\BWAPI4</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI4\Flag.h">
@@ -261,9 +255,6 @@
       <Filter>Old_BWAPILIB\BWAPI4\Client</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI4\Client\Shape.h">
-      <Filter>Old_BWAPILIB\BWAPI4\Client</Filter>
-    </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI4\Client\ShapeType.h">
       <Filter>Old_BWAPILIB\BWAPI4\Client</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI4\Client\UnitCommand.h">
