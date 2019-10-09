@@ -9,8 +9,8 @@
 #include "Command.h"
 #include "Shape.h"
 
-#include <BWAPI/Flag.h>
-#include <BWAPI/Input.h>
+#include <BWAPI4/Flag.h>
+#include <BWAPI4/Input.h>
 
 namespace BWAPIC4
 {

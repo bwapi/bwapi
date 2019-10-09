@@ -1,12 +1,12 @@
 #pragma once
 
-#include <BWAPI/Unitset.h>
+#include <BWAPI4/Unitset.h>
 #include "../Types.h"
 
-#include <BWAPI/UnitCommand.h>
-#include <BWAPI/Client/UnitData.h>
-#include <BWAPI/UnitType.h>
-#include <BWAPI/Order.h>
+#include <BWAPI4/UnitCommand.h>
+#include <BWAPI4/Client/UnitData.h>
+#include <BWAPI4/UnitType.h>
+#include <BWAPI4/Order.h>
 
 namespace BW
 { 

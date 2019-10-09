@@ -2,10 +2,10 @@
 #include "../Types.h"
 #include <string>
 
-#include <BWAPI/Client/PlayerData.h>
-#include <BWAPI/Unitset.h>
-#include <BWAPI/Color.h>
-#include <BWAPI/Race.h>
+#include <BWAPI4/Client/PlayerData.h>
+#include <BWAPI4/Unitset.h>
+#include <BWAPI4/Color.h>
+#include <BWAPI4/Race.h>
 
 #include "UnitImpl.h"
 #include "ForceImpl.h"

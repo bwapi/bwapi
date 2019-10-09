@@ -16,7 +16,7 @@
 #include "../Convenience.h"
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/PlayerImpl.h"
-#include <BWAPI/Race.h>
+#include <BWAPI4/Race.h>
 
 #include <BW/Offsets.h>
 #include <BW/TriggerEngine.h>

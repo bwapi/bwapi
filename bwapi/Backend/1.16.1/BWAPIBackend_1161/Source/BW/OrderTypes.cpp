@@ -1,7 +1,7 @@
 #include "OrderTypes.h"
 
-#include <BWAPI/Order.h>
-#include <BWAPI/Race.h>
+#include <BWAPI4/Order.h>
+#include <BWAPI4/Race.h>
 
 namespace BW
 {

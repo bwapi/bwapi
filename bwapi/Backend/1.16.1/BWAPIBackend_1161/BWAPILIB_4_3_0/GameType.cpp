@@ -1,5 +1,5 @@
 #include <string>
-#include <BWAPI/GameType.h>
+#include <BWAPI4/GameType.h>
 
 namespace BWAPI4
 {

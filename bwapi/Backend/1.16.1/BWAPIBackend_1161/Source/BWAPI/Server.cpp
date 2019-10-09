@@ -9,12 +9,12 @@
 #include "PlayerImpl.h"
 #include "BulletImpl.h"
 #include "RegionImpl.h"
-#include <BWAPI/Client/GameData.h>
+#include <BWAPI4/Client/GameData.h>
 
 #include <BW/Pathing.h>
 #include <BW/Offsets.h>
-#include <BWAPI/PlayerType.h>
-#include <BWAPI/Race.h>
+#include <BWAPI4/PlayerType.h>
+#include <BWAPI4/Race.h>
 
 #include "../Config.h"
 #include "../svnrev.h"

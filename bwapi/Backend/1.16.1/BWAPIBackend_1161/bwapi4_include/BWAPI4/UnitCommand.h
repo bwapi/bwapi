@@ -1,6 +1,6 @@
 #pragma once
-#include <BWAPI/Position.h>
-#include <BWAPI/UnitCommandType.h>
+#include <BWAPI4/Position.h>
+#include <BWAPI4/UnitCommandType.h>
 
 namespace BWAPI4
 {

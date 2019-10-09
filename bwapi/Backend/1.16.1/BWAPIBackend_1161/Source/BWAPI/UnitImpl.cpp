@@ -3,8 +3,8 @@
 
 #include <cmath>
 
-#include <BWAPI/Order.h>
-#include <BWAPI/WeaponType.h>
+#include <BWAPI4/Order.h>
+#include <BWAPI4/WeaponType.h>
 
 #include "Command.h"
 #include "../DLLMain.h"

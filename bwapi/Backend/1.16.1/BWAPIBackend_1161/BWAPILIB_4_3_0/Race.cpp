@@ -1,6 +1,6 @@
 #include <string>
-#include <BWAPI/Race.h>
-#include <BWAPI/UnitType.h>
+#include <BWAPI4/Race.h>
+#include <BWAPI4/UnitType.h>
 
 namespace BWAPI4
 {

@@ -1,6 +1,6 @@
 #pragma once
-#include <BWAPI/Type.h>
-#include <BWAPI/UnitType.h>
+#include <BWAPI4/Type.h>
+#include <BWAPI4/UnitType.h>
 
 namespace BWAPI4
 {

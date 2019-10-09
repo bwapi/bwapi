@@ -1,4 +1,4 @@
-#include <BWAPI/Position.h>
+#include <BWAPI4/Position.h>
 #include "../BWAPI/GameImpl.h"
 
 #include "GameImpl.h"

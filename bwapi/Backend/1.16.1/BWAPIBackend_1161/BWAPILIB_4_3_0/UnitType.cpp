@@ -3,12 +3,12 @@
 #include <vector>
 #include <algorithm>
 
-#include <BWAPI/UnitType.h>
-#include <BWAPI/WeaponType.h>
-#include <BWAPI/UnitSizeType.h>
-#include <BWAPI/TechType.h>
-#include <BWAPI/UpgradeType.h>
-#include <BWAPI/Race.h>
+#include <BWAPI4/UnitType.h>
+#include <BWAPI4/WeaponType.h>
+#include <BWAPI4/UnitSizeType.h>
+#include <BWAPI4/TechType.h>
+#include <BWAPI4/UpgradeType.h>
+#include <BWAPI4/Race.h>
 
 namespace BWAPI4
 {

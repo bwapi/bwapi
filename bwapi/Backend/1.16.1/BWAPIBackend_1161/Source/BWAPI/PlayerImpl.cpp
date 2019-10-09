@@ -7,10 +7,10 @@
 
 #include <BW/Offsets.h>
 
-#include <BWAPI/PlayerType.h>
-#include <BWAPI/Color.h>
-#include <BWAPI/Race.h>
-#include <BWAPI/WeaponType.h>
+#include <BWAPI4/PlayerType.h>
+#include <BWAPI4/Color.h>
+#include <BWAPI4/Race.h>
+#include <BWAPI4/WeaponType.h>
 
 namespace BWAPI4
 {

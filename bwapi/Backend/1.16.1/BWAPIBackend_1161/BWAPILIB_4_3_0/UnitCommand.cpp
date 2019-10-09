@@ -1,6 +1,6 @@
-#include <BWAPI/UnitCommand.h>
-#include <BWAPI/TechType.h>
-#include <BWAPI/UpgradeType.h>
+#include <BWAPI4/UnitCommand.h>
+#include <BWAPI4/TechType.h>
+#include <BWAPI4/UpgradeType.h>
 #include <tuple>
 #include <BWAPI/UnitImpl.h>
 

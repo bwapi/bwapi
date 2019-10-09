@@ -1,9 +1,9 @@
 #include <string>
-#include <BWAPI/TechType.h>
-#include <BWAPI/Race.h>
-#include <BWAPI/Order.h>
-#include <BWAPI/UnitType.h>
-#include <BWAPI/WeaponType.h>
+#include <BWAPI4/TechType.h>
+#include <BWAPI4/Race.h>
+#include <BWAPI4/Order.h>
+#include <BWAPI4/UnitType.h>
+#include <BWAPI4/WeaponType.h>
 
 namespace BWAPI4
 {

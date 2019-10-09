@@ -1,7 +1,7 @@
 #include <string>
-#include <BWAPI/UpgradeType.h>
-#include <BWAPI/Race.h>
-#include <BWAPI/UnitType.h>
+#include <BWAPI4/UpgradeType.h>
+#include <BWAPI4/Race.h>
+#include <BWAPI4/UnitType.h>
 
 namespace BWAPI4
 {

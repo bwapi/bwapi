@@ -1,5 +1,5 @@
-#include <BWAPI/Event.h>
-#include <BWAPI/EventType.h>
+#include <BWAPI4/Event.h>
+#include <BWAPI4/EventType.h>
 #include <BWAPI/UnitImpl.h>
 #include <tuple>
 

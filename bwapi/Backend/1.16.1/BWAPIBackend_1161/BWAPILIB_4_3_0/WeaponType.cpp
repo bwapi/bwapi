@@ -1,10 +1,10 @@
 #include <string>
-#include <BWAPI/UnitType.h>
-#include <BWAPI/WeaponType.h>
-#include <BWAPI/TechType.h>
-#include <BWAPI/UpgradeType.h>
-#include <BWAPI/DamageType.h>
-#include <BWAPI/ExplosionType.h>
+#include <BWAPI4/UnitType.h>
+#include <BWAPI4/WeaponType.h>
+#include <BWAPI4/TechType.h>
+#include <BWAPI4/UpgradeType.h>
+#include <BWAPI4/DamageType.h>
+#include <BWAPI4/ExplosionType.h>
 
 namespace BWAPI4
 {

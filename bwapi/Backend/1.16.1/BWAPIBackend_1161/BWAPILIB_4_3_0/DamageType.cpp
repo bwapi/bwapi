@@ -1,5 +1,5 @@
 #include <string>
-#include <BWAPI/DamageType.h>
+#include <BWAPI4/DamageType.h>
 
 namespace BWAPI4
 {

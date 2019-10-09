@@ -1,7 +1,7 @@
 #pragma once
 
-#include <BWAPI/Order.h>
-#include <BWAPI/UnitType.h>
+#include <BWAPI4/Order.h>
+#include <BWAPI4/UnitType.h>
 
 namespace BWAPI4
 {

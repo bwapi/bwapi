@@ -1,6 +1,6 @@
 #pragma once
 
-#include <BWAPI/Position.h>
+#include <BWAPI4/Position.h>
 #include "../Types.h"
 
 #pragma pack(1)

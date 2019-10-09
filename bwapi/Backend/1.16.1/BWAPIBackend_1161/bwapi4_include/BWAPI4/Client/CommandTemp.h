@@ -1,10 +1,10 @@
 #pragma once
-#include <BWAPI/Position.h>
-#include <BWAPI/UnitType.h>
-#include <BWAPI/UpgradeType.h>
-#include <BWAPI/TechType.h>
-#include <BWAPI/UnitCommand.h>
-#include <BWAPI/UnitCommandType.h>
+#include <BWAPI4/Position.h>
+#include <BWAPI4/UnitType.h>
+#include <BWAPI4/UpgradeType.h>
+#include <BWAPI4/TechType.h>
+#include <BWAPI4/UnitCommand.h>
+#include <BWAPI4/UnitCommandType.h>
 
 namespace BWAPI4
 {

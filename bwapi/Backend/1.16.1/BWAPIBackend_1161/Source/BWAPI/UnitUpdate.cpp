@@ -6,11 +6,11 @@
 
 #include "../Convenience.h"
 
-#include <BWAPI/Order.h>
+#include <BWAPI4/Order.h>
 #include <BWAPI/GameImpl.h>
 #include <BWAPI/PlayerImpl.h>
-#include <BWAPI/WeaponType.h>
-#include <BWAPI/Race.h>
+#include <BWAPI4/WeaponType.h>
+#include <BWAPI4/Race.h>
 
 #include <BW/CUnit.h>
 #include <BW/CSprite.h>

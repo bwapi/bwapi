@@ -1,5 +1,5 @@
 #include <string>
-#include <BWAPI/BulletType.h>
+#include <BWAPI4/BulletType.h>
 
 namespace BWAPI4
 {

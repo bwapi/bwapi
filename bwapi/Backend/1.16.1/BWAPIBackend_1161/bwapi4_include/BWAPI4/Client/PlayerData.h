@@ -1,8 +1,8 @@
 #pragma once
 
-#include <BWAPI/UnitType.h>
-#include <BWAPI/UpgradeType.h>
-#include <BWAPI/TechType.h>
+#include <BWAPI4/UnitType.h>
+#include <BWAPI4/UpgradeType.h>
+#include <BWAPI4/TechType.h>
 
 namespace BWAPI4
 {

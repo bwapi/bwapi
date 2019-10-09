@@ -1,5 +1,5 @@
 #include <string>
-#include <BWAPI/Error.h>
+#include <BWAPI4/Error.h>
 
 namespace BWAPI4
 {

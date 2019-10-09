@@ -8,11 +8,11 @@
 
 #include <BWAPI/Server.h>
 #include <BWAPI/Map.h>
-#include <BWAPI/Client/GameData.h>
-#include <BWAPI/CoordinateType.h>
-#include <BWAPI/Error.h>
-#include <BWAPI/GameType.h>
-#include <BWAPI/Color.h>
+#include <BWAPI4/Client/GameData.h>
+#include <BWAPI4/CoordinateType.h>
+#include <BWAPI4/Error.h>
+#include <BWAPI4/GameType.h>
+#include <BWAPI4/Color.h>
 
 #include "Command.h"
 #include "APMCounter.h"

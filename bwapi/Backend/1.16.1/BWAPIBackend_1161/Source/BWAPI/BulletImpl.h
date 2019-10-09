@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../Types.h"
-#include <BWAPI/Position.h>
-#include <BWAPI/Client/BulletData.h>
+#include <BWAPI4/Position.h>
+#include <BWAPI4/Client/BulletData.h>
 namespace BW    { class CBullet; };
 
 namespace BWAPI4

@@ -1,6 +1,6 @@
 #pragma once
 #include "ShapeType.h"
-#include <BWAPI/CoordinateType.h>
+#include <BWAPI4/CoordinateType.h>
 
 namespace BWAPIC4
 {

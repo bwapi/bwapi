@@ -1,5 +1,5 @@
 #include "../Types.h"
-#include <BWAPI/UnitType.h>
+#include <BWAPI4/UnitType.h>
 #include <BW/CImage.h>
 #include <BW/CSprite.h>
 

@@ -1,5 +1,5 @@
 #include <string>
-#include <BWAPI/ExplosionType.h>
+#include <BWAPI4/ExplosionType.h>
 
 namespace BWAPI4
 {

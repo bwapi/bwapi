@@ -4,8 +4,8 @@
 #include "../DLLMain.h"
 #include "../NewHackUtil.h"
 
-#include <BWAPI/PlayerType.h>
-#include <BWAPI/Race.h>
+#include <BWAPI4/PlayerType.h>
+#include <BWAPI4/Race.h>
 
 #include <BW/MenuPosition.h>
 #include <BW/Dialog.h>

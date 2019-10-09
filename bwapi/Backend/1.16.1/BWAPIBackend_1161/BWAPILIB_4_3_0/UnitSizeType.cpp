@@ -1,5 +1,5 @@
 #include <string>
-#include <BWAPI/UnitSizeType.h>
+#include <BWAPI4/UnitSizeType.h>
 
 namespace BWAPI4
 {

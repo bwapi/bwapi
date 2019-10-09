@@ -105,7 +105,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
     GetCurrentProductVersion(w1, w2, w3, w4);
     fprintf(hFile, "VERSION: %hu.%hu.%hu.%hu\n", w1, w2, w3, w4);
 
-    // BWAPI/Broodwar specific
+    // BWAPI4/Broodwar specific
     fprintf(hFile, "BWAPI:\n");
     //fprintf(hFile, "  REVISION: %d\n", BWAPI4::BroodwarImpl.getRevision());
     //fprintf(hFile, "  CLIENT VERSION: %d\n", BWAPI4::BroodwarImpl.getClientVersion());

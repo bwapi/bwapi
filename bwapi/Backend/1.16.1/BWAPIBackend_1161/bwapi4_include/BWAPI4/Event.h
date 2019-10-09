@@ -1,6 +1,6 @@
 #pragma once
-#include <BWAPI/Position.h>
-#include <BWAPI/EventType.h>
+#include <BWAPI4/Position.h>
+#include <BWAPI4/EventType.h>
 
 #include <string>
 

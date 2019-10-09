@@ -2,8 +2,8 @@
 #include "../DLLMain.h"
 
 #include <BWAPI/Command.h>
-#include <BWAPI/TechType.h>
-#include <BWAPI/UnitType.h>
+#include <BWAPI4/TechType.h>
+#include <BWAPI4/UnitType.h>
 
 #include <BW/OrderTypes.h>
 

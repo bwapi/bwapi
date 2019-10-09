@@ -1,4 +1,4 @@
-#include <BWAPI/Color.h>
+#include <BWAPI4/Color.h>
 #include <list>
 
 typedef unsigned char BYTE;

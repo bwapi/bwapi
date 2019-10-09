@@ -1,5 +1,5 @@
 #pragma once
-#include <BWAPI/Position.h>
+#include <BWAPI4/Position.h>
 #include <iterator>
 #include <set>
 

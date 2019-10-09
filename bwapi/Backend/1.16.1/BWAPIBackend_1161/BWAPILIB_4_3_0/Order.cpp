@@ -1,5 +1,5 @@
 #include <string>
-#include <BWAPI/Order.h>
+#include <BWAPI4/Order.h>
 
 namespace BWAPI4
 {

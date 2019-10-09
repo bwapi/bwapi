@@ -4,8 +4,8 @@
 #include "BW/Font.h"
 #include "BW/Bitmap.h"
 
-#include <BWAPI/CoordinateType.h>
-#include <BWAPI/Color.h>
+#include <BWAPI4/CoordinateType.h>
+#include <BWAPI4/Color.h>
 
 static inline void bwPlot(const int &x, const int &y, const int &color)
 {

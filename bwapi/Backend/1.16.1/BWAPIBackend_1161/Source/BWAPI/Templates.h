@@ -1,9 +1,9 @@
 #pragma once
 #include <algorithm>
 
-#include <BWAPI/Order.h>
-#include <BWAPI/Race.h>
-#include <BWAPI/WeaponType.h>
+#include <BWAPI4/Order.h>
+#include <BWAPI4/Race.h>
+#include <BWAPI4/WeaponType.h>
 #include "UnitImpl.h"
 #include "GameImpl.h"
 

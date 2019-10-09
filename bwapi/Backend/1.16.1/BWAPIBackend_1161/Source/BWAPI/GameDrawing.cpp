@@ -6,7 +6,7 @@
 #include "../Convenience.h"
 
 #include <BW/Dialog.h>
-#include <BWAPI/Color.h>
+#include <BWAPI4/Color.h>
 
 namespace BWAPI4
 {

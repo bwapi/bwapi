@@ -2,10 +2,10 @@
 
 #include "../Types.h"
 
-#include <BWAPI/Position.h>
+#include <BWAPI4/Position.h>
 
-#include <BWAPI/UnitType.h>
-#include <BWAPI/Order.h>
+#include <BWAPI4/UnitType.h>
+#include <BWAPI4/Order.h>
 
 #include "PositionUnitTarget.h"
 #include "Constants.h"

@@ -19,16 +19,16 @@
 #include <Templates.h>
 #include <BWAPI/Command.h>
 #include <BWAPI/Map.h>
-#include <BWAPI/Flag.h>
+#include <BWAPI4/Flag.h>
 
-#include <BWAPI/Unitset.h>
+#include <BWAPI4/Unitset.h>
 
 #include <BW/CUnit.h>
 #include <BW/CBullet.h>
 #include <BW/Offsets.h>
 #include <BW/UnitTarget.h>
 #include <BW/OrderTypes.h>
-#include <BWAPI/Latency.h>
+#include <BWAPI4/Latency.h>
 #include <BW/TileType.h>
 #include <BW/TileSet.h>
 #include <BW/CheatType.h>

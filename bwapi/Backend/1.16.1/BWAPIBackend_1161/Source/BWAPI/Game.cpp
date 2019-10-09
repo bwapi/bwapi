@@ -1,13 +1,13 @@
-#include <BWAPI/Position.h>
-#include <BWAPI/CoordinateType.h>
-#include <BWAPI/Color.h>
-#include <BWAPI/Unitset.h>
+#include <BWAPI4/Position.h>
+#include <BWAPI4/CoordinateType.h>
+#include <BWAPI4/Color.h>
+#include <BWAPI4/Unitset.h>
 #include <BWAPI/RegionImpl.h>
 
-#include <BWAPI/UnitSizeType.h>
-#include <BWAPI/DamageType.h>
-#include <BWAPI/ExplosionType.h>
-#include <BWAPI/WeaponType.h>
+#include <BWAPI4/UnitSizeType.h>
+#include <BWAPI4/DamageType.h>
+#include <BWAPI4/ExplosionType.h>
+#include <BWAPI4/WeaponType.h>
 
 #include <cstdarg>
 

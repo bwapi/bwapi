@@ -6,8 +6,8 @@
 
 #include <BWAPI/UnitImpl.h>
 #include <BWAPI/PlayerImpl.h>
-#include <BWAPI/Race.h>
-#include <BWAPI/Order.h>
+#include <BWAPI4/Race.h>
+#include <BWAPI4/Order.h>
 #include <cassert>
 
 namespace BWAPI4

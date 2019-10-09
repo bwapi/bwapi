@@ -1,5 +1,5 @@
 #include <string>
-#include <BWAPI/UnitCommandType.h>
+#include <BWAPI4/UnitCommandType.h>
 
 namespace BWAPI4
 {

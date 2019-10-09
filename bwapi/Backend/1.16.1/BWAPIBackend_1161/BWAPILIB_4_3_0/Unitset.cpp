@@ -1,5 +1,5 @@
-#include <BWAPI/Unitset.h>
-#include <BWAPI/Position.h>
+#include <BWAPI4/Unitset.h>
+#include <BWAPI4/Position.h>
 #include <BWAPI/UnitImpl.h>
 
 namespace BWAPI4
