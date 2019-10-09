@@ -41,5 +41,7 @@ namespace BWAPI
 
     virtual void createUnit(int playerId, UnitType unitType, int x, int y, int count) = 0;
     virtual void killUnits(const Unitset& units, bool removeInstantly) = 0;
+
+    // TODO: setFrameSkip, setRevealAll, setMap, setGUI
   };
 }

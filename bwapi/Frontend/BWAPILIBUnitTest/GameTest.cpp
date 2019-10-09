@@ -182,3 +182,183 @@ TEST_F(GameFixture, drawLine_callsClient)
   game.drawLineScreen(Position(1, 0), Position(1, 25), Colors::Red);
 }
 
+TEST_F(GameFixture, drawBox_callsClient)
+{
+  EXPECT_CALL(client, drawShape(ShapeType::Box, CoordinateType::Mouse, 2, 5, 15, 18, 0, 0, Colors::Cyan, true));
+  game.drawBox(CoordinateType::Mouse, 2, 5, 15, 18, Colors::Cyan, true);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Box, CoordinateType::Map, 1, 3, 1, 25, 0, 0, Colors::Red, false)).Times(2);
+  game.drawBoxMap(1, 3, 1, 25, Colors::Red);
+  game.drawBoxMap(Position(1, 3), Position(1, 25), Colors::Red);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Box, CoordinateType::Mouse, 1, 3, 1, 25, 0, 0, Colors::Red, false)).Times(2);
+  game.drawBoxMouse(1, 3, 1, 25, Colors::Red);
+  game.drawBoxMouse(Position(1, 3), Position(1, 25), Colors::Red);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Box, CoordinateType::Screen, 1, 3, 1, 25, 0, 0, Colors::Red, false)).Times(2);
+  game.drawBoxScreen(1, 3, 1, 25, Colors::Red);
+  game.drawBoxScreen(Position(1, 3), Position(1, 25), Colors::Red);
+}
+
+TEST_F(GameFixture, drawCircle_callsClient)
+{
+  EXPECT_CALL(client, drawShape(ShapeType::Circle, CoordinateType::Mouse, 18, 44, 0, 0, 10, 0, Colors::Cyan, true));
+  game.drawCircle(CoordinateType::Mouse, 18, 44, 10, Colors::Cyan, true);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Circle, CoordinateType::Map, 25, 20, 0, 0, 5, 0, Colors::Red, false)).Times(2);
+  game.drawCircleMap(25, 20, 5, Colors::Red);
+  game.drawCircleMap(Position(25, 20), 5, Colors::Red);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Circle, CoordinateType::Mouse, 25, 20, 0, 0, 5, 0, Colors::Red, false)).Times(2);
+  game.drawCircleMouse(25, 20, 5, Colors::Red);
+  game.drawCircleMouse(Position(25, 20), 5, Colors::Red);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Circle, CoordinateType::Screen, 25, 20, 0, 0, 5, 0, Colors::Red, false)).Times(2);
+  game.drawCircleScreen(25, 20, 5, Colors::Red);
+  game.drawCircleScreen(Position(25, 20), 5, Colors::Red);
+}
+
+TEST_F(GameFixture, drawDot_callsClient)
+{
+  EXPECT_CALL(client, drawShape(ShapeType::Dot, CoordinateType::Mouse, 7, 9, 0, 0, 0, 0, Colors::Cyan, false));
+  game.drawDot(CoordinateType::Mouse, 7, 9, Colors::Cyan);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Dot, CoordinateType::Map, 3, 9, 0, 0, 0, 0, Colors::Red, false)).Times(2);
+  game.drawDotMap(3, 9, Colors::Red);
+  game.drawDotMap(Position(3, 9), Colors::Red);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Dot, CoordinateType::Mouse, 3, 9, 0, 0, 0, 0, Colors::Red, false)).Times(2);
+  game.drawDotMouse(3, 9, Colors::Red);
+  game.drawDotMouse(Position(3, 9), Colors::Red);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Dot, CoordinateType::Screen, 3, 9, 0, 0, 0, 0, Colors::Red, false)).Times(2);
+  game.drawDotScreen(3, 9, Colors::Red);
+  game.drawDotScreen(Position(3, 9), Colors::Red);
+}
+
+TEST_F(GameFixture, drawEllipse_callsClient)
+{
+  EXPECT_CALL(client, drawShape(ShapeType::Ellipse, CoordinateType::Mouse, 18, 44, 0, 0, 10, 12, Colors::Cyan, true));
+  game.drawEllipse(CoordinateType::Mouse, 18, 44, 10, 12, Colors::Cyan, true);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Ellipse, CoordinateType::Map, 25, 20, 0, 0, 5, 7, Colors::Red, false)).Times(2);
+  game.drawEllipseMap(25, 20, 5, 7, Colors::Red);
+  game.drawEllipseMap(Position(25, 20), 5, 7, Colors::Red);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Ellipse, CoordinateType::Mouse, 25, 20, 0, 0, 5, 7, Colors::Red, false)).Times(2);
+  game.drawEllipseMouse(25, 20, 5, 7, Colors::Red);
+  game.drawEllipseMouse(Position(25, 20), 5, 7, Colors::Red);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Ellipse, CoordinateType::Screen, 25, 20, 0, 0, 5, 7, Colors::Red, false)).Times(2);
+  game.drawEllipseScreen(25, 20, 5, 7, Colors::Red);
+  game.drawEllipseScreen(Position(25, 20), 5, 7, Colors::Red);
+}
+
+TEST_F(GameFixture, drawTriangle_callsClient)
+{
+  EXPECT_CALL(client, drawShape(ShapeType::Triangle, CoordinateType::Mouse, 2, 5, 15, 18, 9, 7, Colors::Cyan, true));
+  game.drawTriangle(CoordinateType::Mouse, 2, 5, 15, 18, 9, 7, Colors::Cyan, true);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Triangle, CoordinateType::Map, 1, 3, 1, 25, 10, 8, Colors::Red, false)).Times(2);
+  game.drawTriangleMap(1, 3, 1, 25, 10, 8, Colors::Red);
+  game.drawTriangleMap(Position(1, 3), Position(1, 25), Position(10, 8), Colors::Red);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Triangle, CoordinateType::Mouse, 1, 3, 1, 25, 10, 8, Colors::Red, false)).Times(2);
+  game.drawTriangleMouse(1, 3, 1, 25, 10, 8, Colors::Red);
+  game.drawTriangleMouse(Position(1, 3), Position(1, 25), Position(10, 8), Colors::Red);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Triangle, CoordinateType::Screen, 1, 3, 1, 25, 10, 8, Colors::Red, false)).Times(2);
+  game.drawTriangleScreen(1, 3, 1, 25, 10, 8, Colors::Red);
+  game.drawTriangleScreen(Position(1, 3), Position(1, 25), Position(10, 8), Colors::Red);
+}
+
+TEST_F(GameFixture, drawText_callsClient)
+{
+  std::string expected{ "\x15 chocolate\ncake" };
+
+  EXPECT_CALL(client, drawText(CoordinateType::Mouse, expected, 77, 33, Text::Size::Default));
+  game.drawText(CoordinateType::Mouse, 77, 33, "%s", expected.c_str());
+
+  EXPECT_CALL(client, drawText(CoordinateType::Map, expected, 26, 73, Text::Size::Default));
+  game.drawTextMap(26, 73, "%s", expected.c_str());
+
+  EXPECT_CALL(client, drawText(CoordinateType::Mouse, expected, 26, 73, Text::Size::Default));
+  game.drawTextMouse(26, 73, "%s", expected.c_str());
+
+  EXPECT_CALL(client, drawText(CoordinateType::Screen, expected, 26, 73, Text::Size::Default));
+  game.drawTextScreen(26, 73, "%s", expected.c_str());
+}
+
+TEST_F(GameFixture, setTextSize_sendsTextSizeToClient)
+{
+  // Default
+  EXPECT_CALL(client, drawText(CoordinateType::Map, "", 0, 0, Text::Size::Default));
+  game.drawTextMap(0, 0, "");
+
+  // Small
+  EXPECT_CALL(client, drawText(CoordinateType::Map, "", 0, 0, Text::Size::Small));
+  game.setTextSize(Text::Size::Small);
+  game.drawTextMap(0, 0, "");
+
+  // Large
+  EXPECT_CALL(client, drawText(CoordinateType::Map, "", 0, 0, Text::Size::Large));
+  game.setTextSize(Text::Size::Large);
+  game.drawTextMap(0, 0, "");
+
+  // Huge
+  EXPECT_CALL(client, drawText(CoordinateType::Map, "", 0, 0, Text::Size::Huge));
+  game.setTextSize(Text::Size::Huge);
+  game.drawTextMap(0, 0, "");
+}
+
+TEST_F(GameFixture, sendText_callsClient)
+{
+  std::string expected{ "\nhello\tit's me again" };
+
+  EXPECT_CALL(client, sendText(expected, false));
+  game.sendText("%s", expected.c_str());
+}
+
+TEST_F(GameFixture, sendTextEx_callsClient)
+{
+  std::string expected{ "Friends! Yay" };
+
+  EXPECT_CALL(client, sendText(expected, false));
+  game.sendTextEx(false, "%s", expected.c_str());
+
+  EXPECT_CALL(client, sendText(expected, true));
+  game.sendTextEx(true, "%s", expected.c_str());
+}
+
+TEST_F(GameFixture, setLocalSpeed_callsClient)
+{
+  EXPECT_CALL(client, setLocalSpeed(42));
+  game.setLocalSpeed(42);
+}
+
+TEST_F(GameFixture, setAlliance_callsClient)
+{
+  Player player = createFakePlayer(3, PlayerTypes::RescuePassive, Races::Protoss);
+
+  EXPECT_CALL(client, setAlliance(3, 0));
+  game.setAlliance(player, false);
+
+  EXPECT_CALL(client, setAlliance(3, 1));
+  game.setAlliance(player, true, false);
+
+  EXPECT_CALL(client, setAlliance(3, 2));
+  game.setAlliance(player, true, true);
+}
+
+TEST_F(GameFixture, setVision_callsClient)
+{
+  Player player = createFakePlayer(3, PlayerTypes::RescuePassive, Races::Protoss);
+
+  EXPECT_CALL(client, setVision(3, 0));
+  game.setVision(player, false);
+
+  EXPECT_CALL(client, setVision(3, 1));
+  game.setVision(player, true);
+}
+
+
