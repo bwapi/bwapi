@@ -265,9 +265,6 @@ namespace BWAPI4
       static int _currentPlayerId();
       static void pressKey(int key);
 
-      static void mouseDown(int x, int y);
-      static void mouseUp(int x, int y);
-
       void addToCommandBuffer(Command command);
       void onGameStart();
       void onGameEnd();

@@ -321,31 +321,6 @@ namespace BWAPI4
       events.push_back(Event::ReceiveText(this->players[realId], text));
     }
   }
-  int fixPathString(const char *in, char *out_, size_t outLen)
-  {
-    unsigned int n = 0;
-    const unsigned char *_in = (const unsigned char*)in;
-    for ( unsigned int i = 0; _in[i] != 0 && n < outLen-1; ++i )
-    {
-      if ( !iscntrl(_in[i]) &&
-           _in[i] != '?'    &&
-           _in[i] != '*'    &&
-           _in[i] != '<'    &&
-           _in[i] != '|'    &&
-           _in[i] != '"'    &&
-           _in[i] != ':' )
-      {
-        if ( _in[i] == '/' )
-          out_[n] = '\\';
-        else
-          out_[n] = _in[i];
-        ++n;
-      }
-    }
-    out_[n] = 0;
-    return n;
-  }
-
   void ignore_invalid_parameter(const wchar_t*, const wchar_t*, const wchar_t*, unsigned int, uintptr_t)
   {}
   //---------------------------------------------- ON GAME END -----------------------------------------------

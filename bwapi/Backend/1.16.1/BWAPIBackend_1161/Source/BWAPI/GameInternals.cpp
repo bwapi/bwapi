@@ -116,16 +116,6 @@ namespace BWAPI4
     // Press and release the key
     PostMessage(SDrawGetFrameWindow(), WM_CHAR, (WPARAM)key, NULL);
   }
-  void GameImpl::mouseDown(int x, int y)
-  {
-    // Press the left mouse button
-    PostMessage(SDrawGetFrameWindow(), WM_LBUTTONDOWN, NULL, (LPARAM)MAKELONG(x,y));
-  }
-  void GameImpl::mouseUp(int x, int y)
-  {
-    // Release the left mouse button
-    PostMessage(SDrawGetFrameWindow(), WM_LBUTTONUP, NULL, (LPARAM)MAKELONG(x,y));
-  }
   //------------------------------------------- PLAYER ID CONVERT --------------------------------------------
   int GameImpl::stormIdToPlayerId(int dwStormId)
   {
