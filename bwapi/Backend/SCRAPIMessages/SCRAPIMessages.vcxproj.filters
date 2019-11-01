@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Proto Files">
+      <UniqueIdentifier>{30ce72c2-a1cd-4bf6-b03c-303cad3d766e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated">
+      <UniqueIdentifier>{351b382c-a3f6-4ef7-92ed-d14eac745c03}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="common.proto">
+      <Filter>Proto Files</Filter>
+    </None>
+    <None Include="data.proto">
+      <Filter>Proto Files</Filter>
+    </None>
+    <None Include="debug.proto">
+      <Filter>Proto Files</Filter>
+    </None>
+    <None Include="error.proto">
+      <Filter>Proto Files</Filter>
+    </None>
+    <None Include="query.proto">
+      <Filter>Proto Files</Filter>
+    </None>
+    <None Include="raw.proto">
+      <Filter>Proto Files</Filter>
+    </None>
+    <None Include="score.proto">
+      <Filter>Proto Files</Filter>
+    </None>
+    <None Include="scrapi.proto">
+      <Filter>Proto Files</Filter>
+    </None>
+    <None Include="spatial.proto">
+      <Filter>Proto Files</Filter>
+    </None>
+    <None Include="Test.proto">
+      <Filter>Proto Files</Filter>
+    </None>
+    <None Include="ui.proto">
+      <Filter>Proto Files</Filter>
+    </None>
+    <None Include="Wrapper.proto">
+      <Filter>Proto Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="generated\cpp\common.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\data.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\debug.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\error.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\query.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\raw.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\score.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\scrapi.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\spatial.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\Test.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\ui.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\Wrapper.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="generated\cpp\common.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\data.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\debug.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\error.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\query.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\raw.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\score.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\scrapi.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\spatial.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\Test.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\ui.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\Wrapper.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

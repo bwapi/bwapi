@@ -16,9 +16,9 @@
 #endif
 // @@protoc_insertion_point(includes)
 
-namespace protobuf_data_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_data_2eproto ::google::protobuf::internal::SCCInfo<6> scc_info_Game;
-}  // namespace protobuf_data_2eproto
+namespace protobuf_bwapidata_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_bwapidata_2eproto ::google::protobuf::internal::SCCInfo<6> scc_info_Game;
+}  // namespace protobuf_bwapidata_2eproto
 namespace bwapi {
 namespace game {
 class FrameUpdateDefaultTypeInternal {
@@ -47,7 +47,7 @@ static void InitDefaultsFrameUpdate() {
 
 ::google::protobuf::internal::SCCInfo<1> scc_info_FrameUpdate =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsFrameUpdate}, {
-      &protobuf_data_2eproto::scc_info_Game.base,}};
+      &protobuf_bwapidata_2eproto::scc_info_Game.base,}};
 
 static void InitDefaultsEndOfQueue() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;

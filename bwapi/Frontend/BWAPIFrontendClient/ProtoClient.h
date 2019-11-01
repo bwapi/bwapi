@@ -35,6 +35,11 @@ namespace BWAPI
     void setVision(int playerId, bool enabled) override;
     void createUnit(int playerId, UnitType unitType, int x, int y, int count) override;
     void killUnits(const Unitset& units, bool removeInstantly) override;
+    void createGameRequest(bool battlenetMap, const std::string& map, int playerCount, bool addComputer, Race race);
+    void gameInfoRequest();
+    void observationRequest();
+    bool isRemaster() const;
+
   private:
     void onMatchFrame(Game& game);
     void onMatchStart(Game& game);

@@ -123,8 +123,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="command.proto" />
-    <None Include="data.proto" />
-    <None Include="error.proto" />
+    <None Include="bwapidata.proto" />
+    <None Include="bwapierror.proto" />
     <None Include="event.proto" />
     <None Include="game.proto" />
     <None Include="init.proto" />
@@ -136,18 +136,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="generated\cpp\bwapidata.pb.cc" />
+    <ClCompile Include="generated\cpp\bwapierror.pb.cc" />
     <ClCompile Include="generated\cpp\command.pb.cc" />
-    <ClCompile Include="generated\cpp\data.pb.cc" />
-    <ClCompile Include="generated\cpp\error.pb.cc" />
     <ClCompile Include="generated\cpp\event.pb.cc" />
     <ClCompile Include="generated\cpp\game.pb.cc" />
     <ClCompile Include="generated\cpp\init.pb.cc" />
     <ClCompile Include="generated\cpp\message.pb.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="generated\cpp\bwapidata.pb.h" />
+    <ClInclude Include="generated\cpp\bwapierror.pb.h" />
     <ClInclude Include="generated\cpp\command.pb.h" />
-    <ClInclude Include="generated\cpp\data.pb.h" />
-    <ClInclude Include="generated\cpp\error.pb.h" />
     <ClInclude Include="generated\cpp\event.pb.h" />
     <ClInclude Include="generated\cpp\game.pb.h" />
     <ClInclude Include="generated\cpp\init.pb.h" />

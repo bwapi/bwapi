@@ -1,30 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="generated\cpp\command.pb.cc" />
-    <ClCompile Include="generated\cpp\error.pb.cc" />
-    <ClCompile Include="generated\cpp\event.pb.cc" />
-    <ClCompile Include="generated\cpp\game.pb.cc" />
-    <ClCompile Include="generated\cpp\init.pb.cc" />
-    <ClCompile Include="generated\cpp\message.pb.cc" />
-    <ClCompile Include="generated\cpp\data.pb.cc" />
+    <ClCompile Include="generated\cpp\command.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\event.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\game.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\init.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\message.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\bwapidata.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\bwapierror.pb.cc">
+      <Filter>Generated</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="generated\cpp\command.pb.h" />
-    <ClInclude Include="generated\cpp\error.pb.h" />
-    <ClInclude Include="generated\cpp\event.pb.h" />
-    <ClInclude Include="generated\cpp\game.pb.h" />
-    <ClInclude Include="generated\cpp\init.pb.h" />
-    <ClInclude Include="generated\cpp\message.pb.h" />
-    <ClInclude Include="generated\cpp\data.pb.h" />
+    <ClInclude Include="generated\cpp\command.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\event.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\game.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\init.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\message.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\bwapidata.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="generated\cpp\bwapierror.pb.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="command.proto" />
-    <None Include="data.proto" />
-    <None Include="error.proto" />
-    <None Include="event.proto" />
-    <None Include="game.proto" />
-    <None Include="init.proto" />
-    <None Include="message.proto" />
+    <None Include="command.proto">
+      <Filter>Proto files</Filter>
+    </None>
+    <None Include="event.proto">
+      <Filter>Proto files</Filter>
+    </None>
+    <None Include="game.proto">
+      <Filter>Proto files</Filter>
+    </None>
+    <None Include="init.proto">
+      <Filter>Proto files</Filter>
+    </None>
+    <None Include="message.proto">
+      <Filter>Proto files</Filter>
+    </None>
+    <None Include="bwapidata.proto">
+      <Filter>Proto files</Filter>
+    </None>
+    <None Include="bwapierror.proto">
+      <Filter>Proto files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Proto files">
+      <UniqueIdentifier>{e867ec1c-275f-4743-97ac-c8c7f15ae46c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated">
+      <UniqueIdentifier>{a5ec9338-d8f6-43bd-8f4d-64377deb070f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

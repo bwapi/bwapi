@@ -1,6 +1,6 @@
 syntax = "proto3";
 option optimize_for = LITE_RUNTIME;
-import "data.proto";
+import "bwapidata.proto";
 package bwapi.game;
 
 

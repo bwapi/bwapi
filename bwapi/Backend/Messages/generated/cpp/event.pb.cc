@@ -16,9 +16,9 @@
 #endif
 // @@protoc_insertion_point(includes)
 
-namespace protobuf_data_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_data_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Point;
-}  // namespace protobuf_data_2eproto
+namespace protobuf_bwapidata_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_bwapidata_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Point;
+}  // namespace protobuf_bwapidata_2eproto
 namespace protobuf_event_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_event_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_MatchEnd;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_event_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_MatchFrame;
@@ -268,7 +268,7 @@ static void InitDefaultsNukeDetect() {
 
 ::google::protobuf::internal::SCCInfo<1> scc_info_NukeDetect =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsNukeDetect}, {
-      &protobuf_data_2eproto::scc_info_Point.base,}};
+      &protobuf_bwapidata_2eproto::scc_info_Point.base,}};
 
 static void InitDefaultsUnitDiscover() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;

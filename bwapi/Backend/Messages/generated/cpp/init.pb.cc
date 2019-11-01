@@ -16,9 +16,9 @@
 #endif
 // @@protoc_insertion_point(includes)
 
-namespace protobuf_error_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_error_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Error;
-}  // namespace protobuf_error_2eproto
+namespace protobuf_bwapierror_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_bwapierror_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Error;
+}  // namespace protobuf_bwapierror_2eproto
 namespace bwapi {
 namespace init {
 class ClientBroadcastDefaultTypeInternal {
@@ -66,7 +66,7 @@ static void InitDefaultsServerResponse() {
 
 ::google::protobuf::internal::SCCInfo<1> scc_info_ServerResponse =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsServerResponse}, {
-      &protobuf_error_2eproto::scc_info_Error.base,}};
+      &protobuf_bwapierror_2eproto::scc_info_Error.base,}};
 
 static void InitDefaultsClientResolution() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -81,7 +81,7 @@ static void InitDefaultsClientResolution() {
 
 ::google::protobuf::internal::SCCInfo<1> scc_info_ClientResolution =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsClientResolution}, {
-      &protobuf_error_2eproto::scc_info_Error.base,}};
+      &protobuf_bwapierror_2eproto::scc_info_Error.base,}};
 
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_ClientBroadcast.base);

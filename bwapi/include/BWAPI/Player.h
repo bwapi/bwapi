@@ -307,6 +307,8 @@ namespace BWAPI
     /// @returns The supply that is in use for this player and the given \p race.
     /// @see supplyTotal
     int supplyUsed(Race race = Races::None) const {
+      if (race == Races::None)
+        race = getData().race;
       auto const irace = static_cast<int>(race);
       return 0 <= irace && irace < 3 ? getData().supplyUsed[irace] : 0;
     }

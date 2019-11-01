@@ -48,6 +48,7 @@ namespace BWAPI
     int irradiateTimer = 0;
     int lockdownTimer = 0;
     int maelstromTimer = 0;
+    // @TODO REMOVE orderTimer
     int orderTimer = 0;
     int plagueTimer = 0;
     int removeTimer = 0;
@@ -116,6 +117,7 @@ namespace BWAPI
     bool isUnderDWeb = false;
     bool isPowered = false;
     bool isVisible[9] = {};
+    // @TODO REMOVE buttonset
     int  buttonset = 0;
 
     int lastCommandFrame = 0;

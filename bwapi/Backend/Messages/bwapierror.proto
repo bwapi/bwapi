@@ -1,0 +1,15 @@
+syntax = "proto3";
+option optimize_for = LITE_RUNTIME;
+
+package bwapi.error;
+
+// Error codes - TODO (stuff)
+enum ErrorCode {
+	NONE = 0;
+	REFUSED = 1;
+}
+
+message Error {
+	ErrorCode code = 1;
+	string reason = 2;
+}

@@ -11,7 +11,9 @@
 // Protobuf headers have some warnings we don't care about
 #pragma warning(push, 0)
 #include "..\Messages\generated\cpp\message.pb.h"
+#include "..\..\SCRAPIMessages\generated\cpp\scrapi.pb.h"
 #pragma warning(pop)
+
 
 namespace BWAPI
 {
@@ -29,10 +31,14 @@ namespace BWAPI
         void stopListen();
 
         void queueMessage(std::unique_ptr<bwapi::message::Message> newMessage);
+        void queueMessage(std::unique_ptr<SCRAPIProtocol::Request> newMessage);
         std::unique_ptr<bwapi::message::Message> getNextMessage();
+        std::unique_ptr<SCRAPIProtocol::Response> getNextResponse();
         
         bool isConnected() const;
+        bool isRemaster() const;
         int messageQueueSize() const;
+        int responseQueueSize() const;
 
     private:
       sf::UdpSocket udpSocket;
@@ -40,6 +46,8 @@ namespace BWAPI
       sf::TcpListener tcpListener;
       sf::SocketSelector socketSelector;
       std::deque<std::unique_ptr<bwapi::message::Message>> messageQueue;
+      std::deque<std::unique_ptr<SCRAPIProtocol::Request>> requestQueue;
+      std::deque<std::unique_ptr<SCRAPIProtocol::Response>> responseQueue;
       std::mt19937 mt;
         
       int getRandomInteger(int min, int max) {
@@ -49,6 +57,7 @@ namespace BWAPI
 
       bool connected;
       bool udpbound;
+      bool remaster;
       unsigned short connectionPort;
     };
 }

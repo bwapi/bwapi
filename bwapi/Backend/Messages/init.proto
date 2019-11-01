@@ -1,6 +1,6 @@
 syntax = "proto3";
 option optimize_for = LITE_RUNTIME;
-import "error.proto";
+import "bwapierror.proto";
 
 package bwapi.init;
 

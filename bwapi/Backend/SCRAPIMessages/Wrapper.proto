@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+package SCRAPIProtocol;
+
+// Wrapper for every other protobuf.
+message Wrapper
+{
+    // The ID of the payload protobuf.
+    required int32 payload_id = 1;
+
+	// The payload (i.e. the actual protobuf that we care about).
+	required bytes payload = 2;
+}
