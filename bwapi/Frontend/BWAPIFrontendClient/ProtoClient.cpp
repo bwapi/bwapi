@@ -829,6 +829,15 @@ namespace BWAPI
               auto &newUnit = *units.emplace(game, unitID).first;
               fillUnitData(const_cast<UnitData &>(newUnit), u);
               game.addUnit(newUnit);
+              Event e;
+              e.setType(EventType::UnitCreate);
+              e.setUnit(game.getUnit(const_cast<UnitData &>(newUnit).id));
+              game.addEvent(e);
+              if (const_cast<UnitData &>(newUnit).isCompleted)
+              {
+                e.setType(EventType::UnitComplete);
+                game.addEvent(e);
+              }
             }
             else
             {
