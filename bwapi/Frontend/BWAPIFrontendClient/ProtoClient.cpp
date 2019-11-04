@@ -673,6 +673,7 @@ namespace BWAPI
             // engaged_target_tag
 
             //unitData.acidSporeCount = u.acidsporecount(); // Where is this?
+            unitData.type = static_cast<UnitType>(u.unit_type());
             if (u.has_add_on_tag())
               unitData.addon = static_cast<UnitID>(u.add_on_tag());
             unitData.airWeaponCooldown = u.weapon_cooldown();
@@ -746,7 +747,10 @@ namespace BWAPI
             //unitData.isMorphing = u.ismorphing();
             //unitData.isMoving = u.ismoving();
             //unitData.isParasited = u.isparasited();
-            unitData.isPowered = u.is_powered();
+            if (unitData.type.requiresPsi())
+              unitData.isPowered = u.is_powered();
+            else
+              unitData.isPowered = true;
             unitData.isSelected = u.is_selected();
             //unitData.isStartingAttack = u.isstartingattack();
             //unitData.isStuck = u.isstuck();
@@ -811,7 +815,6 @@ namespace BWAPI
             //for (auto &tqu : u.trainingqueue())
               //unitData.trainingQueue.push_back(UnitType{ tqu });
             //unitData.transport = UnitID{ u.transport() };
-            unitData.type = static_cast<UnitType>(u.unit_type());
             //unitData.upgrade = UpgradeType{ u.upgrade() };
             //unitData.velocityX = u.velocityx();
             //unitData.velocityY = u.velocityy();
