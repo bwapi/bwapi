@@ -741,7 +741,7 @@ namespace BWAPI
             //unitData.isGathering = u.isgathering();
             //unitData.isHallucination = u.ishallucination();
             //unitData.isIdle = u.isidle();
-            //unitData.isInterruptible = u.isinterruptible();
+            unitData.isInterruptible = true;
             //unitData.isInvincible = u.isinvincible();
             //unitData.isLifted = u.islifted();
             //unitData.isMorphing = u.ismorphing();
@@ -758,7 +758,7 @@ namespace BWAPI
             //unitData.isUnderDarkSwarm = u.isunderdarkswarm();
             //unitData.isUnderDWeb = u.isunderdweb();
             //unitData.isUnderStorm = u.isunderstorm();
-            //std::copy(u.isvisible().begin(), u.isvisible().end(), unitData.isVisible);
+            unitData.isVisible[game.gameData->player.id] = (u.display_type() == SCRAPIProtocol::Visible);
             //unitData.killCount = u.killcount();
             //for (auto &l : u.larva())
               //unitData.larva.push_back(UnitID{ l });
@@ -1029,18 +1029,51 @@ namespace BWAPI
   }
   void ProtoClient::issueCommand(const Unitset& units, UnitCommand command)
   {
-    auto newMessage = std::make_unique<bwapi::message::Message>();
-    auto newUnitCommand = newMessage->mutable_command()->mutable_unitcommand();
-    for (auto unit : units)
+    if (!isRemaster())
     {
-      newUnitCommand->add_unitid(unit.getID().id);
+      auto newMessage = std::make_unique<bwapi::message::Message>();
+      auto newUnitCommand = newMessage->mutable_command()->mutable_unitcommand();
+      for (auto unit : units)
+      {
+        newUnitCommand->add_unitid(unit.getID().id);
+      }
+      newUnitCommand->set_unitcommandtype(command.getType());
+      newUnitCommand->set_targetid(command.getTarget().id);
+      newUnitCommand->set_x(command.x);
+      newUnitCommand->set_y(command.y);
+      newUnitCommand->set_extra(command.extra);
+      protoClient.queueMessage(std::move(newMessage));
     }
-    newUnitCommand->set_unitcommandtype(command.getType());
-    newUnitCommand->set_targetid(command.getTarget().id);
-    newUnitCommand->set_x(command.x);
-    newUnitCommand->set_y(command.y);
-    newUnitCommand->set_extra(command.extra);
-    protoClient.queueMessage(std::move(newMessage));
+    else
+    {
+      auto newRequest = std::make_unique<SCRAPIProtocol::Request>();
+      auto requestAction = newRequest->mutable_action();
+      auto action = requestAction->add_actions();
+      auto actionRaw = action->mutable_action_raw();
+      auto actionRawUnitCommand = actionRaw->mutable_unit_command();
+      actionRawUnitCommand->set_ability_id(command.getType());
+      for (const auto &unit : units)
+        actionRawUnitCommand->add_unit_tags(unit.getID().id);
+      switch (command.getType())
+      {
+      case UnitCommandTypes::Attack_Move:
+
+      {
+        auto targetPoint = actionRawUnitCommand->mutable_target_world_space_pos();
+        targetPoint->set_x(command.x);
+        targetPoint->set_y(command.y);
+      }
+      break;
+      case UnitCommandTypes::Attack_Unit:
+      case UnitCommandTypes::Gather:
+        actionRawUnitCommand->set_target_unit_tag(command.getTarget().id);
+        break;
+      case UnitCommandTypes::Train:
+        actionRawUnitCommand->set_target_unit_tag(command.extra);
+      default:
+        break;
+      }
+    }
   }
   void ProtoClient::setAlliance(int playerId, int alliance)
   {
