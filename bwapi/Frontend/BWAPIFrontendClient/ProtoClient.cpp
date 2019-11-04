@@ -59,8 +59,7 @@ namespace BWAPI
   {
     game.clearEvents();
 
-    if (game.isInGame())
-      observationRequest();
+    observationRequest();
 
     transmitMessages(game);
 
@@ -831,6 +830,7 @@ namespace BWAPI
             else
             {
               fillUnitData(const_cast<UnitData &>(*itr), u);
+              game.addUnit(*itr);
             }
           }
           if (observationRaw.has_event())
