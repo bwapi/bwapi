@@ -603,6 +603,18 @@ namespace BWAPI
               ;//how to translate this?
             if (startRaw->has_terrain_height())
               ;//how to translate this?
+            bool skip = true;
+            for (const auto &startLocation : startRaw->start_locations())
+            {
+              if (skip)
+                skip = false;
+              else
+              {
+                auto location = TilePosition{ static_cast<int>(startLocation.x() / 32) - 1, static_cast<int>(startLocation.y() / 32) - 2 };
+                if (location != TilePosition{ -1, -2 })
+                  game.gameData->startPositions.push_back(location);
+              }
+            }
           }
           auto playerInfo = &gameInfo->player_info();
           auto fillPlayerData = [](PlayerData& playerData, const SCRAPIProtocol::PlayerInfo& p) {
@@ -845,6 +857,16 @@ namespace BWAPI
               game.addUnit(*itr);
             }
           }
+          //temp fix for self start position
+          for (const auto &u : units)
+          {
+            if (u.player == game.gameData->player && u.type.isResourceDepot())
+            {
+              auto itr = players.find(u.player);
+              const_cast<PlayerData &>(*itr).startLocationX = u.position.x / 32 - 1;
+              const_cast<PlayerData &>(*itr).startLocationY = u.position.y / 32 - 2;
+            }
+          }
           if (observationRaw.has_event())
           {
             for (const auto& tag : observationRaw.event().dead_units())
@@ -1073,6 +1095,7 @@ namespace BWAPI
       default:
         break;
       }
+      protoClient.queueMessage(std::move(newRequest));
     }
   }
   void ProtoClient::setAlliance(int playerId, int alliance)
@@ -1150,5 +1173,113 @@ namespace BWAPI
   bool ProtoClient::isRemaster() const
   {
     return protoClient.isRemaster();
+  }
+  void ProtoClient::loadFile(Game& Broodwar)
+  {
+    std::ifstream input;
+    input.open("mapinfo.txt");
+    char waste;
+    int read;
+    for (int x = 0; x < 256; x++)
+    {
+      for (int y = 0; y < 256; y++)
+      {
+        input >> Broodwar.gameData->map.groundHeight[x][y];
+        input >> waste;
+      }
+    }
+    for (int x = 0; x < 256; x++)
+    {
+      for (int y = 0; y < 256; y++)
+      {
+
+        input >> read;
+        if (read)
+          Broodwar.gameData->map.isBuildable[x][y] = true;
+        else
+          Broodwar.gameData->map.isBuildable[x][y] = false;
+        input >> waste;
+      }
+    }
+    for (int x = 0; x < 256; x++)
+    {
+      for (int y = 0; y < 256; y++)
+      {
+
+        input >> read;
+        if (read)
+          Broodwar.gameData->map.isWalkable[x][y] = true;
+        else
+          Broodwar.gameData->map.isWalkable[x][y] = false;
+        input >> waste;
+      }
+    }
+    for (int i = 0; i < 5000; i++)
+    {
+      input >> Broodwar.gameData->map.mapSplitTilesMiniTileMask[i];
+      input >> waste;
+    }
+    for (int i = 0; i < 5000; i++)
+    {
+      input >> Broodwar.gameData->map.mapSplitTilesRegion1[i];
+      input >> waste;
+    }
+    for (int i = 0; i < 5000; i++)
+    {
+      input >> Broodwar.gameData->map.mapSplitTilesRegion2[i];
+      input >> waste;
+    }
+    for (int x = 0; x < 256; x++)
+    {
+      for (int y = 0; y < 256; y++)
+      {
+        input >> Broodwar.gameData->map.mapTileRegionId[x][y];
+        input >> waste;
+      }
+    }
+    auto fillRegionData = [&](RegionData &rdata)
+    {
+      input >> waste >> rdata.islandID >> waste >> rdata.center_x >> waste >> rdata.center_y >> waste;
+      input >> rdata.priority >> waste >> rdata.leftMost >> waste >> rdata.rightMost >> waste >> rdata.topMost >> waste;
+      input >> rdata.bottomMost >> waste >> rdata.neighborCount >> waste;
+      for (int i = 0; i < 256; i++)
+      {
+        input >> rdata.neighbors[i] >> waste;
+      }
+      int val = -1;
+      input >> val;
+      if (val)
+        rdata.isAccessible = true;
+      else
+        rdata.isAccessible = false;
+      input >> waste >> val;
+      if (val)
+        rdata.isHigherGround = true;
+      else
+        rdata.isHigherGround = false;
+      input >> waste;
+    };
+    int regionCount;
+    input >> regionCount;
+    input >> waste;
+    for (int i = 0; i < regionCount; i++)
+    {
+      int id;
+      input >> id;
+      auto regionID = RegionID{ id };
+      
+      auto itr = regions.find(regionID);
+      if (itr == regions.end())
+      {
+        auto &newRegion = *regions.emplace(Broodwar, regionID).first;
+        Broodwar.addRegion(newRegion);
+        fillRegionData(const_cast<RegionData &>(newRegion));
+      }
+      else
+        fillRegionData(const_cast<RegionData &>(*itr));
+
+    }
+    input >> Broodwar.gameData->map.tileset;
+    input.close();
   }
 }

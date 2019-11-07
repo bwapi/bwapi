@@ -39,6 +39,8 @@ namespace BWAPI
     void gameInfoRequest();
     void observationRequest();
     bool isRemaster() const;
+    // @TODO function for debugging, delete later.
+    void loadFile(Game& Broodwar);
 
   private:
     void onMatchFrame(Game& game);
