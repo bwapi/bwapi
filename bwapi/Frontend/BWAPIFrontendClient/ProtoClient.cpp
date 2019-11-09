@@ -834,6 +834,8 @@ namespace BWAPI
           };
           for (auto &u : SCRAPIunits)
           {
+            if (u.unit_type() == 191) // Bullet, not unit, ignore for now.
+              continue;
             UnitID unitID = static_cast<UnitID>(u.tag());
             auto itr = units.find(unitID);
             if (itr == units.end())
@@ -874,6 +876,8 @@ namespace BWAPI
               Event e;
               auto unitID = static_cast<UnitID>(tag);
               auto itr = units.find(unitID);
+              if (itr == units.end())
+                continue;
               e.setType(EventType::UnitDestroy);
               e.setUnit(game.getUnit(unitID));
               game.addEvent(e);
@@ -1073,9 +1077,31 @@ namespace BWAPI
       auto action = requestAction->add_actions();
       auto actionRaw = action->mutable_action_raw();
       auto actionRawUnitCommand = actionRaw->mutable_unit_command();
-      actionRawUnitCommand->set_ability_id(command.getType());
+
       for (const auto &unit : units)
         actionRawUnitCommand->add_unit_tags(unit.getID().id);
+
+      auto ct = command.getType();
+      auto ut = units.begin()->getType();
+      if (ct == UnitCommandTypes::Attack_Move)
+      {
+        if (ut == UnitTypes::Zerg_Infested_Terran)
+          actionRawUnitCommand->set_ability_id(Orders::Enum::Attack1);
+        else
+          actionRawUnitCommand->set_ability_id(Orders::Enum::AttackMove);
+      }
+      else if (ct == UnitCommandTypes::Train)
+      {
+        auto type1 = UnitType{ command.extra };
+        switch (ut)
+        {
+        default:
+          actionRawUnitCommand->set_ability_id(Orders::Enum::Train);
+          break;
+        }
+      }
+      else if (ct == UnitCommandTypes::Right_Click_Unit)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::RightClickAction);
       switch (command.getType())
       {
       case UnitCommandTypes::Attack_Move:
@@ -1088,6 +1114,7 @@ namespace BWAPI
       break;
       case UnitCommandTypes::Attack_Unit:
       case UnitCommandTypes::Gather:
+      case UnitCommandTypes::Right_Click_Unit:
         actionRawUnitCommand->set_target_unit_tag(command.getTarget().id);
         break;
       case UnitCommandTypes::Train:
