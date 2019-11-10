@@ -54,6 +54,7 @@ namespace BWAPI
     void initPlayers(Game& game);
     void initInitialUnits(Game& game);
     void initRegions(Game& game);
+    void updatePlayerUnitCounts(Game& game);
 
     void transmitMessages(Game& game);
 

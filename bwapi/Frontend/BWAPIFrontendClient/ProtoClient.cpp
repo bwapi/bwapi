@@ -617,9 +617,18 @@ namespace BWAPI
             }
           }
           auto playerInfo = &gameInfo->player_info();
-          auto fillPlayerData = [](PlayerData& playerData, const SCRAPIProtocol::PlayerInfo& p) {
+          auto fillPlayerData = [&](PlayerData& playerData, const SCRAPIProtocol::PlayerInfo& p) {
             playerData.race = static_cast<Race>(p.race_actual());
             playerData.type = static_cast<PlayerType>(p.type());
+            for (int i = 0; i < 234; i++)
+              playerData.isUnitAvailable[i] = true;
+            for (int i = 0; i < 47; i++)
+              playerData.isResearchAvailable[i] = true;
+            if (p.type() != SCRAPIProtocol::Participant)
+            {
+              for (int i = 0; i < 12; i++)
+                playerData.isEnemy[i] = true;
+            }
           };
           for (auto &currentPlayer : *playerInfo)
           {
@@ -635,6 +644,7 @@ namespace BWAPI
             {
               fillPlayerData(const_cast<PlayerData &>(*itr), currentPlayer);
             }
+            // @TODO get Remaster to send alliance information for all players.
             if (currentPlayer.type() == SCRAPIProtocol::Participant)
               game.gameData->player = playerID;
           }
@@ -648,8 +658,9 @@ namespace BWAPI
         }
         if (response->has_observation())
         {
-          auto responseObservation = &response->observation();          
+          auto responseObservation = &response->observation();
           auto observation = &responseObservation->observation();
+          game.gameData->frameCount = observation->game_loop();
           auto observationRaw = observation->raw_data();
           auto player_common = observation->player_common();
           auto fillPlayerData = [](PlayerData& playerData, const SCRAPIProtocol::PlayerCommon& p, const SCRAPIProtocol::ObservationRaw& o) {
@@ -748,15 +759,12 @@ namespace BWAPI
             unitData.isBurrowed = u.is_burrowed();
             unitData.isCloaked = (u.cloak() == 1) || (u.cloak() == 2);
             unitData.isCompleted = u.build_progress() == 1;
-            //unitData.isConstructing = u.isconstructing();
             unitData.isDetected = (u.cloak() == 2) || (u.cloak() == 3);
-            //unitData.isGathering = u.isgathering();
+            unitData.isGathering = true; // @TODO hack for now. Should be safe due to additional checks
             //unitData.isHallucination = u.ishallucination();
-            //unitData.isIdle = u.isidle();
             unitData.isInterruptible = true;
             //unitData.isInvincible = u.isinvincible();
             //unitData.isLifted = u.islifted();
-            //unitData.isMorphing = u.ismorphing();
             //unitData.isMoving = u.ismoving();
             //unitData.isParasited = u.isparasited();
             if (unitData.type.requiresPsi())
@@ -766,7 +774,22 @@ namespace BWAPI
             unitData.isSelected = u.is_selected();
             //unitData.isStartingAttack = u.isstartingattack();
             //unitData.isStuck = u.isstuck();
-            //unitData.isTraining = u.istraining();
+            if (!unitData.type.canProduce())
+              unitData.isTraining = false;
+            else if (unitData.type.getRace() == Races::Zerg && unitData.type.isResourceDepot())
+              unitData.isTraining = false;
+            else if (unitData.type.isBuilding())
+            {
+              unitData.isTraining = false;
+              for (auto o : u.orders())
+              {
+                if (o.ability_id() == Orders::Train)
+                {
+                  unitData.isTraining = true;
+                  break;
+                }
+              }
+            }
             //unitData.isUnderDarkSwarm = u.isunderdarkswarm();
             //unitData.isUnderDWeb = u.isunderdweb();
             //unitData.isUnderStorm = u.isunderstorm();
@@ -793,6 +816,48 @@ namespace BWAPI
               else if (itr->has_target_world_space_pos())
                 unitData.orderTargetPosition = Position{ static_cast<int>(itr->target_world_space_pos().x()), static_cast<int>(itr->target_world_space_pos().y()) };
             }
+            unitData.isMorphing = unitData.order == Orders::ZergBirth ||
+              unitData.order == Orders::ZergBuildingMorph ||
+              unitData.order == Orders::ZergUnitMorph ||
+              unitData.order == Orders::Enum::IncompleteMorphing;
+
+            unitData.isConstructing = unitData.isMorphing ||
+              unitData.order == Orders::ConstructingBuilding ||
+              unitData.order == Orders::PlaceBuilding ||
+              unitData.order == Orders::Enum::DroneBuild ||
+              unitData.order == Orders::Enum::DroneStartBuild ||
+              unitData.order == Orders::Enum::DroneLand ||
+              unitData.order == Orders::Enum::PlaceProtossBuilding ||
+              unitData.order == Orders::Enum::CreateProtossBuilding ||
+              unitData.order == Orders::Enum::IncompleteBuilding ||
+              unitData.order == Orders::Enum::IncompleteWarping ||
+              unitData.order == Orders::Enum::IncompleteMorphing ||
+              unitData.order == Orders::BuildNydusExit ||
+              unitData.order == Orders::BuildAddon ||
+              unitData.secondaryOrder == Orders::BuildAddon ||
+              (!unitData.isCompleted && unitData.buildUnit != UnitID{ -1 });
+
+            if (unitData.isTraining ||
+              unitData.isConstructing ||
+              unitData.isMorphing ||
+              unitData.order == Orders::ResearchTech ||
+              unitData.order == Orders::Upgrade)
+              unitData.isIdle = false;
+            else
+              unitData.isIdle = unitData.order == Orders::PlayerGuard ||
+              unitData.order == Orders::Guard ||
+              unitData.order == Orders::Stop ||
+              unitData.order == Orders::PickupIdle ||
+              unitData.order == Orders::Nothing ||
+              unitData.order == Orders::Medic ||
+              unitData.order == Orders::Carrier ||
+              unitData.order == Orders::Reaver ||
+              unitData.order == Orders::Critter ||
+              unitData.order == Orders::Neutral ||
+              unitData.order == Orders::TowerGuard ||
+              unitData.order == Orders::Burrowed ||
+              unitData.order == Orders::NukeTrain ||
+              unitData.order == Orders::Larva;
             //unitData.orderTimer = u.ordertimer();
             //unitData.plagueTimer = u.plaguetimer();
             unitData.player = static_cast<PlayerID>(u.owner());
@@ -895,6 +960,8 @@ namespace BWAPI
         
       }
     }
+    if (isRemaster())
+      updatePlayerUnitCounts(game);
     game.update();
   }
   void ProtoClient::onMatchFrame(Game& game)
@@ -917,6 +984,24 @@ namespace BWAPI
   }
   void ProtoClient::initRegions(Game& game)
   {
+  }
+  void ProtoClient::updatePlayerUnitCounts(Game& game)
+  {
+    for (auto itr = players.begin(); itr != players.end(); itr++)
+    {
+      for (int i = 0; i < 234; i++)
+      {
+        const_cast<PlayerData &>(*itr).allUnitCount[i] = 0;
+        const_cast<PlayerData &>(*itr).completedUnitCount[i] = 0;
+      }
+    }
+    for (auto u : game.getAllUnits())
+    {
+      auto itr = players.find(u.getPlayer());
+      const_cast<PlayerData &>(*itr).allUnitCount[u.getType()] += 1;
+      if (u.isCompleted())
+        const_cast<PlayerData &>(*itr).completedUnitCount[u.getType()] += 1;
+    }
   }
   void ProtoClient::onMatchEnd(Game& game)
   {
@@ -1090,6 +1175,18 @@ namespace BWAPI
         else
           actionRawUnitCommand->set_ability_id(Orders::Enum::AttackMove);
       }
+      else if (ct == UnitCommandTypes::Build)
+      {
+        UnitType extraType(command.extra);
+        if (extraType.isAddon())
+          actionRawUnitCommand->set_ability_id(Orders::Enum::PlaceAddon);
+        else
+          actionRawUnitCommand->set_ability_id(Orders::Enum::PlaceBuilding);
+        auto actionPosition = actionRawUnitCommand->mutable_target_world_space_pos();
+        actionPosition->set_x(command.x);
+        actionPosition->set_y(command.y);
+        actionRawUnitCommand->add_unit_tags(command.extra);
+      }
       else if (ct == UnitCommandTypes::Train)
       {
         auto type1 = UnitType{ command.extra };
@@ -1100,6 +1197,8 @@ namespace BWAPI
           break;
         }
       }
+      else if (ct == UnitCommandTypes::Gather)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::Harvest1);
       else if (ct == UnitCommandTypes::Right_Click_Unit)
         actionRawUnitCommand->set_ability_id(Orders::Enum::RightClickAction);
       switch (command.getType())
