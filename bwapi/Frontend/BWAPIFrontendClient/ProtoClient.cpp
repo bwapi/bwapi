@@ -1175,6 +1175,17 @@ namespace BWAPI
         else
           actionRawUnitCommand->set_ability_id(Orders::Enum::AttackMove);
       }
+      else if (ct == UnitCommandTypes::Attack_Unit)
+      {
+        if (ut == UnitTypes::Protoss_Carrier || ut == UnitTypes::Hero_Gantrithor)
+          actionRawUnitCommand->set_ability_id(Orders::Enum::CarrierAttack);
+        else if (ut == UnitTypes::Protoss_Reaver || ut == UnitTypes::Hero_Warbringer)
+          actionRawUnitCommand->set_ability_id(Orders::Enum::ReaverAttack);
+        else if (ut.isBuilding())
+          actionRawUnitCommand->set_ability_id(Orders::Enum::TowerAttack);
+        else
+          actionRawUnitCommand->set_ability_id(Orders::Enum::Attack1);
+      }
       else if (ct == UnitCommandTypes::Build)
       {
         UnitType extraType(command.extra);
@@ -1182,42 +1193,254 @@ namespace BWAPI
           actionRawUnitCommand->set_ability_id(Orders::Enum::PlaceAddon);
         else
           actionRawUnitCommand->set_ability_id(Orders::Enum::PlaceBuilding);
-        auto actionPosition = actionRawUnitCommand->mutable_target_world_space_pos();
-        actionPosition->set_x(command.x);
-        actionPosition->set_y(command.y);
-        actionRawUnitCommand->add_unit_tags(command.extra);
       }
+      else if (ct == UnitCommandTypes::Build_Addon)
+        actionRawUnitCommand->set_ability_id(Orders::PlaceAddon);
       else if (ct == UnitCommandTypes::Train)
       {
         auto type1 = UnitType{ command.extra };
         switch (ut)
         {
+        case UnitTypes::Zerg_Larva:
+        case UnitTypes::Zerg_Mutalisk:
+        case UnitTypes::Zerg_Hydralisk:
+          actionRawUnitCommand->set_ability_id(Orders::Enum::ZergUnitMorph);
+          break;
+        case UnitTypes::Zerg_Hatchery:
+        case UnitTypes::Zerg_Lair:
+        case UnitTypes::Zerg_Spire:
+        case UnitTypes::Zerg_Creep_Colony:
+          actionRawUnitCommand->set_ability_id(Orders::Enum::ZergBuildingMorph);
+          break;
+        case UnitTypes::Protoss_Carrier:
+        case UnitTypes::Hero_Gantrithor:
+        case UnitTypes::Protoss_Reaver:
+        case UnitTypes::Hero_Warbringer:
+          actionRawUnitCommand->set_ability_id(Orders::Enum::TrainFighter);
+          break;
         default:
           actionRawUnitCommand->set_ability_id(Orders::Enum::Train);
           break;
         }
       }
+      else if (ct == UnitCommandTypes::Morph)
+      {
+        UnitType type{ command.extra };
+        if (type.isBuilding())
+          actionRawUnitCommand->set_ability_id(Orders::Enum::ZergUnitMorph);
+        else
+          actionRawUnitCommand->set_ability_id(Orders::Enum::ZergUnitMorph);
+      }
+      else if (ct == UnitCommandTypes::Research)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::ResearchTech);
+      else if (ct == UnitCommandTypes::Upgrade)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::Upgrade);
+      else if (ct == UnitCommandTypes::Set_Rally_Position)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::RallyPointTile);
+      else if (ct == UnitCommandTypes::Set_Rally_Unit)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::RallyPointUnit);
+      else if (ct == UnitCommandTypes::Move)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::Move);
+      else if (ct == UnitCommandTypes::Patrol)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::Patrol);
+      else if (ct == UnitCommandTypes::Hold_Position)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::HoldPosition);
+      else if (ct == UnitCommandTypes::Stop)
+      {
+        switch (ut)
+        {
+        case UnitTypes::Protoss_Reaver:
+        case UnitTypes::Hero_Warbringer:
+          actionRawUnitCommand->set_ability_id(Orders::Enum::ReaverStop);
+          break;
+        case UnitTypes::Enum::Protoss_Carrier:
+        case UnitTypes::Enum::Hero_Gantrithor:
+          actionRawUnitCommand->set_ability_id(Orders::Enum::CarrierStop);
+          break;
+        default:
+          actionRawUnitCommand->set_ability_id(Orders::Enum::Stop);
+          break;
+        }
+      }
+      else if (ct == UnitCommandTypes::Follow)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::Follow);
       else if (ct == UnitCommandTypes::Gather)
         actionRawUnitCommand->set_ability_id(Orders::Enum::Harvest1);
+      //else if (ct == UnitCommandTypes::Return_Cargo) // @TODO need to determine if carrying minerals or gas, currently cannot do so.
+      else if (ct == UnitCommandTypes::Repair)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::Repair); // or MoveToRepair?
+      else if (ct == UnitCommandTypes::Burrow)
+      actionRawUnitCommand->set_ability_id(Orders::Enum::Burrowing);
+      else if (ct == UnitCommandTypes::Unburrow)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::Unburrowing);
+      else if (ct == UnitCommandTypes::Cloak)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::Cloak);
+      else if (ct == UnitCommandTypes::Decloak)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::Decloak);
+      else if (ct == UnitCommandTypes::Siege)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::Sieging);
+      else if (ct == UnitCommandTypes::Unsiege)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::Unsieging);
+      else if (ct == UnitCommandTypes::Lift)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::LiftingOff);
+      else if (ct == UnitCommandTypes::Land)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::BuildingLand);
+      else if (ct == UnitCommandTypes::Load)
+      {
+        if (ut == UnitTypes::Terran_Bunker)
+          actionRawUnitCommand->set_ability_id(Orders::Enum::PickupBunker);
+        if (ut == UnitTypes::Terran_Dropship ||
+          ut == UnitTypes::Protoss_Shuttle ||
+          ut == UnitTypes::Zerg_Overlord ||
+          ut == UnitTypes::Hero_Yggdrasill)
+          actionRawUnitCommand->set_ability_id(Orders::Enum::PickupTransport);
+        else
+        {
+          BWAPI::Unit target = *units.find(command.target);
+          auto targetType = target.getType();
+          if (targetType == UnitTypes::Terran_Bunker ||
+            targetType == UnitTypes::Terran_Dropship ||
+            targetType == UnitTypes::Protoss_Shuttle ||
+            targetType == UnitTypes::Zerg_Overlord ||
+            targetType == UnitTypes::Hero_Yggdrasill)
+            actionRawUnitCommand->set_ability_id(Orders::Enum::RightClickAction);
+        }
+      }
+      else if (ct == UnitCommandTypes::Unload)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::Unload);
+      else if (ct == UnitCommandTypes::Unload_All)
+      {
+      if (ut == BWAPI::UnitTypes::Terran_Bunker)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::Unload);
+      else
+        actionRawUnitCommand->set_ability_id(Orders::Enum::MoveUnload);
+      }
+      else if (ct == UnitCommandTypes::Unload_All_Position)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::MoveUnload);
+      else if (ct == UnitCommandTypes::Right_Click_Position)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::RightClickAction);
       else if (ct == UnitCommandTypes::Right_Click_Unit)
         actionRawUnitCommand->set_ability_id(Orders::Enum::RightClickAction);
+      else if (ct == UnitCommandTypes::Halt_Construction)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::Stop);
+      else if (ct == UnitCommandTypes::Cancel_Construction)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::SelfDestructing);
+      else if (ct == UnitCommandTypes::Cancel_Addon)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::SelfDestructing);
+      else if (ct == UnitCommandTypes::Cancel_Train || ct == UnitCommandTypes::Cancel_Train_Slot)
+        actionRawUnitCommand->set_ability_id(Orders::Enum::Die); // @TODO This is probably incorrect.
+      else if (ct == UnitCommandTypes::Cancel_Morph)
+      {
+        if (ut.isBuilding())
+          actionRawUnitCommand->set_ability_id(Orders::Enum::SelfDestructing);
+        else
+          actionRawUnitCommand->set_ability_id(Orders::Enum::Die);
+      }
+      /* @TODO Don't know how to handle these, no corresponding orders.
+      else if (ct == UnitCommandTypes::Cancel_Research)
+      QUEUE_COMMAND(BW::Orders::CancelResearch);
+      else if (ct == UnitCommandTypes::Cancel_Upgrade)
+      QUEUE_COMMAND(BW::Orders::CancelUpgrade);*/
+      else if (ct == UnitCommandTypes::Use_Tech) // @TODO These might be all wrong.
+      {
+        TechType tech(command.extra);
+        switch (tech)
+        {
+        case TechTypes::Stim_Packs:
+          // @TODO This doesn't have a unit order.
+          break;
+        case TechTypes::Tank_Siege_Mode:
+          if (units.begin()->isSieged())
+            actionRawUnitCommand->set_ability_id(Orders::Enum::Unsieging);
+          else
+            actionRawUnitCommand->set_ability_id(Orders::Enum::Sieging);
+          break;
+        case TechTypes::Personnel_Cloaking:
+        case TechTypes::Cloaking_Field:
+          if (units.begin()->isCloaked())
+            actionRawUnitCommand->set_ability_id(Orders::Enum::Decloak);
+          else
+            actionRawUnitCommand->set_ability_id(Orders::Enum::Cloak);
+          break;
+        case TechTypes::Burrowing:
+          if (units.begin()->isBurrowed())
+            actionRawUnitCommand->set_ability_id(Orders::Enum::Burrowing);
+          else
+            actionRawUnitCommand->set_ability_id(Orders::Enum::Unburrowing);
+          break;
+        }
+      }/* @TODO not sure if we can implement these at this time.
+      else if (ct == UnitCommandTypes::Use_Tech_Position)
+      {
+      Order order = (command.getTechType() == TechTypes::Healing ? Orders::HealMove : command.getTechType().getOrder());
+      QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, order);
+      }
+        else if (ct == UnitCommandTypes::Use_Tech_Unit)
+      {
+      TechType tech(command.extra);
+      if (tech == TechTypes::Archon_Warp)
+        QUEUE_COMMAND(BW::Orders::MergeArchon);
+      else if (tech == TechTypes::Dark_Archon_Meld)
+        QUEUE_COMMAND(BW::Orders::MergeDarkArchon);
+      else
+        QUEUE_COMMAND(BW::Orders::Attack, command.target, tech.getOrder());
+      }
+      else if (ct == UnitCommandTypes::Place_COP && command.unit)
+        QUEUE_COMMAND(BW::Orders::PlaceCOP, command.x, command.y, command.unit->getType());*/
       switch (command.getType())
       {
       case UnitCommandTypes::Attack_Move:
-
+      case UnitCommandTypes::Set_Rally_Position:
+      case UnitCommandTypes::Move:
+      case UnitCommandTypes::Patrol:
+      case UnitCommandTypes::Land: // @TODO Maybe this needs moved?
+      case UnitCommandTypes::Unload_All_Position:
+      case UnitCommandTypes::Right_Click_Position:
       {
         auto targetPoint = actionRawUnitCommand->mutable_target_world_space_pos();
         targetPoint->set_x(command.x);
         targetPoint->set_y(command.y);
       }
       break;
+      case UnitCommandTypes::Build:
+      case UnitCommandTypes::Build_Addon:
+      {
+        auto targetPoint = actionRawUnitCommand->mutable_target_world_space_pos();
+        targetPoint->set_x(command.x);
+        targetPoint->set_y(command.y);
+        actionRawUnitCommand->add_unit_tags(command.extra);
+      }
+      break;
       case UnitCommandTypes::Attack_Unit:
+      case UnitCommandTypes::Follow:
       case UnitCommandTypes::Gather:
       case UnitCommandTypes::Right_Click_Unit:
+      case UnitCommandTypes::Load:
+      case UnitCommandTypes::Unload:
         actionRawUnitCommand->set_target_unit_tag(command.getTarget().id);
         break;
       case UnitCommandTypes::Train:
-        actionRawUnitCommand->set_target_unit_tag(command.extra);
+      case UnitCommandTypes::Morph:
+      case UnitCommandTypes::Set_Rally_Unit:
+      case UnitCommandTypes::Repair:
+      case UnitCommandTypes::Cancel_Train:
+      case UnitCommandTypes::Cancel_Train_Slot:
+        if (ut != UnitTypes::Protoss_Carrier && ut != UnitTypes::Hero_Gantrithor && ut != UnitTypes::Protoss_Reaver && ut != UnitTypes::Hero_Warbringer)
+          actionRawUnitCommand->set_target_unit_tag(command.extra);
+        break;
+      case UnitCommandTypes::Research:
+        actionRawUnitCommand->set_target_unit_tag(command.getTechType());
+        break;
+      case UnitCommandTypes::Upgrade:
+        actionRawUnitCommand->set_target_unit_tag(command.getUpgradeType());
+        break;
+      case UnitCommandTypes::Unload_All:
+        if (ut != UnitTypes::Terran_Bunker)
+        {
+          auto targetPoint = actionRawUnitCommand->mutable_target_world_space_pos();
+          targetPoint->set_x(units.begin()->getPosition().x);
+          targetPoint->set_y(units.begin()->getPosition().y);
+        }
       default:
         break;
       }
