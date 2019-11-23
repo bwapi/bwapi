@@ -23,7 +23,7 @@ void FunGame::connect()
     std::this_thread::sleep_for(std::chrono::seconds(1));
   }
   update();
-  
+
   std::cout << "waiting to enter match" << std::endl;
   while (!game->isInGame())
   {
@@ -38,16 +38,19 @@ void FunGame::update()
 
 void FunGame::advance(int frames)
 {
-  int targetFrame = game->getFrameCount() + frames;
-  while (game->getFrameCount() < targetFrame)
+  int framesPassed = 0;
+  while (framesPassed < frames)
   {
     update();
+    framesPassed++;
   }
 }
 
 void FunGame::reset()
 {
-  game->removeUnits(game->getAllUnits());
+  //game->removeUnits(game->getAllUnits());
+  game->restartGame();
+  advance(5);
 
   // TODO: Game has some state for many things, they all need to be reset here
   // I'm thinking we reinit the GameData, but store the old GameData for use

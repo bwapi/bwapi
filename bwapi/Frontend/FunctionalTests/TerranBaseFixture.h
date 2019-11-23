@@ -55,7 +55,7 @@ public:
       funGame.advance(10);
     }
 
-    funGame.advance(2);
+    funGame.advance(100);
 
     commandCenter = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Command_Center);
     academy = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Academy);

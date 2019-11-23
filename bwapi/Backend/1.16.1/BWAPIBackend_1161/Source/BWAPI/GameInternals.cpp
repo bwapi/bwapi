@@ -92,12 +92,12 @@ namespace BWAPI4
   }
   void GameImpl::dropPlayers()
   {
-    for ( int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i )
+    for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
     {
-      if ( BW::BWDATA::playerStatusArray[i] & 0x10000 )
+      if (BW::BWDATA::playerStatusArray[i] & 0x10000)
       {
         int iplr = this->stormIdToPlayerId(i);
-        if ( iplr != -1 && iplr != BW::BWDATA::g_LocalHumanID )
+        if (iplr != -1 && iplr != BW::BWDATA::g_LocalHumanID)
         {
           this->droppedPlayers.push_back(this->players[iplr]);
           SNetDropPlayer(i, 0x40000006);  // The value used when dropping
@@ -110,7 +110,7 @@ namespace BWAPI4
   {
     // Don't do anything if key is 0
     // used when auto-menu dialogs are not found, performance
-    if ( !key )
+    if (!key)
       return;
 
     // Press and release the key
@@ -122,7 +122,7 @@ namespace BWAPI4
     /* Translates a storm ID to a player Index */
     for (int i = 0; i < BW::PLAYER_COUNT; ++i)
     {
-      if ( BW::BWDATA::Players[i].dwStormId == dwStormId )
+      if (BW::BWDATA::Players[i].dwStormId == dwStormId)
         return i;
     }
     return -1;
@@ -188,7 +188,7 @@ namespace BWAPI4
       grid = !grid;
       BroodwarImpl.printf("Matrix grid %s", grid ? "enabled" : "disabled");
     }
-    else if ( cmd == "/fps" )
+    else if (cmd == "/fps")
     {
       this->showfps = !this->showfps;
       BroodwarImpl.printf("FPS display %s", showfps ? "enabled" : "disabled");
@@ -257,12 +257,12 @@ namespace BWAPI4
     this->commandBuffer.reserve(16);
 
     // Delete all dead units
-    for ( Unitset::iterator d = this->deadUnits.begin(); d != this->deadUnits.end(); ++d )
+    for (Unitset::iterator d = this->deadUnits.begin(); d != this->deadUnits.end(); ++d)
       delete static_cast<UnitImpl*>(*d);
     this->deadUnits.clear();
 
     // Delete all regions
-    for ( auto r = this->regionsList.begin(); r != this->regionsList.end(); ++r )
+    for (auto r = this->regionsList.begin(); r != this->regionsList.end(); ++r)
       delete *r;
     this->regionsList.clear();
     this->regionMap.clear();
@@ -292,7 +292,7 @@ namespace BWAPI4
     }
 
     BulletImpl::nextId = 0;
-    this->cheatFlags  = 0;
+    this->cheatFlags = 0;
     //this->frameCount  = -1;
     this->frameCount = 0;
 

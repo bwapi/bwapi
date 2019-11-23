@@ -9,7 +9,7 @@ TEST_F(ProtossBaseFixture, GatherTrain)
 {
   probes.gather(mineralField);
   while (Funtest::funGame.advance(), self.minerals() < 50);
-  
+
   nexus.train(UnitTypes::Protoss_Probe);
   Funtest::funGame.advance(10);
   EXPECT_EQ(self.allUnitCount(UnitTypes::Protoss_Probe), 5);
@@ -73,6 +73,8 @@ TEST_F(ProtossBaseFixture, StormTest)
   using namespace Funtest;
   funGame->sendText("operation cwal");
   funGame.advance(COMMANDWAIT);
+  funGame->sendText("show me the money");
+  funGame.advance(COMMANDWAIT);
 
   TechType storm = TechTypes::Psionic_Storm;
   EXPECT_EQ(self.hasResearched(storm), false);
@@ -90,7 +92,7 @@ TEST_F(ProtossBaseFixture, StormTest)
   EXPECT_EQ(self.hasResearched(storm), true);
 
   UnitType templar = UnitTypes::Protoss_High_Templar;
-  
+
   funGame->createUnit(self, templar, Position{ 0, 0 }, 1);
 
   funGame.advance(20);
@@ -112,8 +114,9 @@ TEST_F(ProtossBaseFixture, ReaverTest)
   using namespace Funtest;
   UnitType reaver = UnitTypes::Protoss_Reaver;
   //Unit
+  funGame->sendText("show me the money");
   funGame->createUnit(self, reaver, Position{ 0, 0 }, 1);
-  funGame.advance(2);
+  funGame.advance(COMMANDWAIT);
 
   auto u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == reaver);
   EXPECT_EQ(u.getScarabCount(), 0);
@@ -136,8 +139,11 @@ TEST_F(ProtossBaseFixture, CarrierTest)
   using namespace Funtest;
   UnitType carrier = UnitTypes::Protoss_Carrier;
   //Unit
+  funGame->sendText("show me the money");
   funGame->createUnit(self, carrier, Position{ 0, 0 }, 1);
-  funGame.advance(2);
+  funGame.advance(COMMANDWAIT);
+  funGame->sendText("operation cwal");
+  funGame.advance(COMMANDWAIT);
 
   auto u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == carrier);
   EXPECT_EQ(u.getInterceptorCount(), 0);

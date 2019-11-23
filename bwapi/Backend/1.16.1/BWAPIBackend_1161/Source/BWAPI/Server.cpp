@@ -67,7 +67,7 @@ namespace BWAPI4
       auto newMatchEnd = newEvent->mutable_matchend();
       newMatchEnd->set_winner(e.isWinner());
     }
-      break;
+    break;
     case BWAPI4::EventType::SendText:
     {
       auto newSendText = newEvent->mutable_sendtext();
@@ -79,20 +79,20 @@ namespace BWAPI4
       auto newSaveGame = newEvent->mutable_savegame();
       newSaveGame->set_text(e.getText());
     }
-      break;
+    break;
     case BWAPI4::EventType::PlayerLeft:
     {
       auto newPlayerLeft = newEvent->mutable_playerleft();
       newPlayerLeft->set_player(getPlayerID(e.getPlayer()));
     }
-      break;
+    break;
     case BWAPI4::EventType::ReceiveText:
     {
       auto newReceiveText = newEvent->mutable_receivetext();
       newReceiveText->set_player(getPlayerID(e.getPlayer()));
       newReceiveText->set_text(e.getText());
     }
-      break;
+    break;
     case BWAPI4::EventType::NukeDetect:
     {
       auto newNukeDetect = newEvent->mutable_nukedetect();
@@ -101,49 +101,49 @@ namespace BWAPI4
       target->set_y(e.getPosition().y);
       target->set_scale(1);
     }
-      break;
+    break;
     case BWAPI4::EventType::UnitDiscover:
     {
       auto newUnitDiscover = newEvent->mutable_unitdiscover();
       newUnitDiscover->set_unit(getUnitID(e.getUnit()));
     }
-      break;
+    break;
     case BWAPI4::EventType::UnitEvade:
     {
       auto newUnitEvade = newEvent->mutable_unitevade();
       newUnitEvade->set_unit(getUnitID(e.getUnit()));
     }
-      break;
+    break;
     case BWAPI4::EventType::UnitCreate:
     {
       auto newUnitCreate = newEvent->mutable_unitcreate();
       newUnitCreate->set_unit(getUnitID(e.getUnit()));
     }
-      break;
+    break;
     case BWAPI4::EventType::UnitDestroy:
     {
       auto newUnitDestroy = newEvent->mutable_unitdestroy();
       newUnitDestroy->set_unit(getUnitID(e.getUnit()));
     }
-      break;
+    break;
     case BWAPI4::EventType::UnitMorph:
     {
       auto newUnitMorph = newEvent->mutable_unitmorph();
       newUnitMorph->set_unit(getUnitID(e.getUnit()));
     }
-      break;
+    break;
     case BWAPI4::EventType::UnitShow:
     {
       auto newUnitShow = newEvent->mutable_unitshow();
       newUnitShow->set_unit(getUnitID(e.getUnit()));
     }
-      break;
+    break;
     case BWAPI4::EventType::UnitHide:
     {
       auto newUnitHide = newEvent->mutable_unithide();
       newUnitHide->set_unit(getUnitID(e.getUnit()));
     }
-      break;
+    break;
     case BWAPI4::EventType::UnitRenegade:
     {
       auto newUnitRenegade = newEvent->mutable_unitrenegade();
@@ -155,7 +155,7 @@ namespace BWAPI4
       auto newUnitComplete = newEvent->mutable_unitcomplete();
       newUnitComplete->set_unit(getUnitID(e.getUnit()));
     }
-      break;
+    break;
     default:
       break;
     }
@@ -320,7 +320,7 @@ namespace BWAPI4
             r->set_islandid(regionData.islandID);
             r->set_leftmost(regionData.leftMost);
             r->set_neighborcount(regionData.neighborCount);
-            *r->mutable_neighbors() = { std::begin(regionData.neighbors), std::end(regionData.neighbors) };            
+            *r->mutable_neighbors() = { std::begin(regionData.neighbors), std::end(regionData.neighbors) };
             r->set_priority(regionData.priority);
             r->set_rightmost(regionData.rightMost);
             r->set_topmost(regionData.topMost);
@@ -963,14 +963,14 @@ namespace BWAPI4
 
       if (BroodwarImpl.self())
         gameData->set_player(BroodwarImpl.self()->getID());
- 
+
       //screensize
       auto screenPosition = gameData->mutable_screenposition();
       screenPosition->set_x(BroodwarImpl.getScreenPosition().x);
       screenPosition->set_y(BroodwarImpl.getScreenPosition().y);
 
 
-      
+
       auto bulletsMessage = std::make_unique<bwapi::message::Message>();
       auto fillBulletData = [](const BulletData &b, bwapi::data::Bullet *bulletData, int id)
       {
@@ -1004,6 +1004,10 @@ namespace BWAPI4
       protoClient.queueMessage(std::move(bulletsMessage));
     }
     protoClient.queueMessage(std::move(message));
+    if (!data->isInGame)
+    {
+      clearAll();
+    }
     //*oldData = *data;
   }
   void Server::callOnFrame()
@@ -1085,14 +1089,14 @@ namespace BWAPI4
         {
           if (BroodwarImpl.isInGame())
             BroodwarImpl.setAlliance(getPlayer(command.setalliance().playerid()),
-                                               command.setalliance().settings() != 0,
-                                               command.setalliance().settings() == 2);
+              command.setalliance().settings() != 0,
+              command.setalliance().settings() == 2);
         }
         else if (command.has_setvision())
         {
           if (BroodwarImpl.isInGame())
             BroodwarImpl.setVision(getPlayer(command.setvision().playerid()),
-                                             command.setvision().settings() != 0);
+              command.setvision().settings() != 0);
         }
         else if (command.has_unitcommand() && BroodwarImpl.isInGame())
         {
@@ -1102,17 +1106,17 @@ namespace BWAPI4
           for (auto unitID : command.unitcommand().unitid())
           {
             auto unit = unitVector[unitID];
-            unit->issueCommand(UnitCommand(unit, 
-                                           UnitCommandType(command.unitcommand().unitcommandtype()),
-                                           target, command.unitcommand().x(),
-                                           command.unitcommand().y(),
-                                           command.unitcommand().extra()));
+            unit->issueCommand(UnitCommand(unit,
+              UnitCommandType(command.unitcommand().unitcommandtype()),
+              target, command.unitcommand().x(),
+              command.unitcommand().y(),
+              command.unitcommand().extra()));
           }
         }
         else if (command.has_shape() && BroodwarImpl.isInGame())
         {
           auto shapeCmd = command.shape();
-          BWAPIC4::Shape shape { static_cast<BWAPI::ShapeType::Enum>(shapeCmd.type()), static_cast<BWAPI::CoordinateType::Enum>(shapeCmd.ctype()), shapeCmd.x1(), shapeCmd.y1(), shapeCmd.x2(), shapeCmd.y2(), shapeCmd.extra1(), shapeCmd.extra2(), shapeCmd.color(), shapeCmd.issolid(), shapeCmd.text() };
+          BWAPIC4::Shape shape{ static_cast<BWAPI::ShapeType::Enum>(shapeCmd.type()), static_cast<BWAPI::CoordinateType::Enum>(shapeCmd.ctype()), shapeCmd.x1(), shapeCmd.y1(), shapeCmd.x2(), shapeCmd.y2(), shapeCmd.extra1(), shapeCmd.extra2(), shapeCmd.color(), shapeCmd.issolid(), shapeCmd.text() };
           BroodwarImpl.addShape(shape);
         }
         else if (command.has_createunit() && BroodwarImpl.isInGame())

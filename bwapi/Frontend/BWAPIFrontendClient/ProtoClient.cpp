@@ -63,6 +63,15 @@ namespace BWAPI
 
     transmitMessages(game);
 
+    if (!game.gameData->isInGame)
+    {
+      //players.clear();
+      units.clear();
+      regions.clear();
+      bullets.clear();
+      forces.clear();
+    }
+
     protoClient.receiveMessages();
     //Connected to a 1.16.1 backend
     if (!protoClient.isRemaster())

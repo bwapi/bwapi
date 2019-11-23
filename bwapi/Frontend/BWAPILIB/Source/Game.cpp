@@ -1967,6 +1967,35 @@ namespace BWAPI
         computePrimaryUnitSets();
         unitFinder.update(getAllUnits());
       }
+      else
+      {
+        accessibleUnits.clear();
+        pylons.clear();
+        minerals.clear();
+        geysers.clear();
+        regionsList.clear();
+        bulletsset.clear();
+        selectedUnits.clear();
+        staticMinerals.clear();
+        staticGeysers.clear();
+        staticNeutralUnits.clear();
+        neutralUnits.clear();
+        _allies.clear();
+        _enemies.clear();
+        _observers.clear();
+        playerSet.clear();
+        forcesset.clear();
+        nukeDots.clear();
+        events.clear();
+        //players.clear();
+        units.clear();
+        initialUnits.clear();
+        regions.clear();
+        bullets.clear();
+        forces.clear();
+        playerUnits.clear();
+        gameData = std::make_unique<GameData>();
+      }
     }
     void Game::clearEvents()
     {

@@ -9,19 +9,13 @@ using namespace Funtest;
 
 TEST_F(ZergBaseFixture, ZergTrainTest)
 {
-  if (self.minerals() < 500)
-  {
-    funGame->sendText("Show me the money");
-    funGame.advance(10);
-  }
-
   // Test Ordering a hatchery to train.
-  
+
   funGame.advance(200);
-  
+
   hatchery.train(UnitTypes::Zerg_Zergling);
   funGame.advance(COMMANDWAIT);
-  EXPECT_EQ(self.allUnitCount(UnitTypes::Zerg_Egg), 1);  
+  EXPECT_EQ(self.allUnitCount(UnitTypes::Zerg_Egg), 1);
 }
 
 // Test that the infested Command Center can land on creep.
@@ -38,9 +32,6 @@ TEST_F(ZergBaseFixture, ZergLandTest)
 
 TEST_F(ZergBaseFixture, MorphBurrowTest)
 {
-  funGame->sendText("operation cwal");
-  funGame.advance(COMMANDWAIT);
-
   hydraliskDen->research(TechTypes::Lurker_Aspect);
   funGame.advance(10);
   EXPECT_EQ(self.hasResearched(TechTypes::Lurker_Aspect), true);

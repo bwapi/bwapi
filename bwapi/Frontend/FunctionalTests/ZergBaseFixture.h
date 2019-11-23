@@ -46,7 +46,10 @@ public:
       if (!unitTypes[i].isAddon())
         funGame->createUnit(funGame->self(), unitTypes[i], positions[i]);
     }
-    funGame.advance(2);
+    funGame->sendText("show me the money");
+    funGame.advance(5);
+    funGame->sendText("operation cwal");
+    funGame.advance(5);
 
     self = funGame->self();
     hatchery = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Zerg_Hatchery);
