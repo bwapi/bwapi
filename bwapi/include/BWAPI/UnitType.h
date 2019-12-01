@@ -791,12 +791,10 @@ namespace BWAPI
     /// <summary>Checks if this unit type is a flag beacon.</summary> Each race has exactly one
     /// flag beacon each. They are UnitTypes::Special_Zerg_Flag_Beacon,
     /// UnitTypes::Special_Terran_Flag_Beacon, and UnitTypes::Special_Protoss_Flag_Beacon.
-    /// Flag beacons spawn a @Flag after some ARBITRARY I FORGOT AMOUNT OF FRAMES.
+    /// Flag beacons spawn a @Flag on frame 9604.
     ///
     /// @see isBeacon
     /// @returns true if this unit type is one of the three race flag beacons, and false otherwise.
-    ///
-    /// @todo specify number of frames for flag spawner
     bool isFlagBeacon() const;
 
     /// <summary>Checks if this structure is special and cannot be obtained normally within the
