@@ -4,6 +4,7 @@
 #include <BWAPI/Game.h>
 #include <map>
 #include "../Backend/BWAPIBackendCore/BWAPIProtoClient.h"
+#include "../Backend/SCRAPIBackendCore/SCRAPIProtoClient.h"
 
 namespace BWAPI
 {
@@ -66,6 +67,7 @@ namespace BWAPI
     std::set<BulletData, IDCompare> bullets;
     std::set<ForceData, IDCompare> forces;
 
-    BWAPIProtoClient protoClient;
+    BWAPIProtoClient protoClientBWAPI;
+    SCRAPIProtoClient protoClientSCRAPI;
   };
 }

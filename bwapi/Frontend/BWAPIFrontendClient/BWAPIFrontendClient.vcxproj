@@ -37,6 +37,9 @@
     <ProjectReference Include="..\..\Backend\Messages\Messages.vcxproj">
       <Project>{d85bfae4-ce79-4f4d-a032-ffa45b559e29}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\Backend\SCRAPIBackendCore\SCRAPIBackendCore.vcxproj">
+      <Project>{c91a8700-4566-48cc-809a-0ce72d67e65a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

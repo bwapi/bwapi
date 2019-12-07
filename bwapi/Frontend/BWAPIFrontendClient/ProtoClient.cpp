@@ -18,11 +18,11 @@ namespace BWAPI
   }
   bool ProtoClient::isConnected() const
   {
-    return protoClient.isConnected();
+    return protoClientBWAPI.isConnected() || protoClientSCRAPI.isConnected();
   }
   bool ProtoClient::connect()
   {
-    if (protoClient.isConnected())
+    if (protoClientBWAPI.isConnected() || protoClientSCRAPI.isConnected())
     {
       std::cout << "Already connected." << std::endl;
       return true;
@@ -31,21 +31,24 @@ namespace BWAPI
     while (true)
     {
       std::cout << "Connecting..." << std::endl;
-      protoClient.lookForServer(0, "x", false);
-      if (protoClient.isConnected())
+      protoClientBWAPI.lookForServer(0, "x", false);
+      if (protoClientBWAPI.isConnected())
+        return true;
+      protoClientSCRAPI.lookForServer(0, "x", false);
+      if (protoClientSCRAPI.isConnected())
         return true;
       {
         using namespace std::chrono_literals;
         std::this_thread::sleep_for(2s);
       }
     }
-    return protoClient.isConnected();
+    return protoClientBWAPI.isConnected() || protoClientSCRAPI.isConnected();
   }
   void ProtoClient::disconnect()
   {
     if (!connected)
       return;
-    protoClient.disconnect();
+    protoClientBWAPI.disconnect();
 
   }
   void ProtoClient::transmitMessages(Game& game)
@@ -53,7 +56,10 @@ namespace BWAPI
     game.flushCommandOptimizer();
     game.flush();
 
-    protoClient.transmitMessages();
+    if (protoClientBWAPI.isConnected())
+      protoClientBWAPI.transmitMessages();
+    else if (protoClientSCRAPI.isConnected())
+      protoClientSCRAPI.transmitMessages();
   }
   void ProtoClient::update(Game& game)
   {
@@ -72,13 +78,17 @@ namespace BWAPI
       forces.clear();
     }
 
-    protoClient.receiveMessages();
+    if (protoClientBWAPI.isConnected())
+      protoClientBWAPI.receiveMessages();
+    else if (protoClientSCRAPI.isConnected())
+      protoClientSCRAPI.receiveMessages();
+    
     //Connected to a 1.16.1 backend
-    if (!protoClient.isRemaster())
+    if (protoClientBWAPI.isConnected())
     {
-      while (protoClient.messageQueueSize())
+      while (protoClientBWAPI.messageQueueSize())
       {
-        auto message = protoClient.getNextMessage();
+        auto message = protoClientBWAPI.getNextMessage();
         if (message->has_frameupdate())
         {
           //update game here
@@ -569,11 +579,11 @@ namespace BWAPI
           break;
       }
     }
-    else //Connected to a Remaster backend
+    else if (protoClientSCRAPI.isConnected())//Connected to a Remaster backend
     {
-      while (protoClient.responseQueueSize())
+      while (protoClientSCRAPI.responseQueueSize())
       {
-        auto response = protoClient.getNextResponse();
+        auto response = protoClientSCRAPI.getNextResponse();
         //logic to process each message
         if (response->has_action())
           ;// I don't think we need this, BWAPI generally
@@ -1028,7 +1038,7 @@ namespace BWAPI
     auto newSetScreenPosition = newMessage->mutable_command()->mutable_setscreenposition();
     newSetScreenPosition->set_x(x);
     newSetScreenPosition->set_y(y);
-    protoClient.queueMessage(std::move(newMessage));
+    protoClientBWAPI.queueMessage(std::move(newMessage));
   }
   void ProtoClient::pingMinimap(int x, int y)
   {
@@ -1036,7 +1046,7 @@ namespace BWAPI
     auto newPingMiniMap = newMessage->mutable_command()->mutable_pingminimap();
     newPingMiniMap->set_x(x);
     newPingMiniMap->set_y(y);
-    protoClient.queueMessage(std::move(newMessage));
+    protoClientBWAPI.queueMessage(std::move(newMessage));
   }
   void ProtoClient::drawShape(ShapeType::Enum shapeType, CoordinateType::Enum coordinateType, int x1, int y1, int x2, int y2, int extra1, int extra2, Color color, bool isSolid)
   {
@@ -1052,7 +1062,7 @@ namespace BWAPI
     newShape->set_extra2(extra2);
     newShape->set_color(static_cast<int>(color));
     newShape->set_issolid(isSolid);
-    protoClient.queueMessage(std::move(newMessage));
+    protoClientBWAPI.queueMessage(std::move(newMessage));
   }
   void ProtoClient::drawText(CoordinateType::Enum coordinateType, const std::string &text, int x, int y, int textSize)
   {
@@ -1069,26 +1079,26 @@ namespace BWAPI
     newShape->set_color(0);
     newShape->set_issolid(false);
     newShape->set_text(text);
-    protoClient.queueMessage(std::move(newMessage));
+    protoClientBWAPI.queueMessage(std::move(newMessage));
   }
   void ProtoClient::sendText(const std::string &text, bool toAllies)
   {
-    if (!protoClient.isRemaster())
+    if (protoClientBWAPI.isConnected())
     {
       auto newMessage = std::make_unique<bwapi::message::Message>();
       auto newSendText = newMessage->mutable_command()->mutable_sendtext();
       newSendText->set_text(text);
       newSendText->set_toallies(toAllies);
-      protoClient.queueMessage(std::move(newMessage));
+      protoClientBWAPI.queueMessage(std::move(newMessage));
     }
-    else
+    else if (protoClientSCRAPI.isConnected())
     {
       auto newRequest = std::make_unique<SCRAPIProtocol::Request>();
       auto action = newRequest->mutable_action()->add_actions();
       auto chat = action->mutable_action_chat();
       chat->set_message(text);
       chat->set_channel(static_cast<SCRAPIProtocol::ActionChat_Channel>(toAllies + 1));
-      protoClient.queueMessage(std::move(newRequest));
+      protoClientSCRAPI.queueMessage(std::move(newRequest));
     }
   }
   void ProtoClient::printText(const std::string &text)
@@ -1096,48 +1106,48 @@ namespace BWAPI
     auto newMessage = std::make_unique<bwapi::message::Message>();
     auto newPrintf = newMessage->mutable_command()->mutable_printf();
     newPrintf->set_text(text);
-    protoClient.queueMessage(std::move(newMessage));
+    protoClientBWAPI.queueMessage(std::move(newMessage));
   }
   void ProtoClient::pauseGame()
   {
     auto newMessage = std::make_unique<bwapi::message::Message>();
     newMessage->mutable_command()->mutable_pausegame();
-    protoClient.queueMessage(std::move(newMessage));
+    protoClientBWAPI.queueMessage(std::move(newMessage));
   }
   void ProtoClient::resumeGame()
   {
     auto newMessage = std::make_unique<bwapi::message::Message>();
     newMessage->mutable_command()->mutable_resumegame();
-    protoClient.queueMessage(std::move(newMessage));
+    protoClientBWAPI.queueMessage(std::move(newMessage));
   }
   void ProtoClient::leaveGame()
   {
-    if (!protoClient.isRemaster())
+    if (protoClientBWAPI.isConnected())
     {
       auto newMessage = std::make_unique<bwapi::message::Message>();
       newMessage->mutable_command()->mutable_leavegame();
-      protoClient.queueMessage(std::move(newMessage));
+      protoClientBWAPI.queueMessage(std::move(newMessage));
     }
-    else
+    else if (protoClientSCRAPI.isConnected())
     {
       auto newRequest = std::make_unique<SCRAPIProtocol::Request>();
       newRequest->mutable_join_game();
-      protoClient.queueMessage(std::move(newRequest));
+      protoClientSCRAPI.queueMessage(std::move(newRequest));
     }
   }
   void ProtoClient::restartGame()
   {
-    if (!protoClient.isRemaster())
+    if (protoClientBWAPI.isConnected())
     {
       auto newMessage = std::make_unique<bwapi::message::Message>();
       newMessage->mutable_command()->mutable_restartgame();
-      protoClient.queueMessage(std::move(newMessage));
+      protoClientBWAPI.queueMessage(std::move(newMessage));
     }
-    else
+    else if (protoClientSCRAPI.isConnected())
     {
       auto newRequest = std::make_unique<SCRAPIProtocol::Request>();
       newRequest->mutable_restart_game();
-      protoClient.queueMessage(std::move(newRequest));
+      protoClientSCRAPI.queueMessage(std::move(newRequest));
     }
   }
   void ProtoClient::setLocalSpeed(int msPerFrame)
@@ -1145,11 +1155,11 @@ namespace BWAPI
     auto newMessage = std::make_unique<bwapi::message::Message>();
     auto newSetLocalSpeed = newMessage->mutable_command()->mutable_setlocalspeed();
     newSetLocalSpeed->set_speed(msPerFrame);
-    protoClient.queueMessage(std::move(newMessage));
+    protoClientBWAPI.queueMessage(std::move(newMessage));
   }
   void ProtoClient::issueCommand(const Unitset& units, UnitCommand command)
   {
-    if (!isRemaster())
+    if (protoClientBWAPI.isConnected())
     {
       auto newMessage = std::make_unique<bwapi::message::Message>();
       auto newUnitCommand = newMessage->mutable_command()->mutable_unitcommand();
@@ -1162,9 +1172,9 @@ namespace BWAPI
       newUnitCommand->set_x(command.x);
       newUnitCommand->set_y(command.y);
       newUnitCommand->set_extra(command.extra);
-      protoClient.queueMessage(std::move(newMessage));
+      protoClientBWAPI.queueMessage(std::move(newMessage));
     }
-    else
+    else if (protoClientSCRAPI.isConnected())
     {
       auto newRequest = std::make_unique<SCRAPIProtocol::Request>();
       auto requestAction = newRequest->mutable_action();
@@ -1453,7 +1463,7 @@ namespace BWAPI
       default:
         break;
       }
-      protoClient.queueMessage(std::move(newRequest));
+      protoClientSCRAPI.queueMessage(std::move(newRequest));
     }
   }
   void ProtoClient::setAlliance(int playerId, int alliance)
@@ -1462,7 +1472,7 @@ namespace BWAPI
     auto newSetAlliance = newMessage->mutable_command()->mutable_setalliance();
     newSetAlliance->set_playerid(playerId);
     newSetAlliance->set_settings(alliance);
-    protoClient.queueMessage(std::move(newMessage));
+    protoClientBWAPI.queueMessage(std::move(newMessage));
   }
   void ProtoClient::setVision(int playerId, bool enabled)
   {
@@ -1470,7 +1480,7 @@ namespace BWAPI
     auto newSetVision = newMessage->mutable_command()->mutable_setvision();
     newSetVision->set_playerid(playerId);
     newSetVision->set_settings(enabled ? 1 : 0);
-    protoClient.queueMessage(std::move(newMessage));
+    protoClientBWAPI.queueMessage(std::move(newMessage));
   }
   void ProtoClient::createUnit(int playerId, UnitType unitType, int x, int y, int count)
   {
@@ -1481,7 +1491,7 @@ namespace BWAPI
     newCreateUnit->set_x(x);
     newCreateUnit->set_y(y);
     newCreateUnit->set_count(count);
-    protoClient.queueMessage(std::move(newMessage));
+    protoClientBWAPI.queueMessage(std::move(newMessage));
   }
   void ProtoClient::killUnits(const Unitset& units, bool removeInstantly)
   {
@@ -1490,11 +1500,11 @@ namespace BWAPI
     for (Unit u : units)
       newKillUnits->add_unitid(u.getID().id);
     newKillUnits->set_removeinstantly(removeInstantly);
-    protoClient.queueMessage(std::move(newMessage));
+    protoClientBWAPI.queueMessage(std::move(newMessage));
   }
   void ProtoClient::createGameRequest(bool battlenetMap, const std::string& map, int playerCount, bool addComputer, Race race)
   {
-    if (!protoClient.isRemaster())
+    if (protoClientBWAPI.isConnected() || !protoClientSCRAPI.isConnected())
       return;
     auto newRequest = std::make_unique<SCRAPIProtocol::Request>();
     auto createGame = newRequest->mutable_create_game();
@@ -1510,27 +1520,27 @@ namespace BWAPI
       if (addComputer && i != 0)
         playerSetup->set_type(SCRAPIProtocol::PlayerType::Computer);
     }
-    protoClient.queueMessage(std::move(newRequest));
+    protoClientSCRAPI.queueMessage(std::move(newRequest));
   }
   void ProtoClient::gameInfoRequest()
   {
-    if (!protoClient.isRemaster())
+    if (protoClientBWAPI.isConnected() || !protoClientSCRAPI.isConnected())
       return;
     auto newRequest = std::make_unique<SCRAPIProtocol::Request>();
     newRequest->mutable_game_info();
-    protoClient.queueMessage(std::move(newRequest));
+    protoClientSCRAPI.queueMessage(std::move(newRequest));
   }
   void ProtoClient::observationRequest()
   {
-    if (!protoClient.isRemaster())
+    if (protoClientBWAPI.isConnected() || !protoClientSCRAPI.isConnected())
       return;
     auto newRequest = std::make_unique<SCRAPIProtocol::Request>();
     newRequest->mutable_observation();
-    protoClient.queueMessage(std::move(newRequest));
+    protoClientSCRAPI.queueMessage(std::move(newRequest));
   }
   bool ProtoClient::isRemaster() const
   {
-    return protoClient.isRemaster();
+    return protoClientSCRAPI.isConnected();
   }
   void ProtoClient::loadFile(Game& Broodwar)
   {
