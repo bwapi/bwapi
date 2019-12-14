@@ -27,7 +27,6 @@ namespace BWAPI
       }
     };
 
-    // TODO: Populate these each onFrame
     std::multiset<UnitCompare> unitFinderX;
     std::multiset<UnitCompare> unitFinderY;
   };
