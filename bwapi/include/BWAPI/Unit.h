@@ -338,13 +338,6 @@ namespace BWAPI
     /// @see getLastCommandFrame
     UnitCommand getLastCommand() const;
 
-    /// <summary>Retrieves the Player that last attacked this unit.</summary>
-    /// 
-    /// @returns Player interface object representing the player that last attacked this unit.
-    /// @retval nullptr If this unit was not attacked.
-    /// @implies exists()
-    Player getLastAttackingPlayer() const;
-
     /// <summary>Retrieves the initial type of the unit.</summary> This is the type that the unit
     /// starts as in the beginning of the game. This is used to access the types of static neutral
     /// units such as mineral fields when they are not visible.

@@ -6347,7 +6347,6 @@ const int Unit::kIsVisibleFieldNumber;
 const int Unit::kButtonsetFieldNumber;
 const int Unit::kLastCommandFrameFieldNumber;
 const int Unit::kLastCommandFieldNumber;
-const int Unit::kLastAttackerPlayerFieldNumber;
 const int Unit::kReplayIDFieldNumber;
 const int Unit::kRecentlyAttackedFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -7803,24 +7802,10 @@ bool Unit::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 lastAttackerPlayer = 95;
+      // int32 replayID = 95;
       case 95: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(248u /* 760 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &lastattackerplayer_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // int32 replayID = 96;
-      case 96: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(0u /* 768 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -7831,10 +7816,10 @@ bool Unit::MergePartialFromCodedStream(
         break;
       }
 
-      // bool recentlyAttacked = 97;
-      case 97: {
+      // bool recentlyAttacked = 96;
+      case 96: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 776 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(0u /* 768 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
@@ -8373,19 +8358,14 @@ void Unit::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(94, this->lastcommand(), output);
   }
 
-  // int32 lastAttackerPlayer = 95;
-  if (this->lastattackerplayer() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(95, this->lastattackerplayer(), output);
-  }
-
-  // int32 replayID = 96;
+  // int32 replayID = 95;
   if (this->replayid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(96, this->replayid(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(95, this->replayid(), output);
   }
 
-  // bool recentlyAttacked = 97;
+  // bool recentlyAttacked = 96;
   if (this->recentlyattacked() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(97, this->recentlyattacked(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteBool(96, this->recentlyattacked(), output);
   }
 
   output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
@@ -9013,7 +8993,7 @@ size_t Unit::ByteSizeLong() const {
     total_size += 2 + 1;
   }
 
-  // bool recentlyAttacked = 97;
+  // bool recentlyAttacked = 96;
   if (this->recentlyattacked() != 0) {
     total_size += 2 + 1;
   }
@@ -9039,14 +9019,7 @@ size_t Unit::ByteSizeLong() const {
         this->lastcommand());
   }
 
-  // int32 lastAttackerPlayer = 95;
-  if (this->lastattackerplayer() != 0) {
-    total_size += 2 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->lastattackerplayer());
-  }
-
-  // int32 replayID = 96;
+  // int32 replayID = 95;
   if (this->replayid() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
@@ -9345,9 +9318,6 @@ void Unit::MergeFrom(const Unit& from) {
   if (from.lastcommand() != 0) {
     set_lastcommand(from.lastcommand());
   }
-  if (from.lastattackerplayer() != 0) {
-    set_lastattackerplayer(from.lastattackerplayer());
-  }
   if (from.replayid() != 0) {
     set_replayid(from.replayid());
   }
@@ -9465,7 +9435,6 @@ void Unit::InternalSwap(Unit* other) {
   swap(buttonset_, other->buttonset_);
   swap(lastcommandframe_, other->lastcommandframe_);
   swap(lastcommand_, other->lastcommand_);
-  swap(lastattackerplayer_, other->lastattackerplayer_);
   swap(replayid_, other->replayid_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }

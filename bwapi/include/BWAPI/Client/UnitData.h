@@ -123,7 +123,6 @@ namespace BWAPI
     int lastCommandFrame = 0;
     BWAPI::UnitCommand lastCommand{};
 
-    BWAPI::PlayerID lastAttackerPlayer{ PlayerID::None };
     BWAPI::UnitID replayID{ UnitID::None };
     bool recentlyAttacked = false;
   };

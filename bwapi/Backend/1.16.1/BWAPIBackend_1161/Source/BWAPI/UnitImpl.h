@@ -42,7 +42,6 @@ namespace BWAPI4
 
       int           getLastCommandFrame() const;
       UnitCommand   getLastCommand() const;
-      BWAPI4::Player getLastAttackingPlayer() const;
 
       UnitType      getInitialType() const;
       Position      getInitialPosition() const;

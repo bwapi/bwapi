@@ -312,11 +312,6 @@ namespace BWAPI4
   {
     return lastCommand;
   }
-  //--------------------------------------------- GET LAST ATTACKING PLAYER ----------------------------------
-  BWAPI4::Player UnitImpl::getLastAttackingPlayer() const
-  {
-    return BroodwarImpl.getPlayer(self->lastAttackerPlayer);
-  }
   //--------------------------------------------- GET INITIAL TYPE -------------------------------------------
   UnitType UnitImpl::getInitialType() const
   {

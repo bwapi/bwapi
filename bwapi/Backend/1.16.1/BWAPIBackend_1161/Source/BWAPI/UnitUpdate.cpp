@@ -411,7 +411,6 @@ namespace BWAPI4
       self->isInterruptible = !o->statusFlag(BW::StatusFlags::CanNotReceiveOrders); //isInterruptible
       self->isInvincible    = o->statusFlag(BW::StatusFlags::Invincible); //isInvincible
       self->buttonset       = o->currentButtonSet;
-      self->lastAttackerPlayer = o->lastAttackingPlayer;
       self->recentlyAttacked = o->lastEventColor == 174 ? o->lastEventTimer != 0 : false;
 
       switch (_getType)
@@ -488,7 +487,6 @@ namespace BWAPI4
       self->isStuck             = false;  //isStuck
       self->isInterruptible     = false;  //isInterruptible
       self->buttonset           = UnitTypes::None;
-      self->lastAttackerPlayer  = -1;
       self->recentlyAttacked    = false;
     }
     if (canAccess())

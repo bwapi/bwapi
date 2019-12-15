@@ -268,9 +268,8 @@ message Unit {
     int32 lastCommandFrame = 93;
     int32 lastCommand = 94;
 
-    int32 lastAttackerPlayer = 95;
-    int32 replayID = 96;
-    bool recentlyAttacked = 97;
+    int32 replayID = 95;
+    bool recentlyAttacked = 96;
 }
 
 message Region {

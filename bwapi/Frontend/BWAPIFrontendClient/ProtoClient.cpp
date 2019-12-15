@@ -337,7 +337,6 @@ namespace BWAPI
                 unitData.killCount = u.killcount();
                 for (auto &l : u.larva())
                   unitData.larva.push_back(UnitID{ l });
-                unitData.lastAttackerPlayer = PlayerID{ u.lastattackerplayer() };
                 //unitData.lastCommand = UnitCommand{ u.lastcommand() };
                 unitData.lastCommandFrame = u.lastcommandframe();
                 unitData.lastHitPoints = u.lasthitpoints();

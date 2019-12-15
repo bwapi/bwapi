@@ -850,7 +850,6 @@ namespace BWAPI4
       unit->set_killcount(u.killCount);
       for (auto &l : bwu->getLarva())
         unit->add_larva(l->getID());
-      unit->set_lastattackerplayer(u.lastAttackerPlayer);
       //unit->set_lastcommand() <-- Do we want to pass this?
       //unit->set_lastcommandframe() <-- Do we want to pass this?
       unit->set_lasthitpoints(u.lastHitPoints);

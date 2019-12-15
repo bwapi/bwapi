@@ -293,10 +293,6 @@ bool Unit::hasPath(Unit target) const
 
   return hasPath(target->getPosition());
 }
-Player Unit::getLastAttackingPlayer() const
-{
-  return *getGame().getPlayerData(getData().lastAttackerPlayer);
-}
 //--------------------------------------------- GET REGION -------------------------------------------------
 Region Unit::getRegion() const
 {

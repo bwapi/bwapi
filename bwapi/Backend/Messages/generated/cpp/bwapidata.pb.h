@@ -2987,9 +2987,9 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   bool ispowered() const;
   void set_ispowered(bool value);
 
-  // bool recentlyAttacked = 97;
+  // bool recentlyAttacked = 96;
   void clear_recentlyattacked();
-  static const int kRecentlyAttackedFieldNumber = 97;
+  static const int kRecentlyAttackedFieldNumber = 96;
   bool recentlyattacked() const;
   void set_recentlyattacked(bool value);
 
@@ -3011,15 +3011,9 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   ::google::protobuf::int32 lastcommand() const;
   void set_lastcommand(::google::protobuf::int32 value);
 
-  // int32 lastAttackerPlayer = 95;
-  void clear_lastattackerplayer();
-  static const int kLastAttackerPlayerFieldNumber = 95;
-  ::google::protobuf::int32 lastattackerplayer() const;
-  void set_lastattackerplayer(::google::protobuf::int32 value);
-
-  // int32 replayID = 96;
+  // int32 replayID = 95;
   void clear_replayid();
-  static const int kReplayIDFieldNumber = 96;
+  static const int kReplayIDFieldNumber = 95;
   ::google::protobuf::int32 replayid() const;
   void set_replayid(::google::protobuf::int32 value);
 
@@ -3127,7 +3121,6 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   ::google::protobuf::int32 buttonset_;
   ::google::protobuf::int32 lastcommandframe_;
   ::google::protobuf::int32 lastcommand_;
-  ::google::protobuf::int32 lastattackerplayer_;
   ::google::protobuf::int32 replayid_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_bwapidata_2eproto::TableStruct;
@@ -8438,21 +8431,7 @@ inline void Unit::set_lastcommand(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:bwapi.data.Unit.lastCommand)
 }
 
-// int32 lastAttackerPlayer = 95;
-inline void Unit::clear_lastattackerplayer() {
-  lastattackerplayer_ = 0;
-}
-inline ::google::protobuf::int32 Unit::lastattackerplayer() const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Unit.lastAttackerPlayer)
-  return lastattackerplayer_;
-}
-inline void Unit::set_lastattackerplayer(::google::protobuf::int32 value) {
-  
-  lastattackerplayer_ = value;
-  // @@protoc_insertion_point(field_set:bwapi.data.Unit.lastAttackerPlayer)
-}
-
-// int32 replayID = 96;
+// int32 replayID = 95;
 inline void Unit::clear_replayid() {
   replayid_ = 0;
 }
@@ -8466,7 +8445,7 @@ inline void Unit::set_replayid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:bwapi.data.Unit.replayID)
 }
 
-// bool recentlyAttacked = 97;
+// bool recentlyAttacked = 96;
 inline void Unit::clear_recentlyattacked() {
   recentlyattacked_ = false;
 }
