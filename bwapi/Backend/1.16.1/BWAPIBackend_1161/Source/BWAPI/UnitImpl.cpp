@@ -601,9 +601,7 @@ namespace BWAPI4
   //--------------------------------------------- IS BEING HEALED --------------------------------------------
   bool UnitImpl::isBeingHealed() const
   {
-    return getType().getRace() == Races::Terran &&
-      self->isCompleted &&
-      self->hitPoints > self->lastHitPoints;
+    return self->isBeingHealed;
   }
   //--------------------------------------------- IS BLIND ---------------------------------------------------
   bool UnitImpl::isBlind() const

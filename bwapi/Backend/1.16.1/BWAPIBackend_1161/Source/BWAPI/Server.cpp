@@ -832,7 +832,7 @@ namespace BWAPI4
       unit->set_ishallucination(u.isHallucination);
       unit->set_isidle(u.isIdle);
       unit->set_isinterruptible(u.isInterruptible);
-      //unit->set_isbeinghealed()
+      unit->set_isbeinghealed(u.isBeingHealed);
       unit->set_isinvincible(u.isInvincible);
       unit->set_islifted(u.isLifted);
       unit->set_ismorphing(u.isMorphing);

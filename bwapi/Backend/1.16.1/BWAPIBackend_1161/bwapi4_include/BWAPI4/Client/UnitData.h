@@ -76,6 +76,7 @@ namespace BWAPI4
     bool isAttacking;
     bool isAttackFrame;
     bool isBeingGathered;
+    bool isBeingHealed;
     bool isBlind;
     bool isBraking;
     bool isBurrowed;

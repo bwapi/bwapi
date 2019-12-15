@@ -394,6 +394,7 @@ namespace BWAPI4
 
       self->isAccelerating  = o->movementFlag(BW::MovementFlags::Accelerating);  //isAccelerating
       self->isBeingGathered = _getType.isResourceContainer() && (o->resource.gatherQueueCount || o->resource.nextGatherer);  //isBeingGathered
+      self->isBeingGathered = o->isBeingHealed;  //isBeingHealed
       self->isBlind         = o->status.isBlind != 0;   //isBlind
       self->isBraking       = o->movementFlag(BW::MovementFlags::Braking);   //isBraking
       //------------------------------------------------------------------------------------------------------
