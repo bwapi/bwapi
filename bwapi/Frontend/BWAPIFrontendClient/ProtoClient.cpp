@@ -764,6 +764,7 @@ namespace BWAPI
             unitData.groundWeaponCooldown = u.weapon_cooldown();
             //unitData.hasNuke = u.hasnuke();
             //unitData.hatchery = UnitID{ u.hatchery() };
+            unitData.lastHitPoints = unitData.hitPoints;
             unitData.hitPoints = u.health();
             //unitData.interceptorCount = u.interceptorcount();
             //unitData.irradiateTimer = u.irradiatetimer();
