@@ -1760,9 +1760,13 @@ namespace BWAPI
       client.leaveGame();
     }
     //--------------------------------------------- RESTART GAME -----------------------------------------------
-    void Game::restartGame()
+    bool Game::restartGame()
     {
+      if (gameData->isMultiplayer || !gameData->isInGame)
+        return false;
+
       client.restartGame();
+      return true;
     }
     //---------------------------------------------- SET GAME SPEED --------------------------------------------
     void Game::setLocalSpeed(int speed)

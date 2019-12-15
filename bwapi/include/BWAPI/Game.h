@@ -965,8 +965,8 @@ namespace BWAPI
     /// <summary>Restarts the match.</summary> Works the same as if the match was restarted from
     /// the in-game menu (F10). This option is only available in single player games.
     ///
-    /// @todo return a bool indicating success, document error code for invalid state
-    void restartGame();
+    /// @returns false if not in game, or if isMultiPlayer is true.
+    bool restartGame();
 
     /// <summary>Sets the number of milliseconds Broodwar spends in each frame.</summary> The
     /// default values are as follows:
