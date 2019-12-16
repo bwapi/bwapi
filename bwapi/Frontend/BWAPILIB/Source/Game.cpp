@@ -504,6 +504,12 @@ namespace BWAPI
     {
         this->setLastError(); // Reset last error
 
+        if (!self())
+        {
+          this->setLastError(Errors::Incompatible_State);
+          return TilePositions::Invalid;
+        }
+
         // Make sure the type is compatible
         if (!type.isBuilding())
         {
@@ -753,7 +759,6 @@ namespace BWAPI
     //------------------------------------------ REGIONS -----------------------------------------------
     BWAPI::Region Game::getRegionAt(int x, int y) const
     {
-        //TODO need to add region info to gameData and convert this function.
         if (!isValid(Position(x, y)))
         {
             this->setLastError(BWAPI::Errors::Invalid_Parameter);
