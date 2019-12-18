@@ -54,6 +54,7 @@ namespace BWAPI
       case UnitCommandTypes::Cancel_Research:
       case UnitCommandTypes::Cancel_Upgrade:
       case UnitCommandTypes::Morph:
+      case UnitCommandTypes::Gather:
         addToBuffer(std::move(*this),      Broodwar->getRemainingLatencyFrames());
         addToBuffer(std::move(orderEvent), Broodwar->getRemainingLatencyFrames() + 1);
         break;
@@ -566,6 +567,7 @@ namespace BWAPI
       break;
 
       // RLF
+      // RLF + 1: Order event
     case UnitCommandTypes::Gather:
       unit->self->target      = getUnitID(target);
       unit->self->isIdle      = false;
