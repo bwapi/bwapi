@@ -1,10 +1,31 @@
 #include "gtest/gtest.h"
 
 #include "game.h"
+#include <BWAPI/GameType.h>
 
 #define COMMANDWAIT 5
 
 using namespace BWAPI;
+
+TEST(TriggerTests, CreateUnitTest)
+{
+  using namespace Funtest;
+
+  funGame->setLocalSpeed(0);
+  auto self = Funtest::funGame->self();
+
+  EXPECT_EQ(self.allUnitCount(), 0);
+
+  funGame->createUnit(self, UnitTypes::Terran_Battlecruiser, Position{ 80, 80 }, 2);
+  funGame->createUnit(self, UnitTypes::Zerg_Spawning_Pool, Position{ 180, 180 }, 1);
+  funGame.advance(COMMANDWAIT);
+
+  EXPECT_EQ(self.allUnitCount(), 3);
+  EXPECT_EQ(self.allUnitCount(UnitTypes::Terran_Battlecruiser), 2);
+  EXPECT_EQ(self.allUnitCount(UnitTypes::Zerg_Spawning_Pool), 1);
+
+  funGame.reset();
+}
 
 TEST(TriggerTests, KillUnitTest)
 {
@@ -113,4 +134,9 @@ TEST(GameDataTest, ForcesTest)
     i++;
   }
   funGame.advance(2);
+}
+
+TEST(GameDataTest, GameTypeTest)
+{
+  EXPECT_EQ(Funtest::funGame->getGameType(), BWAPI::GameTypes::Use_Map_Settings);
 }

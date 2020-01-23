@@ -100,6 +100,7 @@ namespace BWAPI
               auto gameUpdate = gameMessage.gamedata();
               game.gameData->player = PlayerID{ gameUpdate.player() };
               game.gameData->screenPosition = { gameUpdate.screenposition().x(), gameUpdate.screenposition().y() };
+              game.gameData->gameType = gameUpdate.gametype();
               game.gameData->frameCount = gameUpdate.framecount();
               game.gameData->latencyFrames = gameUpdate.latencyframes();
               game.gameData->remainingLatencyFrames = gameUpdate.remaininglatencyframes();
