@@ -85,7 +85,7 @@ namespace BWAPI
   //--------------------------------------------- GET RESOURCES ----------------------------------------------
   int UnitImpl::getResources() const
   {
-	  return self->resources;
+    return self->resources;
   }
   //--------------------------------------------- GET RESOURCE GROUP -----------------------------------------
   int UnitImpl::getResourceGroup() const
