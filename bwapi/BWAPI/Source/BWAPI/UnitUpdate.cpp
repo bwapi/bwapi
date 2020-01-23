@@ -276,7 +276,12 @@ namespace BWAPI
       self->lastHitPoints       = wasAccessible ? self->hitPoints : _getHitPoints;  //getHitPoints
       self->hitPoints           = _getHitPoints;  //getHitPoints
       self->shields             = _getType.maxShields() > 0 ? (int)std::ceil(o->shieldPoints/256.0) : 0;  //getShields
-      self->resources           = _getResources;                        //getResources
+	  
+	  //getResources																									  
+	  if (this->_getPlayer == BroodwarImpl.self() || this->_getType.isNeutral()) {
+		  self->resources = _getResources;
+	  } else self->resources = getInitialResources();
+
       self->resourceGroup       = _getType.isResourceContainer() ? o->resource.resourceGroup : 0; //getResourceGroup
       self->killCount           = o->killCount;        //getKillCount
       self->acidSporeCount      = o->status.acidSporeCount;   //getAcidSporeCount

@@ -85,9 +85,7 @@ namespace BWAPI
   //--------------------------------------------- GET RESOURCES ----------------------------------------------
   int UnitImpl::getResources() const
   {
-	  if (Broodwar->self() == getPlayer() || getType().isNeutral())
-		return self->resources;
-	  return getInitialResources();
+	  return self->resources;
   }
   //--------------------------------------------- GET RESOURCE GROUP -----------------------------------------
   int UnitImpl::getResourceGroup() const
