@@ -276,12 +276,6 @@ namespace BWAPI
       self->lastHitPoints       = wasAccessible ? self->hitPoints : _getHitPoints;  //getHitPoints
       self->hitPoints           = _getHitPoints;  //getHitPoints
       self->shields             = _getType.maxShields() > 0 ? (int)std::ceil(o->shieldPoints/256.0) : 0;  //getShields
-
-      //getResources
-      if (this->_getPlayer == BroodwarImpl.self() || this->_getType.isNeutral()) {
-        self->resources = _getResources;
-      } else self->resources = getInitialResources();
-
       self->resourceGroup       = _getType.isResourceContainer() ? o->resource.resourceGroup : 0; //getResourceGroup
       self->killCount           = o->killCount;        //getKillCount
       self->acidSporeCount      = o->status.acidSporeCount;   //getAcidSporeCount
@@ -525,6 +519,10 @@ namespace BWAPI
       self->rallyUnit             = -1;
       
       //------------------------------------------------------------------------------------------------------
+      // getResources
+      self->resources = _getResources;
+
+      //------------------------------------------------------------------------------------------------------
       // getEnergy
       self->energy = _getType.isSpellcaster() ? (int)std::ceil(o->energy / 256.0) : 0;
 
@@ -634,6 +632,7 @@ namespace BWAPI
     }
     else
     {
+      self->resources = getInitialResources();            //getResources
       self->energy                = 0;                    //getEnergy
       self->buildType             = UnitTypes::None;     //getBuildType
       self->trainingQueueCount    = 0;                    //getTrainingQueue
