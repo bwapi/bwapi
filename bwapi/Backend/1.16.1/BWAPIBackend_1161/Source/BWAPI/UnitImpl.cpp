@@ -203,8 +203,8 @@ namespace BWAPI4
       return true;
 
     //If we get here, canAccess()==true but unit is not owned by self.
-    //Return value depends on state of complete map info flag
-    return BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation);
+    //Return value depends on if unit is a mineral field or vespene geyser and the state of complete map info flag
+    return this->_getType.isMineralField() || this->_getType == BWAPI::UnitTypes::Resource_Vespene_Geyser || BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation);
   }
 
   //--------------------------------------------- GET NEXT ---------------------------------------------------

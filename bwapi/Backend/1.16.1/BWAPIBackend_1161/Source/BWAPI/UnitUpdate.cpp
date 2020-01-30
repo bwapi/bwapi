@@ -274,7 +274,6 @@ namespace BWAPI4
       self->lastHitPoints       = wasAccessible ? self->hitPoints : _getHitPoints;  //getHitPoints
       self->hitPoints           = _getHitPoints;  //getHitPoints
       self->shields             = _getType.maxShields() > 0 ? (int)std::ceil(o->shieldPoints/256.0) : 0;  //getShields
-      self->resources           = _getResources;                        //getResources
       self->resourceGroup       = _getType.isResourceContainer() ? o->resource.resourceGroup : 0; //getResourceGroup
       self->killCount           = o->killCount;        //getKillCount
       self->acidSporeCount      = o->status.acidSporeCount;   //getAcidSporeCount
@@ -517,6 +516,10 @@ namespace BWAPI4
       self->rallyUnit             = -1;
       
       //------------------------------------------------------------------------------------------------------
+      // getResources
+      self->resources = _getResources;
+
+      //------------------------------------------------------------------------------------------------------
       // getEnergy
       self->energy = _getType.isSpellcaster() ? (int)std::ceil(o->energy / 256.0) : 0;
 
@@ -626,6 +629,7 @@ namespace BWAPI4
     }
     else
     {
+      self->resources = getInitialResources();            //getResources
       self->energy                = 0;                    //getEnergy
       self->buildType             = UnitTypes::None;     //getBuildType
       self->trainingQueueCount    = 0;                    //getTrainingQueue
