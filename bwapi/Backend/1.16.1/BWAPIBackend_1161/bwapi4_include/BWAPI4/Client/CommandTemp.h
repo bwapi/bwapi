@@ -21,6 +21,7 @@ namespace BWAPI4
       const auto addToBuffer = [&buf](auto &&command, int frames)
       {
         command.execute(frames == 0);
+        if (frames == 0) return;
 
         if (static_cast<decltype(frames)>(buf.size()) < frames)
         {

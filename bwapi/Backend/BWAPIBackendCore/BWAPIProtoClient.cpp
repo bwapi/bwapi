@@ -124,9 +124,11 @@ namespace BWAPI
       currentMessage = std::move(messageQueue.front());
       messageQueue.pop_front();
       auto size = currentMessage->ByteSize();
-      std::unique_ptr<char[]> buffer(new char[size]);
-      currentMessage->SerializeToArray(&buffer[0], size);
-      packet.append(buffer.get(), size);
+      if (size > 0) {
+        std::unique_ptr<char[]> buffer(new char[size]);
+        currentMessage->SerializeToArray(&buffer[0], size);
+        packet.append(buffer.get(), size);
+      }
       if (tcpSocket.send(packet) != sf::Socket::Done)
       {
         //Error sending command, we should do something here?
