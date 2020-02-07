@@ -2,7 +2,10 @@
 
 #include "game.h"
 
-#define COMMANDWAIT 5
+int constexpr COMMANDWAIT = 5;
+
+using namespace Funtest;
+using namespace BWAPI;
 
 //set up reused items to easier names/less function calls.
 auto commandCenter = BWAPI::UnitTypes::Terran_Command_Center;
@@ -14,8 +17,6 @@ auto comsatWidth = comsat.tileWidth();
 
 TEST(UnitSetTest, Train)
 {
-  using namespace Funtest;
-  using namespace BWAPI;
   auto self = funGame->self();
 
   funGame->sendText("Show me the money");
@@ -67,12 +68,11 @@ TEST(UnitSetTest, Train)
   auto numberCompletedUnits = self.completedUnitCount(SCV);
   EXPECT_EQ(numberTrainedUnits, 0);
   EXPECT_EQ(numberCompletedUnits, 3);
+  funGame.reset();
 }
 
 TEST(UnitSetTest, AddOn)
 {
-  using namespace Funtest;
-  using namespace BWAPI;
   auto self = Funtest::funGame->self();
   Unitset orderUnits;
 
@@ -118,8 +118,6 @@ TEST(UnitSetTest, AddOn)
 
 TEST(UnitSetTest, LurkerMixed)
 {
-  using namespace Funtest;
-  using namespace BWAPI;
   auto self = Funtest::funGame->self();
 
   funGame->createUnit(self, UnitTypes::Zerg_Lurker, Position{ 0, 0 }, 1);
@@ -133,22 +131,18 @@ TEST(UnitSetTest, LurkerMixed)
   funGame.advance(2);
   us = self.getUnits();
   EXPECT_EQ(us.attack(Position{ 100, 100 }), true);
-  funGame.advance(COMMANDWAIT);
   funGame.reset();
 }
 
 TEST(UnitSetTest, NuetralUnitSetTest)
 {
-  using namespace Funtest;
-  using namespace BWAPI;
   auto self = funGame->self();
 
   funGame->createUnit(self, UnitTypes::Resource_Mineral_Field, Position{ 200, 200 }, 1);
   funGame->createUnit(self, UnitTypes::Resource_Mineral_Field, Position{ 1920, 1920 }, 1);
   funGame->createUnit(self, UnitTypes::Special_Map_Revealer, Position{ 200, 200 }, 1);
+
   funGame.advance(COMMANDWAIT);
   EXPECT_EQ(funGame->getNeutralUnits().size(), 1);
-
   funGame.reset();
-  funGame.advance(2);
 }

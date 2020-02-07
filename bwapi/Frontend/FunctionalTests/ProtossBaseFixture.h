@@ -1,18 +1,18 @@
 #pragma once
 #include "gtest/gtest.h"
 
+#include "TestFixture.h"
+
 #include <BWAPI.h>
 #include "game.h"
 
 using namespace BWAPI;
 
-class ProtossBaseFixture : public ::testing::Test {
+class ProtossBaseFixture : public TestFixture {
 public:
   ProtossBaseFixture()
   {
     using namespace Funtest;
-    funGame.advance(1);
-    funGame->setLocalSpeed(0); // this can be commented out if you want tests to go normal speed for any reason
     UnitType mineralTypes[] = { UnitTypes::Resource_Mineral_Field, UnitTypes::Resource_Mineral_Field_Type_2, UnitTypes::Resource_Mineral_Field_Type_3 };
 
     TilePosition nexusPos{ 16, 10 };
@@ -37,8 +37,6 @@ public:
 
     funGame.advance(2); // We can't access the created units for 2 frames for some reason
 
-    self = funGame->self();
-
     Unitset units = funGame->getAllUnits();
     nexus = *units.find_if(Filter::GetType == UnitTypes::Protoss_Nexus);
     //vespeneGeyser = *units.find_if(Filter::GetType == UnitTypes::Resource_Vespene_Geyser);
@@ -46,14 +44,10 @@ public:
     probes = units.erase_if(Filter::GetType != UnitTypes::Protoss_Probe);
   }
 
-  virtual ~ProtossBaseFixture()
-  {
-    Funtest::funGame.reset();
-  }
+  virtual ~ProtossBaseFixture() {}
 protected:
   Unitset probes = {};
   Unit nexus = nullptr;
   Unit vespeneGeyser = nullptr;
   Unit mineralField = nullptr;
-  Player self = nullptr;
 };

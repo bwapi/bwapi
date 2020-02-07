@@ -1,19 +1,18 @@
 #pragma once
 #include "gtest/gtest.h"
 
-#include<BWAPI.h>
-#include"game.h"
+#include "TestFixture.h"
+
+#include <BWAPI.h>
+#include "game.h"
 
 using namespace BWAPI;
 
-class TerranBaseFixture : public ::testing::Test {
+class TerranBaseFixture : public TestFixture {
 public:
   TerranBaseFixture()
   {
     using namespace Funtest;
-    funGame.advance(1);
-    
-    
 
     UnitType unitTypes[18];
 
@@ -28,8 +27,6 @@ public:
       unitType++;
     }
 
-   
-    
     Position positions[18];
 
     for (int i = 0; i < 18; i++)
@@ -63,17 +60,10 @@ public:
     factory = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Factory);
     bunker = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Bunker);
     scienceFacility = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Science_Facility);
-    self = funGame->self();
-    enemy = funGame->enemy();
   }
 
-  virtual ~TerranBaseFixture()
-  {
-    Funtest::funGame.reset();
-  }
+  virtual ~TerranBaseFixture() {}
 protected:
-  Player self = nullptr;
-  Player enemy = nullptr;
   Unit commandCenter = nullptr;
   Unit academy = nullptr;
   Unit engineeringBay = nullptr;

@@ -50,5 +50,8 @@
     <ClInclude Include="ZergBaseFixture.h">
       <Filter>Fixtures</Filter>
     </ClInclude>
+    <ClInclude Include="TestFixture.h">
+      <Filter>Fixtures</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

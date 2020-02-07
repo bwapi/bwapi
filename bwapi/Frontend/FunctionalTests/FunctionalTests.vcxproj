@@ -161,6 +161,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="ProtossBaseFixture.h" />
     <ClInclude Include="TerranBaseFixture.h" />
+    <ClInclude Include="TestFixture.h" />
     <ClInclude Include="ZergBaseFixture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -49,7 +49,8 @@ void FunGame::advance(int frames)
 void FunGame::reset()
 {
   game->restartGame();
-  advance(5);
+  advance(5); // BUG: Takes 4-5 frames for restartGame to happen
+  game->setLocalSpeed(0);
 }
 
 BWAPI::Game* FunGame::operator ->()

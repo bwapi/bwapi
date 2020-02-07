@@ -6,13 +6,11 @@
 #define COMMANDWAIT 5
 
 using namespace BWAPI;
+using namespace Funtest;
 
 TEST(TriggerTests, CreateUnitTest)
 {
-  using namespace Funtest;
-
-  funGame->setLocalSpeed(0);
-  auto self = Funtest::funGame->self();
+  auto self = funGame->self();
 
   EXPECT_EQ(self.allUnitCount(), 0);
 
@@ -23,22 +21,20 @@ TEST(TriggerTests, CreateUnitTest)
   EXPECT_EQ(self.allUnitCount(), 3);
   EXPECT_EQ(self.allUnitCount(UnitTypes::Terran_Battlecruiser), 2);
   EXPECT_EQ(self.allUnitCount(UnitTypes::Zerg_Spawning_Pool), 1);
-
   funGame.reset();
 }
 
 TEST(TriggerTests, KillUnitTest)
 {
-  using namespace Funtest;
-
-  funGame->setLocalSpeed(0);
-  auto self = Funtest::funGame->self();
+  auto self = funGame->self();
   auto marine = UnitTypes::Terran_Marine;
 
   funGame->createUnit(self, marine, Position{ 20, 20 }, 1);
   funGame.advance(COMMANDWAIT);
 
   auto units = funGame->getAllUnits();
+  ASSERT_EQ(units.size(), 1);
+
   auto selfMarine = *units.begin();
 
   funGame->killUnit(selfMarine);
@@ -46,16 +42,11 @@ TEST(TriggerTests, KillUnitTest)
   funGame->killUnit(selfMarine);
   funGame.advance(COMMANDWAIT);
   funGame.reset();
-  funGame.advance(2);
 }
 
 TEST(GameDataTest, CloakedUnits)
 {
-  using namespace Funtest;
-
-  funGame->setLocalSpeed(0);
-
-  auto self = Funtest::funGame->self();
+  auto self = funGame->self();
   Player neutral = nullptr;
   Player enemy = nullptr;
   for (auto &p : funGame->getPlayers())
@@ -102,15 +93,11 @@ TEST(GameDataTest, CloakedUnits)
       EXPECT_EQ(u.getHitPoints(), 0);
     }
   }
-
   funGame.reset();
-  funGame.advance(2);
 }
 
 TEST(GameDataTest, ForcesTest)
 {
-  using namespace Funtest;
-
   auto forces = funGame->getForces();
   EXPECT_EQ(forces.size(), 4);
   int i = 0;
@@ -133,10 +120,9 @@ TEST(GameDataTest, ForcesTest)
     }
     i++;
   }
-  funGame.advance(2);
 }
 
 TEST(GameDataTest, GameTypeTest)
 {
-  EXPECT_EQ(Funtest::funGame->getGameType(), BWAPI::GameTypes::Use_Map_Settings);
+  EXPECT_EQ(funGame->getGameType(), BWAPI::GameTypes::Use_Map_Settings);
 }

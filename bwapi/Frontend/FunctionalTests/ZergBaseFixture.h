@@ -2,12 +2,14 @@
 
 #include "gtest/gtest.h"
 
-#include<BWAPI.h>
-#include"game.h"
+#include "TestFixture.h"
+
+#include <BWAPI.h>
+#include "game.h"
 
 using namespace BWAPI;
 
-class ZergBaseFixture : public ::testing::Test {
+class ZergBaseFixture : public TestFixture {
 public:
   ZergBaseFixture()
   {
@@ -51,18 +53,13 @@ public:
     funGame->sendText("operation cwal");
     funGame.advance(5);
 
-    self = funGame->self();
     hatchery = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Zerg_Hatchery);
     infestedCommandCenter = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Zerg_Infested_Command_Center);
     hydraliskDen = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Zerg_Hydralisk_Den);
   }
 
-  ~ZergBaseFixture()
-  {
-    Funtest::funGame.reset();
-  }
+  ~ZergBaseFixture() {}
 protected:
-  Player self = nullptr;
   Unit hatchery = nullptr;
   Unit infestedCommandCenter = nullptr;
   Unit hydraliskDen = nullptr;
