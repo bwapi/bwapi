@@ -478,6 +478,7 @@ namespace BWAPI4
       self->isBlind             = false;  //isBlind
       self->isBraking           = false;  //isBraking
       self->carryResourceType   = 0;      //isCarryingMinerals;isCarryingGas
+      self->isGathering         = false;  //isGathering
       self->isLifted            = false;  //isLifted
       self->isParasited         = false;  //isParasited
       self->isSelected          = false;  //isSelected
@@ -487,6 +488,7 @@ namespace BWAPI4
       self->isPowered            = true;   //!isUnpowered
       self->isStuck             = false;  //isStuck
       self->isInterruptible     = false;  //isInterruptible
+      self->isInvincible        = false;  //isInvincible
       self->buttonset           = UnitTypes::None;
       self->recentlyAttacked    = false;
     }
