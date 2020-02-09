@@ -76,18 +76,33 @@ namespace BWAPI
     /// <summary>The default color for Player 6.</summary>
     constexpr Color Brown{ 19 };
 
-    /// <summary>A bright white. Note that this is lighter than Player 7's white.</summary>
-    constexpr Color White{ 255 };
+    /// <summary>The default color for Player 7.</summary>
+    constexpr Color DirtyWhite{ 84 };
 
     /// <summary>The default color for Player 8.</summary>
     constexpr Color Yellow{ 135 };
 
-    /// <summary>The alternate color for Player 7 on Ice tilesets.</summary>
+    /// <summary>The alternate color for Player 7 on Ice tilesets and for Player 9.</summary>
+    constexpr Color DarkGreen{ 185 };
+
+    /// <summary>The color of Player 10.</summary>
+    constexpr Color PaleYellow{ 136 };
+
+    /// <summary>The color of Player 11.</summary>
+    constexpr Color Tan{ 134 };
+
+    /// <summary>The color of the neutral player (player 12).</summary>
+    constexpr Color DarkAqua{ 51 };
+
+    /// <summary>Cyan, the color of resources on the minimap.</summary>
+    constexpr Color Cyan{ 128 };
+
+    /// <summary>The color of the drag-select box.</summary>
     constexpr Color Green{ 117 };
 
-    /// <summary>The default color for Neutral (Player 12).</summary>
-    constexpr Color Cyan{ 128 };
-    
+    /// <summary>A bright white. Note that this is lighter than Player 7's white.</summary>
+    constexpr Color White{ 255 };
+
     /// <summary>The color black</summary>
     constexpr Color Black{ 0 };
 

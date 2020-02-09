@@ -496,7 +496,7 @@ namespace BWAPI4
       return Text::Teal;
     case 164: // purp
       return Text::Purple;
-    case 179: // oj
+    case 156: // oj
       return Text::Orange;
     case 19:  // brown
       return Text::Brown;

@@ -46,6 +46,27 @@ int main()
     {
       if (!BWAPIClient.isRemaster())
       {
+        int i = 1;
+        for (auto player : broodwar.getPlayers()) {
+          broodwar.drawTextScreen(10, i * 16, "%cPlayer %d text @@@@ TEXT", player.getTextColor(), player.getID());
+          i++;
+        }
+
+        /*
+        BWAPI::Color colors[13] = {
+          Colors::Red, Colors::Blue, Colors::Teal, Colors::Purple, Colors::Orange, Colors::Brown, Colors::WhitePlayer, Colors::Yellow, Colors::Green, Colors::Cyan, Colors::White, Colors::Black, Colors::Grey
+        };
+        for (int i = 0; i < 13; ++i) {
+          broodwar.drawBoxScreen(i * 20, 0, 19 + i * 20, 100, colors[i], true);
+        }*/
+        /*
+        for (int y = 0; y < 16; ++y) {
+          for (int x = 0; x < 16; ++x) {
+            broodwar.drawBoxScreen(x * 32, y * 16, x * 32 + 31, y * 16 + 15, Color{y*16 + x}, true);
+            broodwar.drawTextScreen(x * 32, y * 16, "%d", y * 16 + x);
+          }
+        }
+        */
         //std::cout << "frame " << broodwar.getFrameCount() << std::endl;
         for (auto& e : broodwar.getEvents())
         {
@@ -178,37 +199,6 @@ int main()
         }
       }
       BWAPIClient.update(broodwar);
-      if (!BWAPIClient.isRemaster())
-      {
-        if (!broodwar.isReplay())
-        {
-          for (Unit u : broodwar.getAllUnits())
-          {
-            if (u->getType() == UnitTypes::Spell_Scanner_Sweep) {
-              broodwar << "SCANNER @ " << u->getPosition() << std::endl;
-            }
-          }
-
-          Unitset workers = self.getUnits();
-          workers.erase_if(!Filter::IsWorker || !Filter::IsIdle);
-          for (Unit u : workers)
-          {
-            if (!u->gather(u->getClosestUnit(Filter::IsMineralField)))
-            {
-              //std::cout << broodwar.getLastError() << std::endl;
-            }
-          }
-          if (broodwar.self()->completedUnitCount(UnitTypes::Terran_Factory) < 1)
-            broodwar.createUnit(broodwar.self(), BWAPI::UnitTypes::Terran_Factory, static_cast<Position>(broodwar.getBuildLocation(BWAPI::UnitTypes::Terran_Factory, broodwar.self().getStartLocation())));
-          if (broodwar.self()->hasResearched(TechTypes::Tank_Siege_Mode))
-            std::cout << "I know siege mode!" << std::endl;
-        }
-      }
-      else
-      {
-        auto units = self.getUnits();
-        std::cout << "units I own: " << units.size() << std::endl;
-      }
     }
   }
   return 1;

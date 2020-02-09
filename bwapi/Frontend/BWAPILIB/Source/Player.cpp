@@ -136,17 +136,17 @@ char Player::getTextColor() const
     return Text::Orange;
   case Colors::Brown:
     return Text::Brown;
-  case Colors::White:
+  case Colors::DirtyWhite:
     return Text::PlayerWhite;
   case Colors::Yellow:
     return Text::PlayerYellow;
-  case Colors::Green:
+  case Colors::DarkGreen:
     return Text::DarkGreen;
-  case 136: // p10
+  case Colors::PaleYellow: // p10
     return Text::LightYellow;
-  case 134: // p11
+  case Colors::Tan: // p11
     return Text::Tan;
-  case 51:  // p12
+  case Colors::DarkAqua:  // p12
     return Text::GreyBlue;
   default:
     return Text::Default;
