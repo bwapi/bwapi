@@ -336,6 +336,43 @@ TEST_F(GameFixture, setLocalSpeed_callsClient)
   game.setLocalSpeed(42);
 }
 
+TEST_F(GameFixture, setAlliance_has_noError_ifSuccess)
+{
+  EXPECT_CALL(client, setAlliance(1, 2));
+  game.setAlliance(game.enemy(), true);
+  EXPECT_EQ(game.getLastError(), Errors::None);
+}
+
+TEST_F(GameFixture, setAlliance_fails_ifNoSelf)
+{
+  game.gameData->player = PlayerID::None;
+  EXPECT_CALL(client, setAlliance(_, _)).Times(0);
+  game.setAlliance(game.enemy(), false);
+  EXPECT_EQ(game.getLastError(), Errors::Invalid_Parameter);
+}
+
+TEST_F(GameFixture, setAlliance_fails_ifReplay)
+{
+  game.gameData->isReplay = true;
+  EXPECT_CALL(client, setAlliance(_, _)).Times(0);
+  game.setAlliance(game.enemy(), false);
+  EXPECT_EQ(game.getLastError(), Errors::Invalid_Parameter);
+}
+
+TEST_F(GameFixture, setAlliance_fails_ifNoPlayer)
+{
+  EXPECT_CALL(client, setAlliance(_, _)).Times(0);
+  game.setAlliance(nullptr, false);
+  EXPECT_EQ(game.getLastError(), Errors::Invalid_Parameter);
+}
+
+TEST_F(GameFixture, setAlliance_fails_ifSelf)
+{
+  EXPECT_CALL(client, setAlliance(_, _)).Times(0);
+  game.setAlliance(game.self(), false);
+  EXPECT_EQ(game.getLastError(), Errors::Invalid_Parameter);
+}
+
 TEST_F(GameFixture, setAlliance_callsClient)
 {
   Player player = createFakePlayer(3, PlayerTypes::RescuePassive, Races::Protoss);

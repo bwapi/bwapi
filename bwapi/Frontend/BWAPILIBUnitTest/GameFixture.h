@@ -14,7 +14,7 @@
 #include <BWAPI/GameType.h>
 
 #include <string>
-#include <vector>
+#include <set>
 
 class GameFixture : public ::testing::Test {
 public:
@@ -84,13 +84,17 @@ public:
 
     BWAPI::Player self = createFakePlayer(0, BWAPI::PlayerTypes::Player, BWAPI::Races::Terran);
     BWAPI::Player enemy = createFakePlayer(1, BWAPI::PlayerTypes::Computer, BWAPI::Races::Zerg);
+    //BWAPI::Player neutral = createFakePlayer(11, BWAPI::PlayerTypes::Neutral, BWAPI::Races::None);
+
+    game.update();
   }
 
   BWAPI::Player createFakePlayer(int playerId, BWAPI::PlayerType playerType, BWAPI::Race race)
   {
-    BWAPI::PlayerData& data = playerDataStore.emplace_back(game, BWAPI::PlayerID{ playerId }, BWAPI::ForceID::None);
+    BWAPI::PlayerData& data = const_cast<BWAPI::PlayerData&>(*playerDataStore.emplace(game, BWAPI::PlayerID{ playerId }, BWAPI::ForceID::None).first);
    
     data.isParticipating = true;
+    data.isNeutral = false;
     data.type = playerType;
     data.race = race;
     data.name = std::string("Player ") + std::to_string(playerId);
@@ -109,7 +113,7 @@ public:
   BWAPI::Unit createFakeUnit(BWAPI::UnitType unitType = BWAPI::UnitTypes::Terran_Marine, int x = 100, int y = 100, int playerId = 0)
   {
     BWAPI::UnitID unitId = BWAPI::UnitID{ static_cast<int>(unitDataStore.size()) };
-    BWAPI::UnitData& data = unitDataStore.emplace_back(game, unitId);
+    BWAPI::UnitData& data = const_cast<BWAPI::UnitData&>(*unitDataStore.emplace(game, unitId).first);
 
     data.position = BWAPI::Position{ x, y };
     data.type = unitType;
@@ -136,8 +140,8 @@ protected:
   BWAPI::Game game;
 
 private:
-  std::vector<BWAPI::UnitData> unitDataStore;
-  std::vector<BWAPI::PlayerData> playerDataStore;
+  std::set<BWAPI::UnitData, BWAPI::IDCompare> unitDataStore;
+  std::set<BWAPI::PlayerData, BWAPI::IDCompare> playerDataStore;
 };
 
 class GameFixture_SmallMap : public GameFixture {

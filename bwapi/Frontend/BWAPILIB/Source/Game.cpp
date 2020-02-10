@@ -1279,19 +1279,25 @@ namespace BWAPI
     //----------------------------------------------- ENEMY ----------------------------------------------------
     Player Game::enemy() const
     {
-        for (auto p : players)
-            if (p.isEnemy(*getPlayerData(gameData->player)))
-                return p;
-        return nullptr;
+      if (!self()) return nullptr;
+
+      for (auto p : players)
+      {
+        if (self().isEnemy(p))
+          return p;
+      }
+      return nullptr;
     }
     //----------------------------------------------- NEUTRAL --------------------------------------------------
     Player Game::neutral() const
     {
       // The server will always set player 12 as neutral and others as not.
-        for (auto p : players)
-            if (p.isNeutral())
-                return p;
-        return nullptr;
+      for (auto p : players)
+      {
+        if (p.isNeutral())
+          return p;
+      }
+      return nullptr;
     }
     //----------------------------------------------- ALLIES ---------------------------------------------------
     Playerset& Game::allies()
@@ -1859,11 +1865,10 @@ namespace BWAPI
     void Game::updatePlayer(const PlayerData& playerdata)
     {
       auto itr = players.find(playerdata.id);
-      Player player = nullptr;
       if (itr == players.end())
       {
-        player = *players.emplace(playerdata).first;
-        playerUnits[player];
+        Player player = *players.emplace(playerdata).first;
+        playerUnits[player]; // creates Unitset for the player
       }
     }
     void Game::addForce(const ForceData& forceData)
@@ -1965,9 +1970,9 @@ namespace BWAPI
         {
           for (auto p : players)
           {
-            if (p.isAlly(self()))
+            if (self().isAlly(p))
               _allies.insert(p);
-            else if (p.isEnemy(self()))
+            else if (self().isEnemy(p))
               _enemies.insert(p);
             else if (p.isObserver())
               _observers.insert(p);

@@ -14,6 +14,11 @@ namespace BWAPI
   struct PlayerData
   {
     PlayerData(Game &g, PlayerID pid, ForceID force) : game{ g }, id{ pid }, force{ force } { }
+
+    PlayerData(const PlayerData& other) = delete;
+    PlayerData& operator=(const PlayerData& other) = delete;
+
+
     BWAPI::PlayerID id;
     BWAPI::Game &game;
     std::string name;
