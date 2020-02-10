@@ -123,6 +123,7 @@ namespace BW
       u16 IS_REF(gwGameMode, 0x00596904);
       u32 IS_REF(glGluesMode, 0x006D11BC);
 
+      int IS_REF(g_LocalNationID, 0x00512684);
       int IS_REF(g_LocalHumanID, 0x00512688);
 
       // For fixing BW-level memory leak

@@ -495,7 +495,16 @@ namespace BWAPI4
     if (canAccess())
     {
       self->exists = true;
-      self->player = BroodwarImpl.server.getPlayerID(_getPlayer);
+      // Force setting unit owner to self in team melee
+      if (BW::BWDATA::g_LocalNationID != BW::BWDATA::g_LocalHumanID &&
+        BW::BWDATA::g_LocalNationID == getOriginalRawData->playerID)
+      {
+        self->player = BroodwarImpl.server.getPlayerID(BroodwarImpl.self());
+      }
+      else
+      {
+        self->player = BroodwarImpl.server.getPlayerID(_getPlayer);
+      }
       self->type   = _getType;
     }
     else
