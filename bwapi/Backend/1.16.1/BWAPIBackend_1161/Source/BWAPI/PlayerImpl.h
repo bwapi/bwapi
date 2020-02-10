@@ -97,7 +97,7 @@ namespace BWAPI4
        */
       PlayerImpl(u8 index);
       int getIndex() const;      // Gets 0-based index of the player. (11 for neutral)
-
+      int getNationId() const;   // Nation id in team melee
 
       void setID(int newID);
 

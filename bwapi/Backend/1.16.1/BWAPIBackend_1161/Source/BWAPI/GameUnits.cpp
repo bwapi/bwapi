@@ -372,7 +372,7 @@ namespace BWAPI4
         else if ( type == UnitTypes::Resource_Vespene_Geyser )
           geysers.erase(u);
       }
-      else if ( unitPlayer == BroodwarImpl.self() && type == UnitTypes::Protoss_Pylon )
+      else if ( unitPlayer->getNationId() == BroodwarImpl.self()->getNationId() && type == UnitTypes::Protoss_Pylon )
       {
         pylons.erase(u);
       }
@@ -396,11 +396,11 @@ namespace BWAPI4
           geysers.insert(u);
         }
       }
-      if (u->lastPlayer != u->_getPlayer && u->lastPlayer && u->_getPlayer )
+      if (u->lastPlayer != u->getPlayer() && u->lastPlayer && u->getPlayer() )
       {
         events.push_back(Event::UnitRenegade(u));
         u->lastPlayer->units.erase(u);
-        u->_getPlayer->units.insert(u);
+        u->getPlayer()->units.insert(u);
       }
       int allUnits  = UnitTypes::AllUnits;
       int men       = UnitTypes::Men;
@@ -409,7 +409,7 @@ namespace BWAPI4
       int thisUnit  = u->_getType;
       
       // Increment specific unit count
-      BWAPI4::PlayerData *pSelf = u->_getPlayer->self;
+      BWAPI4::PlayerData *pSelf = u->getPlayer()->self;
       pSelf->allUnitCount[thisUnit]++;
       if (u->isVisible())
         pSelf->visibleUnitCount[thisUnit]++;
@@ -445,7 +445,7 @@ namespace BWAPI4
         if ( u->isCompleted() )
           pSelf->completedUnitCount[men]++;
       }
-      u->lastPlayer = u->_getPlayer;
+      u->lastPlayer = u->getPlayer();
       u->lastType   = u->_getType;
     }
 
@@ -454,7 +454,7 @@ namespace BWAPI4
       for (Unit ui : aliveUnits)
       {
         UnitImpl *u = static_cast<UnitImpl*>(ui);
-        if (u->_getPlayer->isNeutral())
+        if (u->getPlayer()->isNeutral())
         {
           u->saveInitialState();
           this->staticNeutralUnits.insert(u);

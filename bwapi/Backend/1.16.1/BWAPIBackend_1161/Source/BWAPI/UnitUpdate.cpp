@@ -63,12 +63,12 @@ namespace BWAPI4
           self->isVisible[i] = false;
         else if (!BroodwarImpl.isReplay() && !BWAPI4::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
           self->isVisible[i] = false;
-        else if ( _getPlayer == player )
+        else if ( _getPlayer->getNationId() == player->getNationId() )
           self->isVisible[i] = true;
         else if ( player->isNeutral() )
           self->isVisible[i] = o->sprite->visibilityFlags > 0;
         else
-          self->isVisible[i] = (o->sprite->visibilityFlags & (1 << player->getIndex())) != 0;
+          self->isVisible[i] = (o->sprite->visibilityFlags & (1 << player->getNationId())) != 0;
       }
       if (selfPlayerID >= 0)
       {
@@ -77,7 +77,7 @@ namespace BWAPI4
           self->isVisible[selfPlayerID] = false;
           self->isDetected              = false;
         }
-        else if (_getPlayer == BWAPI4::BroodwarImpl.self())
+        else if (_getPlayer->getNationId() == BWAPI4::BroodwarImpl.self()->getNationId())
         {
           self->isVisible[selfPlayerID] = true;
           self->isDetected              = true;
@@ -89,11 +89,11 @@ namespace BWAPI4
         }
         else
         {
-          self->isVisible[selfPlayerID] = (o->sprite->visibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0;
+          self->isVisible[selfPlayerID] = (o->sprite->visibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getNationId())) != 0;
           if (o->statusFlag(BW::StatusFlags::RequiresDetection))
           {
             self->isVisible[selfPlayerID] &= ((o->visibilityStatus == -1) ||
-                                             ((o->visibilityStatus & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0) ||
+                                             ((o->visibilityStatus & (1 << BroodwarImpl.BWAPIPlayer->getNationId())) != 0) ||
                                                o->movementFlag(BW::MovementFlags::Moving | BW::MovementFlags::Accelerating) ||
                                                o->orderID == Orders::Move ||
                                                o->groundWeaponCooldown > 0 ||
@@ -102,7 +102,7 @@ namespace BWAPI4
           }
           bool canDetect = !o->statusFlag(BW::StatusFlags::RequiresDetection) ||
                            o->visibilityStatus == -1 ||
-                           ((o->visibilityStatus & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0);
+                           ((o->visibilityStatus & (1 << BroodwarImpl.BWAPIPlayer->getNationId())) != 0);
           self->isDetected = self->isVisible[selfPlayerID] & canDetect;
         }
       }
@@ -176,15 +176,15 @@ namespace BWAPI4
       MemZero(self->isVisible);
       self->isDetected = false;
 
-      _getPlayer          = nullptr;               //_getPlayer
+      _getPlayer          = nullptr;            //_getPlayer
       _getType            = UnitTypes::Unknown; //_getType
-      _getTransport       = nullptr;               //_getTransport
+      _getTransport       = nullptr;            //_getTransport
       _getPosition        = Positions::Unknown; //_getPosition
       _getHitPoints       = 0;                  //_getHitPoints
       _getResources       = 0;                  //_getResources
       getBuildQueueSlot   = 0;                  //getBuildQueueSlot
       for ( unsigned int i = 0; i < 5; ++i )
-        getBuildQueue[i]  = UnitTypes::None;               //getBuildQueue
+        getBuildQueue[i]  = UnitTypes::None;    //getBuildQueue
       hasEmptyBuildQueue  = true;               //hasEmptyBuildQueue
       _isCompleted        = false;              //_isCompleted
     }

@@ -126,6 +126,8 @@ namespace BW
       int IS_REF(g_LocalNationID, 0x00512684);
       int IS_REF(g_LocalHumanID, 0x00512688);
 
+      std::array<int, PLAYABLE_PLAYER_COUNT> IS_REF(playerToNationIdMap, 0x0057EEC0);
+
       // For fixing BW-level memory leak
       std::array<void*,2> IS_REF(customList_UIDlgData, 0x0051A350);
 

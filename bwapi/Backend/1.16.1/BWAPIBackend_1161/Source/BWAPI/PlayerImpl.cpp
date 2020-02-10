@@ -31,6 +31,12 @@ namespace BWAPI4
   {
     return index;
   }
+  int PlayerImpl::getNationId() const
+  {
+    if (index >= BW::BWDATA::playerToNationIdMap.size())
+      return 11;
+    return BW::BWDATA::playerToNationIdMap[index];
+  }
   //--------------------------------------------- GET NAME ---------------------------------------------------
   std::string PlayerImpl::getName() const
   {
@@ -72,14 +78,14 @@ namespace BWAPI4
   {
     if ( !player || this->isNeutral() || player->isNeutral() || this->isObserver() || player->isObserver() )
       return false;
-    return BW::BWDATA::Game.playerAlliances[index][ player->getIndex() ] != 0;
+    return BW::BWDATA::Game.playerAlliances[getNationId()][ player->getNationId()] != 0;
   }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isEnemy(const Player player) const
   {
     if ( !player || this->isNeutral() || player->isNeutral() || this->isObserver() || player->isObserver() )
       return false;
-    return BW::BWDATA::Game.playerAlliances[index][ player->getIndex() ] == 0;
+    return BW::BWDATA::Game.playerAlliances[getNationId()][ player->getNationId() ] == 0;
   }
   //--------------------------------------------- IS NEUTRAL -------------------------------------------------
   bool PlayerImpl::isNeutral() const
@@ -91,9 +97,10 @@ namespace BWAPI4
   {
     // Clear last error
     BroodwarImpl.setLastError();
+    int nationId = getNationId();
 
     // Return None if there is no start location
-    if (index >= BW::PLAYABLE_PLAYER_COUNT || BW::BWDATA::Game.startPositions[index] == BW::Positions::Origin)
+    if (nationId >= BW::PLAYABLE_PLAYER_COUNT || BW::BWDATA::Game.startPositions[nationId] == BW::Positions::Origin)
       return TilePositions::None;
 
     // Return unknown and set Access_Denied if the start location
@@ -106,33 +113,36 @@ namespace BWAPI4
       return TilePositions::Unknown;
     }
     // return the start location as a tile position
-    return TilePosition(BW::BWDATA::Game.startPositions[index] - BW::Position((BWAPI4::TILEPOSITION_SCALE * 4) / 2, (BWAPI4::TILEPOSITION_SCALE * 3) / 2));
+    return TilePosition(BW::BWDATA::Game.startPositions[nationId] - BW::Position((BWAPI4::TILEPOSITION_SCALE * 4) / 2, (BWAPI4::TILEPOSITION_SCALE * 3) / 2));
   }
   //--------------------------------------------- IS VICTORIOUS ----------------------------------------------
   bool PlayerImpl::isVictorious() const
   {
-    if ( index >= 8 ) 
+    if ( getNationId() >= 8 ) 
       return false;
-    return BW::BWDATA::PlayerVictory[index] == 3;
+    return BW::BWDATA::PlayerVictory[getNationId()] == 3;
   }
   //--------------------------------------------- IS DEFEATED ------------------------------------------------
   bool PlayerImpl::isDefeated() const
   {
-    if ( index >= 8 ) 
+    if (getNationId() >= 8 )
       return false;
-    return BW::BWDATA::PlayerVictory[index] == 1 ||
-           BW::BWDATA::PlayerVictory[index] == 2 ||
-           BW::BWDATA::PlayerVictory[index] == 4 ||
-           BW::BWDATA::PlayerVictory[index] == 6;
+    return BW::BWDATA::PlayerVictory[getNationId()] == 1 ||
+           BW::BWDATA::PlayerVictory[getNationId()] == 2 ||
+           BW::BWDATA::PlayerVictory[getNationId()] == 4 ||
+           BW::BWDATA::PlayerVictory[getNationId()] == 6;
   }
   //--------------------------------------------- UPDATE -----------------------------------------------------
   void PlayerImpl::updateData()
   { 
     self->color = index < BW::PLAYER_COUNT ? BW::BWDATA::Game.playerColorIndex[index] : Colors::Black.getID();
   
+    int nationId = getNationId();
+
     // Get upgrades, tech, resources
     if ( this->isNeutral() || 
       index >= BW::PLAYER_COUNT ||
+      nationId >= BW::PLAYER_COUNT ||
          (!BroodwarImpl.isReplay() && 
           BroodwarImpl.self()->isEnemy(this) && 
           !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) )
@@ -156,7 +166,7 @@ namespace BWAPI4
       MemZero(self->isResearchAvailable);
       MemZero(self->isUnitAvailable);
 
-      if (!this->isNeutral() && index < BW::PLAYER_COUNT)
+      if (!this->isNeutral() && index < BW::PLAYER_COUNT && nationId < BW::PLAYER_COUNT)
       {
         // set upgrade level for visible enemy units
         for(int i = 0; i < 46; ++i)
@@ -164,7 +174,7 @@ namespace BWAPI4
           for(UnitType t : UpgradeType(i).whatUses())
           {
             if ( self->completedUnitCount[t] > 0 )
-              self->upgradeLevel[i] = BW::BWDATA::Game.currentUpgradeLevelSC[index][i];
+              self->upgradeLevel[i] = BW::BWDATA::Game.currentUpgradeLevelSC[nationId][i];
           }
         }
         for (int i = 46; i < BW::UPGRADE_TYPE_COUNT; ++i)
@@ -172,7 +182,7 @@ namespace BWAPI4
           for(UnitType t : UpgradeType(i).whatUses())
           {
             if ( self->completedUnitCount[t] > 0 )
-              self->upgradeLevel[i] = BW::BWDATA::Game.currentUpgradeLevelBW[index][i - 46];
+              self->upgradeLevel[i] = BW::BWDATA::Game.currentUpgradeLevelBW[nationId][i - 46];
           }
         }
       }
@@ -182,10 +192,10 @@ namespace BWAPI4
       this->wasSeenByBWAPIPlayer = true;
 
       // set resources
-      self->minerals           = BW::BWDATA::Game.minerals[index];
-      self->gas                = BW::BWDATA::Game.gas[index];
-      self->gatheredMinerals   = BW::BWDATA::Game.cumulativeMinerals[index];
-      self->gatheredGas        = BW::BWDATA::Game.cumulativeGas[index];
+      self->minerals           = BW::BWDATA::Game.minerals[nationId];
+      self->gas                = BW::BWDATA::Game.gas[nationId];
+      self->gatheredMinerals   = BW::BWDATA::Game.cumulativeMinerals[nationId];
+      self->gatheredGas        = BW::BWDATA::Game.cumulativeGas[nationId];
       self->repairedMinerals   = this->_repairedMinerals;
       self->repairedGas        = this->_repairedGas;
       self->refundedMinerals   = this->_refundedMinerals;
@@ -194,37 +204,37 @@ namespace BWAPI4
       // set upgrade level
       for(int i = 0; i < 46; ++i)
       {
-        self->upgradeLevel[i]     = BW::BWDATA::Game.currentUpgradeLevelSC[index][i];
-        self->maxUpgradeLevel[i]  = BW::BWDATA::Game.maxUpgradeLevelSC[index][i];
+        self->upgradeLevel[i]     = BW::BWDATA::Game.currentUpgradeLevelSC[nationId][i];
+        self->maxUpgradeLevel[i]  = BW::BWDATA::Game.maxUpgradeLevelSC[nationId][i];
       }
       for (int i = 46; i < BW::UPGRADE_TYPE_COUNT; ++i)
       {
-        self->upgradeLevel[i]     = BW::BWDATA::Game.currentUpgradeLevelBW[index][i - 46];
-        self->maxUpgradeLevel[i]  = BW::BWDATA::Game.maxUpgradeLevelBW[index][i - 46];
+        self->upgradeLevel[i]     = BW::BWDATA::Game.currentUpgradeLevelBW[nationId][i - 46];
+        self->maxUpgradeLevel[i]  = BW::BWDATA::Game.maxUpgradeLevelBW[nationId][i - 46];
       }
 
       // set abilities researched
       for(int i = 0; i < 24; ++i)
       {
-        self->hasResearched[i]        = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA::Game.techResearchedSC[index][i]);
-        self->isResearchAvailable[i]  = !!BW::BWDATA::Game.techAvailableSC[index][i];
+        self->hasResearched[i]        = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA::Game.techResearchedSC[nationId][i]);
+        self->isResearchAvailable[i]  = !!BW::BWDATA::Game.techAvailableSC[nationId][i];
       }
       for (int i = 24; i < BW::TECH_TYPE_COUNT; ++i)
       {
-        self->hasResearched[i]        = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA::Game.techResearchedBW[index][i - 24]);
-        self->isResearchAvailable[i]  = !!BW::BWDATA::Game.techAvailableBW[index][i - 24];
+        self->hasResearched[i]        = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA::Game.techResearchedBW[nationId][i - 24]);
+        self->isResearchAvailable[i]  = !!BW::BWDATA::Game.techAvailableBW[nationId][i - 24];
       }
 
       // set upgrades in progress
       for (int i = 0; i < BW::UPGRADE_TYPE_COUNT; ++i)
-        self->isUpgrading[i]   = (BW::BWDATA::Game.upgradeInProgressBW[index * 8 + i/8] & (1 << i%8)) != 0;
+        self->isUpgrading[i]   = (BW::BWDATA::Game.upgradeInProgressBW[nationId * 8 + i/8] & (1 << i%8)) != 0;
       
       // set research in progress
       for (int i = 0; i < BW::TECH_TYPE_COUNT; ++i)
-        self->isResearching[i] = (BW::BWDATA::Game.techResearchInProgressBW[index * 6 + i/8] & (1 << i%8)) != 0;
+        self->isResearching[i] = (BW::BWDATA::Game.techResearchInProgressBW[nationId * 6 + i/8] & (1 << i%8)) != 0;
 
       for (int i = 0; i < BW::UNIT_TYPE_COUNT; ++i)
-        self->isUnitAvailable[i] = !!BW::BWDATA::Game.unitAvailability[index][i];
+        self->isUnitAvailable[i] = !!BW::BWDATA::Game.unitAvailability[nationId][i];
 
       self->hasResearched[TechTypes::Enum::Nuclear_Strike] = self->isUnitAvailable[UnitTypes::Enum::Terran_Nuclear_Missile];
     }
@@ -233,7 +243,8 @@ namespace BWAPI4
     if ( (!BroodwarImpl.isReplay() && 
           BroodwarImpl.self()->isEnemy(this) && 
           !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) ||
-          index >= BW::PLAYER_COUNT)
+          index >= BW::PLAYER_COUNT ||
+          nationId >= BW::PLAYER_COUNT)
     {
       MemZero(self->supplyTotal);
       MemZero(self->supplyUsed);
@@ -251,35 +262,35 @@ namespace BWAPI4
       // set supply
       for (u8 i = 0; i < BW::RACE_COUNT; ++i)
       {
-        self->supplyTotal[i]  = BW::BWDATA::Game.supplies[i].available[index];
-        if (self->supplyTotal[i] > BW::BWDATA::Game.supplies[i].max[index])
-          self->supplyTotal[i]  = BW::BWDATA::Game.supplies[i].max[index];
-        self->supplyUsed[i]   = BW::BWDATA::Game.supplies[i].used[index];
+        self->supplyTotal[i]  = BW::BWDATA::Game.supplies[i].available[nationId];
+        if (self->supplyTotal[i] > BW::BWDATA::Game.supplies[i].max[nationId])
+          self->supplyTotal[i]  = BW::BWDATA::Game.supplies[i].max[nationId];
+        self->supplyUsed[i]   = BW::BWDATA::Game.supplies[i].used[nationId];
       }
       // set total unit counts
       for (int i = 0; i < BW::UNIT_TYPE_COUNT; ++i)
       {
-        self->deadUnitCount[i]   = BW::BWDATA::Game.unitCounts.dead[i][index];
-        self->killedUnitCount[i] = BW::BWDATA::Game.unitCounts.killed[i][index];
+        self->deadUnitCount[i]   = BW::BWDATA::Game.unitCounts.dead[i][nationId];
+        self->killedUnitCount[i] = BW::BWDATA::Game.unitCounts.killed[i][nationId];
       }
       // set macro dead unit counts
-      self->deadUnitCount[UnitTypes::AllUnits]    = BW::BWDATA::Game.allUnitsLost[index] + BW::BWDATA::Game.allBuildingsLost[index];
-      self->deadUnitCount[UnitTypes::Men]         = BW::BWDATA::Game.allUnitsLost[index];
-      self->deadUnitCount[UnitTypes::Buildings]   = BW::BWDATA::Game.allBuildingsLost[index];
-      self->deadUnitCount[UnitTypes::Factories]   = BW::BWDATA::Game.allFactoriesLost[index];
+      self->deadUnitCount[UnitTypes::AllUnits]    = BW::BWDATA::Game.allUnitsLost[nationId] + BW::BWDATA::Game.allBuildingsLost[nationId];
+      self->deadUnitCount[UnitTypes::Men]         = BW::BWDATA::Game.allUnitsLost[nationId];
+      self->deadUnitCount[UnitTypes::Buildings]   = BW::BWDATA::Game.allBuildingsLost[nationId];
+      self->deadUnitCount[UnitTypes::Factories]   = BW::BWDATA::Game.allFactoriesLost[nationId];
 
       // set macro kill unit counts
-      self->killedUnitCount[UnitTypes::AllUnits]  = BW::BWDATA::Game.allUnitsKilled[index] + BW::BWDATA::Game.allBuildingsRazed[index];
-      self->killedUnitCount[UnitTypes::Men]       = BW::BWDATA::Game.allUnitsKilled[index];
-      self->killedUnitCount[UnitTypes::Buildings] = BW::BWDATA::Game.allBuildingsRazed[index];
-      self->killedUnitCount[UnitTypes::Factories] = BW::BWDATA::Game.allFactoriesRazed[index];
+      self->killedUnitCount[UnitTypes::AllUnits]  = BW::BWDATA::Game.allUnitsKilled[nationId] + BW::BWDATA::Game.allBuildingsRazed[nationId];
+      self->killedUnitCount[UnitTypes::Men]       = BW::BWDATA::Game.allUnitsKilled[nationId];
+      self->killedUnitCount[UnitTypes::Buildings] = BW::BWDATA::Game.allBuildingsRazed[nationId];
+      self->killedUnitCount[UnitTypes::Factories] = BW::BWDATA::Game.allFactoriesRazed[nationId];
       
       // set score counts
-      self->totalUnitScore      = BW::BWDATA::Game.allUnitScore[index];
-      self->totalKillScore      = BW::BWDATA::Game.allKillScore[index];
-      self->totalBuildingScore  = BW::BWDATA::Game.allBuildingScore[index];
-      self->totalRazingScore    = BW::BWDATA::Game.allRazingScore[index];
-      self->customScore         = BW::BWDATA::Game.customScore[index];
+      self->totalUnitScore      = BW::BWDATA::Game.allUnitScore[nationId];
+      self->totalKillScore      = BW::BWDATA::Game.allKillScore[nationId];
+      self->totalBuildingScore  = BW::BWDATA::Game.allBuildingScore[nationId];
+      self->totalRazingScore    = BW::BWDATA::Game.allRazingScore[nationId];
+      self->customScore         = BW::BWDATA::Game.customScore[nationId];
     }
 
     if (index < BW::PLAYER_COUNT && (BW::BWDATA::Players[index].nType == PlayerTypes::PlayerLeft ||

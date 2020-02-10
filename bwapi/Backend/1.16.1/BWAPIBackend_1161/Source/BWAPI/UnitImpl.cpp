@@ -181,7 +181,7 @@ namespace BWAPI4
   {
     if (!canAccess())
       return false;
-    if (this->_getPlayer == BroodwarImpl.self())
+    if (this->_getPlayer->getNationId() == BroodwarImpl.self()->getNationId())
       return true;
     if (BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
       return true;
@@ -199,7 +199,7 @@ namespace BWAPI4
   {
     if (!canAccessDetected())
       return false;
-    if (this->_getPlayer == BroodwarImpl.self())
+    if (this->_getPlayer->getNationId() == BroodwarImpl.self()->getNationId())
       return true;
 
     //If we get here, canAccess()==true but unit is not owned by self.
