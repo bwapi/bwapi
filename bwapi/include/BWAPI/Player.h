@@ -44,9 +44,9 @@ namespace BWAPI
     ///
     /// Example usage:
     /// @code
-    ///   BWAPI::Player myEnemy = BWAPI::Broodwar->enemy();
-    ///   if ( myEnemy != nullptr )   // Make sure there is an enemy!
-    ///     BWAPI::Broodwar->sendText("Prepare to be crushed, %s!", myEnemy->getName().c_str());
+    ///   BWAPI::Player myEnemy = game.enemy();
+    ///   if ( myEnemy )   // Make sure there is an enemy!
+    ///     game.sendText("Prepare to be crushed, %s!", myEnemy.getName().c_str());
     /// @endcode
     std::string_view getName() const { return getData().name; }
 
@@ -60,8 +60,7 @@ namespace BWAPI
     ///
     /// Example usage:
     /// @code
-    ///   Unitset myUnits = BWAPI::Broodwar->self()->getUnits();
-    ///   for ( auto u = myUnits.begin(); u != myUnits.end(); ++u )
+    ///   for ( BWAPI::Unit u : game.self().getUnits() )
     ///   {
     ///     // Do something with your units
     ///   }
@@ -79,11 +78,11 @@ namespace BWAPI
     ///
     /// Example usage:
     /// @code
-    ///   if ( BWAPI::Broodwar->enemy() )
+    ///   if ( game.enemy() )
     ///   {
-    ///     BWAPI::Race enemyRace = BWAPI::Broodwar->enemy()->getRace();
+    ///     BWAPI::Race enemyRace = game.enemy().getRace();
     ///     if ( enemyRace == Races::Zerg )
-    ///       BWAPI::Broodwar->sendText("Do you really think you can beat me with a zergling rush?");
+    ///       game.sendText("Do you really think you can beat me with a zergling rush?");
     ///   }
     /// @endcode
     constexpr Race getRace() const { return getData().race; }
@@ -98,10 +97,10 @@ namespace BWAPI
     /// PlayerTypes::Player.
     ///
     /// @code
-    ///   if ( BWAPI::Broodwar->enemy() )
+    ///   if ( game.enemy() )
     ///   {
-    ///     if ( BWAPI::Broodwar->enemy()->getType() == PlayerTypes::Computer )
-    ///       BWAPI::Broodwar << "Looks like something I can abuse!" << std::endl;
+    ///     if ( game.enemy()->getType() == PlayerTypes::Computer )
+    ///       game << "Looks like something I can abuse!" << std::endl;
     ///   }
     /// @endcode
     constexpr PlayerType getType() const { return getData().type; }
@@ -284,7 +283,7 @@ namespace BWAPI
     ///
     /// Example usage:
     /// @code
-    ///   if ( BWAPI::Broodwar->self()->supplyUsed() + 8 >= BWAPI::Broodwar->self()->supplyTotal() )
+    ///   if ( game.self().supplyUsed() + 8 >= game.self().supplyTotal() )
     ///   {
     ///     // Construct pylons, supply depots, or overlords
     ///   }
@@ -361,13 +360,15 @@ namespace BWAPI
     /// @code
     ///   bool obtainNextUpgrade(BWAPI::UpgradeType upgType)
     ///   {
-    ///     BWAPI::Player self = BWAPI::Broodwar->self();
-    ///     int maxLvl      = self->getMaxUpgradeLevel(upgType);
-    ///     int currentLvl  = self->getUpgradeLevel(upgType);
-    ///     if ( !self->isUpgrading(upgType) && currentLvl < maxLvl &&
-    ///           self->completedUnitCount(upgType.whatsRequired(currentLvl+1)) > 0 &&
-    ///           self->completedUnitCount(upgType.whatUpgrades()) > 0 )
-    ///       return self->getUnits().upgrade(upgType);
+    ///     BWAPI::Player self = game.self();
+    ///     if (!self) return false;
+    ///
+    ///     int maxLvl      = self.getMaxUpgradeLevel(upgType);
+    ///     int currentLvl  = self.getUpgradeLevel(upgType);
+    ///     if ( !self.isUpgrading(upgType) && currentLvl < maxLvl &&
+    ///           self.completedUnitCount(upgType.whatsRequired(currentLvl + 1)) > 0 &&
+    ///           self.completedUnitCount(upgType.whatUpgrades()) > 0 )
+    ///       return self.getUnits().upgrade(upgType);
     ///     return false;
     ///   }
     /// @endcode
@@ -433,18 +434,20 @@ namespace BWAPI
     /// @code
     ///   bool obtainNextUpgrade(BWAPI::UpgradeType upgType)
     ///   {
-    ///     BWAPI::Player self = BWAPI::Broodwar->self();
-    ///     int maxLvl      = self->getMaxUpgradeLevel(upgType);
-    ///     int currentLvl  = self->getUpgradeLevel(upgType);
-    ///     if ( !self->isUpgrading(upgType) && currentLvl < maxLvl &&
-    ///           self->completedUnitCount(upgType.whatsRequired(currentLvl+1)) > 0 &&
-    ///           self->completedUnitCount(upgType.whatUpgrades()) > 0 )
-    ///       return self->getUnits().upgrade(upgType);
+    ///     BWAPI::Player self = game.self();
+    ///     if (!self) return false;
+    ///
+    ///     int maxLvl      = self.getMaxUpgradeLevel(upgType);
+    ///     int currentLvl  = self.getUpgradeLevel(upgType);
+    ///     if ( !self.isUpgrading(upgType) && currentLvl < maxLvl &&
+    ///           self.completedUnitCount(upgType.whatsRequired(currentLvl+1)) > 0 &&
+    ///           self.completedUnitCount(upgType.whatUpgrades()) > 0 )
+    ///       return self.getUnits().upgrade(upgType);
     ///     return false;
     ///   }
     /// @endcode
     ///
-    /// @see UnitInterface::upgrade, getMaxUpgradeLevel
+    /// @see Unit::upgrade, getMaxUpgradeLevel
     int getUpgradeLevel(UpgradeType upgrade) const {
       return upgrade ? getData().upgradeLevel[static_cast<int>(upgrade)] : 0;
     }
@@ -456,7 +459,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns true if the player has obtained the given \p tech, or false if they have not
-    /// @see isResearching, UnitInterface::research, isResearchAvailable
+    /// @see isResearching, Unit::research, isResearchAvailable
     bool hasResearched(TechType tech) const {
       return tech ? getData().hasResearched[static_cast<int>(tech)] : false;
     }
@@ -468,7 +471,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns true if the player is currently researching the \p tech, or false otherwise
-    /// @see UnitInterface::research, hasResearched
+    /// @see Unit::research, hasResearched
     bool isResearching(TechType tech) const {
       return tech ? getData().isResearching[static_cast<int>(tech)] : false;
     }
@@ -485,18 +488,20 @@ namespace BWAPI
     /// @code
     ///   bool obtainNextUpgrade(BWAPI::UpgradeType upgType)
     ///   {
-    ///     BWAPI::Player self = BWAPI::Broodwar->self();
-    ///     int maxLvl      = self->getMaxUpgradeLevel(upgType);
-    ///     int currentLvl  = self->getUpgradeLevel(upgType);
-    ///     if ( !self->isUpgrading(upgType) && currentLvl < maxLvl &&
-    ///           self->completedUnitCount(upgType.whatsRequired(currentLvl+1)) > 0 &&
-    ///           self->completedUnitCount(upgType.whatUpgrades()) > 0 )
-    ///       return self->getUnits().upgrade(upgType);
+    ///     BWAPI::Player self = game.self();
+    ///     if (!self) return false;
+    ///
+    ///     int maxLvl      = self.getMaxUpgradeLevel(upgType);
+    ///     int currentLvl  = self.getUpgradeLevel(upgType);
+    ///     if ( !self.isUpgrading(upgType) && currentLvl < maxLvl &&
+    ///           self.completedUnitCount(upgType.whatsRequired(currentLvl + 1)) > 0 &&
+    ///           self.completedUnitCount(upgType.whatUpgrades()) > 0 )
+    ///       return self.getUnits().upgrade(upgType);
     ///     return false;
     ///   }
     /// @endcode
     ///
-    /// @see UnitInterface::upgrade
+    /// @see Unit::upgrade
     bool isUpgrading(UpgradeType upgrade) const {
       return upgrade ? getData().isUpgrading[static_cast<int>(upgrade)] : false;
     }
@@ -626,13 +631,15 @@ namespace BWAPI
     /// @code
     ///   bool obtainNextUpgrade(BWAPI::UpgradeType upgType)
     ///   {
-    ///     BWAPI::Player self = BWAPI::Broodwar->self();
-    ///     int maxLvl      = self->getMaxUpgradeLevel(upgType);
-    ///     int currentLvl  = self->getUpgradeLevel(upgType);
-    ///     if ( !self->isUpgrading(upgType) && currentLvl < maxLvl &&
-    ///           self->completedUnitCount(upgType.whatsRequired(currentLvl+1)) > 0 &&
-    ///           self->completedUnitCount(upgType.whatUpgrades()) > 0 )
-    ///       return self->getUnits().upgrade(upgType);
+    ///     BWAPI::Player self = game.self();
+    ///     if (!self) return false;
+    ///
+    ///     int maxLvl      = self.getMaxUpgradeLevel(upgType);
+    ///     int currentLvl  = self.getUpgradeLevel(upgType);
+    ///     if ( !self.isUpgrading(upgType) && currentLvl < maxLvl &&
+    ///           self.completedUnitCount(upgType.whatsRequired(currentLvl + 1)) > 0 &&
+    ///           self.completedUnitCount(upgType.whatUpgrades()) > 0 )
+    ///       return self.getUnits().upgrade(upgType);
     ///     return false;
     ///   }
     /// @endcode

@@ -79,7 +79,7 @@ namespace BWAPI
   }
 
   /// <summary>The upgrade type represents a passive upgrade that can be obtained with
-  /// UnitInterface::upgrade. </summary>
+  /// Unit::upgrade. </summary>
   ///
   /// @see UpgradeTypes
   ///

@@ -31,7 +31,7 @@ namespace BWAPI
   /// If Flag::CompleteMapInformation is disabled, then a Bullet is accessible if and only if
   /// it is visible. Otherwise if Flag::CompleteMapInformation is enabled, then all Bullets
   /// in the game are accessible.
-  /// @see Game::getBullets, BulletInterface::exists
+  /// @see Game::getBullets, Bullet::exists
   /// @ingroup Interface
   class Bullet: public InterfaceDataWrapper<Bullet, BulletData>
   {
@@ -48,7 +48,7 @@ namespace BWAPI
     ///
     /// If Flag::CompleteMapInformation is enabled, then this function is accurate for all
     /// Bullet information.
-    /// @see isVisible, UnitInterface::exists
+    /// @see isVisible, Unit::exists
     bool exists() const { return *this && getData().exists; }
 
     /// <summary>Retrieves the Player interface that owns the Bullet.</summary>

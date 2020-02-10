@@ -40,7 +40,7 @@ namespace BWAPI
     /// @see BWAPI::UnitType::isFlying
     extern const PtrUnitFilter IsFlyer;
 
-    /// @see BWAPI::UnitInterface::IsFlying
+    /// @see BWAPI::Unit::IsFlying
     extern const PtrUnitFilter IsFlying;
 
     /// @see BWAPI::UnitType::regeneratesHP
@@ -130,7 +130,7 @@ namespace BWAPI
     /// @see BWAPI::UnitType::canBuildAddon
     extern const PtrUnitFilter CanBuildAddon;
   
-    /// @see BWAPI::UnitInterface::getHitPoints
+    /// @see BWAPI::Unit::getHitPoints
     extern const PtrCompareUnitFilter<int> HP;
 
     /// @see BWAPI::UnitType::maxHitPoints
@@ -140,7 +140,7 @@ namespace BWAPI
     /// is HP*100/MaxHP.
     extern const PtrCompareUnitFilter<int> HP_Percent;
   
-    /// @see BWAPI::UnitInterface::getShields
+    /// @see BWAPI::Unit::getShields
     extern const PtrCompareUnitFilter<int> Shields;
 
     /// @see BWAPI::UnitType::maxShields
@@ -150,17 +150,17 @@ namespace BWAPI
     /// formula is Shields*100/MaxShields.
     extern const PtrCompareUnitFilter<int> Shields_Percent;
   
-    /// @see BWAPI::UnitInterface::getEnergy
+    /// @see BWAPI::Unit::getEnergy
     extern const PtrCompareUnitFilter<int> Energy;
     
-    /// @see BWAPI::PlayerInterface::maxEnergy
+    /// @see BWAPI::Player::maxEnergy
     extern const PtrCompareUnitFilter<int> MaxEnergy;
     
     /// <summary>A comparison filter that retrieves the unit's energy percentage.</summary> The
     /// formula is Energy*100/MaxEnergy.
     extern const PtrCompareUnitFilter<int> Energy_Percent;
 
-    /// @see BWAPI::PlayerInterface::armor
+    /// @see BWAPI::Player::armor
     extern const PtrCompareUnitFilter<int> Armor;
 
     /// @see BWAPI::UnitType::armorUpgrade
@@ -184,7 +184,7 @@ namespace BWAPI
     /// @see BWAPI::UnitType::spaceRequired
     extern const PtrCompareUnitFilter<int> SpaceRequired;
 
-    /// @see BWAPI::UnitInterface::getSpaceRemaining
+    /// @see BWAPI::Unit::getSpaceRemaining
     extern const PtrCompareUnitFilter<int> SpaceRemaining;
 
     /// @see BWAPI::UnitType::spaceProvided
@@ -196,13 +196,13 @@ namespace BWAPI
     /// @see BWAPI::UnitType::destroyScore
     extern const PtrCompareUnitFilter<int> DestroyScore;
 
-    /// @see BWAPI::PlayerInterface::topSpeed
+    /// @see BWAPI::Player::topSpeed
     extern const PtrCompareUnitFilter<double> TopSpeed;
 
-    /// @see BWAPI::PlayerInterface::sightRange
+    /// @see BWAPI::Player::sightRange
     extern const PtrCompareUnitFilter<int> SightRange;
 
-    /// @see BWAPI::PlayerInterface::weaponDamageCooldown
+    /// @see BWAPI::Player::weaponDamageCooldown
     extern const PtrCompareUnitFilter<int> WeaponCooldown;
 
     /// @see BWAPI::UnitType::size
@@ -214,250 +214,250 @@ namespace BWAPI
     /// @see BWAPI::UnitType::airWeapon
     extern const PtrCompareUnitFilter<WeaponType> AirWeapon;
 
-    /// @see BWAPI::UnitInterface::getType
+    /// @see BWAPI::Unit::getType
     extern const PtrCompareUnitFilter<UnitType> GetType;
 
     /// @see BWAPI::UnitType::getRace
     extern const PtrCompareUnitFilter<Race> GetRace;
 
-    /// @see BWAPI::UnitInterface::getPlayer
+    /// @see BWAPI::Unit::getPlayer
     extern const PtrCompareUnitFilter<Player> GetPlayer;
   
-    /// @see BWAPI::UnitInterface::getResources
+    /// @see BWAPI::Unit::getResources
     extern const PtrCompareUnitFilter<int> Resources;
 
-    /// @see BWAPI::UnitInterface::getResourceGroup
+    /// @see BWAPI::Unit::getResourceGroup
     extern const PtrCompareUnitFilter<int> ResourceGroup;
 
-    /// @see BWAPI::UnitInterface::getAcidSporeCount
+    /// @see BWAPI::Unit::getAcidSporeCount
     extern const PtrCompareUnitFilter<int> AcidSporeCount;
 
-    /// @see BWAPI::UnitInterface::getInterceptorCount
+    /// @see BWAPI::Unit::getInterceptorCount
     extern const PtrCompareUnitFilter<int> InterceptorCount;
 
-    /// @see BWAPI::UnitInterface::getScarabCount
+    /// @see BWAPI::Unit::getScarabCount
     extern const PtrCompareUnitFilter<int> ScarabCount;
 
-    /// @see BWAPI::UnitInterface::getSpiderMineCount
+    /// @see BWAPI::Unit::getSpiderMineCount
     extern const PtrCompareUnitFilter<int> SpiderMineCount;
 
-    /// @see BWAPI::UnitInterface::getGroundWeaponCooldown
+    /// @see BWAPI::Unit::getGroundWeaponCooldown
     extern const PtrCompareUnitFilter<int> MaxWeaponCooldown;
 
-    /// @see BWAPI::UnitInterface::getSpellCooldown
+    /// @see BWAPI::Unit::getSpellCooldown
     extern const PtrCompareUnitFilter<int> SpellCooldown;
 
-    /// @see BWAPI::UnitInterface::getDefenseMatrixPoints
+    /// @see BWAPI::Unit::getDefenseMatrixPoints
     extern const PtrCompareUnitFilter<int> DefenseMatrixPoints;
 
-    /// @see BWAPI::UnitInterface::getDefenseMatrixTimer
+    /// @see BWAPI::Unit::getDefenseMatrixTimer
     extern const PtrCompareUnitFilter<int> DefenseMatrixTime;
 
-    /// @see BWAPI::UnitInterface::getEnsnareTimer
+    /// @see BWAPI::Unit::getEnsnareTimer
     extern const PtrCompareUnitFilter<int> EnsnareTime;
 
-    /// @see BWAPI::UnitInterface::getIrradiateTimer
+    /// @see BWAPI::Unit::getIrradiateTimer
     extern const PtrCompareUnitFilter<int> IrradiateTime;
 
-    /// @see BWAPI::UnitInterface::getLockdownTimer
+    /// @see BWAPI::Unit::getLockdownTimer
     extern const PtrCompareUnitFilter<int> LockdownTime;
 
-    /// @see BWAPI::UnitInterface::getMaelstromTimer
+    /// @see BWAPI::Unit::getMaelstromTimer
     extern const PtrCompareUnitFilter<int> MaelstromTime;
 
-    /// @see BWAPI::UnitInterface::getOrderTimer
+    /// @see BWAPI::Unit::getOrderTimer
     extern const PtrCompareUnitFilter<int> OrderTime;
 
-    /// @see BWAPI::UnitInterface::getPlagueTimer
+    /// @see BWAPI::Unit::getPlagueTimer
     extern const PtrCompareUnitFilter<int> PlagueTimer;
 
-    /// @see BWAPI::UnitInterface::getRemoveTimer
+    /// @see BWAPI::Unit::getRemoveTimer
     extern const PtrCompareUnitFilter<int> RemoveTime;
 
-    /// @see BWAPI::UnitInterface::getStasisTimer
+    /// @see BWAPI::Unit::getStasisTimer
     extern const PtrCompareUnitFilter<int> StasisTime;
 
-    /// @see BWAPI::UnitInterface::getStimTimer
+    /// @see BWAPI::Unit::getStimTimer
     extern const PtrCompareUnitFilter<int> StimTime;
 
-    /// @see BWAPI::UnitInterface::getBuildType
+    /// @see BWAPI::Unit::getBuildType
     extern const PtrCompareUnitFilter<UnitType> BuildType;
 
-    /// @see BWAPI::UnitInterface::getRemainingBuildTime
+    /// @see BWAPI::Unit::getRemainingBuildTime
     extern const PtrCompareUnitFilter<int> RemainingBuildTime;
 
-    /// @see BWAPI::UnitInterface::getRemainingTrainTime
+    /// @see BWAPI::Unit::getRemainingTrainTime
     extern const PtrCompareUnitFilter<int> RemainingTrainTime;
 
-    /// @see BWAPI::UnitInterface::getTarget
+    /// @see BWAPI::Unit::getTarget
     extern const PtrCompareUnitFilter<Unit> Target;
 
-    /// @see BWAPI::UnitInterface::getOrder
+    /// @see BWAPI::Unit::getOrder
     extern const PtrCompareUnitFilter<Order> CurrentOrder;
 
-    /// @see BWAPI::UnitInterface::getSecondaryOrder
+    /// @see BWAPI::Unit::getSecondaryOrder
     extern const PtrCompareUnitFilter<Order> SecondaryOrder;
 
-    /// @see BWAPI::UnitInterface::getOrderTarget
+    /// @see BWAPI::Unit::getOrderTarget
     extern const PtrCompareUnitFilter<Unit> OrderTarget;
 
-    /// @see BWAPI::UnitInterface::getLeft
+    /// @see BWAPI::Unit::getLeft
     extern const PtrCompareUnitFilter<int> GetLeft;
 
-    /// @see BWAPI::UnitInterface::getTop
+    /// @see BWAPI::Unit::getTop
     extern const PtrCompareUnitFilter<int> GetTop;
 
-    /// @see BWAPI::UnitInterface::getRight
+    /// @see BWAPI::Unit::getRight
     extern const PtrCompareUnitFilter<int> GetRight;
 
-    /// @see BWAPI::UnitInterface::getBottom
+    /// @see BWAPI::Unit::getBottom
     extern const PtrCompareUnitFilter<int> GetBottom;
 
-    /// @see BWAPI::UnitInterface::exists
+    /// @see BWAPI::Unit::exists
     extern const PtrUnitFilter Exists;
 
-    /// @see BWAPI::UnitInterface::isAttacking
+    /// @see BWAPI::Unit::isAttacking
     extern const PtrUnitFilter IsAttacking;
 
-    /// @see BWAPI::UnitInterface::isBeingConstructed
+    /// @see BWAPI::Unit::isBeingConstructed
     extern const PtrUnitFilter IsBeingConstructed;
 
-    /// @see BWAPI::UnitInterface::isBeingGathered
+    /// @see BWAPI::Unit::isBeingGathered
     extern const PtrUnitFilter IsBeingGathered;
 
-    /// @see BWAPI::UnitInterface::isBeingHealed
+    /// @see BWAPI::Unit::isBeingHealed
     extern const PtrUnitFilter IsBeingHealed;
 
-    /// @see BWAPI::UnitInterface::isBlind
+    /// @see BWAPI::Unit::isBlind
     extern const PtrUnitFilter IsBlind;
 
-    /// @see BWAPI::UnitInterface::isBraking
+    /// @see BWAPI::Unit::isBraking
     extern const PtrUnitFilter IsBraking;
 
-    /// @see BWAPI::UnitInterface::isBurrowed
+    /// @see BWAPI::Unit::isBurrowed
     extern const PtrUnitFilter IsBurrowed;
 
-    /// @see BWAPI::UnitInterface::isCarryingGas
+    /// @see BWAPI::Unit::isCarryingGas
     extern const PtrUnitFilter IsCarryingGas;
 
-    /// @see BWAPI::UnitInterface::isCarryingMinerals
+    /// @see BWAPI::Unit::isCarryingMinerals
     extern const PtrUnitFilter IsCarryingMinerals;
 
     /// <summary>A unary filter that checks if IsCarryingGas or IsCarryingMinerals return true.</summary>
     extern const PtrUnitFilter IsCarryingSomething;
 
-    /// @see BWAPI::UnitInterface::isCloaked
+    /// @see BWAPI::Unit::isCloaked
     extern const PtrUnitFilter IsCloaked;
 
-    /// @see BWAPI::UnitInterface::isCompleted
+    /// @see BWAPI::Unit::isCompleted
     extern const PtrUnitFilter IsCompleted;
 
-    /// @see BWAPI::UnitInterface::isConstructing
+    /// @see BWAPI::Unit::isConstructing
     extern const PtrUnitFilter IsConstructing;
 
-    /// @see BWAPI::UnitInterface::isDefenseMatrixed
+    /// @see BWAPI::Unit::isDefenseMatrixed
     extern const PtrUnitFilter IsDefenseMatrixed;
 
-    /// @see BWAPI::UnitInterface::isDetected
+    /// @see BWAPI::Unit::isDetected
     extern const PtrUnitFilter IsDetected;
 
-    /// @see BWAPI::UnitInterface::isEnsnared
+    /// @see BWAPI::Unit::isEnsnared
     extern const PtrUnitFilter IsEnsnared;
 
-    /// @see BWAPI::UnitInterface::isFollowing
+    /// @see BWAPI::Unit::isFollowing
     extern const PtrUnitFilter IsFollowing;
 
-    /// @see BWAPI::UnitInterface::isGatheringGas
+    /// @see BWAPI::Unit::isGatheringGas
     extern const PtrUnitFilter IsGatheringGas;
 
-    /// @see BWAPI::UnitInterface::isGatheringMinerals
+    /// @see BWAPI::Unit::isGatheringMinerals
     extern const PtrUnitFilter IsGatheringMinerals;
 
-    /// @see BWAPI::UnitInterface::isHallucination
+    /// @see BWAPI::Unit::isHallucination
     extern const PtrUnitFilter IsHallucination;
 
-    /// @see BWAPI::UnitInterface::isHoldingPosition
+    /// @see BWAPI::Unit::isHoldingPosition
     extern const PtrUnitFilter IsHoldingPosition;
 
-    /// @see BWAPI::UnitInterface::isIdle
+    /// @see BWAPI::Unit::isIdle
     extern const PtrUnitFilter IsIdle;
 
-    /// @see BWAPI::UnitInterface::isInterruptible
+    /// @see BWAPI::Unit::isInterruptible
     extern const PtrUnitFilter IsInterruptible;
 
-    /// @see BWAPI::UnitInterface::isInvincible
+    /// @see BWAPI::Unit::isInvincible
     extern const PtrUnitFilter IsInvincible;
 
-    /// @see BWAPI::UnitInterface::isIrradiated
+    /// @see BWAPI::Unit::isIrradiated
     extern const PtrUnitFilter IsIrradiated;
 
-    /// @see BWAPI::UnitInterface::isLifted
+    /// @see BWAPI::Unit::isLifted
     extern const PtrUnitFilter IsLifted;
 
-    /// @see BWAPI::UnitInterface::isLoaded
+    /// @see BWAPI::Unit::isLoaded
     extern const PtrUnitFilter IsLoaded;
 
-    /// @see BWAPI::UnitInterface::isLockedDown
+    /// @see BWAPI::Unit::isLockedDown
     extern const PtrUnitFilter IsLockedDown;
 
-    /// @see BWAPI::UnitInterface::isMaelstrommed
+    /// @see BWAPI::Unit::isMaelstrommed
     extern const PtrUnitFilter IsMaelstrommed;
 
-    /// @see BWAPI::UnitInterface::isMorphing
+    /// @see BWAPI::Unit::isMorphing
     extern const PtrUnitFilter IsMorphing;
 
-    /// @see BWAPI::UnitInterface::isMoving
+    /// @see BWAPI::Unit::isMoving
     extern const PtrUnitFilter IsMoving;
 
-    /// @see BWAPI::UnitInterface::isParasited
+    /// @see BWAPI::Unit::isParasited
     extern const PtrUnitFilter IsParasited;
 
-    /// @see BWAPI::UnitInterface::isPatrolling
+    /// @see BWAPI::Unit::isPatrolling
     extern const PtrUnitFilter IsPatrolling;
 
-    /// @see BWAPI::UnitInterface::isPlagued
+    /// @see BWAPI::Unit::isPlagued
     extern const PtrUnitFilter IsPlagued;
 
-    /// @see BWAPI::UnitInterface::isRepairing
+    /// @see BWAPI::Unit::isRepairing
     extern const PtrUnitFilter IsRepairing;
 
-    /// @see BWAPI::UnitInterface::isResearching
+    /// @see BWAPI::Unit::isResearching
     extern const PtrUnitFilter IsResearching;
 
-    /// @see BWAPI::UnitInterface::isSieged
+    /// @see BWAPI::Unit::isSieged
     extern const PtrUnitFilter IsSieged;
 
-    /// @see BWAPI::UnitInterface::isStartingAttack
+    /// @see BWAPI::Unit::isStartingAttack
     extern const PtrUnitFilter IsStartingAttack;
 
-    /// @see BWAPI::UnitInterface::isStasised
+    /// @see BWAPI::Unit::isStasised
     extern const PtrUnitFilter IsStasised;
 
-    /// @see BWAPI::UnitInterface::isStimmed
+    /// @see BWAPI::Unit::isStimmed
     extern const PtrUnitFilter IsStimmed;
 
-    /// @see BWAPI::UnitInterface::isStuck
+    /// @see BWAPI::Unit::isStuck
     extern const PtrUnitFilter IsStuck;
 
-    /// @see BWAPI::UnitInterface::isTraining
+    /// @see BWAPI::Unit::isTraining
     extern const PtrUnitFilter IsTraining;
 
-    /// @see BWAPI::UnitInterface::isUnderAttack
+    /// @see BWAPI::Unit::isUnderAttack
     extern const PtrUnitFilter IsUnderAttack;
 
-    /// @see BWAPI::UnitInterface::isUnderDarkSwarm
+    /// @see BWAPI::Unit::isUnderDarkSwarm
     extern const PtrUnitFilter IsUnderDarkSwarm;
 
-    /// @see BWAPI::UnitInterface::isUnderDisruptionWeb
+    /// @see BWAPI::Unit::isUnderDisruptionWeb
     extern const PtrUnitFilter IsUnderDisruptionWeb;
 
-    /// @see BWAPI::UnitInterface::isUnderStorm
+    /// @see BWAPI::Unit::isUnderStorm
     extern const PtrUnitFilter IsUnderStorm;
 
-    /// @see BWAPI::UnitInterface::isPowered
+    /// @see BWAPI::Unit::isPowered
     extern const PtrUnitFilter IsPowered;
 
-    /// @see BWAPI::UnitInterface::isVisible
+    /// @see BWAPI::Unit::isVisible
     extern const PtrUnitFilter IsVisible;
   
     /// <summary>A unary filter that checks if the current unit is an enemy of the BWAPI player.</summary>

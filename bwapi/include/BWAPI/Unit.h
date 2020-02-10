@@ -33,14 +33,14 @@ namespace BWAPI
   ///
   /// If Flag::CompleteMapInformation is disabled, then a unit is accessible if and only if it is visible.
   /// @note Some properties of visible enemy units will not be made available to the AI (such as the
-  /// contents of visible enemy dropships). If a unit is not visible, UnitInterface::exists will return false,
+  /// contents of visible enemy dropships). If a unit is not visible, Unit::exists will return false,
   /// regardless of whether or not the unit exists. This is because absolutely no state information on
   /// invisible enemy units is made available to the AI. To determine if an enemy unit has been destroyed, the
   /// AI must watch for AIModule::onUnitDestroy messages from BWAPI, which is only called for visible units
   /// which get destroyed.
   ///
   /// If Flag::CompleteMapInformation is enabled, then all units that exist in the game are accessible, and
-  /// UnitInterface::exists is accurate for all units. Similarly AIModule::onUnitDestroy messages are generated for all
+  /// Unit::exists is accurate for all units. Similarly AIModule::onUnitDestroy messages are generated for all
   /// units that get destroyed, not just visible ones.
   ///
   /// If a Unit is not accessible, then only the getInitial__ functions will be available to the AI.
@@ -99,8 +99,8 @@ namespace BWAPI
     ///
     /// @note The unit bounds are defined as this value plus/minus the values of
     /// UnitType::dimensionLeft, UnitType::dimensionUp, UnitType::dimensionRight,
-    /// and UnitType::dimensionDown, which is conveniently expressed in UnitInterface::getLeft,
-    /// UnitInterface::getTop, UnitInterface::getRight, and UnitInterface::getBottom respectively.
+    /// and UnitType::dimensionDown, which is conveniently expressed in Unit::getLeft,
+    /// Unit::getTop, Unit::getRight, and Unit::getBottom respectively.
     ///
     /// @retval Positions::Unknown if this unit is inaccessible.
     ///
@@ -152,13 +152,13 @@ namespace BWAPI
     ///
     /// Example
     /// @code
-    ///   for ( auto u : Broodwar->self()->getUnits() )
+    ///   for ( BWAPI::Unit u : game.self().getUnits() )
     ///   {
-    ///     if ( u->isFlying() && u->isUnderAttack() ) // implies exists and isCompleted
+    ///     if ( u.isFlying() && u.isUnderAttack() ) // implies exists and isCompleted
     ///     {
-    ///       Region r = u->getRegion();
+    ///       BWAPI::Region r = u.getRegion();
     ///       if ( r )
-    ///         u->move(r->getClosestInaccessibleRegion()); // Retreat to inaccessible region
+    ///         u.move(r.getClosestInaccessibleRegion()); // Retreat to inaccessible region
     ///     }
     ///   }
     /// @endcode
@@ -723,12 +723,11 @@ namespace BWAPI
     ///
     /// Example
     /// @code
-    ///   BWAPI::Unitset myUnits = BWAPI::Broodwar->self()getUnits();
-    ///   for ( auto u = myUnits.begin(); u != myUnits.end(); ++u )
+    ///   for ( BWAPI::Unit u : game.self().getUnits())
     ///   {
     ///     // If we are carrying a flag
-    ///     if ( u->getPowerUp() && u->getPowerUp()->getType() == BWAPI::UnitTypes::Powerup_Flag )
-    ///       u->move( u->getClosestUnit(BWAPI::Filter::IsFlagBeacon && BWAPI::Filter::IsOwned) );  // return it to our flag beacon to score
+    ///     if ( u.getPowerUp() && u.getPowerUp().getType() == BWAPI::UnitTypes::Powerup_Flag )
+    ///       u.move( u.getClosestUnit(BWAPI::Filter::IsFlagBeacon && BWAPI::Filter::IsOwned) );  // return it to our flag beacon to score
     ///   }
     /// @endcode
     /// @implies getType().isWorker(), isCompleted()
@@ -1003,7 +1002,7 @@ namespace BWAPI
     /// either a flyer or a flying building.</summary>
     ///
     /// @returns true if this unit is in the air, and false if it is on the ground
-    /// @see UnitType::isFlyer, UnitInterface::isLifted
+    /// @see UnitType::isFlyer, Unit::isLifted
     bool isFlying() const { return getType().isFlyer() || isLifted(); }
 
     /// <summary>Checks if this unit is following another unit.</summary> When a unit is following
@@ -1036,7 +1035,7 @@ namespace BWAPI
     /// <summary>Checks if this unit is a hallucination.</summary> Hallucinations are created by
     /// the @High_Templar using the @Hallucination ability. Enemy hallucinations are unknown if
     /// Flag::CompleteMapInformation is disabled. Hallucinations have a time limit until they are
-    /// destroyed (see UnitInterface::getRemoveTimer). 
+    /// destroyed (see Unit::getRemoveTimer). 
     ///
     /// @returns true if the unit is a hallucination and false otherwise.
     /// @see getRemoveTimer
@@ -1089,7 +1088,7 @@ namespace BWAPI
     /// @returns true if this unit is idle, and false if this unit is performing any action, such
     /// as moving or attacking
     /// @implies isCompleted
-    /// @see UnitInterface::stop
+    /// @see Unit::stop
     bool isIdle() const { return getData().isIdle; }
 
     /// <summary>Checks if the unit can be interrupted.</summary>
@@ -1337,7 +1336,7 @@ namespace BWAPI
     /// @retval true if BWAPI was unable to determine whether the unit can be a target.
     /// @retval false if an error occurred and the unit can not be a target.
     ///
-    /// @see Game::getLastError, UnitInterface::canTargetUnit
+    /// @see Game::getLastError, Unit::canTargetUnit
     bool isTargetable() const;
 
     /// @name Unit Commands
@@ -1355,7 +1354,7 @@ namespace BWAPI
     /// the command would fail.
     /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
     ///
-    /// @see UnitCommandTypes, Game::getLastError, UnitInterface::canIssueCommand
+    /// @see UnitCommandTypes, Game::getLastError, Unit::canIssueCommand
     bool issueCommand(UnitCommand command) const;
 
     /// <summary>Orders the unit(s) to attack move to the specified position.</summary>
@@ -1374,7 +1373,7 @@ namespace BWAPI
     ///
     /// @note A @Medic will use Heal Move instead of attack.
     ///
-    /// @see Game::getLastError, UnitInterface::canAttack
+    /// @see Game::getLastError, Unit::canAttack
     bool attack(Position target, bool shiftQueueCommand = false) const;
 
     /// <summary>Orders the unit(s) to attack the specified target unit.</summary>
@@ -1391,7 +1390,7 @@ namespace BWAPI
     /// the command would fail.
     /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
     ///
-    /// @see Game::getLastError, UnitInterface::canAttack
+    /// @see Game::getLastError, Unit::canAttack
     bool attack(Unit target, bool shiftQueueCommand = false) const;
 
     /// <summary>Orders the worker unit(s) to construct a structure at a target position.</summary>
@@ -1412,7 +1411,7 @@ namespace BWAPI
     /// @note You must have sufficient resources and meet the necessary requirements in order to
     /// build a structure.
     ///
-    /// @see Game::getLastError, UnitInterface::train, UnitInterface::cancelConstruction, UnitInterface::canBuild
+    /// @see Game::getLastError, Unit::train, Unit::cancelConstruction, Unit::canBuild
     bool build(UnitType type, TilePosition target = TilePositions::None) const;
 
     /// <summary>Orders the @Terran structure(s) to construct an add-on.</summary>
@@ -1428,7 +1427,7 @@ namespace BWAPI
     /// @note You must have sufficient resources and meet the necessary requirements in order to
     /// build a structure.
     ///
-    /// @see Game::getLastError, UnitInterface::build, UnitInterface::cancelAddon, UnitInterface::canBuildAddon
+    /// @see Game::getLastError, Unit::build, Unit::cancelAddon, Unit::canBuildAddon
     bool buildAddon(UnitType type) const;
 
     /// <summary>Orders the unit(s) to add a UnitType to its training queue, or morphs into the
@@ -1448,8 +1447,8 @@ namespace BWAPI
     /// @note If you call this using a @Hatchery, @Lair, or @Hive, then it will automatically
     /// pass the command to one of its @Larvae.
     ///
-    /// @see Game::getLastError, UnitInterface::build, UnitInterface::morph, UnitInterface::cancelTrain, UnitInterface::isTraining,
-    /// UnitInterface::canTrain
+    /// @see Game::getLastError, Unit::build, Unit::morph, Unit::cancelTrain, Unit::isTraining,
+    /// Unit::canTrain
     bool train(UnitType type = UnitTypes::None) const;
 
     /// <summary>Orders the unit(s) to morph into a different UnitType.</summary>
@@ -1462,7 +1461,7 @@ namespace BWAPI
     /// the command would fail.
     /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
     ///
-    /// @see Game::getLastError, UnitInterface::build, UnitInterface::morph, UnitInterface::canMorph
+    /// @see Game::getLastError, Unit::build, Unit::morph, Unit::canMorph
     bool morph(UnitType type) const;
 
     /// <summary>Orders the unit to research the given tech type.</summary>
@@ -1983,23 +1982,23 @@ namespace BWAPI
     /// </param>
     /// <param name="checkCanTargetUnit">
     ///   Only used for command types that can target a unit. A boolean for whether to perform
-    ///   UnitInterface::canTargetUnit as a check. You can set this to false if you know this check has
+    ///   Unit::canTargetUnit as a check. You can set this to false if you know this check has
     ///   already just been performed.
     /// </param>
     /// <param name="checkCanIssueCommandType">
-    ///   A boolean for whether to perform UnitInterface::canIssueCommandType as a check. You can set this
+    ///   A boolean for whether to perform Unit::canIssueCommandType as a check. You can set this
     ///   to false if you know this check has already just been performed.
     /// </param>
     /// <param name="checkCommandibility">
-    ///   A boolean for whether to perform UnitInterface::canCommand as a check. You can set this to false
+    ///   A boolean for whether to perform Unit::canCommand as a check. You can set this to false
     ///   if you know this check has already just been performed.
     /// </param>
     ///
     /// @retval true if BWAPI determined that the command is valid.
     /// @retval false if an error occurred and the command is invalid.
     ///
-    /// @see UnitCommandTypes, Game::getLastError, UnitInterface::canCommand, UnitInterface::canIssueCommandType,
-    /// UnitInterface::canTargetUnit
+    /// @see UnitCommandTypes, Game::getLastError, Unit::canCommand, Unit::canIssueCommandType,
+    /// Unit::canTargetUnit
     bool canIssueCommand(UnitCommand command, bool checkCanUseTechPositionOnPositions = true, bool checkCanUseTechUnitOnUnits = true, bool checkCanBuildUnitType = true, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute the given command as part of a Unitset
@@ -2023,8 +2022,8 @@ namespace BWAPI
     ///   - stop for @Larva, to move it to a different side of the @Hatchery / @Lair / @Hive (e.g.
     ///     so that @Drones morphed later morph nearer to minerals/gas).
     ///
-    /// @see UnitCommandTypes, Game::getLastError, UnitInterface::canIssueCommand,
-    /// UnitInterface::canCommandGrouped, UnitInterface::canIssueCommandTypeGrouped, UnitInterface::canTargetUnit
+    /// @see UnitCommandTypes, Game::getLastError, Unit::canIssueCommand,
+    /// Unit::canCommandGrouped, Unit::canIssueCommandTypeGrouped, Unit::canTargetUnit
     bool canIssueCommandGrouped(UnitCommand command, bool checkCanUseTechPositionOnPositions = true, bool checkCanUseTechUnitOnUnits = true, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
 
     /// <summary>Performs some cheap checks to attempt to quickly detect whether the unit is unable to
@@ -2033,7 +2032,7 @@ namespace BWAPI
     /// @retval true if BWAPI was unable to determine whether the unit can be commanded.
     /// @retval false if an error occurred and the unit can not be commanded.
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand
+    /// @see Game::getLastError, Unit::canIssueCommand
     bool canCommand() const;
 
     /// <summary>Performs some cheap checks to attempt to quickly detect whether the unit is unable to
@@ -2042,7 +2041,7 @@ namespace BWAPI
     /// @retval true if BWAPI was unable to determine whether the unit can be commanded grouped.
     /// @retval false if an error occurred and the unit can not be commanded grouped.
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommandGrouped, UnitInterface::canIssueCommand
+    /// @see Game::getLastError, Unit::canIssueCommandGrouped, Unit::canIssueCommand
     bool canCommandGrouped(bool checkCommandibility = true) const;
 
     /// <summary>Performs some cheap checks to attempt to quickly detect whether the unit is unable to
@@ -2053,14 +2052,14 @@ namespace BWAPI
     ///   A UnitCommandType.
     /// </param>
     /// <param name="checkCommandibility">
-    ///   A boolean for whether to perform UnitInterface::canCommand as a check. You can set this to false
+    ///   A boolean for whether to perform Unit::canCommand as a check. You can set this to false
     ///   if you know this check has already just been performed.
     /// </param>
     ///
     /// @retval true if BWAPI was unable to determine whether the command type is invalid.
     /// @retval false if an error occurred and the command type is invalid.
     ///
-    /// @see UnitCommandTypes, Game::getLastError, UnitInterface::canIssueCommand
+    /// @see UnitCommandTypes, Game::getLastError, Unit::canIssueCommand
     bool canIssueCommandType(UnitCommandType ct, bool checkCommandibility = true) const;
 
     /// <summary>Performs some cheap checks to attempt to quickly detect whether the unit is unable to
@@ -2071,18 +2070,18 @@ namespace BWAPI
     ///   A UnitCommandType.
     /// </param>
     /// <param name="checkCommandibilityGrouped">
-    ///   A boolean for whether to perform UnitInterface::canCommandGrouped as a check. You can set this
+    ///   A boolean for whether to perform Unit::canCommandGrouped as a check. You can set this
     ///   to false if you know this check has already just been performed.
     /// </param>
     /// <param name="checkCommandibility">
-    ///   A boolean for whether to perform UnitInterface::canCommand as a check. You can set this to false
+    ///   A boolean for whether to perform Unit::canCommand as a check. You can set this to false
     ///   if you know this check has already just been performed.
     /// </param>
     ///
     /// @retval true if BWAPI was unable to determine whether the command type is invalid.
     /// @retval false if an error occurred and the command type is invalid.
     ///
-    /// @see UnitCommandTypes, Game::getLastError, UnitInterface::canIssueCommandGrouped
+    /// @see UnitCommandTypes, Game::getLastError, Unit::canIssueCommandGrouped
     bool canIssueCommandTypeGrouped(UnitCommandType ct, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
 
     /// <summary>Performs some cheap checks to attempt to quickly detect whether the unit is unable to
@@ -2092,27 +2091,27 @@ namespace BWAPI
     ///   A target unit for an unspecified command.
     /// </param>
     /// <param name="checkCommandibility">
-    ///   A boolean for whether to perform UnitInterface::canCommand as a check. You can set this to false
+    ///   A boolean for whether to perform Unit::canCommand as a check. You can set this to false
     ///   if you know this check has already just been performed.
     /// </param>
     ///
     /// @retval true if BWAPI was unable to determine whether the unit can target the given unit.
     /// @retval false if an error occurred and the unit can not target the given unit.
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::isTargetable
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::isTargetable
     bool canTargetUnit(Unit targetUnit, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute an attack command to attack-move or attack a unit.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::attack,
-    /// UnitInterface::canAttackMove, UnitInterface::canAttackUnit
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::attack,
+    /// Unit::canAttackMove, Unit::canAttackUnit
     bool canAttack(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute an attack command to attack-move or attack a (non-null)
     /// unit.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::attack,
-    /// UnitInterface::canAttackMove, UnitInterface::canAttackUnit
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::attack,
+    /// Unit::canAttackMove, Unit::canAttackUnit
     bool canAttack(Position target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
     /// @overload
     bool canAttack(Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
@@ -2120,318 +2119,318 @@ namespace BWAPI
     /// <summary>Cheap checks for whether the unit is able to execute an attack command to attack-move or attack a unit,
     /// as part of a Unitset.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommandGrouped, UnitInterface::canAttack
+    /// @see Game::getLastError, Unit::canIssueCommandGrouped, Unit::canAttack
     bool canAttackGrouped(bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute an attack command to attack-move or attack a
     /// (non-null) unit, as part of a Unitset.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommandGrouped, UnitInterface::canAttack
+    /// @see Game::getLastError, Unit::canIssueCommandGrouped, Unit::canAttack
     bool canAttackGrouped(Position target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
     /// @overload
     bool canAttackGrouped(Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute an attack command to attack-move.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::attack
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::attack
     bool canAttackMove(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute an attack command to attack-move, as part of a
     /// Unitset.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommandGrouped, UnitInterface::canAttackMove
+    /// @see Game::getLastError, Unit::canIssueCommandGrouped, Unit::canAttackMove
     bool canAttackMoveGrouped(bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute an attack command to attack a unit.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::attack
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::attack
     bool canAttackUnit(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute an attack command to attack a unit.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::attack
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::attack
     bool canAttackUnit(Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute an attack command to attack a unit,
     /// as part of a Unitset.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommandGrouped, UnitInterface::canAttackUnit
+    /// @see Game::getLastError, Unit::canIssueCommandGrouped, Unit::canAttackUnit
     bool canAttackUnitGrouped(bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute an attack command to attack a unit, as part of
     /// a Unitset.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommandGrouped, UnitInterface::canAttackUnit
+    /// @see Game::getLastError, Unit::canIssueCommandGrouped, Unit::canAttackUnit
     bool canAttackUnitGrouped(Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a build command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::build
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::build
     bool canBuild(bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a build command for the given
     /// UnitType.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::build
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::build
     bool canBuild(UnitType uType, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a build command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::build
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::build
     bool canBuild(UnitType uType, BWAPI::TilePosition tilePos, bool checkTargetUnitType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a buildAddon command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::buildAddon
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::buildAddon
     bool canBuildAddon(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a buildAddon command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::buildAddon
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::buildAddon
     bool canBuildAddon(UnitType uType, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a train command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::train
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::train
     bool canTrain(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a train command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::train
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::train
     bool canTrain(UnitType uType, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a morph command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::morph
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::morph
     bool canMorph(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a morph command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::morph
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::morph
     bool canMorph(UnitType uType, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a research command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::research
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::research
     bool canResearch(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a research command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::research
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::research
     bool canResearch(TechType type, bool checkCanIssueCommandType = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute an upgrade command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::upgrade
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::upgrade
     bool canUpgrade(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute an upgrade command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::upgrade
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::upgrade
     bool canUpgrade(UpgradeType type, bool checkCanIssueCommandType = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a setRallyPoint command to a
     /// position or unit.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::setRallyPoint,
-    /// UnitInterface::canSetRallyPosition, UnitInterface::canSetRallyUnit.
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::setRallyPoint,
+    /// Unit::canSetRallyPosition, Unit::canSetRallyUnit.
     bool canSetRallyPoint(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a setRallyPoint command to a position
     /// or (non-null) unit.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::setRallyPoint,
-    /// UnitInterface::canSetRallyPosition, UnitInterface::canSetRallyUnit.
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::setRallyPoint,
+    /// Unit::canSetRallyPosition, Unit::canSetRallyUnit.
     bool canSetRallyPoint(Position target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
     /// @overload
     bool canSetRallyPoint(Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a setRallyPoint command to a position.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::setRallyPoint
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::setRallyPoint
     bool canSetRallyPosition(bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a setRallyPoint command to a unit.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::setRallyPoint
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::setRallyPoint
     bool canSetRallyUnit(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a setRallyPoint command to a unit.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::setRallyPoint
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::setRallyPoint
     bool canSetRallyUnit(Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a move command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::move
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::move
     bool canMove(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a move command, as part of a Unitset.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommandGrouped, UnitInterface::canMove
+    /// @see Game::getLastError, Unit::canIssueCommandGrouped, Unit::canMove
     bool canMoveGrouped(bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a patrol command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::patrol
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::patrol
     bool canPatrol(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a patrol command, as part of a Unitset.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommandGrouped, UnitInterface::canPatrol
+    /// @see Game::getLastError, Unit::canIssueCommandGrouped, Unit::canPatrol
     bool canPatrolGrouped(bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a follow command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::follow
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::follow
     bool canFollow(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a follow command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::follow
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::follow
     bool canFollow(Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a gather command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::gather
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::gather
     bool canGather(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a gather command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::gather
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::gather
     bool canGather(Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a returnCargo command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::returnCargo
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::returnCargo
     bool canReturnCargo(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a holdPosition command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::holdPosition
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::holdPosition
     bool canHoldPosition(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a stop command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::stop
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::stop
     bool canStop(bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a repair command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::repair
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::repair
     bool canRepair(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a repair command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::repair
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::repair
     bool canRepair(Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a burrow command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::burrow
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::burrow
     bool canBurrow(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute an unburrow command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::unburrow
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::unburrow
     bool canUnburrow(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a cloak command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::cloak
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::cloak
     bool canCloak(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a decloak command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::decloak
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::decloak
     bool canDecloak(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a siege command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::siege
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::siege
     bool canSiege(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute an unsiege command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::unsiege
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::unsiege
     bool canUnsiege(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a lift command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::lift
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::lift
     bool canLift(bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a land command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::land
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::land
     bool canLand(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a land command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::land
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::land
     bool canLand(TilePosition target, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a load command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::load
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::load
     bool canLoad(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a load command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::load
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::load
     bool canLoad(Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute an unload command or unloadAll at
     /// current position command or unloadAll at a different position command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::unload, UnitInterface::unloadAll
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::unload, Unit::unloadAll
     bool canUnloadWithOrWithoutTarget(bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute an unload command or unloadAll at
     /// current position command or unloadAll at a different position command, for a given
     /// position.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::unload, UnitInterface::unloadAll
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::unload, Unit::unloadAll
     bool canUnloadAtPosition(Position targDropPos, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute an unload command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::unload
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::unload
     bool canUnload(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute an unload command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::unload, UnitInterface::canUnloadAtPosition
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::unload, Unit::canUnloadAtPosition
     bool canUnload(Unit targetUnit, bool checkCanTargetUnit = true, bool checkPosition = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute an unloadAll command for the current position.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::unloadAll
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::unloadAll
     bool canUnloadAll(bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute an unloadAll command for a different
     /// position.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::unloadAll
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::unloadAll
     bool canUnloadAllPosition(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute an unloadAll command for a different position.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::unloadAll
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::unloadAll
     bool canUnloadAllPosition(Position targDropPos, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a rightClick command to a position
     /// or unit.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::rightClick,
-    /// UnitInterface::canRightClickPosition, UnitInterface::canRightClickUnit.
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::rightClick,
+    /// Unit::canRightClickPosition, Unit::canRightClickUnit.
     bool canRightClick(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a rightClick command to a position or (non-null)
     /// unit.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::rightClick,
-    /// UnitInterface::canRightClickPosition, UnitInterface::canRightClickUnit.
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::rightClick,
+    /// Unit::canRightClickPosition, Unit::canRightClickUnit.
     bool canRightClick(Position target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
     // @overload
     bool canRightClick(Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
@@ -2439,114 +2438,114 @@ namespace BWAPI
     /// <summary>Cheap checks for whether the unit is able to execute a rightClick command to a position
     /// or unit, as part of a Unitset.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommandGrouped, UnitInterface::canRightClickUnit
+    /// @see Game::getLastError, Unit::canIssueCommandGrouped, Unit::canRightClickUnit
     bool canRightClickGrouped(bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a rightClick command to a position or (non-null)
     /// unit, as part of a Unitset.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommandGrouped, UnitInterface::canRightClickUnit
+    /// @see Game::getLastError, Unit::canIssueCommandGrouped, Unit::canRightClickUnit
     bool canRightClickGrouped(Position target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
     /// @overload
     bool canRightClickGrouped(Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a rightClick command for a position.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::rightClick
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::rightClick
     bool canRightClickPosition(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a rightClick command for a position, as part of
     /// a Unitset.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommandGrouped, UnitInterface::canRightClick
+    /// @see Game::getLastError, Unit::canIssueCommandGrouped, Unit::canRightClick
     bool canRightClickPositionGrouped(bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a rightClick command to a unit.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::rightClick
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::rightClick
     bool canRightClickUnit(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a rightClick command to a unit.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::rightClick
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::rightClick
     bool canRightClickUnit(Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a rightClick command to a unit, as
     /// part of a Unitset.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommandGrouped, UnitInterface::canRightClickUnit
+    /// @see Game::getLastError, Unit::canIssueCommandGrouped, Unit::canRightClickUnit
     bool canRightClickUnitGrouped(bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a rightClick command to a unit, as part of a
     /// Unitset.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommandGrouped, UnitInterface::canRightClickUnit
+    /// @see Game::getLastError, Unit::canIssueCommandGrouped, Unit::canRightClickUnit
     bool canRightClickUnitGrouped(Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a haltConstruction command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::haltConstruction
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::haltConstruction
     bool canHaltConstruction(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a cancelConstruction command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::cancelConstruction
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::cancelConstruction
     bool canCancelConstruction(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a cancelAddon command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::cancelAddon
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::cancelAddon
     bool canCancelAddon(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a cancelTrain command for any slot.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::cancelTrain
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::cancelTrain
     bool canCancelTrain(bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a cancelTrain command for an
     /// unspecified slot.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::cancelTrain
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::cancelTrain
     bool canCancelTrainSlot(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a cancelTrain command for a specified slot.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::cancelTrain
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::cancelTrain
     bool canCancelTrainSlot(int slot, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a cancelMorph command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::cancelMorph
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::cancelMorph
     bool canCancelMorph(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a cancelResearch command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::cancelResearch
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::cancelResearch
     bool canCancelResearch(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a cancelUpgrade command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::cancelUpgrade
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::cancelUpgrade
     bool canCancelUpgrade(bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a useTech command without a target or
     /// or a useTech command with a target position or a useTech command with a target unit.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::useTech
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::useTech
     bool canUseTechWithOrWithoutTarget(bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a useTech command without a target or
     /// or a useTech command with a target position or a useTech command with a target unit, for a
     /// given TechType.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::useTech
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::useTech
     bool canUseTechWithOrWithoutTarget(BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a useTech command for a specified position or
     /// unit (only specify nullptr if the TechType does not target another position/unit).</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::useTech,
-    /// UnitInterface::canUseTechWithoutTarget, UnitInterface::canUseTechUnit, UnitInterface::canUseTechPosition
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::useTech,
+    /// Unit::canUseTechWithoutTarget, Unit::canUseTechUnit, Unit::canUseTechPosition
     bool canUseTech(BWAPI::TechType tech, Position target, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
     /// @overload
     bool canUseTech(BWAPI::TechType tech, Unit target, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
@@ -2555,39 +2554,39 @@ namespace BWAPI
 
     /// <summary>Checks whether the unit is able to execute a useTech command without a target.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::useTech
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::useTech
     bool canUseTechWithoutTarget(BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a useTech command with an unspecified
     /// target unit.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::useTech
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::useTech
     bool canUseTechUnit(BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a useTech command with a target unit.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::useTech
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::useTech
     bool canUseTechUnit(BWAPI::TechType tech, Unit targetUnit, bool checkCanTargetUnit = true, bool checkTargetsUnits = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a useTech command with an unspecified target
     /// position.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::useTech
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::useTech
     bool canUseTechPosition(BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a useTech command with a target position.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::useTech
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::useTech
     bool canUseTechPosition(BWAPI::TechType tech, Position target, bool checkTargetsPositions = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
 
     /// <summary>Cheap checks for whether the unit is able to execute a placeCOP command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::placeCOP
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::placeCOP
     bool canPlaceCOP(bool checkCommandibility = true) const;
 
     /// <summary>Checks whether the unit is able to execute a placeCOP command.</summary>
     ///
-    /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::placeCOP
+    /// @see Game::getLastError, Unit::canIssueCommand, Unit::placeCOP
     bool canPlaceCOP(TilePosition target, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
     ///@}
   };

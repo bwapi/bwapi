@@ -211,11 +211,11 @@ namespace BWAPI
     }
   }
   /// <summary>An Order (Order type) represents a Unit's current action and can be retrieved with
-  /// UnitInterface::getOrder.</summary> It can also be used to identify the current state of the
+  /// Unit::getOrder.</summary> It can also be used to identify the current state of the
   /// unit during command execution (gathering minerals can consist of Orders::MoveToMinerals,
   /// Orders::WaitForMinerals, Orders::MiningMinerals, etc.).
   ///
-  /// @see UnitInterface::getOrder, Orders
+  /// @see Unit::getOrder, Orders
   /// @ingroup TypeClasses
   class Order : public Type<Order, Orders::Enum::Unknown>
   {

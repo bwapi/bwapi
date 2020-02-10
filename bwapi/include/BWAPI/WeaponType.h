@@ -186,7 +186,7 @@ namespace BWAPI
       /// <summary>Retrieves the base amount of cooldown time between each attack, in frames.</summary>
       ///
       /// @returns The amount of base cooldown applied to the unit after an attack.
-      /// @see UnitInterface::getGroundWeaponCooldown, UnitInterface::getAirWeaponCooldown
+      /// @see Unit::getGroundWeaponCooldown, Unit::getAirWeaponCooldown
       int damageCooldown() const;
 
       /// <summary>Obtains the intended number of missiles/attacks that are used.</summary>
@@ -247,13 +247,13 @@ namespace BWAPI
       /// <summary>Checks if this weapon type can target air units.</summary>
       ///
       /// @returns true if this weapon type can target air units, and false otherwise.
-      /// @see UnitInterface::isFlying, UnitType::isFlyer
+      /// @see Unit::isFlying, UnitType::isFlyer
       bool targetsAir() const;
 
       /// <summary>Checks if this weapon type can target ground units.</summary>
       ///
       /// @returns true if this weapon type can target ground units, and false otherwise.
-      /// @see UnitInterface::isFlying, UnitType::isFlyer
+      /// @see Unit::isFlying, UnitType::isFlyer
       bool targetsGround() const;
 
       /// <summary>Checks if this weapon type can only target mechanical units.</summary>
@@ -298,7 +298,7 @@ namespace BWAPI
       /// This is used for WeaponTypes::Consume.
       ///
       /// @returns true if this weapon type can only target your own units, and false otherwise.
-      /// @see UnitInterface::getPlayer
+      /// @see Unit::getPlayer
       bool targetsOwn() const;
   };
 

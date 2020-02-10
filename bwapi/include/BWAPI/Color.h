@@ -5,8 +5,8 @@ namespace BWAPI
 {
   /// <summary>The Color object is used in drawing routines to specify the color to use.</summary>
   ///
-  /// @note Starcraft uses a 256 color palette for rendering. Thus, the colors available are
-  /// limited to this palette.
+  /// @note Starcraft 1.16.1 and prior uses a 256-color palette for rendering. Thus, the colors
+  /// available are limited to this palette.
   ///
   /// @see Colors
   /// @ingroup TypeClasses

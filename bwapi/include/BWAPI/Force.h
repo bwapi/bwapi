@@ -25,9 +25,9 @@ namespace BWAPI
     ///
     /// Example usage:
     /// @code
-    ///   BWAPI::Force myForce = BWAPI::Broodwar->self()->getForce();
-    ///   if ( myForce->getName() == "Observers" )
-    ///     BWAPI::Broodwar << "Looks like we're observing a match." << std::endl;
+    ///   BWAPI::Force myForce = game.self().getForce();
+    ///   if ( myForce.getName() == "Observers" )
+    ///     game << "Looks like we're observing a match." << std::endl;
     /// @endcode
     ///
     /// @note Don't forget to use std::string::c_str() when passing this parameter to
@@ -42,12 +42,12 @@ namespace BWAPI
     /// Example usage:
     /// @code
     ///   // Get the enemy force, but make sure we have an enemy
-    ///   BWAPI::Force myEnemyForce = BWAPI::Broodwar->enemy() ? BWAPI::Broodwar->enemy()->getForce() : nullptr;
-    ///   if ( myEnemyForce != nullptr )
+    ///   BWAPI::Force enemyForce = game.enemy() ? game.enemy().getForce() : nullptr;
+    ///   if ( enemyForce )
     ///   {
-    ///     Broodwar << "The allies of my enemy are..." << std::endl;
-    ///     for ( auto i = myEnemyForce.begin(); i != myEnemyForce.end(); ++i )
-    ///       Broodwar << "  - " << i->getName() << std::endl;
+    ///     Broodwar << "Those on the enemy force are..." << std::endl;
+    ///     for ( BWAPI::Player enemy : enemyForce )
+    ///       Broodwar << "  - " << enemy.getName() << std::endl;
     ///   }
     /// @endcode
     Playerset getPlayers() const;

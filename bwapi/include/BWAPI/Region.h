@@ -19,7 +19,7 @@ namespace BWAPI
   ///
   /// Most parameters that are available are explicitly assigned by Broodwar itself.
   ///
-  /// @see Game::getAllRegions, Game::getRegionAt, UnitInterface::getRegion
+  /// @see Game::getAllRegions, Game::getRegionAt, Unit::getRegion
   /// @ingroup Interface
   class Region: public InterfaceDataWrapper<Region, RegionData> {
   public:

@@ -270,7 +270,7 @@ namespace BWAPI
   /// <summary>The UnitType is used to get information about a particular type of unit, such as its cost,
   /// build time, weapon, hit points, abilities, etc.</summary>
   ///
-  /// @see UnitInterface::getType, UnitTypes
+  /// @see Unit::getType, UnitTypes
   /// @ingroup TypeClasses
   class UnitType : public Type<UnitType, UnitTypes::Enum::Unknown>
   {
@@ -379,7 +379,7 @@ namespace BWAPI
     /// @note This value may not necessarily match the value seen in the @UMS game type.
     ///
     /// @returns Number of frames needed in order to build the unit.
-    /// @see UnitInterface::getRemainingBuildTime
+    /// @see Unit::getRemainingBuildTime
     int buildTime() const;
 
     /// <summary>Retrieves the amount of supply that this unit type will use when created.</summary> It will use the
@@ -389,7 +389,7 @@ namespace BWAPI
     /// in the game. The reason for this is because @Zerglings use 0.5 visible supply.
     ///
     /// @returns Integer containing the supply required to build this unit.
-    /// @see supplyProvided, PlayerInterface::supplyTotal, PlayerInterface::supplyUsed
+    /// @see supplyProvided, Player::supplyTotal, Player::supplyUsed
     int supplyRequired() const;
 
     /// <summary>Retrieves the amount of supply that this unit type produces for its appropriate Race's
@@ -398,7 +398,7 @@ namespace BWAPI
     /// @note In Starcraft programming, the managed supply values are double than what they appear
     /// in the game. The reason for this is because @Zerglings use 0.5 visible supply.
     ///
-    /// @see supplyRequired, PlayerInterface::supplyTotal, PlayerInterface::supplyUsed
+    /// @see supplyRequired, Player::supplyTotal, Player::supplyUsed
     int supplyProvided() const;
 
     /// <summary>Retrieves the amount of space required by this unit type to fit inside a @Bunker or
@@ -647,13 +647,12 @@ namespace BWAPI
     ///
     /// Example:
     /// @code
-    ///   if ( BWAPI::Broodwar->self() )
+    ///   if ( game.self() )
     ///   {
-    ///     BWAPI::Unitset myUnits = BWAPI::Broodwar->self()->getUnits();
-    ///     for ( auto u : myUnits )
+    ///     for ( BWAPI::Unit u : game.self().getUnits() )
     ///     {
-    ///       if ( u->isIdle() && u->getType().isResourceDepot() )
-    ///         u->train( u->getType().getRace().getWorker() );
+    ///       if ( u.isIdle() && u.getType().isResourceDepot() )
+    ///         u.train( u.getType().getRace().getWorker() );
     ///     }
     ///   }
     /// @endcode
@@ -665,24 +664,23 @@ namespace BWAPI
     ///
     /// Example:
     /// @code
-    ///   if ( BWAPI::Broodwar->self() )
+    ///   if ( game.self() )
     ///   {
-    ///     BWAPI::Unitset myUnits = BWAPI::Broodwar->self()->getUnits();
-    ///     for ( auto u : myUnits )
+    ///     for ( BWAPI::Unit u : game.self().getUnits() )
     ///     {
-    ///       if ( u->getType().isRefinery() )
+    ///       if ( u.getType().isRefinery() )
     ///       {
     ///         int nWorkersAssigned = refineryWorkerCount[u];
     ///         if ( nWorkersAssigned < 3 )
     ///         {
-    ///           Unit pClosestIdleWorker = u->getClosestUnit(BWAPI::Filter::IsWorker && BWAPI::Filter::IsIdle);
-    ///           if ( pClosestIdleWorker )
+    ///           Unit closestIdleWorker = u.getClosestUnit(BWAPI::Filter::IsWorker && BWAPI::Filter::IsIdle);
+    ///           if ( closestIdleWorker )
     ///           {
     ///             // gather from the refinery (and check if successful)
-    ///             if ( pClosestIdleWorker->gather(u) )
+    ///             if ( closestIdleWorker.gather(u) )
     ///             {
     ///               // set a back reference for when the unit is killed or re-assigned (code not provided)
-    ///               workerRefineryMap[pClosestIdleWorker] = u;
+    ///               workerRefineryMap[closestIdleWorker] = u;
     ///
     ///               // Increment the number of workers assigned and associate it with the refinery
     ///               ++nWorkersAssigned;
@@ -841,15 +839,15 @@ namespace BWAPI
     ///
     /// Example usage:
     /// @code
-    ///   BWAPI::Position myBasePosition( BWAPI::Broodwar->self()->getStartLocation() );
-    ///   BWAPI::UnitSet unitsAroundTheBase = BWAPI::Broodwar->getUnitsInRadius(myBasePosition, 1024, !BWAPI::Filter::IsOwned && !BWAPI::Filter::IsParasited);
-    ///   for ( auto u : unitsAroundTheBase )
+    ///   BWAPI::Position myBasePosition( game.self().getStartLocation() );
+    ///   BWAPI::UnitSet unitsAroundTheBase = game.getUnitsInRadius(myBasePosition, 1024, !BWAPI::Filter::IsOwned && !BWAPI::Filter::IsParasited);
+    ///   for ( BWAPI::Unit u : unitsAroundTheBase )
     ///   {
-    ///     if ( u->getType().isCritter() && !u->isInvincible() )
+    ///     if ( u.getType().isCritter() && !u.isInvincible() )
     ///     {
-    ///       BWAPI::Unit myQueen = u->getClosestUnit(BWAPI::Filter::GetType == BWAPI::UnitTypes::Zerg_Queen && BWAPI::Filter::IsOwned);
+    ///       BWAPI::Unit myQueen = u.getClosestUnit(BWAPI::Filter::GetType == BWAPI::UnitTypes::Zerg_Queen && BWAPI::Filter::IsOwned);
     ///       if ( myQueen )
-    ///         myQueen->useTech(BWAPI::TechTypes::Parasite, u);
+    ///         myQueen.useTech(BWAPI::TechTypes::Parasite, u);
     ///     }
     ///   }
     /// @endcode
@@ -867,11 +865,11 @@ namespace BWAPI
     /// This includes training, constructing, warping, and morphing.
     ///
     /// @note Some maps have special parameters that disable construction of units that are otherwise
-    /// normally available. Use PlayerInterface::isUnitAvailable to determine if a unit type is
+    /// normally available. Use Player::isUnitAvailable to determine if a unit type is
     /// actually available in the current game for a specific player.
     ///
     /// @returns UnitType::set containing the units it can build.
-    /// @see PlayerInterface::isUnitAvailable
+    /// @see Player::isUnitAvailable
     ///
     /// @since 4.1.2
     const UnitType::set& buildsWhat() const;
@@ -879,22 +877,22 @@ namespace BWAPI
     /// <summary>Retrieves the set of technologies that this unit type is capable of researching.</summary>
     /// 
     /// @note Some maps have special parameters that disable certain technologies. Use
-    /// PlayerInterface::isResearchAvailable to determine if a technology is actually available in the
+    /// Player::isResearchAvailable to determine if a technology is actually available in the
     /// current game for a specific player.
     ///
     /// @returns TechType::set containing the technology types that can be researched.
-    /// @see PlayerInterface::isResearchAvailable
+    /// @see Player::isResearchAvailable
     ///
     /// @since 4.1.2
     const SetContainer<TechType>& researchesWhat() const;
 
     /// <summary>Retrieves the set of upgrades that this unit type is capable of upgrading.</summary>
     ///
-    /// @note Some maps have special upgrade limitations. Use PlayerInterface::getMaxUpgradeLevel
+    /// @note Some maps have special upgrade limitations. Use Player::getMaxUpgradeLevel
     /// to check if an upgrade is available.
     ///
     /// @returns UpgradeType::set containing the upgrade types that can be upgraded.
-    /// @see PlayerInterface::getMaxUpgradeLevel
+    /// @see Player::getMaxUpgradeLevel
     ///
     /// @since 4.1.2
     const SetContainer<UpgradeType>& upgradesWhat() const;

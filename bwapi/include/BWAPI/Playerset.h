@@ -17,13 +17,13 @@ namespace BWAPI
     /// <summary>Returns the set of all units that every player in this set owns.</summary>
     ///
     /// @returns Unitset containing Playerset's units
-    /// @see PlayerInterface::getUnits
+    /// @see Player::getUnits
     Unitset getUnits() const;
 
     /// <summary>Returns the list of races that each player in the set is.</summary>
     ///
     /// @returns Race::set containing Playerset's races
-    /// @see PlayerInterface::getRace
+    /// @see Player::getRace
     Race::set getRaces() const;
 
     /// <summary>Sets the alliance status with all players contained in the Playerset.</summary>

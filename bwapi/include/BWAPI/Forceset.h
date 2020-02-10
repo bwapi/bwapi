@@ -13,7 +13,7 @@ namespace BWAPI
   class Forceset : public SetContainer<BWAPI::Force, IDCompare>
   {
   public:
-    /// @copydoc ForceInterface::getPlayers
+    /// @copydoc Force::getPlayers
     Playerset getPlayers() const;
   };
 }

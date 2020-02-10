@@ -259,12 +259,12 @@ namespace BWAPI
     ///
     /// Example:
     /// @code
-    ///   BWAPI::Broodwar->setLocalSpeed(0);
+    ///   game.setLocalSpeed(0);
     ///   
     ///   // Log and display the best logical FPS seen in the game
     ///   static int bestFPS = 0;
-    ///   bestFPS = std::max(bestFPS, BWAPI::Broodwar->getFPS());
-    ///   BWAPI::Broodwar->drawTextScreen(BWAPI::Positions::Origin, "%cBest: %d GFPS\nCurrent: %d GFPS", BWAPI::Text::White, bestFPS, BWAPI::Broodwar->getFPS());
+    ///   bestFPS = std::max(bestFPS, game.getFPS());
+    ///   game.drawTextScreen(BWAPI::Positions::Origin, "%cBest: %d GFPS\nCurrent: %d GFPS", BWAPI::Text::White, bestFPS, BWAPI::Broodwar->getFPS());
     /// @endcode
     /// @returns Logical frames per second that the game is currently running at as an integer.
     /// @see getAverageFPS
@@ -839,7 +839,7 @@ namespace BWAPI
     ///
     /// @returns A TilePosition::list containing all the TilePosition objects that indicate a start
     /// location.
-    /// @see PlayerInterface::getStartLocation
+    /// @see Player::getStartLocation
     const TilePosition::list& getStartLocations() const;
 
     /// <summary>Prints text to the screen as a notification.</summary> This function allows text
@@ -1023,11 +1023,8 @@ namespace BWAPI
     ///
     /// Example usage
     /// @code
-    ///   void ExampleAIModule::onStart()
-    ///   {
-    ///     if ( BWAPI::Broodwar->self() )
-    ///       BWAPI::Broodwar->sendText("Hello, my name is %s.", BWAPI::Broodwar->self()->getName().c_str());
-    ///   }
+    ///   if ( game.self() )
+    ///     BWAPI::Broodwar->sendText("Hello, my name is %s.", game.self().getName().c_str());
     /// @endcode
     Player self() const { return *getPlayerData(gameData->player); }
 
@@ -1480,11 +1477,9 @@ namespace BWAPI
     ///
     /// Example Usage:
     /// @code
-    ///   void ExampleAIModule::onStart()
-    ///   {   // Make our bot run thousands of games as fast as possible!
-    ///     Broodwar->setLocalSpeed(0);
-    ///     Broodwar->setGUI(false);
-    ///   }
+    ///   // Make our bot run thousands of games as fast as possible!
+    ///   game.setLocalSpeed(0);
+    ///   game.setGUI(false);
     /// @endcode
     ///
     /// @see isGUIEnabled
@@ -1540,7 +1535,7 @@ namespace BWAPI
     /// limitation, it has an O(1) complexity, and cases where this limitation hinders gameplay is
     /// uncommon at best.
     ///
-    /// @note If making queries on a unit, it's better to call UnitInterface::hasPath, since it is
+    /// @note If making queries on a unit, it's better to call Unit::hasPath, since it is
     /// a more lenient version of this function that accounts for some edge cases.
     /// 
     /// <param name="source">
@@ -1551,7 +1546,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns true if there is a path between the two positions, and false if there is not.
-    /// @see UnitInterface::hasPath
+    /// @see Unit::hasPath
     bool hasPath(Position source, Position destination) const;
 
     /// <summary>Sets the alliance state of the current player with the target player.</summary>
@@ -1690,16 +1685,11 @@ namespace BWAPI
     ///
     /// Example usage:
     /// @code
-    ///   void ExampleAIModule::onStart()
+    ///   if ( (game.getGameType() == BWAPI::GameTypes::Capture_The_Flag ||
+    ///         game.getGameType() == BWAPI::GameTypes::Team_Capture_The_Flag) &&
+    ///        game.countdownTimer() == 1 )
     ///   {
-    ///     // Register a callback that only occurs once when the countdown timer reaches 0
-    ///     if ( BWAPI::Broodwar->getGameType() == BWAPI::GameTypes::Capture_The_Flag ||
-    ///           BWAPI::Broodwar->getGameType() == BWAPI::GameTypes::Team_Capture_The_Flag )
-    ///     {
-    ///       BWAPI::Broodwar->registerEvent([](BWAPI::Game*){ BWAPI::Broodwar->sendText("Try to find my flag!"); },   // action
-    ///                               [](BWAPI::Game*){ return BWAPI::Broodwar->countdownTimer() == 0; },       // condition
-    ///                               1);                                                         // times to run (once)
-    ///     }
+    ///     game.sendText("Try to find my flag!");
     ///   }
     /// @endcode
     ///
