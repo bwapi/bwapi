@@ -35,6 +35,9 @@
     </ClCompile>
     <ClCompile Include="FPSCounterTest.cpp" />
     <ClCompile Include="APMCounterTest.cpp" />
+    <ClCompile Include="CommandOptimizerTest.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MockClient.h">
@@ -44,6 +47,9 @@
       <Filter>Fixtures</Filter>
     </ClInclude>
     <ClInclude Include="UnitFinderFixture.h">
+      <Filter>Fixtures</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandOptimizerFixture.h">
       <Filter>Fixtures</Filter>
     </ClInclude>
   </ItemGroup>

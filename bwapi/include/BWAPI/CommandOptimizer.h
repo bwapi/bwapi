@@ -27,7 +27,7 @@ namespace BWAPI
     /// Initializes the optimizer. Used at the beginning and ending of games. Clears queued commands and resets optimizer settings.
     void init();
 
-    // The optimization level
+    /// The optimization level
     int level = 0;
 
   private:

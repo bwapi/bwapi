@@ -34,6 +34,7 @@
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
     <ClCompile Include="APMCounterTest.cpp" />
+    <ClCompile Include="CommandOptimizerTest.cpp" />
     <ClCompile Include="EventTest.cpp" />
     <ClCompile Include="FPSCounterTest.cpp" />
     <ClCompile Include="GameTest.cpp" />
@@ -48,6 +49,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CommandOptimizerFixture.h" />
     <ClInclude Include="GameFixture.h" />
     <ClInclude Include="MockClient.h" />
     <ClInclude Include="UnitFinderFixture.h" />
