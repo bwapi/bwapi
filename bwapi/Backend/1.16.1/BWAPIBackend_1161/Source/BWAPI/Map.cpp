@@ -106,7 +106,7 @@ namespace BWAPI4
     else
     {
       const bool completeMapInfo = BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation);
-      const u32 playerFlag = 1 << BroodwarImpl.BWAPIPlayer->getIndex();
+      const u32 playerFlag = 1 << BroodwarImpl.BWAPIPlayer->getNationId();
       for(int x = 0; x < width; ++x)
       {
         for(int y = 0; y < height; ++y)
@@ -173,7 +173,7 @@ namespace BWAPI4
     BW::activeTile value = getActiveTile(x, y);
     if ( BroodwarImpl.isReplay() )
       return value.bVisibilityFlags != 255;
-    return !(value.bVisibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex()));
+    return !(value.bVisibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getNationId()));
   }
   //--------------------------------------------- HAS EXPLORED -----------------------------------------------
   bool Map::isExplored(int x, int y)
@@ -181,7 +181,7 @@ namespace BWAPI4
     BW::activeTile value = getActiveTile(x, y);
     if ( BroodwarImpl.isReplay() )
       return value.bExploredFlags != 255;
-    return !(value.bExploredFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex()));
+    return !(value.bExploredFlags & (1 << BroodwarImpl.BWAPIPlayer->getNationId()));
   }
   //----------------------------------------------- HAS CREEP ------------------------------------------------
   bool Map::hasCreep(int x, int y)
