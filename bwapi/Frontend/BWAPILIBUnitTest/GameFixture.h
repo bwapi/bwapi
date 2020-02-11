@@ -85,8 +85,6 @@ public:
     BWAPI::Player self = createFakePlayer(0, BWAPI::PlayerTypes::Player, BWAPI::Races::Terran);
     BWAPI::Player enemy = createFakePlayer(1, BWAPI::PlayerTypes::Computer, BWAPI::Races::Zerg);
     //BWAPI::Player neutral = createFakePlayer(11, BWAPI::PlayerTypes::Neutral, BWAPI::Races::None);
-
-    game.update();
   }
 
   BWAPI::Player createFakePlayer(int playerId, BWAPI::PlayerType playerType, BWAPI::Race race)
@@ -134,6 +132,14 @@ public:
     
     return BWAPI::Unit{ data };
   }
+
+  void withNoSelf() {
+    game.gameData->player = BWAPI::PlayerID::None;
+  }
+
+  void withReplay() {
+    game.gameData->isReplay = true;
+  }
 protected:
 
   MockClient client;
@@ -152,3 +158,13 @@ public:
     // TODO: Create a map w/ state
   }
 };
+
+class Game_SetAlliance : public GameFixture {};
+class Game_SetVision : public GameFixture {};
+class Game_SetLocalSpeed : public GameFixture {};
+class Game_SendText : public GameFixture {};
+class Game_SetTextSize : public GameFixture {};
+class Game_DrawText : public GameFixture {};
+class Game_DrawShape : public GameFixture {};
+class Game_printf : public GameFixture {};
+class Game_ostream : public GameFixture {};
