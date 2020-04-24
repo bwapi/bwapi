@@ -508,6 +508,36 @@ namespace BWAPI
     data->mouseX                  = Broodwar->getMousePosition().x;
     data->mouseY                  = Broodwar->getMousePosition().y;
     data->isInGame                = Broodwar->isInGame();
+
+    //static player data
+    for (Player i : Broodwar->getPlayers())
+    {
+        int id = getPlayerID(i);
+        PlayerData* p = &(data->players[id]);
+        PlayerData* p2 = static_cast<PlayerImpl*>(i)->self;
+
+        StrCopy(p->name, i->getName());
+        p->race = i->getRace();
+        p->type = i->getType();
+        p->force = getForceID(i->getForce());
+        p->color = p2->color;
+        p->isParticipating = p2->isParticipating;
+
+        for (int j = 0; j < 12; ++j)
+        {
+            p->isAlly[j] = false;
+            p->isEnemy[j] = false;
+        }
+        for (Player j : Broodwar->getPlayers())
+        {
+            p->isAlly[getPlayerID(j)] = i->isAlly(j);
+            p->isEnemy[getPlayerID(j)] = i->isEnemy(j);
+        }
+        p->isNeutral = i->isNeutral();
+        p->startLocationX = i->getStartLocation().x;
+        p->startLocationY = i->getStartLocation().y;
+    }
+
     if (Broodwar->isInGame())
     {
       data->gameType  = Broodwar->getGameType();
