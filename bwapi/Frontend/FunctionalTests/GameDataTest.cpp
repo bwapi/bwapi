@@ -1,12 +1,20 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
 #include "game.h"
+#include <BWAPI/UnitType.h>
 #include <BWAPI/GameType.h>
 
 #define COMMANDWAIT 5
 
 using namespace BWAPI;
 using namespace Funtest;
+
+// Print UnitType names in test output (doesn't happen automatically for some reason)
+std::ostream& operator << (std::ostream& os, const UnitType& t)
+{
+  return os << t.getName();
+};
 
 TEST(TriggerTests, CreateUnitTest)
 {
@@ -44,6 +52,7 @@ TEST(TriggerTests, KillUnitTest)
   funGame.reset();
 }
 
+// FIXME: Cloaked units are not appearing in allUnits as unknown units
 TEST(GameDataTest, CloakedUnits)
 {
   auto self = funGame->self();
@@ -60,10 +69,15 @@ TEST(GameDataTest, CloakedUnits)
   EXPECT_EQ(funGame->getAllUnits().size(), 1);
 
   funGame->createUnit(neutral, darkTemplar, Position{ 20, 21 }, 1);
-  funGame.advance(COMMANDWAIT);
+  funGame.advance(COMMANDWAIT*5);
   auto allUnits = funGame->getAllUnits();
   
   EXPECT_EQ(allUnits.size(), 2);
+
+  std::vector<UnitType> allUnitTypes;
+  std::transform(allUnits.begin(), allUnits.end(), std::back_inserter(allUnitTypes), Filter::GetType);
+
+  EXPECT_THAT(allUnitTypes, testing::ElementsAre(marine, darkTemplar));
 
   for (auto &u : allUnits)
   {
