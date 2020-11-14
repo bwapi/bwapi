@@ -504,7 +504,7 @@ const char* AutoMenuManager::interceptFindFirstFile(const char* lpFileName)
     lpFileName = lastMapGen.c_str();
 
     // Get the directory that the map is in
-    std::string directoryPath = Util::Path(installPath() + lastMapGen).parent_path().string();
+    std::string directoryPath = std::filesystem::path(installPath() + lastMapGen).parent_path().string();
 
     // update map folder location
     SStrCopy(BW::BWDATA::CurrentMapFolder.data(), directoryPath.c_str(), MAX_PATH);
