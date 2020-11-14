@@ -25,6 +25,7 @@ namespace Funtest
     void reset();
     
     BWAPI::Game* operator ->();
+
   private:
     BWAPI::ProtoClient client;
     std::unique_ptr<BWAPI::Game> game;

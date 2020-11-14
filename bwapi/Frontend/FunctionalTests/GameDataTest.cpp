@@ -47,19 +47,13 @@ TEST(TriggerTests, KillUnitTest)
 TEST(GameDataTest, CloakedUnits)
 {
   auto self = funGame->self();
-  Player neutral = nullptr;
-  Player enemy = nullptr;
-  for (auto &p : funGame->getPlayers())
-  {
-    if (p.getType() == PlayerTypes::Neutral)
-      neutral = p;
-    if (p.getType() == PlayerTypes::Computer)
-      enemy = p;
-    if (neutral && enemy)
-      break;
-  }
+  Player neutral = funGame->neutral();
+  Player enemy = funGame->enemy();
+
   auto marine = UnitTypes::Terran_Marine;
   auto darkTemplar = UnitTypes::Protoss_Dark_Templar;
+
+  EXPECT_EQ(funGame->getAllUnits().size(), 0);
 
   funGame->createUnit(self, marine, Position{ 20, 20 }, 1);
   funGame.advance(COMMANDWAIT);
@@ -73,8 +67,7 @@ TEST(GameDataTest, CloakedUnits)
 
   for (auto &u : allUnits)
   {
-    if (u.getPlayer() == neutral)
-      EXPECT_EQ(u.getType(), UnitTypes::Protoss_Dark_Templar);
+    if (u.getPlayer() == neutral) EXPECT_EQ(u.getType(), UnitTypes::Protoss_Dark_Templar);
   }
 
   funGame->createUnit(enemy, darkTemplar, Position{ 100, 100 }, 1);
