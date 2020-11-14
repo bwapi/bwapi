@@ -1,7 +1,7 @@
 #include "GameImpl.h"
 #include <ctime>
+#include <filesystem>
 
-#include "../Path.h"
 #include "../StringUtil.h"
 
 #include "Detours.h"
@@ -366,7 +366,7 @@ namespace BWAPI4
       // Expand time strings, add a handler for this specific task to ignore errors in the format string
       // TODO: Replace with boost time format
       _invalid_parameter_handler old = _set_invalid_parameter_handler(&ignore_invalid_parameter);
-        std::strftime(szTmpPath, sizeof(szTmpPath), pathStr.c_str(), timeInfo);
+      std::strftime(szTmpPath, sizeof(szTmpPath), pathStr.c_str(), timeInfo);
       _set_invalid_parameter_handler(old);
       pathStr = szTmpPath;
 
@@ -377,8 +377,8 @@ namespace BWAPI4
                                          c == '<' || c == '|' || c == '>' || c == '"';
                                    }), pathStr.end());
 
-      Util::Path parent_p = Util::Path(pathStr).parent_path();
-      Util::create_directories(parent_p);
+      std::filesystem::path parent_p = std::filesystem::path(pathStr).parent_path();
+      std::filesystem::create_directories(parent_p);
 
       // Copy to global desired replay name
       gDesiredReplayName = pathStr;

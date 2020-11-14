@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
+#include <filesystem>
 #include <storm.h>
 #include "DLLMain.h"
-#include "../Path.h"
 
 // Functions
 std::string LoadConfigString(const char *pszKey, const char *pszItem, const char *pszDefault = NULL);
@@ -21,7 +21,7 @@ inline const std::string& installPath()
   {
     char buffer[MAX_PATH];
     if (GetModuleFileNameA(NULL, buffer, MAX_PATH)) //get .exe path
-      path = Util::Path(buffer).parent_path().string() + "\\";
+      path = std::filesystem::path(buffer).parent_path().string() + "\\";
     else
       BWAPIError("Error getting starcraft's root directory via GetModuleFileNameA()");
   }

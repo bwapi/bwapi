@@ -6,8 +6,6 @@
 #include <cmath>
 #include <storm.h>
 
-#include "../Path.h"
-
 #include "DLLMain.h"
 #include "Thread.h"
 #include "Config.h"
@@ -237,7 +235,7 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
   if ( !pszOutput )
     return FALSE;
 
-  Util::Path newScreenFilename(pszOutput);
+  std::filesystem::path newScreenFilename(pszOutput);
 
   if ( !screenshotFmt.empty() ) // If an extension replacement was specified
     newScreenFilename.replace_extension(screenshotFmt);

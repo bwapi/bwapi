@@ -170,7 +170,7 @@ namespace BWAPI
     };
 
     struct Hash {
-      auto operator()(Type tp) {
+      auto operator()(Type tp) const {
         return std::hash<int>{}(tp.getID());
       }
     };

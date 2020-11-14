@@ -203,9 +203,6 @@
       <Filter>BW\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="starcraftver.h" />
-    <ClInclude Include="Source\Path.h">
-      <Filter>Util</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Sha1.h">
       <Filter>Util</Filter>
     </ClInclude>

@@ -24,7 +24,7 @@ namespace BWAPI {
     constexpr bool operator==(std::nullptr_t) const { return !(*this != nullptr); }
 
     struct Hash {
-      auto operator()(Identifier id) {
+      auto operator()(const Identifier& id) const {
         return std::hash<int>{}(static_cast<int>(id.getID()));
       }
     };
@@ -44,8 +44,8 @@ namespace BWAPI {
 namespace std {
   template<typename T>
   struct hash<BWAPI::Identifier<T>> {
-    auto operator()(BWAPI::Identifier<T> id) const {
-      return BWAPI::Identifier<T>::Hash{}(id);
+    auto operator()(const BWAPI::Identifier<T>& id) const {
+      return BWAPI::Identifier<T>::Hash()(id);
     }
   };
 } // namespace std
@@ -83,8 +83,8 @@ namespace BWAPI {
     constexpr bool operator==(std::nullptr_t) const { return dataptr == nullptr; }
 
     struct Hash { 
-      auto operator()(InterfaceDataWrapper &idw) {
-        return decltype(Data::id)::Hash{}(idw.getData().id);
+      auto operator()(const InterfaceDataWrapper &idw) const {
+        return decltype(Data::id)::Hash()(idw.getData().id);
       }
     };
 

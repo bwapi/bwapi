@@ -4,8 +4,6 @@
 #include <memory>
 #include "../Sha1.h"
 
-#include "../Path.h"
-
 #include "../DLLMain.h"
 #include "../Config.h"
 
@@ -43,7 +41,7 @@ namespace BWAPI4
   //---------------------------------------------- GET FILE NAME ---------------------------------------------
   std::string Map::getFileName()
   {
-    Util::Path mapPath( BW::BWDATA::Game.mapFileName );
+    std::filesystem::path mapPath( BW::BWDATA::Game.mapFileName );
     return mapPath.filename().string();
   }
   //------------------------------------------------ GET NAME ------------------------------------------------
