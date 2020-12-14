@@ -39,15 +39,21 @@ namespace BW
     int getAirWeaponCooldown() const;
 
 // v-- POSSIBLE SHARED BULLET/UNIT STRUCTURE BEGIN
+
+  // v--- CLink
     // CLink<CUnit> link;
     /*0x000*/ BW::CUnit*    prev;
     /*0x004*/ BW::CUnit*    next;      /**< Pointer to next unit in the unit linked list, we use
                                           *   it to iterate units.
                                           *   @see BW#BWXFN_UnitNodeTable_FirstElement
                                           **/
+  // ^--- CLink
+  // v--- CThingy
     /*0x008*/ s32           hitPoints;  // Hit points of unit, note that the displayed value in broodwar is ceil(healthPoints/256)
                                         // Officially called "xLife"
     /*0x00C*/ BW::CSprite*  sprite;
+  // ^--- CThingy
+  // v--- CFlingy
                                                     // One of these Position structs are just called "swLocX" and "swLocY"
     /*0x010*/ BW::Target    moveTarget;             // The position or unit to move to. It is NOT an order target.
     /*0x018*/ BW::Position  nextMovementWaypoint;   /**< The next way point in the path the unit is following to get to its destination.
@@ -57,7 +63,7 @@ namespace BW
     /*0x01C*/ BW::Position  nextTargetWaypoint;   // The desired position
     /*0x020*/ u8            movementFlags;        // Flags specifying movement type - defined in BW#MovementFlags.
     /*0x021*/ u8            currentDirection1;    // The current direction the unit is facing
-    /*0x022*/ u8            flingyTurnRadius;
+    /*0x022*/ u8            flingyTurnRadius;     // TODO: "TurnSpeed" in GPTP
     /*0x023*/ u8            velocityDirection1;  /**< This usually only differs from the currentDirection field for units that can accelerate
                                                  *   and travel in a different direction than they are facing. For example Mutalisks can change
                                                  *   the direction they are facing faster than then can change the direction they are moving.
@@ -70,13 +76,13 @@ namespace BW
     /*0x034*/ u32           flingyTopSpeed;
     /*0x038*/ s32           current_speed1;
     /*0x03C*/ s32           current_speed2;
-    /*0x040*/ point         current_speed;
+    /*0x040*/ point         current_speed;    // TODO: velocity
 
     /*0x048*/ u16           flingyAcceleration;
     /*0x04A*/ u8            currentDirection2;
     /*0x04B*/ u8            velocityDirection2;   // pathing related, gets this value from Path::unk_1A?
     /*0x04C*/ u8            playerID;             // Specification of owner of this unit.
-    /*0x04D*/ u8            orderID;              // Specification of type of order currently given.
+    /*0x04D*/ u8            orderID;              // Specification of type of order currently given. (TODO: Rename to mainOrderId?)
     /*0x04E*/ u8            orderState;  //< Additional order info (mostly unknown, wander property investigated so far)  // officially "ubActionState"
                                          /*  0x01  Moving/Following Order
                                              0x02  No collide (Larva)?
@@ -89,6 +95,7 @@ namespace BW
                                               0x04  Reset collision? Always enabled for hallucination...
                                               0x10  Lift/Land state
                                           */
+
     /*0x050*/ u16           orderUnitType;      // officially "uwFoggedTarget"
     
     u16 __0x52;  // 2-byte padding
@@ -100,7 +107,7 @@ namespace BW
     /*0x058*/ BW::Target    orderTarget;        // officially called ActionFocus
 // ^-- POSSIBLE SHARED BULLET/UNIT STRUCTURE END
 
-    /*0x060*/ u32         shieldPoints;      // BW shows this value/256, possibly not u32?
+    /*0x060*/ u32         shieldPoints;      // BW shows this value/256, TODO possibly not u32?
     /*0x064*/ u16         unitType;        // Specifies the type of unit.
     
     u16 __0x66;  // 2-byte padding
@@ -169,7 +176,7 @@ namespace BW
                   // CLink<CUnit> hanger_link;
                   BW::CUnit*  prev;      // 4
                   BW::CUnit*  next;      // 8
-                  bool        inHanger;   // C
+                  bool        inHanger;   // C    // TODO: isOutsideHangar
                 } fighter;  // also applies to scarab
                 
                 struct
@@ -196,7 +203,7 @@ namespace BW
                 struct 
                 {
                   BW::CUnit*  pPowerup;                // 0    // official
-                  points      targetResource;           // 4
+                  points      targetResource;           // 4    // TODO: Use points+unit target
                   BW::CUnit*  targetResourceUnit;      // 8
                   u16         repairResourceLossTimer;  // C
                   bool        isCarryingSomething;      // E    // There is a "ubIsHarvesting" somewhere
@@ -252,7 +259,7 @@ namespace BW
               {
                 struct
                 { 
-                  points      position;
+                  points      position;   // Target
                   BW::CUnit*  unit;
                 } rally;  // If the unit is rally type
 
@@ -271,7 +278,7 @@ namespace BW
     struct
     {
       /*0x110*/ u16         removeTimer;      //  does not apply to scanner sweep
-      /*0x112*/ u16         defenseMatrixDamage;
+      /*0x112*/ u16         defenseMatrixDamage;    // TODO: Rename to HP
       /*0x114*/ u8          defenseMatrixTimer;
       /*0x115*/ u8          stimTimer;
       /*0x116*/ u8          ensnareTimer;
