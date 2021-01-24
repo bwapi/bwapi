@@ -55,9 +55,6 @@
     <ClInclude Include="SNP\CriticalSection.h">
       <Filter>SNP</Filter>
     </ClInclude>
-    <ClInclude Include="SNP\SNPModule.h">
-      <Filter>SNP</Filter>
-    </ClInclude>
     <ClInclude Include="SNP\SNPNetwork.h">
       <Filter>SNP</Filter>
     </ClInclude>

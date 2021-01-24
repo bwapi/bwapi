@@ -1,4 +1,4 @@
-#include "SNPModule.h"
+#include "SNPNetwork.h"
 #include <windows.h>
 
 // these modi are implemented in this DLL
@@ -7,8 +7,7 @@
 #include "LocalPC.h"
 #define SMEM_ID 1
 
-
-BOOL WINAPI SnpQuery(DWORD dwIndex, DWORD *dwNetworkCode, const char **ppszNetworkName, const char **ppszNetworkDescription, CAPS **ppCaps)
+BOOL WINAPI SnpQuery(DWORD dwIndex, DWORD *dwNetworkCode, LPCSTR *ppszNetworkName, LPCSTR *ppszNetworkDescription, SNETCAPSPTR* ppCaps)
 {
   if ( dwNetworkCode && ppszNetworkName && ppszNetworkDescription && ppCaps )
   {
@@ -33,7 +32,7 @@ BOOL WINAPI SnpQuery(DWORD dwIndex, DWORD *dwNetworkCode, const char **ppszNetwo
   return FALSE;
 }
 
-BOOL WINAPI SnpBind(DWORD dwIndex, SNP::NetFunctions **ppFxns)
+BOOL WINAPI SnpBind(DWORD dwIndex, SNETSPIPTR* ppFxns)
 {
   if ( ppFxns )
   {
@@ -41,11 +40,11 @@ BOOL WINAPI SnpBind(DWORD dwIndex, SNP::NetFunctions **ppFxns)
     {
     case DRIP_ID:
       *ppFxns = &SNP::spiFunctions;
-      SNP::pluggedNetwork = (SNP::Network<SNP::SOCKADDR>*)(new DRIP::DirectIP());
+      SNP::pluggedNetwork = new DRIP::DirectIP();
       return TRUE;
     case SMEM_ID:
       *ppFxns = &SNP::spiFunctions;
-      SNP::pluggedNetwork = (SNP::Network<SNP::SOCKADDR>*)(new SMEM::LocalPC());
+      SNP::pluggedNetwork = new SMEM::LocalPC();
       return TRUE;
     default:
       return FALSE;

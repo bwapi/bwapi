@@ -9,7 +9,7 @@ namespace DRIP
 {
   SNP::NetworkInfo networkInfo = {"Direct IP", 'DRIP', "",
     // CAPS:
-  {sizeof(CAPS), 0x20000003, SNP::PACKET_SIZE, 16, 256, 1000, 50, 8, 2}};
+  {sizeof(SNETCAPS), 0x20000003, SNP::PACKET_SIZE, 16, 256, 1000, 50, 8, 2}};
 
   UDPSocket session;
 
@@ -136,7 +136,7 @@ namespace DRIP
     host.sin_port = htons(atoi(getHostPortString()));
     session.sendPacket(host, sendBuffer.getFrameUpto(ping_server));
   }
-  void DirectIP::sendAsyn(const UDPAddr& him, Util::MemoryFrame packet)
+  void DirectIP::sendAsyn(const SNETADDR& him, Util::MemoryFrame packet)
   {
 
     processIncomingPackets();
@@ -148,8 +148,12 @@ namespace DRIP
     spacket.writeAs<int>(PacketType_GamePacket);
     spacket.write(packet);
 
+    static_assert(sizeof(UDPAddr) <= sizeof(SNETADDR));
+    UDPAddr targetAddr = {};
+    targetAddr = *reinterpret_cast<const UDPAddr*>(&him);
+
     // send packet
-    session.sendPacket(him, sendBuffer.getFrameUpto(spacket));
+    session.sendPacket(targetAddr, sendBuffer.getFrameUpto(spacket));
   }
   void DirectIP::receive()
   {

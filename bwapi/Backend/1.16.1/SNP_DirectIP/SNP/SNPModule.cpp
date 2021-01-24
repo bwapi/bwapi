@@ -1,4 +1,4 @@
-#include "SNPModule.h"
+#include "SNPNetwork.h"
 
 #include "CriticalSection.h"
 #include "Output.h"
@@ -11,17 +11,17 @@
 namespace SNP
 {
   //------------------------------------------------------------------------------------------------------------------------------------
-  Network<SOCKADDR> *pluggedNetwork = NULL;
+  BaseNetwork *pluggedNetwork = nullptr;
 
-  client_info gameAppInfo;
+  SNETPROGRAMDATA gameAppInfo;
 
   CriticalSection critSec;
-  CriticalSection::Lock *critSecExLock = NULL;
+  CriticalSection::Lock *critSecExLock = nullptr;
 #define INTERLOCKED CriticalSection::Lock critSecLock(critSec);
 
   struct GamePacket
   {
-    SOCKADDR sender;
+    SNETADDR sender;
     int packetSize;
     DWORD timeStamp;
     char data[512];
@@ -31,7 +31,7 @@ namespace SNP
 
   struct AdFile
   {
-    game gameInfo;
+    SNETSPI_GAMELIST gameInfo;
     char extraBytes[32];
   };
   std::list<AdFile> gameList;
@@ -65,7 +65,7 @@ each second
     spiLockGameList     // retrieve games list
     spiUnlockGameList   // free
 
-    spiStartAdvertisingLadderGame   // when a game is hosted
+    spiStartAdvertisingGame   // when a game is hosted
     spiStopAdvertisingGame          // when you, the host, leaves
 
     spiGetGameInfo      // retrieve game info
@@ -76,7 +76,7 @@ each second
     spiFree             // free allocated
   */
   //------------------------------------------------------------------------------------------------------------------------------------
-  void passAdvertisement(const SOCKADDR& host, Util::MemoryFrame ad)
+  void passAdvertisement(const SNETADDR& host, Util::MemoryFrame ad)
   {
     INTERLOCKED;
 
@@ -85,7 +85,7 @@ each second
     for(auto &g : gameList)
     {
       // if peer IDs equal
-      if ( !memcmp(&g.gameInfo.saHost, &host, sizeof(SOCKADDR)) )
+      if ( !memcmp(&g.gameInfo.owner, &host, sizeof(SNETADDR)) )
       {
         adFile = &g;
         break;
@@ -98,20 +98,20 @@ each second
       AdFile g;
       gameList.push_back(g);
       adFile = &gameList.back();
-      adFile->gameInfo.dwIndex = ++nextGameAdID;
+      adFile->gameInfo.gameid = ++nextGameAdID;
     }
 
     // init the new entry
-    Util::MemoryFrame::from(adFile->gameInfo).writeAs(ad.readAs<game>());
+    Util::MemoryFrame::from(adFile->gameInfo).writeAs(ad.readAs<SNETSPI_GAMELIST>());
     Util::MemoryFrame::from(adFile->extraBytes).write(ad);
-    adFile->gameInfo.dwTimer = GetTickCount();
-    adFile->gameInfo.saHost = host;
-    adFile->gameInfo.pExtra = adFile->extraBytes;
+    adFile->gameInfo.ownerlasttime = GetTickCount();
+    adFile->gameInfo.owner = host;
+    adFile->gameInfo.clientdata = adFile->extraBytes;
   }
-  void removeAdvertisement(const SOCKADDR& host)
+  void removeAdvertisement(const SNETADDR& host)
   {
   }
-  void passPacket(const SOCKADDR& sender, Util::MemoryFrame packet)
+  void passPacket(const SNETADDR& sender, Util::MemoryFrame packet)
   {
     INTERLOCKED;
     GamePacket gamePacket;
@@ -125,10 +125,10 @@ each second
     SetEvent(receiveEvent);
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiInitialize(client_info *gameClientInfo,
-                                user_info *userData, 
-                                battle_info *bnCallbacks, 
-                                module_info *moduleData, 
+  BOOL __stdcall spiInitialize(SNETPROGRAMDATAPTR gameClientInfo,
+                                SNETPLAYERDATAPTR userData,
+                                SNETUIDATAPTR bnCallbacks,
+                                SNETVERSIONDATAPTR moduleData,
                                 HANDLE hEvent)
   {
     // Called when the module is loaded
@@ -171,7 +171,7 @@ each second
     return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiLockGameList(int a1, int a2, game **ppGameList)
+  BOOL __stdcall spiLockGameList(DWORD, DWORD, SNETSPI_GAMELISTPTR *ppGameList)
   {
     critSecExLock = new CriticalSection::Lock(critSec);
     // Strom locks the game list to access it
@@ -181,15 +181,15 @@ each second
     AdFile *lastAd = nullptr;
     for ( auto &it : gameList)
     {
-      it.gameInfo.pExtra = it.extraBytes;
+      it.gameInfo.clientdata = it.extraBytes;
       if ( lastAd )
-        lastAd->gameInfo.pNext = &it.gameInfo;
+        lastAd->gameInfo.next = &it.gameInfo;
         
       lastAd = &it;
     }
 
     if(lastAd)
-      lastAd->gameInfo.pNext = nullptr;
+      lastAd->gameInfo.next = nullptr;
 
     // remove outdated entries
     //std::list<AdFile>::iterator nextAd = gameList.begin();
@@ -197,7 +197,7 @@ each second
     auto currAd = gameList.begin();
     while ( currAd != gameList.end() )
     {
-      if(GetTickCount() > currAd->gameInfo.dwTimer + 2000)
+      if(GetTickCount() > currAd->gameInfo.ownerlasttime + 2000)
       {
         // outdated, remove
         currAd = gameList.erase(currAd);
@@ -257,7 +257,7 @@ each second
   }
   //------------------------------------------------------------------------------------------------------------------------------------
   DWORD gdwLastTickCount;
-  BOOL __stdcall spiUnlockGameList(game *pGameList, DWORD *a2)
+  BOOL __stdcall spiUnlockGameList(SNETSPI_GAMELISTPTR pGameList, DWORD*)
   {
     // when storm is done reading from the gamelist
 //    DropMessage(0, "spiUnlockGameList");
@@ -298,27 +298,30 @@ each second
     return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePassword, char *pszGameStatString, DWORD dwGameState, DWORD dwElapsedTime, DWORD dwGameType, int a7, int a8, void *pExtraBytes, DWORD dwExtraBytesCount)
+  BOOL __stdcall spiStartAdvertisingGame(
+    LPCSTR gamename, LPCSTR gamepassword, LPCSTR gamedescription, 
+    DWORD gamemode, DWORD gameage, DWORD gamecategorybits, DWORD optcategorybits, DWORD,
+    LPCVOID clientdata, DWORD clientdatabytes)
   {
     INTERLOCKED;
-//    DropMessage(0, "spiStartAdvertisingLadderGame");
+//    DropMessage(0, "spiStartAdvertisingGame");
     // Begin game advertisement
     // Called when you create a game
 
     memset(&hostedGame, 0, sizeof(hostedGame));
-    strcpy_s(hostedGame.gameInfo.szGameName,       sizeof(hostedGame.gameInfo.szGameName),        pszGameName);
-    strcpy_s(hostedGame.gameInfo.szGameStatString, sizeof(hostedGame.gameInfo.szGameStatString),  pszGameStatString);
-    hostedGame.gameInfo.dwGameState = dwGameState;
-    hostedGame.gameInfo.dwProduct   = gameAppInfo.dwProduct;
-    hostedGame.gameInfo.dwVersion   = gameAppInfo.dwVerbyte;
-    hostedGame.gameInfo.dwUnk_1C    = 0x0050;
-    hostedGame.gameInfo.dwUnk_24    = 0x00a7;
+    strcpy_s(hostedGame.gameInfo.gamename, SNETSPI_MAXSTRINGLENGTH, gamename);
+    strcpy_s(hostedGame.gameInfo.gamedescription, SNETSPI_MAXSTRINGLENGTH, gamedescription);
+    hostedGame.gameInfo.gamemode = gamemode;
+    hostedGame.gameInfo.productid   = gameAppInfo.programid;
+    hostedGame.gameInfo.version     = gameAppInfo.versionid;
+    hostedGame.gameInfo.ownerlatency     = 0x0050;
+    hostedGame.gameInfo.gamecategorybits = 0x00a7;
 //    hostedGame.dwGameType = dwGameType;
 //    hostedGame.dwPlayerCount = dwPlayerCount;
 
-    memcpy(hostedGame.extraBytes, pExtraBytes, dwExtraBytesCount);
-    hostedGame.gameInfo.dwExtraBytes = dwExtraBytesCount;
-    hostedGame.gameInfo.pExtra = hostedGame.extraBytes;
+    memcpy(hostedGame.extraBytes, clientdata, clientdatabytes);
+    hostedGame.gameInfo.clientdata = hostedGame.extraBytes;
+    hostedGame.gameInfo.clientdatabytes = clientdatabytes;
 
     pluggedNetwork->startAdvertising(Util::MemoryFrame::from(hostedGame));
 
@@ -368,7 +371,7 @@ each second
     return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiGetGameInfo(DWORD dwFindIndex, char *pszFindGameName, int a3, game *pGameResult)
+  BOOL __stdcall spiGetGameInfo(DWORD dwFindIndex, LPCSTR pszFindGameName, LPCSTR, SNETSPI_GAMELIST* pGameResult)
   {
     INTERLOCKED;
     // returns game info for the game we are about to join
@@ -377,7 +380,7 @@ each second
     // search for the game based on the gamename or index
     for ( auto &it : gameList )
     {
-      if ( it.gameInfo.dwIndex == dwFindIndex )
+      if ( it.gameInfo.gameid == dwFindIndex )
       {
         *pGameResult = it.gameInfo;
         return TRUE;
@@ -389,23 +392,23 @@ each second
     return FALSE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiSend(DWORD addrCount, SOCKADDR * *addrList, char *buf, DWORD bufLen)
+  BOOL __stdcall spiSend(DWORD addresses, SNETADDRPTR* addrlist, LPVOID data, DWORD databytes)
   {
 //    DropMessage(0, "spiSend %d", GetCurrentThreadId());
 
-    if(!addrCount)
+    if(!addresses)
       return TRUE;
 
-    if(addrCount > 1)
+    if(addresses > 1)
       DropMessage(1, "spiSend, multicast not supported");
 
     try
     {
       // support for 1 peer for now
-      SOCKADDR him = *(addrList[0]);
+      SNETADDR him = *(addrlist[0]);
 
       // send packet over the network module
-      pluggedNetwork->sendAsyn(him, Util::MemoryFrame(buf, bufLen));
+      pluggedNetwork->sendAsyn(him, Util::MemoryFrame(data, databytes));
 
       // debug
 //      DropMessage(0, "Sent storm packet %d bytes", bufLen);
@@ -419,15 +422,15 @@ each second
     return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiReceive(SOCKADDR **senderPeer, char **data, DWORD *databytes)
+  BOOL __stdcall spiReceive(SNETADDRPTR* addr, LPVOID* data, DWORD* databytes)
   {
     INTERLOCKED;
 //    DropMessage(0, "spiReceive %d", GetCurrentThreadId());
     // Passes pointers from queued receive data to storm
 
-    *senderPeer = nullptr;
-    *data       = nullptr;
-    *databytes  = 0;
+    *addr = nullptr;
+    *data = nullptr;
+    *databytes = 0;
 
     try
     {
@@ -455,7 +458,7 @@ each second
         }
 
         // give saved data to storm
-        *senderPeer =&loan->sender;
+        *addr       = &loan->sender;
         *data       = loan->data;
         *databytes  = loan->packetSize;
 //        DropMessage(0, "R %s", sprintfBytes(*data, *databytes));
@@ -471,7 +474,7 @@ each second
     return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiFree(SOCKADDR * addr, char *data, DWORD databytes)
+  BOOL __stdcall spiFree(SNETADDRPTR addr, LPVOID data, DWORD databytes)
   {
     INTERLOCKED;
     // called after spiReceive, to free the reserved memory
@@ -483,20 +486,20 @@ each second
     return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiCompareNetAddresses(SOCKADDR * addr1, SOCKADDR * addr2, DWORD *dwResult)
+  BOOL __stdcall spiCompareNetAddresses(SNETADDRPTR addr1, SNETADDRPTR addr2, DWORD* diffmagnitude)
   {
     INTERLOCKED;
     DropMessage(0, "spiCompareNetAddresses");
 
-    if ( dwResult )
-      *dwResult = 0;
-    if ( !addr1 || !addr2 || !dwResult )
+    if (diffmagnitude)
+      *diffmagnitude = 0;
+    if ( !addr1 || !addr2 || !diffmagnitude)
     {
       SErrSetLastError(ERROR_INVALID_PARAMETER);
       return FALSE;
     }
 
-    *dwResult = (0 == memcmp(addr1, addr2, sizeof(SOCKADDR)));
+    *diffmagnitude = (0 == memcmp(addr1, addr2, sizeof(SNETADDR)));
     return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
@@ -513,22 +516,22 @@ each second
 
 
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiLockDeviceList(DWORD *a1)
+  BOOL __stdcall spiLockDeviceList(SNETSPI_DEVICELISTPTR* devicelist)
   {
 //    DropMessage(0, "spiLockDeviceList");
     // This function is complete
-    *a1 = 0;
+    *devicelist = 0;
     return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiUnlockDeviceList(void* unknownStruct)
+  BOOL __stdcall spiUnlockDeviceList(SNETSPI_DEVICELISTPTR devicelist)
   {
 //    DropMessage(0, "spiUnlockDeviceList");
     // This function is complete
     return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiFreeExternalMessage(SOCKADDR * addr, char *data, DWORD databytes)
+  BOOL __stdcall spiFreeExternalMessage(LPCSTR addr, LPCSTR data, LPCSTR databytes)
   {
     DropMessage(0, "spiFreeExternalMessage");
     /*
@@ -550,7 +553,7 @@ each second
 
 
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiGetPerformanceData(DWORD dwType, DWORD *dwResult, int a3, int a4)
+  BOOL __stdcall spiGetPerformanceData(DWORD counterid, DWORD* countervalue, LARGE_INTEGER* measurementtime, LARGE_INTEGER* measurementfreq)
   {
     DropMessage(0, "spiGetPerformanceData");
     /*
@@ -577,14 +580,14 @@ each second
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiInitializeDevice(int a1, void *a2, void *a3, DWORD *a4, void *a5)
+  BOOL __stdcall spiInitializeDevice(DWORD deviceid, SNETPROGRAMDATAPTR programdata, SNETPLAYERDATAPTR playerdata, SNETUIDATAPTR itnerfacedata, SNETVERSIONDATAPTR versiondata)
   {
     DropMessage(0, "spiInitializeDevice");
     // This function is complete
     return FALSE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiReceiveExternalMessage(SOCKADDR * *addr, char **data, DWORD *databytes)
+  BOOL __stdcall spiReceiveExternalMessage(SNETADDRPTR* addr, LPVOID* data, DWORD* databytes)
   {
 //    DropMessage(0, "spiReceiveExternalMessage");
     // This function is complete
@@ -599,12 +602,7 @@ each second
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiSelectGame(int a1,
-                                client_info *gameClientInfo, 
-                                user_info *userData, 
-                                battle_info *bnCallbacks, 
-                                module_info *moduleData, 
-                                int a6)
+  BOOL __stdcall spiSelectGame(DWORD flags, SNETPROGRAMDATAPTR programdata, SNETPLAYERDATAPTR playerdata, SNETUIDATAPTR interfacedata, SNETVERSIONDATAPTR versiondata, DWORD* playerid)
   {
     DropMessage(0, "spiSelectGame");
     // Looks like an old function and doesn't seem like it's used anymore
@@ -613,22 +611,22 @@ each second
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiSendExternalMessage(int a1, int a2, int a3, int a4, int a5)
+  BOOL __stdcall spiSendExternalMessage(LPCSTR senderpath, LPCSTR sendername, LPCSTR targetpath, LPCSTR targetname, LPCSTR message)
   {
     DropMessage(0, "spiSendExternalMessage");
     // This function is complete
     return FALSE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  BOOL __stdcall spiLeagueGetName(char *pszDest, DWORD dwSize)
+  BOOL __stdcall spiLeagueGetName(LPSTR leaguebuffer, DWORD leaguechars)
   {
     DropMessage(0, "spiLeagueGetName");
     // This function is complete
     return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  SNP::NetFunctions spiFunctions = {
-        sizeof(SNP::NetFunctions),
+  SNETSPI spiFunctions = {
+        sizeof(SNETSPI),
   /*n*/ &SNP::spiCompareNetAddresses,
         &SNP::spiDestroy,
         &SNP::spiFree,
@@ -644,17 +642,17 @@ each second
   /*e*/ &SNP::spiSelectGame,
         &SNP::spiSend,
   /*e*/ &SNP::spiSendExternalMessage,
-  /*n*/ &SNP::spiStartAdvertisingLadderGame,
+  /*n*/ &SNP::spiStartAdvertisingGame,
   /*n*/ &SNP::spiStopAdvertisingGame,
   /*e*/ &SNP::spiUnlockDeviceList,
         &SNP::spiUnlockGameList,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
   /*n*/ &SNP::spiLeagueGetName
   };
 }

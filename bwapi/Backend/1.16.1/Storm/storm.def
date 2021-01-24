@@ -1,11 +1,14 @@
 LIBRARY      "Storm"
 
 EXPORTS
+
+  ; Network Functions (100-199)
+  ;
   SNetCreateGame                @101 NONAME
   SNetDestroy                   @102 NONAME
-  SNetEnumProviders             @103 NONAME
-  ;SNetEnumDevices               @104 NONAME
-  SNetEnumGames                 @105 NONAME
+  ;SNetEnumDevices               @103 NONAME
+  SNetEnumGames                 @104 NONAME
+  SNetEnumProviders             @105 NONAME
   SNetDropPlayer                @106 NONAME
   SNetGetGameInfo               @107 NONAME
   ;SNetGetNetworkLatency         @108 NONAME
@@ -32,11 +35,11 @@ EXPORTS
   ;SNetSetBasePlayer             @129 NONAME
   SNetSetGameMode               @130 NONAME
   ;SNetUnregisterEventHandler    @131 NONAME
-
+  ;SNetGetOwnerId                @132 NONAME
   SNetEnumGamesEx               @133 NONAME
   SNetSendServerChatCommand     @134 NONAME
-  ;SNetSendDatagram             @135 NONAME
-  ;SNetReceiveDatagram          @136 NONAME
+  ;SNetSendDatagram              @135 NONAME
+  ;SNetReceiveDatagram           @136 NONAME
   SNetDisconnectAll             @137 NONAME
   SNetCreateLadderGame          @138 NONAME
   SNetReportGameResult          @139 NONAME
@@ -48,61 +51,62 @@ EXPORTS
   SNetLeagueLogout              @145 NONAME
   SNetGetLeaguePlayerName       @146 NONAME
 
-  ;Ordinal150                    @150 NONAME
-  ;Ordinal151                    @151 NONAME
-
-  ;SDlgBeginPaint                @201 NONAME
-  ;SDlgBltToWindowI              @202 NONAME
-  ;SDlgCheckTimers               @203 NONAME
-  ;SDlgCreateDialogIndirectParam @204 NONAME
-  ;SDlgCreateDialogParam         @205 NONAME
+  ; Dialog functions (200-249)
+  ;
+  SDlgBeginPaint                @201 NONAME
+  SDlgBltToWindowI              @202 NONAME
+  SDlgCheckTimers               @203 NONAME
+  SDlgCreateDialogIndirectParam @204 NONAME
+  SDlgCreateDialogParam         @205 NONAME
   SDlgDefDialogProc             @206 NONAME
-  
+  ;SDlgDestroy                   @207 NONAME ; guess
   SDlgDialogBoxIndirectParam    @208 NONAME
-  ;SDlgDialogBoxParam            @209 NONAME
-  ;SDlgDrawBitmap                @210 NONAME
+  SDlgDialogBoxParam            @209 NONAME
+  SDlgDrawBitmap                @210 NONAME
   SDlgEndDialog                 @211 NONAME
-  ;SDlgEndPaint                  @212 NONAME
-  ;SDlgKillTimer                 @213 NONAME
-  ;SDlgSetBaseFont               @214 NONAME
-  ;SDlgSetBitmapI                @215 NONAME
+  SDlgEndPaint                  @212 NONAME
+  SDlgKillTimer                 @213 NONAME
+  SDlgSetBaseFont               @214 NONAME
+  SDlgSetBitmapI                @215 NONAME
   SDlgSetControlBitmaps         @216 NONAME
-  ;SDlgSetCursor                 @217 NONAME
-  ;SDlgSetSystemCursor           @218 NONAME
-  ;SDlgSetTimer                  @219 NONAME
-  ;SDlgUpdateCursor              @220 NONAME
+  SDlgSetCursor                 @217 NONAME
+  SDlgSetSystemCursor           @218 NONAME
+  SDlgSetTimer                  @219 NONAME
+  SDlgUpdateCursor              @220 NONAME
   SDlgBltToWindowE              @221 NONAME
   SDlgSetBitmapE                @222 NONAME
   ;SDlgSetLocale                 @223 NONAME
-  Ordinal224                    @224 NONAME
+  ;Ordinal224                    @224 NONAME
 
-  ;SFileAuthenticateArchive      @251 NONAME
+  ; File I/O Functions (250-300)
+  ;
+  SFileAuthenticateArchive      @251 NONAME
   SFileCloseArchive             @252 NONAME
   SFileCloseFile                @253 NONAME
-  ;SFileDdaBegin                 @254 NONAME
+  SFileDdaBegin                 @254 NONAME
   SFileDdaBeginEx               @255 NONAME
   SFileDdaDestroy               @256 NONAME
   SFileDdaEnd                   @257 NONAME
   SFileDdaGetPos                @258 NONAME
-  ;SFileDdaGetVolume             @259 NONAME
+  SFileDdaGetVolume             @259 NONAME
   SFileDdaInitialize            @260 NONAME
   SFileDdaSetVolume             @261 NONAME
   SFileDestroy                  @262 NONAME
-  ;SFileEnableDirectAccess       @263 NONAME
+  SFileEnableDirectAccess       @263 NONAME
   SFileGetFileArchive           @264 NONAME
   SFileGetFileSize              @265 NONAME
   SFileOpenArchive              @266 NONAME
   SFileOpenFile                 @267 NONAME
   SFileOpenFileEx               @268 NONAME
   SFileReadFile                 @269 NONAME
-  ;SFileSetBasePath              @270 NONAME
-  ;SFileSetFilePointer           @271 NONAME
+  SFileSetBasePath              @270 NONAME
+  SFileSetFilePointer           @271 NONAME
   SFileSetLocale                @272 NONAME
-  ;SFileGetBasePath              @273 NONAME
+  SFileGetBasePath              @273 NONAME
   SFileSetIoErrorMode           @274 NONAME
   SFileGetArchiveName           @275 NONAME
   SFileGetFileName              @276 NONAME
-  ;SFileGetArchiveInfo           @277 NONAME
+  SFileGetArchiveInfo           @277 NONAME
   ;SFileSetPlatform              @278 NONAME
   SFileLoadFile                 @279 NONAME
   SFileUnloadFile               @280 NONAME
@@ -126,34 +130,48 @@ EXPORTS
   ;Ordinal298                    @298 NONAME
   ;SFileAuthenticateArchiveEx    @299 NONAME
   ;SFileOpenPathAsArchive        @300 NONAME
+
+  ; Other functions (301-309)
+  ;
   ;StormDestroy                  @301 NONAME
   ;StormGetInstance              @302 NONAME
   ;StormGetOption                @303 NONAME
   ;StormSetOption                @304 NONAME
 
-  ;SBltGetSCode                  @312 NONAME
+  ; Blit functions (310-319)
+  ;
+  ;SBltDestroy                   @311 NONAME ; guess
+  SBltGetSCode                  @312 NONAME
   SBltROP3                      @313 NONAME
   SBltROP3Clipped               @314 NONAME
-  ;SBltROP3Tiled                 @315 NONAME
+  SBltROP3Tiled                 @315 NONAME
 
+  ; Bitmap functions (320-329)
+  ;
   SBmpDecodeImage               @321 NONAME
 
   SBmpLoadImage                 @323 NONAME
   SBmpSaveImage                 @324 NONAME
   SBmpAllocLoadImage            @325 NONAME
   ;SBmpSaveImageEx               @326 NONAME
+  ;SBmpAlignImage                @327 NONAME  ; Made up name
+  ;SBmpAlignValue                @328 NONAME  ; Made up name
 
+  ; SCode (330-339)
+  ;
   SCodeCompile                  @331 NONAME
   SCodeDelete                   @332 NONAME
-  
+  ;SCodeDestroy                  @333 NONAME
   SCodeExecute                  @334 NONAME
-  ;SCodeGetPseudocode            @335 NONAME
+  SCodeGetPseudocode            @335 NONAME
 
+  ; DirectDraw wrappers/replacements (340-369)
+  ;
   SDrawAutoInitialize           @341 NONAME
   SDrawCaptureScreen            @342 NONAME
-  ;SDrawClearSurface             @343 NONAME
-  ;SDrawDestroy                  @344 NONAME
-  ;SDrawFlipPage                 @345 NONAME
+  SDrawClearSurface             @343 NONAME
+  SDrawDestroy                  @344 NONAME
+  SDrawFlipPage                 @345 NONAME
   SDrawGetFrameWindow           @346 NONAME
   SDrawGetObjects               @347 NONAME
   SDrawGetScreenSize            @348 NONAME
@@ -168,29 +186,37 @@ EXPORTS
   SDrawUpdatePalette            @357 NONAME
   ;SDrawUpdateScreen             @358 NONAME
   ;SDrawWaitForVerticalBlank     @359 NONAME
+  
 
+  ; Event handling functions (370-379)
+  ;
+  ;SEvtDestroy                   @371 NONAME ; guess
   SEvtDispatch                  @372 NONAME
-  ;SEvtRegisterHandler           @373 NONAME
-  ;SEvtUnregisterHandler         @374 NONAME
-  ;SEvtUnregisterType            @375 NONAME
-  ;SEvtPopState                  @376 NONAME
-  ;SEvtPushState                 @377 NONAME
-  ;SEvtBreakHandlerChain         @378 NONAME
+  SEvtRegisterHandler           @373 NONAME
+  SEvtUnregisterHandler         @374 NONAME
+  SEvtUnregisterType            @375 NONAME
+  SEvtPopState                  @376 NONAME
+  SEvtPushState                 @377 NONAME
+  SEvtBreakHandlerChain         @378 NONAME
 
-  ;SGdiBitBlt                    @381 NONAME
-  ;SGdiCreateFont                @382 NONAME
+  ; Gdi Functions (380-399)
+  SGdiBitBlt                    @381 NONAME
+  SGdiCreateFont                @382 NONAME
   SGdiDeleteObject              @383 NONAME
   ;SGdiDestroy                   @384 NONAME
   SGdiExtTextOut                @385 NONAME
   SGdiImportFont                @386 NONAME
-  ;SGdiLoadFont                  @387 NONAME
-  ;SGdiRectangle                 @388 NONAME
+  SGdiLoadFont                  @387 NONAME
+  SGdiRectangle                 @388 NONAME
   SGdiSelectObject              @389 NONAME
   SGdiSetPitch                  @390 NONAME
-  ;SGdiTextOut                   @391 NONAME
-  ;SGdi392                       @392 NONAME
-  Ordinal393                    @393 NONAME
+  SGdiTextOut                   @391 NONAME
+  SGdiSetTargetDimensions       @392 NONAME
+  SGdiGetTextExtent             @393 NONAME
 
+  ; Memory management functions (400-409)
+  ;
+  ; Missing SMemInitialize
   ;SMem399                       @399 NONAME
   
   SMemAlloc                     @401 NONAME
@@ -198,8 +224,11 @@ EXPORTS
   SMemFree                      @403 NONAME
   ;SMemGetSize                   @404 NONAME
   SMemReAlloc                   @405 NONAME
-  ;Storm406                      @406 NONAME
+  ;SMemGetAllocated              @406 NONAME  ; Guessed
 
+  ; Window messaging functions (410-420)
+  ;
+  ;SMsgDestroy                   @411 NONAME ; guess
   ;SMsgDispatchMessage           @412 NONAME
   ;SMsgDoMessageLoop             @413 NONAME
   ;SMsgRegisterCommand           @414 NONAME
@@ -208,73 +237,90 @@ EXPORTS
   ;SMsgRegisterMessage           @417 NONAME
   ;SMsgPopRegisterState          @418 NONAME
   ;SMsgPushRegisterState         @419 NONAME
-  ;SMsg420                       @420 NONAME
+  ;SMsgRegisterSysCommand        @420 NONAME
+
+  ; Application registry functions (421-430)
+  ;
   SRegLoadData                  @421 NONAME
   SRegLoadString                @422 NONAME
   SRegLoadValue                 @423 NONAME
   SRegSaveData                  @424 NONAME
   SRegSaveString                @425 NONAME
   SRegSaveValue                 @426 NONAME
-  ;SRegGetBaseKey                @427 NONAME
+  SRegGetBaseKey                @427 NONAME
   SRegDeleteValue               @428 NONAME
-  ;SReg429                       @429 NONAME
-  ;SReg430                       @430 NONAME
+  ;SRegEnumKey                   @429 NONAME
+  ;SRegGetNumSubKeys             @430 NONAME
+
+  ; Transparency functions (431-450)
+  ;
   STransBlt                     @431 NONAME
   STransBltUsingMask            @432 NONAME
-  ;STransCreateI                 @433 NONAME
+  STransCreateI                 @433 NONAME
   STransDelete                  @434 NONAME
-  
+  ;STransDestroy                 @435 NONAME ; guess
   STransDuplicate               @436 NONAME
   STransIntersectDirtyArray     @437 NONAME
   STransInvertMask              @438 NONAME
-  ;STransLoadI                   @439 NONAME
+  STransLoadI                   @439 NONAME
   STransSetDirtyArrayInfo       @440 NONAME
-  ;STransUpdateDirtyArray        @441 NONAME
-  STransPointInMask             @442 NONAME
+  STransUpdateDirtyArray        @441 NONAME
+  STransIsPixelInMask           @442 NONAME
   STransCombineMasks            @443 NONAME
-  ;STransCreateI                 @444 NONAME
+  STransCreateMaskI             @444 NONAME
   STransCreateE                 @445 NONAME
-  ;STrans446                     @446 NONAME
-  ;STransLoadE                   @447 NONAME
+  STransCreateMaskE             @446 NONAME
+  STransLoadE                   @447 NONAME
 
+  ; Video functions (451-459)
+  ;
   SVidDestroy                   @451 NONAME
   SVidGetSize                   @452 NONAME
   SVidInitialize                @453 NONAME
   SVidPlayBegin                 @454 NONAME
-  ;SVidPlayBeginFromMemory       @455 NONAME
-  ;SVidPlayContinue              @456 NONAME
+  SVidPlayBeginFromMemory       @455 NONAME
+  SVidPlayContinue              @456 NONAME
   SVidPlayContinueSingle        @457 NONAME
   SVidPlayEnd                   @458 NONAME
-  ;SVidSetVolume                 @459 NONAME
-  ;Storm460                      @460 NONAME
+  SVidSetVolume                 @459 NONAME
+
+  ; Error handling functions (460-470)
+  ;
+  ;SErrDestroy                   @460 NONAME ; guess
   SErrDisplayError              @461 NONAME
   SErrGetErrorStr               @462 NONAME
   SErrGetLastError              @463 NONAME
-  ;SErrRegisterMessageSource     @464 NONAME
+  SErrRegisterMessageSource     @464 NONAME
   SErrSetLastError              @465 NONAME
   ;SErrReportNamedResourceLeak   @466 NONAME
-  ;SErrReportResourceLeak        @467 NONAME
+  SErrReportResourceLeak        @467 NONAME
   SErrSuppressErrors            @468 NONAME
   ;SErrRegisterHandler           @469 NONAME
   ;SErrUnregisterHandler         @470 NONAME
   ;Storm471                      @471 NONAME
-  ;SCmdGetBool                   @472 NONAME
-  ;SCmdGetNum                    @473 NONAME
-  ;SCmdGetString                 @474 NONAME
-  ;SCmdProcess                   @475 NONAME
-  ;SCmdRegisterArgList           @476 NONAME
-  ;SCmdRegisterArgument          @477 NONAME
-  ;SCmdStringExists              @478 NONAME
+
+  ; Command line handling functions (471-480)
+  ;
+  SCmdGetBool                   @472 NONAME
+  SCmdGetNum                    @473 NONAME
+  SCmdGetString                 @474 NONAME
+  SCmdProcess                   @475 NONAME
+  SCmdRegisterArgList           @476 NONAME
+  SCmdRegisterArgument          @477 NONAME
+  SCmdCheckId                   @478 NONAME
   ;SCmdProcessCommandLine        @479 NONAME
-  ;Ordinal480                    @480 NONAME
-  ;SMemFindNextBlock             @481 NONAME
-  ;SMemFindNextHeap              @482 NONAME
-  ;SMemGetHeapByCaller           @483 NONAME
-  ;SMemGetHeapByPtr              @484 NONAME
-  ;SMemHeapAlloc                 @485 NONAME
-  ;SMemHeapCreate                @486 NONAME
-  ;SMemHeapDestroy               @487 NONAME
-  ;SMemHeapFree                  @488 NONAME
+  ;SCmdStringExists              @480 NONAME
+
+  ; Additional memory functions (481-499)
+  ;
+  SMemFindNextBlock             @481 NONAME
+  SMemFindNextHeap              @482 NONAME
+  SMemGetHeapByCaller           @483 NONAME
+  SMemGetHeapByPtr              @484 NONAME
+  SMemHeapAlloc                 @485 NONAME
+  SMemHeapCreate                @486 NONAME
+  SMemHeapDestroy               @487 NONAME
+  SMemHeapFree                  @488 NONAME
   ;SMemHeapRealloc               @489 NONAME
   ;SMemHeapSize                  @490 NONAME
   SMemCopy                      @491 NONAME
@@ -286,16 +332,21 @@ EXPORTS
   ;SMemDumpState                 @497 NONAME
   ;Ordinal498                    @498 NONAME
 
+  ; String functions (500-510)
+  ;
   SStrCopy                      @501 NONAME
   SStrHash                      @502 NONAME
-  SStrNCat                      @503 NONAME
-  ;SStrTokenize                  @504 NONAME
-  ;SStrPack                      @505 NONAME
+  SStrPack                      @503 NONAME
+  SStrTokenize                  @504 NONAME
+  SStrChr                       @505 NONAME
   SStrLen                       @506 NONAME
   ;SStrDup                       @507 NONAME
   SStrCmp                       @508 NONAME
   SStrCmpI                      @509 NONAME
   SStrUpper                     @510 NONAME
+
+  ; Additional window messaging functions (511-519)
+  ;
   ;SMsgBreakHandlerChain         @511 NONAME
   ;SMsgUnregisterCommand         @512 NONAME
   ;SMsgUnregisterKeyDown         @513 NONAME
@@ -304,48 +355,49 @@ EXPORTS
   ;SMsgGetDispatcher             @516 NONAME
   ;SMsgSetDefaultWindow          @517 NONAME
   ;SMsgGetDefaultWindow          @518 NONAME
-  ;SMsg519                       @519 NONAME
+  ;SMsgUnregisterSysCommand      @519 NONAME
 
-  ;SRgn521                     @521 NONAME
+  ; Region (520-540)
+  ;
+  SRgnClear                     @521 NONAME
+  ;SRgn522                       @522 NONAME
+  SRgnCombineRect               @523 NONAME
+  SRgnCreate                    @524 NONAME
+  SRgnDelete                    @525 NONAME
+  ;SRgnDestroy                   @526 NONAME ; guess
+  SRgnDuplicate                 @527 NONAME
+  SRgnGetRectParams             @528 NONAME
+  SRgnGetRects                  @529 NONAME
+  SRgnGetBoundingRect           @530 NONAME
+  ;SRgnIsPointInRegion           @531 NONAME
+  ;SRgnIsRectInRegion            @532 NONAME
+  ;SRgnOffset                    @533 NONAME
+  ;SRgnCombineRectf              @534 NONAME
+  ;SRgnGetRectParamsf            @535 NONAME
+  ;SRgnGetRectsf                 @536 NONAME
+  ;SRgnGetBoundingRectf          @537 NONAME
+  ;SRgnIsPointInRegionf          @538 NONAME
+  ;SRgnIsRectInRegionf           @539 NONAME
+  ;SRgnOffsetf                   @540 NONAME
 
-  SRgn523                       @523 NONAME
-  SRgnCreateRegion              @524 NONAME
-  SRgnDeleteRegion              @525 NONAME
+  ; Logging functions (541-559)
+  ;
+  SLogClose                     @541 NONAME
+  SLogCreate                    @542 NONAME
+  ;SLogSetTimestamp              @543 NONAME
+  SLogDump                      @544 NONAME
+  SLogFlush                     @545 NONAME
+  SLogFlushAll                  @546 NONAME
+  SLogPend                      @547 NONAME
+  SLogWrite                     @548 NONAME
+  ;SLogSetAbsIndent              @549 NONAME
+  ;SLogSetIndent                 @550 NONAME
+  SCompCompress                 @551 NONAME
+  SCompDecompress               @552 NONAME
+  SLogVWrite                    @553 NONAME
 
-  ;SRgn527                       @527 NONAME
-  ;SRgn528i                      @528 NONAME
-  SRgn529i                      @529 NONAME
-  ;SRgn530i                      @530 NONAME
-  ;SRgn531i                      @531 NONAME
-  ;SRgn532i                      @532 NONAME
-  ;SRgn533i                      @533 NONAME
-  ;SRgn534                       @534 NONAME
-  ;SRgn535f                      @535 NONAME
-  ;SRgn536f                      @536 NONAME
-  ;SRgn537f                      @537 NONAME
-  ;SRgn538f                      @538 NONAME
-  ;SRgn539f                      @539 NONAME
-  ;SRgn540f                      @540 NONAME
-  ;SLogClose                     @541 NONAME
-  ;SLogCreate                    @542 NONAME
-  ;SLog543                       @543 NONAME
-  ;SLogDump                      @544 NONAME
-  ;SLogFlush                     @545 NONAME
-  ;SLogFlushAll                  @546 NONAME
-  ;SLogPend                      @547 NONAME
-  ;SLogWrite                     @548 NONAME
-  ;SLog549                       @549 NONAME
-  ;SLogCriticalLog               @550 NONAME
-  ;SCompCompress                 @551 NONAME
-  ;SCompDecompress               @552 NONAME
-  ;SLogVWrite                    @553 NONAME
-  ;Ordinal554                    @554 NONAME
-  ;Ordinal555                    @555 NONAME
-  ;Ordinal556                    @556 NONAME
-  ;Ordinal557                    @557 NONAME
-  ;Ordinal558                    @558 NONAME
-  ;Ordinal559                    @559 NONAME
-  ;Ordinal560                    @560 NONAME
+  ; Error handling functions (560-568)
+  ;
   ;SErrCheckDebugSymbolLibrary   @561 NONAME
   SErrDisplayErrorFmt           @562 NONAME
   ;SErrIsDisplayingError         @563 NONAME
@@ -353,20 +405,26 @@ EXPORTS
   ;SErrSetLogTitleString         @565 NONAME
   ;SErrDisplayAppFatal           @566 NONAME
   SErrCatchUnhandledExceptions  @567 NONAME
-  ;Storm568                      @568 NONAME
-  ;SStrChr                       @569 NONAME
+  ;SErrSetLogCallback            @568 NONAME
+
+  ; More String functions (569-)
+  ;
+  ;SStrChrF                      @569 NONAME
   ;SStrChrR                      @570 NONAME
-  SStrChr                       @571 NONAME
+  SStrChrF                      @571 NONAME
   SStrChrR                      @572 NONAME
   ;SStrToDouble                  @573 NONAME
   ;SStrToFloat                   @574 NONAME
   ;SStrToInt                     @575 NONAME
   ;SStrToUnsigned                @576 NONAME
   ;SStrToInt64                   @577 NONAME
-  SStrVPrintf                   @578 NONAME
+  ;SStrPrintf                    @578 NONAME
   ;SStrLower                     @579 NONAME
   ;SStrHash64                    @580 NONAME
-  ;SStrPrintf                    @581 NONAME
+  ;SStrVPrintf                   @581 NONAME
+
+  ; Other additions (582-599)
+  ;
   ;SDrawSetClientRect            @582 NONAME
   ;SDrawGetClientRect            @583 NONAME
   ;SStrStrI                      @584 NONAME
@@ -375,6 +433,8 @@ EXPORTS
   ;SStrStr                       @587 NONAME
   ;SNet588                       @588 NONAME
 
+  ; Big numbers library (600-647)
+  ;
   ;SBigAdd                       @601 NONAME
   ;SBigAnd                       @602 NONAME
   ;SBigCompare                   @603 NONAME
@@ -422,20 +482,36 @@ EXPORTS
   ;SBigToStreamPtr               @645 NONAME
   ;SBigToUnsigned                @646 NONAME
   ;SBigXor                       @647 NONAME
+  ;SSignatureVerify                           @648 NONAME
+  ;SSignatureVerifyStream_Begin               @649 NONAME
+  ;SSignatureVerifyStream_ProvideData         @650 NONAME
+  ;SSignatureVerifyStream_Finish              @651 NONAME
+  ;SSignatureGenerate                         @652 NONAME
+  ;SSignatureVerifyStream_GetSignatureLength  @653 NONAME
+  ;Storm654                      @654 NONAME
+  ;Storm655                      @655 NONAME
+  ;Storm656                      @656 NONAME
+  ;Storm657                      @657 NONAME
+  
 
+  ; Signature functions (900-915)
+  ;
+
+  ; Unicode functions (900+)
+  ;
   ;SUniConvertUTF16to8Len        @901 NONAME
   ;SUniConvertUTF16to8           @902 NONAME
   ;SUniConvertUTF8to16Len        @903 NONAME
   ;SUniConvertUTF8to16           @904 NONAME
-  ;SUniS905                      @905 NONAME
-  ;SUniS906                      @906 NONAME
+  ;SUniSGetUTF8                  @905 NONAME
+  ;SUniSPutUTF8                  @906 NONAME
   ;SUniFindAfterUTF8Chr          @907 NONAME
   ;SUniFindUTF8ChrStart          @908 NONAME
-  ;SUniConvertUTF16To909         @909 NONAME
-  ;SUniConvertUTF16To910         @910 NONAME
-  ;SUniConvertUTF16To911         @911 NONAME
-  ;SUniConvert912                @912 NONAME
-  ;SUniConvert913                @913 NONAME
-  ;SUniConvert914                @914 NONAME
+  ;SUniConvertUTF16ToWin         @909 NONAME
+  ;SUniConvertUTF16ToMac         @910 NONAME
+  ;SUniConvertUTF16ToDos         @911 NONAME
+  ;SUniConvertWinToUTF16         @912 NONAME
+  ;SUniConvertMacToUTF16         @913 NONAME
+  ;SUniConvertDosToUTF16         @914 NONAME
   ;SUniConvertUTF8ToWin          @915 NONAME
 ; END

@@ -29,8 +29,8 @@ void __fastcall QueueGameCommand(void *pBuffer, size_t dwLength)
   if ( !pBuffer || !dwLength || !isCorrectVersion )
     return;
 
-  CAPS caps;
-  caps.dwSize = sizeof(CAPS);
+  SNETCAPS caps;
+  caps.size = sizeof(SNETCAPS);
   SNetGetProviderCaps(&caps);
 
   DWORD dwMaxBuffer = std::clamp<size_t>(caps.maxmessagesize, 0, BW::BWDATA::TurnBuffer.size());
@@ -46,12 +46,12 @@ void __fastcall QueueGameCommand(void *pBuffer, size_t dwLength)
   if ( BW::BWDATA::gwGameMode == BW::GAME_GLUES )
     return;
 
-  int turns;
+  DWORD turns;
   if ( SNetGetTurnsInTransit(&turns) ) // Buffer is full
   {
-    int callDelay = 1;
+    DWORD callDelay = 1;
     if ( BW::BWDATA::NetMode )
-      callDelay = std::clamp<int>(caps.dwCallDelay, 2, 8);
+      callDelay = std::clamp<DWORD>(caps.defaultturnsintransit, 2, 8);
 
     // This statement will probably never be hit, but just in case
     if ( turns >= 16 - callDelay )

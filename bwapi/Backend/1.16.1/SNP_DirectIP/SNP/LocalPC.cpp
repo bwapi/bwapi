@@ -11,7 +11,7 @@ namespace SMEM
 {
   SNP::NetworkInfo networkInfo = {"Local PC", 'SMEM', "",
     // CAPS:
-  {sizeof(CAPS), 0x20000003, SNP::PACKET_SIZE, 16, 256, 1000, 50, 8, 2}};
+  {sizeof(SNETCAPS), 0x20000003, SNP::PACKET_SIZE, 16, 256, 1000, 50, 8, 2}};
 
 #define INTERLOCKED Util::Mutex::Lock globalLock(mutex);
 
@@ -133,16 +133,17 @@ namespace SMEM
       }
     }
   }
-  void LocalPC::sendAsyn(const int& him, Util::MemoryFrame packet)
+  void LocalPC::sendAsyn(const SNETADDR& him, Util::MemoryFrame packet)
   {
     processIncomingPackets();
 
-    if(!shd->peer[him].isOccupied())
+    int peerid = *reinterpret_cast<const int*>(&him);
+    if(!shd->peer[peerid].isOccupied())
       return;
 
     INTERLOCKED;
     // push the packet on target's packetqueue
-    PeerData &peerData = shd->peer[him];
+    PeerData &peerData = shd->peer[peerid];
     int slotIndex = peerData.incomingCount++;
     if(slotIndex >= 16)
     {

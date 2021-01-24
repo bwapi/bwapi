@@ -246,7 +246,7 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
 }
 
 //----------------------------------------------- ON GAME END ------------------------------------------------
-BOOL __stdcall _SNetLeaveGame(int type)
+BOOL __stdcall _SNetLeaveGame(DWORD type)
 {
   BWAPI4::BroodwarImpl.onGameEnd();
   auto SNetLeaveGameProc = _SNetLeaveGameOld ? _SNetLeaveGameOld : &SNetLeaveGame;
@@ -262,11 +262,11 @@ int __cdecl _nextFrameHook()
 }
 
 //------------------------------------------------- SEND TEXT ------------------------------------------------
-int __stdcall _SStrCopy(char *dest, const char *source, int size)
+DWORD STORMAPI _SStrCopy(LPTSTR dest, LPCTSTR source, DWORD destsize)
 {
   if ( source[0] && isCorrectVersion )
   {
-    if ( size == 0x7FFFFFFF && BW::BWDATA::gwGameMode == BW::GAME_RUN )
+    if (destsize == 0x7FFFFFFF && BW::BWDATA::gwGameMode == BW::GAME_RUN )
     {
       if ( dest == BW::BWDATA::SaveGameFile.data() )
       {
@@ -277,28 +277,29 @@ int __stdcall _SStrCopy(char *dest, const char *source, int size)
       {
         // onSend Game
         BWAPI4::BroodwarImpl.queueSentMessage(source);
-        if (size > 0) dest[0] = '\0';
-        if (size > 1) dest[1] = '\0';
+        if (destsize > 0) dest[0] = '\0';
+        if (destsize > 1) dest[1] = '\0';
         return 0;
       }
     }
-    else if ( size == 120 && BW::BWDATA::gwGameMode != BW::GAME_RUN )
+    else if (destsize == 120 && BW::BWDATA::gwGameMode != BW::GAME_RUN )
     {
       // onSend Lobby
     }
   }
   auto SStrCopyProc = _SStrCopyOld ? _SStrCopyOld : &SStrCopy;
-  return SStrCopyProc(dest, source, size);
+  return SStrCopyProc(dest, source, destsize);
 }
 
 //----------------------------------------------- RECEIVE TEXT -----------------------------------------------
-BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, char **data, int *databytes)
+BOOL __stdcall _SNetReceiveMessage(DWORD *senderplayerid, LPVOID *data, DWORD *databytes)
 {
   auto SNetReceiveMessageProc = _SNetReceiveMessageOld ? _SNetReceiveMessageOld : &SNetReceiveMessage;
   BOOL rval = SNetReceiveMessageProc(senderplayerid, data, databytes);
 
-  if ( rval && *databytes > 2 && (*data)[0] == 0)
-    BWAPI4::BroodwarImpl.onReceiveText(*senderplayerid, std::string((char*)&(*data)[2]) );
+  const char* chrData = *reinterpret_cast<char**>(data);
+  if ( rval && *databytes > 2 && chrData[0] == 0)
+    BWAPI4::BroodwarImpl.onReceiveText(*senderplayerid, std::string(&chrData[2]) );
 
   return rval;
 }
@@ -385,11 +386,11 @@ BOOL __stdcall _SFileOpenFile(const char *filename, HANDLE *phFile)
 }
 
 //--------------------------------------------- MEM ALLOC HOOK -----------------------------------------------
-void *__stdcall _SMemAlloc(size_t amount, const char *logfilename, int logline, char defaultValue)
+LPVOID STORMAPI _SMemAlloc(DWORD bytes, LPCSTR filename, int linenumber, DWORD flags)
 {
   // Call the original function
   auto SMemAllocProc = _SMemAllocOld ? _SMemAllocOld : &SMemAlloc;
-  void *rval = SMemAllocProc(amount, logfilename, logline, defaultValue);
+  void *rval = SMemAllocProc(bytes, filename, linenumber, flags);
 
   if ( isCorrectVersion )
   {
@@ -397,7 +398,7 @@ void *__stdcall _SMemAlloc(size_t amount, const char *logfilename, int logline, 
          lastFile == "dlgs\\terran.grp"  ||
          lastFile == "dlgs\\zerg.grp" )
     {
-      if ( _strcmpi(logfilename, ".?AU_DLGGRP@@") == 0 )
+      if ( _strcmpi(filename, ".?AU_DLGGRP@@") == 0 )
       {
         if ( leakUIClassLoc )
           SMFree(leakUIClassLoc);
@@ -405,7 +406,7 @@ void *__stdcall _SMemAlloc(size_t amount, const char *logfilename, int logline, 
         BW::BWDATA::customList_UIDlgData[0] = &BW::BWDATA::customList_UIDlgData;  // list with custom allocator?
         BW::BWDATA::customList_UIDlgData[1] = (void*)~(u32)&BW::BWDATA::customList_UIDlgData;
       }
-      else if ( _strcmpi(logfilename, "Starcraft\\SWAR\\lang\\game.cpp") == 0 )
+      else if ( _strcmpi(filename, "Starcraft\\SWAR\\lang\\game.cpp") == 0 )
       {
         if ( leakUIGrpLoc )
           SMFree(leakUIGrpLoc);
@@ -421,7 +422,7 @@ void *__stdcall _SMemAlloc(size_t amount, const char *logfilename, int logline, 
 //--------------------------------------------- SEND TURN HOOK -----------------------------------------------
 DWORD lastTurnTime;
 DWORD lastTurnFrame;
-BOOL __stdcall _SNetSendTurn(char *data, unsigned int databytes)
+BOOL __stdcall _SNetSendTurn(LPVOID data, DWORD databytes)
 {
   /* Save tick/frame counts for getRemainingLatency*  */
   lastTurnTime  = GetTickCount();

@@ -12,16 +12,16 @@ namespace BW
 
 #define DECL_OLDFXN(x) decltype(&x) _ ## x ## Old
 
-BOOL  STORMAPI   _SNetLeaveGame(int type);
+BOOL  STORMAPI   _SNetLeaveGame(DWORD type);
 int   __cdecl    _nextFrameHook();
-int   STORMAPI   _SStrCopy(char *dest, const char *source, int size);
-BOOL  STORMAPI   _SNetReceiveMessage(int *senderplayerid, char **data, int *databytes);
+DWORD STORMAPI   _SStrCopy(LPTSTR dest, LPCTSTR source, DWORD destsize);
+BOOL  STORMAPI   _SNetReceiveMessage(DWORD* senderplayerid, LPVOID* data, DWORD* databytes);
 void  __stdcall  DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds);
 void  __stdcall  DrawDialogHook(BW::Bitmap *pSurface, BW::bounds *pBounds);
 BOOL  STORMAPI   _SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile);
 BOOL  STORMAPI   _SFileOpenFile(const char *filename, HANDLE *phFile);
-void *STORMAPI   _SMemAlloc(size_t amount, const char *logfilename, int logline, char defaultValue);
-BOOL  STORMAPI   _SNetSendTurn(char *data, unsigned int databytes);
+LPVOID STORMAPI _SMemAlloc(DWORD bytes, LPCSTR filename, int linenumber, DWORD flags);
+BOOL  STORMAPI   _SNetSendTurn(LPVOID data, DWORD databytes);
 void  __fastcall CommandFilter(BYTE *buffer, DWORD length);
 void __stdcall ExecuteGameTriggers(DWORD dwMillisecondsPerFrame);
 

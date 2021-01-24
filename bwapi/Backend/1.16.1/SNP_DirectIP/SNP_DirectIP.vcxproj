@@ -114,7 +114,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SNP\CriticalSection.h" />
-    <ClInclude Include="SNP\SNPModule.h" />
     <ClInclude Include="SNP\SNPNetwork.h" />
     <ClInclude Include="SNP\DirectIP.h" />
     <ClInclude Include="SNP\resource.h" />

@@ -18,7 +18,7 @@ namespace SMEM
     void initialize();
     void destroy();
     void requestAds();
-    void sendAsyn(const int& to, Util::MemoryFrame packet);
+    void sendAsyn(const SNETADDR& to, Util::MemoryFrame packet);
     void receive();
     void startAdvertising(Util::MemoryFrame ad);
     void stopAdvertising();

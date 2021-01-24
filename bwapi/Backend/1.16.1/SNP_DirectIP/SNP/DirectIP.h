@@ -15,13 +15,13 @@ namespace DRIP
     DirectIP(){};
     ~DirectIP(){};
 
-    void initialize();
-    void destroy();
-    void requestAds();
-    void sendAsyn(const UDPAddr& to, Util::MemoryFrame packet);
-    void receive();
-    void startAdvertising(Util::MemoryFrame ad);
-    void stopAdvertising();
+    void initialize() override;
+    void destroy() override;
+    void requestAds() override;
+    void sendAsyn(const SNETADDR& to, Util::MemoryFrame packet) override;
+    void receive() override;
+    void startAdvertising(Util::MemoryFrame ad) override;
+    void stopAdvertising() override;
 
     void processIncomingPackets();
   };

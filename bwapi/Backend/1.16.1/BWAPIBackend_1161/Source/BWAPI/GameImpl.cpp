@@ -365,8 +365,8 @@ namespace BWAPI4
     VSNPrintf(buffer, format, arg);
 
     // Dispatch message using existing Storm library function (lobby+game)
-    S_EVT evt = { 4, -1, buffer, strlen(buffer) + 1 };
-    SEvtDispatch('SNET', 1, 4, &evt);
+    SNETEVENT evt = { SNET_EVENT_SERVERMESSAGE, SNET_PLAYERID_ALL, buffer, strlen(buffer) + 1 };
+    SEvtDispatch('SNET', 1, SNET_EVENT_SERVERMESSAGE, &evt);
   }
   //--------------------------------------------- SEND TEXT --------------------------------------------------
   void GameImpl::vSendTextEx(bool toAllies, const char *format, va_list arg)
@@ -702,11 +702,11 @@ namespace BWAPI4
     DWORD dwCallDelay = 1;
     if ( BW::BWDATA::NetMode )
     {
-      CAPS caps;
-      caps.dwSize = sizeof(CAPS);
+      SNETCAPS caps;
+      caps.size = sizeof(SNETCAPS);
       SNetGetProviderCaps(&caps);
 
-      dwCallDelay = std::clamp<int>(caps.dwCallDelay, 2, 8);
+      dwCallDelay = std::clamp<int>(caps.defaultturnsintransit, 2, 8);
     }
     return (BW::BWDATA::LatencyFrames[BW::BWDATA::GameSpeed]) * (BW::BWDATA::Latency + dwCallDelay + 1);
   }

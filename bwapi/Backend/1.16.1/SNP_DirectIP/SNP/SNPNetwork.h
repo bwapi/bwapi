@@ -17,31 +17,41 @@ namespace SNP
     const char    *pszName;
     DWORD         dwIdentifier;
     const char    *pszDescription;
-    CAPS          caps;
+    SNETCAPS      caps;
   };
 
-  typedef ::SOCKADDR SOCKADDR;
+  extern void passAdvertisement(const SNETADDR& host, Util::MemoryFrame ad);
+  extern void removeAdvertisement(const SNETADDR& host);
+  extern void passPacket(const SNETADDR& host, Util::MemoryFrame packet);
 
-  extern void passAdvertisement(const SOCKADDR& host, Util::MemoryFrame ad);
-  extern void removeAdvertisement(const SOCKADDR& host);
-  extern void passPacket(const SOCKADDR& host, Util::MemoryFrame packet);
-
-  template<typename PEERID>
-  class Network
+  class BaseNetwork
   {
   public:
-    Network()
-    {
-    }
-    virtual ~Network()
-    {
-    }
+    BaseNetwork() = default;
+    virtual ~BaseNetwork() = default;
 
-    SOCKADDR makeBin(const PEERID& src)
+    // network plug functions
+    virtual void initialize() = 0;
+    virtual void destroy() = 0;
+    virtual void requestAds() = 0;
+    virtual void sendAsyn(const SNETADDR& to, Util::MemoryFrame packet) = 0;
+    virtual void receive() = 0;
+    virtual void startAdvertising(Util::MemoryFrame ad) = 0;
+    virtual void stopAdvertising() = 0;
+  };
+
+  template<typename PEERID>
+  class Network : public BaseNetwork
+  {
+  public:
+    Network() = default;
+    virtual ~Network() = default;
+
+    SNETADDR makeBin(const PEERID& src)
     {
-      SOCKADDR retval;
-      memcpy_s(&retval, sizeof(SOCKADDR), &src, sizeof(PEERID));
-      memset(((BYTE*)&retval)+sizeof(PEERID), 0, sizeof(SOCKADDR) - sizeof(PEERID));
+      static_assert(sizeof(PEERID) <= sizeof(SNETADDR));
+      SNETADDR retval = {0};
+      memcpy_s(&retval, sizeof(SNETADDR), &src, sizeof(PEERID));
       return retval;
     }
 
@@ -58,16 +68,8 @@ namespace SNP
     {
       SNP::passPacket(makeBin(host), packet);
     }
-
-    // network plug functions
-    virtual void initialize() = 0;
-    virtual void destroy() = 0;
-    virtual void requestAds() = 0;
-    virtual void sendAsyn(const PEERID& to, Util::MemoryFrame packet) = 0;
-    virtual void receive() = 0;
-    virtual void startAdvertising(Util::MemoryFrame ad) = 0;
-    virtual void stopAdvertising() = 0;
   };
 
-  typedef Network<SOCKADDR> BinNetwork;
+  extern SNETSPI spiFunctions;
+  extern BaseNetwork* pluggedNetwork;
 }

@@ -1,5 +1,5 @@
 #include "Output.h"
-#include "SNPModule.h"
+#include "SNPNetwork.h"
 #include <windows.h>
 #include <stdio.h>
 
@@ -38,7 +38,7 @@ void DropLastError(const char *format, ...)
   DWORD dwErrCode = GetLastError();
 
   char szErrStr[256];
-  SEGetErrorStr(dwErrCode, szErrStr);
+  SErrGetErrorStr(dwErrCode, szErrStr, sizeof(szErrStr));
 
   char szFinalStr[512];
   sprintf_s(szFinalStr, 512, "Error: 0x%lx;%s;%s", dwErrCode, szBuffer, szErrStr);
