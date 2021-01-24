@@ -1,0 +1,12 @@
+version: 5.0.0.{build}
+image: Visual Studio 2019
+build_script:
+- cmd: build.bat
+test:
+  assemblies:
+    only:
+    - 'bwapi/Debug/BWAPILIBUnitTest.exe'
+artifacts:
+- path: BWAPI.7z
+  name: Archive
+deploy: off

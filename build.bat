@@ -22,13 +22,13 @@ if defined APPVEYOR (
 :: Build BWAPI's full stack
 cd bwapi
 ::nuget restore
-msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Debug_Pipeline bwapi.sln
-msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Release_Pipeline bwapi.sln
-msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Installer_Target bwapi.sln
+msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Debug /p:Platform=Win32 bwapi.sln
+msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Release /p:Platform=Win32 bwapi.sln
+msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Installer_Target /p:Platform=Win32 bwapi.sln
 
-:: Run unit tests
-cd Debug
-vstest.console BWAPILIBTest.dll BWAPICoreTest.dll %VSTEST_ADDITIONAL_OPTIONS%
+:: Run unit tests (TODO: do in Appveyor test step)
+::cd Debug
+::vstest.console BWAPILIBTest.dll BWAPICoreTest.dll %VSTEST_ADDITIONAL_OPTIONS%
 
 :: Finish
 popd
