@@ -65,6 +65,15 @@ extern "C" {
 #define SNET_PSF_TURNAVAILABLE 0x20000
 #define SNET_PSF_RESPONDING    0x40000
 
+#define  SNET_BROADCASTNONLOCALPLAYERID   0xFFFFFFFE
+#define  SNET_BROADCASTPLAYERID           0xFFFFFFFF
+#define  SNET_INVALIDPLAYERID             0xFFFFFFFF
+
+#define  SNET_CAPS_PAGELOCKEDBUFFERS      0x00000001
+#define  SNET_CAPS_BASICINTERFACE         0x00000002
+#define  SNET_CAPS_DEBUGONLY              0x10000000
+#define  SNET_CAPS_RETAILONLY             0x20000000
+
 #define SNET_EVENT_INITDATA      1
 #define SNET_EVENT_PLAYERJOIN    2
 #define SNET_EVENT_PLAYERLEAVE   3
@@ -351,18 +360,13 @@ BOOL STORMAPI SNetSelectGame(DWORD flags, SNETPROGRAMDATAPTR programdata, SNETPL
 ///
 /// <param name="targetplayerid">The player index of the player to receive the data.
 ///             Conversely, this field can be one of the following constants:
-///                 SNET_PLAYERID_ALL      | Sends the message to all players, including oneself.
-///                 SNET_PLAYERID_OTHERS   | Sends the message to all players, except for oneself.</param>
+///                 SNET_BROADCASTPLAYERID           | Sends the message to all players, including oneself.
+///                 SNET_BROADCASTNONLOCALPLAYERID   | Sends the message to all players, except for oneself.</param>
 /// <param name="data">A pointer to the data.</param>
 /// <param name="databytes">The amount of bytes that the data pointer contains.</param>
 ///
 /// <returns>TRUE if the function was called successfully and FALSE otherwise.</returns>
 BOOL STORMAPI SNetSendMessage(DWORD targetplayerid, LPVOID data, DWORD databytes);
-
-// Macro values to target specific players
-#define SNET_PLAYERID_ALL    -1
-#define SNET_PLAYERID_OTHERS -2
-
 
 /// SNetSendTurn @ 128
 ///

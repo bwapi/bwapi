@@ -32,7 +32,7 @@ void DropLastError(const char *format, ...)
   char szBuffer[256];
   va_list ap;
   va_start(ap, format);
-  vsnprintf_s(szBuffer, 256, 256, format, ap);
+  vsnprintf_s(szBuffer, sizeof(szBuffer), sizeof(szBuffer), format, ap);
   va_end(ap);
 
   DWORD dwErrCode = GetLastError();
@@ -41,21 +41,12 @@ void DropLastError(const char *format, ...)
   SErrGetErrorStr(dwErrCode, szErrStr, sizeof(szErrStr));
 
   char szFinalStr[512];
-  sprintf_s(szFinalStr, 512, "Error: 0x%lx;%s;%s", dwErrCode, szBuffer, szErrStr);
+  sprintf_s(szFinalStr, sizeof(szFinalStr), "Error: 0x%lx;%s;%s", dwErrCode, szBuffer, szErrStr);
 
-  /*
-  FILE *hLog = fopen(gszLogPath, "a+");
-  if ( hLog )
-  {
-    fprintf(hLog, "%s\n------------\n", szFinalStr);
-    fclose(hLog);
-  }
-  */
-  //errorMsg(szFinalStr);
   DropMessage(2, szFinalStr);
 }
 
-char* sprintfBytes(void*bytes, int byteCount)
+char* sprintfBytes(void* bytes, int byteCount)
 {
   char byteBuffer[16];
   static char endBuffer[256];

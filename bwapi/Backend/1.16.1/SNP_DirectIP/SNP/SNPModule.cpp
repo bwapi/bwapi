@@ -132,14 +132,10 @@ each second
                                 HANDLE hEvent)
   {
     // Called when the module is loaded
-//    DropMessage(0, "spiInitialize");
-
     gameAppInfo = *gameClientInfo;
-
     receiveEvent = hEvent;
 
     critSec.init();
-
     try
     {
       pluggedNetwork->initialize();
@@ -156,8 +152,6 @@ each second
   BOOL __stdcall spiDestroy()
   {
     // called when you leave back to the network module selection menu
-//    DropMessage(0, "spiDestroy");
-
     try
     {
       pluggedNetwork->destroy();
@@ -175,7 +169,6 @@ each second
   {
     critSecExLock = new CriticalSection::Lock(critSec);
     // Strom locks the game list to access it
-//    DropMessage(0, "spiLockGameList");
 
     // interlink gamelist entries (for storm)
     AdFile *lastAd = nullptr;
@@ -192,8 +185,6 @@ each second
       lastAd->gameInfo.next = nullptr;
 
     // remove outdated entries
-    //std::list<AdFile>::iterator nextAd = gameList.begin();
-    //std::list<AdFile>::iterator currAd;
     auto currAd = gameList.begin();
     while ( currAd != gameList.end() )
     {
@@ -220,39 +211,6 @@ each second
       DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage().c_str());
       return FALSE;
     }
-    /*
-    if ( !ppGameList )
-    {
-      SetLastError(ERROR_INVALID_PARAMETER);
-      return false;
-    }
-    // ClearGameList func embedded
-    EnterCriticalSection(&gCrit);
-    if ( gpMGameList )
-    {
-      DWORD dwThisTickCount = GetTickCount();
-
-      volatile gameStruc **g = &gpMGameList;
-      while ( *g )
-      {
-        volatile gameStruc *t = *g;
-        if ( dwThisTickCount - (*g)->dwTimer <= dwTimeout )
-        {
-          g = (volatile gameStruc**)&t->pNext;
-        }
-        else
-        {
-          *g = t->pNext;
-          if ( t->pExtra )
-            SMFree(t->pExtra);
-          SMFree((void*)t);
-        }
-      }
-    }
-    LeaveCriticalSection(&gCrit);
-    EnterCriticalSection(&gCrit);
-    *ppGameList = (gameStruc*)gpMGameList;
-    */
     return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
@@ -260,7 +218,6 @@ each second
   BOOL __stdcall spiUnlockGameList(SNETSPI_GAMELISTPTR pGameList, DWORD*)
   {
     // when storm is done reading from the gamelist
-//    DropMessage(0, "spiUnlockGameList");
 
     // release critical section
     delete critSecExLock;
@@ -275,26 +232,6 @@ each second
       DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage().c_str());
       return FALSE;
     }
-
-    /*
-    // Unlocks the game list and makes requests to update the list internally 
-    if ( pGameList != gpMGameList )
-    {
-      SetLastError(ERROR_INVALID_PARAMETER);
-      return false;
-    }
-
-    LeaveCriticalSection(&gCrit);
-    if ( a2 )
-      *a2 = 300;
-
-    DWORD dwThisTickCount = GetTickCount();
-    if ( dwThisTickCount - gdwLastTickCount > 200 )
-    {
-      gdwLastTickCount = dwThisTickCount;
-      BroadcastGameListRequest();
-    }
-    */
     return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
@@ -304,7 +241,6 @@ each second
     LPCVOID clientdata, DWORD clientdatabytes)
   {
     INTERLOCKED;
-//    DropMessage(0, "spiStartAdvertisingGame");
     // Begin game advertisement
     // Called when you create a game
 
@@ -324,41 +260,6 @@ each second
     hostedGame.gameInfo.clientdatabytes = clientdatabytes;
 
     pluggedNetwork->startAdvertising(Util::MemoryFrame::from(hostedGame));
-
-    /*
-    if ( !pszGameName || !pszGameStatString )
-    {
-      SetLastError(ERROR_INVALID_PARAMETER);
-      return false;
-    }
-
-    EnterCriticalSection(&gCrit);
-    if ( !gpGameAdvert )
-    {
-      gpGameAdvert = SMAlloc(PKT_SIZE + sizeof(packet));
-      if ( !gpGameAdvert )
-      {
-        LeaveCriticalSection(&gCrit);
-        SetLastError(ERROR_NOT_ENOUGH_MEMORY);
-        Error(ERROR_NOT_ENOUGH_MEMORY, "Could not allocate game advertisement packet");
-        return false;
-      }
-    }
-    memset((void*)gpGameAdvert, 0, PKT_SIZE + sizeof(packet));
-    packet    *pktHd   = (packet*)   gpGameAdvert;
-    gameInfo  *pktData = (gameInfo*)((DWORD)gpGameAdvert + sizeof(packet));
-
-    // +2 is for the two null terminators
-    pktHd->wSize       = (WORD)(strlen(pszGameName) + strlen(pszGameStatString) + dwPlayerCount + sizeof(packet) + 2);
-    pktHd->wType       = CMD_ADDGAME;
-    
-    pktData->dwGameState = dwGameState;
-    SStrCopy(pktData->info, pszGameName, 128);
-    SStrCopy(&pktData->info[strlen(pktData->info)+1], pszGameStatString, 128);
-
-    LeaveCriticalSection(&gCrit);
-    BroadcastAdvertisement();
-    */
     return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
@@ -366,7 +267,6 @@ each second
   {
     INTERLOCKED;
     // Called when you stop hosting a game
-//    DropMessage(0, "spiStopAdvertisingGame");
     pluggedNetwork->stopAdvertising();
     return TRUE;
   }
@@ -375,7 +275,6 @@ each second
   {
     INTERLOCKED;
     // returns game info for the game we are about to join
-//    DropMessage(0, "spiGetGameInfo");
 
     // search for the game based on the gamename or index
     for ( auto &it : gameList )
@@ -394,8 +293,6 @@ each second
   //------------------------------------------------------------------------------------------------------------------------------------
   BOOL __stdcall spiSend(DWORD addresses, SNETADDRPTR* addrlist, LPVOID data, DWORD databytes)
   {
-//    DropMessage(0, "spiSend %d", GetCurrentThreadId());
-
     if(!addresses)
       return TRUE;
 
@@ -409,10 +306,6 @@ each second
 
       // send packet over the network module
       pluggedNetwork->sendAsyn(him, Util::MemoryFrame(data, databytes));
-
-      // debug
-//      DropMessage(0, "Sent storm packet %d bytes", bufLen);
-//      DropMessage(0, "S> %s", sprintfBytes(buf, bufLen));
     }
     catch(GeneralException &e)
     {
@@ -425,7 +318,6 @@ each second
   BOOL __stdcall spiReceive(SNETADDRPTR* addr, LPVOID* data, DWORD* databytes)
   {
     INTERLOCKED;
-//    DropMessage(0, "spiReceive %d", GetCurrentThreadId());
     // Passes pointers from queued receive data to storm
 
     *addr = nullptr;
@@ -461,8 +353,6 @@ each second
         *addr       = &loan->sender;
         *data       = loan->data;
         *databytes  = loan->packetSize;
-//        DropMessage(0, "R %s", sprintfBytes(*data, *databytes));
-//        DropMessage(0, "Received storm packet %d bytes", *databytes);
         break;
       }
     }
@@ -478,7 +368,6 @@ each second
   {
     INTERLOCKED;
     // called after spiReceive, to free the reserved memory
-//    DropMessage(0, "spiFree");
 
     BYTE *loan = (BYTE*)addr;
     if(loan)
@@ -518,26 +407,17 @@ each second
   //------------------------------------------------------------------------------------------------------------------------------------
   BOOL __stdcall spiLockDeviceList(SNETSPI_DEVICELISTPTR* devicelist)
   {
-//    DropMessage(0, "spiLockDeviceList");
-    // This function is complete
     *devicelist = 0;
     return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
   BOOL __stdcall spiUnlockDeviceList(SNETSPI_DEVICELISTPTR devicelist)
   {
-//    DropMessage(0, "spiUnlockDeviceList");
-    // This function is complete
     return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
   BOOL __stdcall spiFreeExternalMessage(LPCSTR addr, LPCSTR data, LPCSTR databytes)
   {
-    DropMessage(0, "spiFreeExternalMessage");
-    /*
-    // This function is complete
-    SetLastError(ERROR_INVALID_PARAMETER);
-    */
     return FALSE;
   }
 
@@ -583,14 +463,11 @@ each second
   BOOL __stdcall spiInitializeDevice(DWORD deviceid, SNETPROGRAMDATAPTR programdata, SNETPLAYERDATAPTR playerdata, SNETUIDATAPTR itnerfacedata, SNETVERSIONDATAPTR versiondata)
   {
     DropMessage(0, "spiInitializeDevice");
-    // This function is complete
     return FALSE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
   BOOL __stdcall spiReceiveExternalMessage(SNETADDRPTR* addr, LPVOID* data, DWORD* databytes)
   {
-//    DropMessage(0, "spiReceiveExternalMessage");
-    // This function is complete
     if ( addr )
       *addr = NULL;
     if ( data )
@@ -614,14 +491,12 @@ each second
   BOOL __stdcall spiSendExternalMessage(LPCSTR senderpath, LPCSTR sendername, LPCSTR targetpath, LPCSTR targetname, LPCSTR message)
   {
     DropMessage(0, "spiSendExternalMessage");
-    // This function is complete
     return FALSE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
   BOOL __stdcall spiLeagueGetName(LPSTR leaguebuffer, DWORD leaguechars)
   {
     DropMessage(0, "spiLeagueGetName");
-    // This function is complete
     return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------

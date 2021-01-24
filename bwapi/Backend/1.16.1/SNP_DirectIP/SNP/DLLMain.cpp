@@ -7,23 +7,23 @@
 #include "LocalPC.h"
 #define SMEM_ID 1
 
-BOOL WINAPI SnpQuery(DWORD dwIndex, DWORD *dwNetworkCode, LPCSTR *ppszNetworkName, LPCSTR *ppszNetworkDescription, SNETCAPSPTR* ppCaps)
+BOOL WINAPI SnpQuery(DWORD index, DWORD *id, LPCSTR *description, LPCSTR *requirements, SNETCAPSPTR* caps)
 {
-  if ( dwNetworkCode && ppszNetworkName && ppszNetworkDescription && ppCaps )
+  if ( id && description && requirements && caps )
   {
-    switch (dwIndex)
+    switch (index)
     {
     case DRIP_ID:
-      *dwNetworkCode          =  DRIP::networkInfo.dwIdentifier;
-      *ppszNetworkName        =  DRIP::networkInfo.pszName;
-      *ppszNetworkDescription =  DRIP::networkInfo.pszDescription;
-      *ppCaps                 = &DRIP::networkInfo.caps;
+      *id           =  DRIP::networkInfo.dwIdentifier;
+      *description  =  DRIP::networkInfo.pszName;
+      *requirements =  DRIP::networkInfo.pszDescription;
+      *caps         = &DRIP::networkInfo.caps;
       return TRUE;
     case SMEM_ID:
-      *dwNetworkCode          =  SMEM::networkInfo.dwIdentifier;
-      *ppszNetworkName        =  SMEM::networkInfo.pszName;
-      *ppszNetworkDescription =  SMEM::networkInfo.pszDescription;
-      *ppCaps                 = &SMEM::networkInfo.caps;
+      *id           = SMEM::networkInfo.dwIdentifier;
+      *description  = SMEM::networkInfo.pszName;
+      *requirements = SMEM::networkInfo.pszDescription;
+      *caps         = &SMEM::networkInfo.caps;
       return TRUE;
     default:
       return FALSE;
@@ -32,18 +32,18 @@ BOOL WINAPI SnpQuery(DWORD dwIndex, DWORD *dwNetworkCode, LPCSTR *ppszNetworkNam
   return FALSE;
 }
 
-BOOL WINAPI SnpBind(DWORD dwIndex, SNETSPIPTR* ppFxns)
+BOOL WINAPI SnpBind(DWORD index, SNETSPIPTR* spi)
 {
-  if ( ppFxns )
+  if ( spi )
   {
-    switch (dwIndex)
+    switch (index)
     {
     case DRIP_ID:
-      *ppFxns = &SNP::spiFunctions;
+      *spi = &SNP::spiFunctions;
       SNP::pluggedNetwork = new DRIP::DirectIP();
       return TRUE;
     case SMEM_ID:
-      *ppFxns = &SNP::spiFunctions;
+      *spi = &SNP::spiFunctions;
       SNP::pluggedNetwork = new SMEM::LocalPC();
       return TRUE;
     default:

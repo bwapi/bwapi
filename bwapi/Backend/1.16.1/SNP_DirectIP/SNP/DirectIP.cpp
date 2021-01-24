@@ -9,7 +9,7 @@ namespace DRIP
 {
   SNP::NetworkInfo networkInfo = {"Direct IP", 'DRIP', "",
     // CAPS:
-  {sizeof(SNETCAPS), 0x20000003, SNP::PACKET_SIZE, 16, 256, 1000, 50, 8, 2}};
+  {sizeof(SNETCAPS), SNET_CAPS_RETAILONLY | SNET_CAPS_BASICINTERFACE | SNET_CAPS_PAGELOCKEDBUFFERS, SNP::PACKET_SIZE, 16, 256, 1000, 50, 8, 2}};
 
   UDPSocket session;
 
@@ -58,7 +58,6 @@ namespace DRIP
         {
           if(session.getState() == WSAECONNRESET)
           {
-//            DropMessage(1, "target host not reachable");
             setStatusString("host IP not reachable");
             continue;
           }

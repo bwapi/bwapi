@@ -11,7 +11,7 @@ namespace SMEM
 {
   SNP::NetworkInfo networkInfo = {"Local PC", 'SMEM', "",
     // CAPS:
-  {sizeof(SNETCAPS), 0x20000003, SNP::PACKET_SIZE, 16, 256, 1000, 50, 8, 2}};
+  {sizeof(SNETCAPS), SNET_CAPS_RETAILONLY | SNET_CAPS_BASICINTERFACE | SNET_CAPS_PAGELOCKEDBUFFERS, SNP::PACKET_SIZE, 16, 256, 1000, 50, 8, 2}};
 
 #define INTERLOCKED Util::Mutex::Lock globalLock(mutex);
 
@@ -55,9 +55,6 @@ namespace SMEM
       shd->peer[self].lastOccupied = GetTickCount();
 
       // pass all packets to storm
-      /*int incomingCount = shd->peer[self].incomingCount;
-      if(incomingCount > 16)
-        incomingCount = 16;*/
       for(int i = 0; i < shd->peer[self].incomingCount; i++)
       {
         Packet &packet = shd->peer[self].incoming[i];

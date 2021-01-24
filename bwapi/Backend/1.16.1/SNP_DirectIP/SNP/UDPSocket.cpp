@@ -77,7 +77,6 @@ void UDPSocket::sendPacket(const UDPAddr &target, Util::MemoryFrame data)
 
 Util::MemoryFrame UDPSocket::receivePacket(UDPAddr &target, Util::MemoryFrame dest)
 {
-  //int targetSize = sizeof(target);
   _state = 0;
   int fromlen = sizeof(sockaddr);
   int byteCount = ::recvfrom(_s, (char*)dest.begin(), dest.size(), NULL, (sockaddr*)&target, &fromlen);

@@ -365,7 +365,7 @@ namespace BWAPI4
     VSNPrintf(buffer, format, arg);
 
     // Dispatch message using existing Storm library function (lobby+game)
-    SNETEVENT evt = { SNET_EVENT_SERVERMESSAGE, SNET_PLAYERID_ALL, buffer, strlen(buffer) + 1 };
+    SNETEVENT evt = { SNET_EVENT_SERVERMESSAGE, SNET_BROADCASTPLAYERID, buffer, strlen(buffer) + 1 };
     SEvtDispatch('SNET', 1, SNET_EVENT_SERVERMESSAGE, &evt);
   }
   //--------------------------------------------- SEND TEXT --------------------------------------------------
