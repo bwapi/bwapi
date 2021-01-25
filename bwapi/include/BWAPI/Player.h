@@ -43,7 +43,7 @@ namespace BWAPI
     /// Game::sendText and other variadic functions.
     ///
     /// Example usage:
-    /// @code
+    /// @code{.cpp}
     ///   BWAPI::Player myEnemy = game.enemy();
     ///   if ( myEnemy )   // Make sure there is an enemy!
     ///     game.sendText("Prepare to be crushed, %s!", myEnemy.getName().c_str());
@@ -59,7 +59,7 @@ namespace BWAPI
     /// @Assimilators, or @Extractors.
     ///
     /// Example usage:
-    /// @code
+    /// @code{.cpp}
     ///   for ( BWAPI::Unit u : game.self().getUnits() )
     ///   {
     ///     // Do something with your units
@@ -77,7 +77,7 @@ namespace BWAPI
     ///   The Race that the player is using.
     ///
     /// Example usage:
-    /// @code
+    /// @code{.cpp}
     ///   if ( game.enemy() )
     ///   {
     ///     BWAPI::Race enemyRace = game.enemy().getRace();
@@ -96,7 +96,7 @@ namespace BWAPI
     /// @note Other players using BWAPI will be treated as a human player and return
     /// PlayerTypes::Player.
     ///
-    /// @code
+    /// @code{.cpp}
     ///   if ( game.enemy() )
     ///   {
     ///     if ( game.enemy()->getType() == PlayerTypes::Computer )
@@ -282,7 +282,7 @@ namespace BWAPI
     /// @returns The total supply available for this player and the given \p race.
     ///
     /// Example usage:
-    /// @code
+    /// @code{.cpp}
     ///   if ( game.self().supplyUsed() + 8 >= game.self().supplyTotal() )
     ///   {
     ///     // Construct pylons, supply depots, or overlords
@@ -357,7 +357,7 @@ namespace BWAPI
     /// @returns The number of completed units of the given type that the player owns.
     ///
     /// Example usage:
-    /// @code
+    /// @code{.cpp}
     ///   bool obtainNextUpgrade(BWAPI::UpgradeType upgType)
     ///   {
     ///     BWAPI::Player self = game.self();
@@ -431,7 +431,7 @@ namespace BWAPI
     /// @returns The number of levels that the \p upgrade has been upgraded for this player.
     ///
     /// Example usage:
-    /// @code
+    /// @code{.cpp}
     ///   bool obtainNextUpgrade(BWAPI::UpgradeType upgType)
     ///   {
     ///     BWAPI::Player self = game.self();
@@ -485,7 +485,7 @@ namespace BWAPI
     /// @returns true if the player is currently upgrading the given \p upgrade, false otherwise
     ///
     /// Example usage:
-    /// @code
+    /// @code{.cpp}
     ///   bool obtainNextUpgrade(BWAPI::UpgradeType upgType)
     ///   {
     ///     BWAPI::Player self = game.self();
@@ -628,7 +628,7 @@ namespace BWAPI
     /// @returns Maximum upgrade level of the given \p upgrade type.
     ///
     /// Example usage:
-    /// @code
+    /// @code{.cpp}
     ///   bool obtainNextUpgrade(BWAPI::UpgradeType upgType)
     ///   {
     ///     BWAPI::Player self = game.self();

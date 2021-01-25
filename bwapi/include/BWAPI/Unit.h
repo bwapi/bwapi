@@ -151,7 +151,7 @@ namespace BWAPI
     /// @returns The Region object that contains this unit.
     ///
     /// Example
-    /// @code
+    /// @code{.cpp}
     ///   for ( BWAPI::Unit u : game.self().getUnits() )
     ///   {
     ///     if ( u.isFlying() && u.isUnderAttack() ) // implies exists and isCompleted
@@ -722,7 +722,7 @@ namespace BWAPI
     /// @retval nullptr If the unit is not carrying anything.
     ///
     /// Example
-    /// @code
+    /// @code{.cpp}
     ///   for ( BWAPI::Unit u : game.self().getUnits())
     ///   {
     ///     // If we are carrying a flag
@@ -798,7 +798,7 @@ namespace BWAPI
     /// @returns A Unitset containing the set of units that match the given criteria.
     ///
     /// Example usage:
-    /// @code
+    /// @code{.cpp}
     ///   // Get main building closest to start location.
     ///   BWAPI::Unit pMain = BWAPI::Broodwar->getClosestUnit( BWAPI::Broodwar->self()->getStartLocation(), BWAPI::Filter::IsResourceDepot );
     ///   if ( pMain ) // check if pMain is valid
@@ -929,7 +929,7 @@ namespace BWAPI
     /// not a worker, or not carrying gas.
     ///
     /// Example
-    /// @code
+    /// @code{.cpp}
     ///   BWAPI::Unitset myUnits = BWAPI::Broodwar->self()->getUnits();
     ///   for ( auto u = myUnits.begin(); u != myUnits.end(); ++u )
     ///   {
@@ -947,7 +947,7 @@ namespace BWAPI
     /// not a worker, or not carrying minerals.
     ///
     /// Example
-    /// @code
+    /// @code{.cpp}
     ///   BWAPI::Unitset myUnits = BWAPI::Broodwar->self()->getUnits();
     ///   for ( auto u = myUnits.begin(); u != myUnits.end(); ++u )
     ///   {
@@ -1075,7 +1075,7 @@ namespace BWAPI
     ///   - Orders::NukeTrain
     ///   - Orders::Larva: Larva idle.
     ///
-    /// @code
+    /// @code{.cpp}
     ///   BWAPI::Unitset myUnits = BWAPI::Broodwar->self()->getUnits();
     ///   for ( auto u = myUnits.begin(); u != myUnits.end(); ++u )
     ///   {
@@ -1119,7 +1119,7 @@ namespace BWAPI
     /// @returns true if this unit is irradiated, and false otherwise
     ///
     /// Example usage:
-    /// @code
+    /// @code{.cpp}
     ///   BWAPI::Unitset myUnits = BWAPI::Broodwar->self()->getUnits();
     ///   for ( auto u = myUnits.begin(); u != myUnits.end(); ++u )
     ///   {

@@ -258,7 +258,7 @@ namespace BWAPI
     /// <summary>Retrieves the logical frame rate of the game in frames per second (FPS).</summary>
     ///
     /// Example:
-    /// @code
+    /// @code{.cpp}
     ///   game.setLocalSpeed(0);
     ///   
     ///   // Log and display the best logical FPS seen in the game
@@ -1021,7 +1021,7 @@ namespace BWAPI
     /// @retval nullptr if the current game is a replay.
     ///
     /// Example usage
-    /// @code
+    /// @code{.cpp}
     ///   if ( game.self() )
     ///     BWAPI::Broodwar->sendText("Hello, my name is %s.", game.self().getName().c_str());
     /// @endcode
@@ -1072,7 +1072,7 @@ namespace BWAPI
     /// </param>
     ///
     /// Example usage
-    /// @code
+    /// @code{.cpp}
     ///   void ExampleAIModule::onFrame()
     ///   {
     ///     // Centers the name of the player in the upper middle of the screen
@@ -1475,7 +1475,7 @@ namespace BWAPI
     /// </param>
     ///
     /// Example Usage:
-    /// @code
+    /// @code{.cpp}
     ///   // Make our bot run thousands of games as fast as possible!
     ///   game.setLocalSpeed(0);
     ///   game.setGUI(false);
@@ -1673,7 +1673,7 @@ namespace BWAPI
     /// @CTF and @UMS game types.
     ///
     /// Example usage:
-    /// @code
+    /// @code{.cpp}
     ///   if ( (game.getGameType() == BWAPI::GameTypes::Capture_The_Flag ||
     ///         game.getGameType() == BWAPI::GameTypes::Team_Capture_The_Flag) &&
     ///        game.countdownTimer() == 1 )

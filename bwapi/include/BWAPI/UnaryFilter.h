@@ -5,7 +5,7 @@ namespace BWAPI
 {
   /// <summary>UnaryFilter allows for logical functor combinations.</summary>
   ///
-  /// @code
+  /// @code{.cpp}
   ///   Unit myUnit;
   ///   // The following two if statements are equivalent
   ///   if ( myUnit->getType().isWorker() && myUnit->isCompleted() && myUnit->isIdle() )

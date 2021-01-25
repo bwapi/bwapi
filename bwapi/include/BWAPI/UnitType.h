@@ -646,7 +646,7 @@ namespace BWAPI
     /// particular race. Workers will return resources to the nearest resource depot.
     ///
     /// Example:
-    /// @code
+    /// @code{.cpp}
     ///   if ( game.self() )
     ///   {
     ///     for ( BWAPI::Unit u : game.self().getUnits() )
@@ -663,7 +663,7 @@ namespace BWAPI
     /// a @geyser . Refinery types are @refinery , @extractor , and @assimilator.
     ///
     /// Example:
-    /// @code
+    /// @code{.cpp}
     ///   if ( game.self() )
     ///   {
     ///     for ( BWAPI::Unit u : game.self().getUnits() )
@@ -838,7 +838,7 @@ namespace BWAPI
     /// @returns true if this unit type is a critter, and false otherwise.
     ///
     /// Example usage:
-    /// @code
+    /// @code{.cpp}
     ///   BWAPI::Position myBasePosition( game.self().getStartLocation() );
     ///   BWAPI::UnitSet unitsAroundTheBase = game.getUnitsInRadius(myBasePosition, 1024, !BWAPI::Filter::IsOwned && !BWAPI::Filter::IsParasited);
     ///   for ( BWAPI::Unit u : unitsAroundTheBase )

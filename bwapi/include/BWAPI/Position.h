@@ -27,7 +27,7 @@ namespace BWAPI
   ///     higher the precision. A value of 1 indicates the pixel level.
   ///
   /// Consider the following:
-  /// @code
+  /// @code{.cpp}
   /// class VectorPos : public BWAPI::Point<double, 1>   // Same as BWAPI::Position with underlying type double
   /// {
   /// public:
@@ -37,7 +37,7 @@ namespace BWAPI
   /// @endcode
   ///
   /// It then follows that this code will work without incident:
-  /// @code
+  /// @code{.cpp}
   /// BWAPI::Unit myUnit; // assume that the unit is valid and assigned elsewhere
   /// VectorPos myPos{5.7, 8.2};
   /// myUnit->move(myPos);  // Automatic type conversion, unit is moved to (5,8)

@@ -24,7 +24,7 @@ namespace BWAPI
     ///   A std::string object containing the name of the force.
     ///
     /// Example usage:
-    /// @code
+    /// @code{.cpp}
     ///   BWAPI::Force myForce = game.self().getForce();
     ///   if ( myForce.getName() == "Observers" )
     ///     game << "Looks like we're observing a match." << std::endl;
@@ -40,7 +40,7 @@ namespace BWAPI
     ///   A Playerset object containing the players that are part of this Force.
     ///
     /// Example usage:
-    /// @code
+    /// @code{.cpp}
     ///   // Get the enemy force, but make sure we have an enemy
     ///   BWAPI::Force enemyForce = game.enemy() ? game.enemy().getForce() : nullptr;
     ///   if ( enemyForce )
