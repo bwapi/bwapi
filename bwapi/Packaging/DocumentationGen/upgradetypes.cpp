@@ -34,6 +34,8 @@ void writeUpgradeInfo()
 
     of << "</table>\n";
 
+    of << makekeywords(t);
+
     of << docEnd();
   }
 }

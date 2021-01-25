@@ -44,7 +44,10 @@ void writeTechInfo()
 
     // References
     std::string const & name = t.getName();
-    of << "@tl" << name << " @scc" << name << " @wik" << name;
+    of << "@tl" << name << " @scc" << name << " @wik" << name << "\n";
+
+    of << makekeywords(t);
+
     of << docEnd();
   }
 }

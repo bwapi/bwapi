@@ -6,6 +6,7 @@ Value of 0  [0x0]. See BWAPI::Errors::Unit_Does_Not_Exist.
 @var BWAPI::Errors::Unit_Does_Not_Exist
 Unit Does Not Exist. Corresponds with Errors::Enum::Unit_Does_Not_Exist.
 
+@m_keywords{Unit Does Not Exist}
 
 */
 /*!
@@ -16,6 +17,7 @@ Value of 1  [0x1]. See BWAPI::Errors::Unit_Not_Visible.
 @var BWAPI::Errors::Unit_Not_Visible
 Unit Not Visible. Corresponds with Errors::Enum::Unit_Not_Visible.
 
+@m_keywords{Unit Not Visible}
 
 */
 /*!
@@ -26,6 +28,7 @@ Value of 2  [0x2]. See BWAPI::Errors::Unit_Not_Owned.
 @var BWAPI::Errors::Unit_Not_Owned
 Unit Not Owned. Corresponds with Errors::Enum::Unit_Not_Owned.
 
+@m_keywords{Unit Not Owned}
 
 */
 /*!
@@ -36,6 +39,7 @@ Value of 3  [0x3]. See BWAPI::Errors::Unit_Busy.
 @var BWAPI::Errors::Unit_Busy
 Unit Busy. Corresponds with Errors::Enum::Unit_Busy.
 
+@m_keywords{Unit Busy}
 
 */
 /*!
@@ -46,6 +50,7 @@ Value of 4  [0x4]. See BWAPI::Errors::Incompatible_UnitType.
 @var BWAPI::Errors::Incompatible_UnitType
 Incompatible UnitType. Corresponds with Errors::Enum::Incompatible_UnitType.
 
+@m_keywords{Incompatible UnitType}
 
 */
 /*!
@@ -56,6 +61,7 @@ Value of 5  [0x5]. See BWAPI::Errors::Incompatible_TechType.
 @var BWAPI::Errors::Incompatible_TechType
 Incompatible TechType. Corresponds with Errors::Enum::Incompatible_TechType.
 
+@m_keywords{Incompatible TechType}
 
 */
 /*!
@@ -66,6 +72,7 @@ Value of 6  [0x6]. See BWAPI::Errors::Incompatible_State.
 @var BWAPI::Errors::Incompatible_State
 Incompatible State. Corresponds with Errors::Enum::Incompatible_State.
 
+@m_keywords{Incompatible State}
 
 */
 /*!
@@ -76,6 +83,7 @@ Value of 7  [0x7]. See BWAPI::Errors::Already_Researched.
 @var BWAPI::Errors::Already_Researched
 Already Researched. Corresponds with Errors::Enum::Already_Researched.
 
+@m_keywords{Already Researched}
 
 */
 /*!
@@ -86,6 +94,7 @@ Value of 8  [0x8]. See BWAPI::Errors::Fully_Upgraded.
 @var BWAPI::Errors::Fully_Upgraded
 Fully Upgraded. Corresponds with Errors::Enum::Fully_Upgraded.
 
+@m_keywords{Fully Upgraded}
 
 */
 /*!
@@ -96,6 +105,7 @@ Value of 9  [0x9]. See BWAPI::Errors::Currently_Researching.
 @var BWAPI::Errors::Currently_Researching
 Currently Researching. Corresponds with Errors::Enum::Currently_Researching.
 
+@m_keywords{Currently Researching}
 
 */
 /*!
@@ -106,6 +116,7 @@ Value of 10  [0xa]. See BWAPI::Errors::Currently_Upgrading.
 @var BWAPI::Errors::Currently_Upgrading
 Currently Upgrading. Corresponds with Errors::Enum::Currently_Upgrading.
 
+@m_keywords{Currently Upgrading}
 
 */
 /*!
@@ -116,6 +127,7 @@ Value of 11  [0xb]. See BWAPI::Errors::Insufficient_Minerals.
 @var BWAPI::Errors::Insufficient_Minerals
 Insufficient Minerals. Corresponds with Errors::Enum::Insufficient_Minerals.
 
+@m_keywords{Insufficient Minerals}
 
 */
 /*!
@@ -126,6 +138,7 @@ Value of 12  [0xc]. See BWAPI::Errors::Insufficient_Gas.
 @var BWAPI::Errors::Insufficient_Gas
 Insufficient Gas. Corresponds with Errors::Enum::Insufficient_Gas.
 
+@m_keywords{Insufficient Gas}
 
 */
 /*!
@@ -136,6 +149,7 @@ Value of 13  [0xd]. See BWAPI::Errors::Insufficient_Supply.
 @var BWAPI::Errors::Insufficient_Supply
 Insufficient Supply. Corresponds with Errors::Enum::Insufficient_Supply.
 
+@m_keywords{Insufficient Supply}
 
 */
 /*!
@@ -146,6 +160,7 @@ Value of 14  [0xe]. See BWAPI::Errors::Insufficient_Energy.
 @var BWAPI::Errors::Insufficient_Energy
 Insufficient Energy. Corresponds with Errors::Enum::Insufficient_Energy.
 
+@m_keywords{Insufficient Energy}
 
 */
 /*!
@@ -156,6 +171,7 @@ Value of 15  [0xf]. See BWAPI::Errors::Insufficient_Tech.
 @var BWAPI::Errors::Insufficient_Tech
 Insufficient Tech. Corresponds with Errors::Enum::Insufficient_Tech.
 
+@m_keywords{Insufficient Tech}
 
 */
 /*!
@@ -166,6 +182,7 @@ Value of 16  [0x10]. See BWAPI::Errors::Insufficient_Ammo.
 @var BWAPI::Errors::Insufficient_Ammo
 Insufficient Ammo. Corresponds with Errors::Enum::Insufficient_Ammo.
 
+@m_keywords{Insufficient Ammo}
 
 */
 /*!
@@ -176,6 +193,7 @@ Value of 17  [0x11]. See BWAPI::Errors::Insufficient_Space.
 @var BWAPI::Errors::Insufficient_Space
 Insufficient Space. Corresponds with Errors::Enum::Insufficient_Space.
 
+@m_keywords{Insufficient Space}
 
 */
 /*!
@@ -186,6 +204,7 @@ Value of 18  [0x12]. See BWAPI::Errors::Invalid_Tile_Position.
 @var BWAPI::Errors::Invalid_Tile_Position
 Invalid Tile Position. Corresponds with Errors::Enum::Invalid_Tile_Position.
 
+@m_keywords{Invalid Tile Position}
 
 */
 /*!
@@ -196,6 +215,7 @@ Value of 19  [0x13]. See BWAPI::Errors::Unbuildable_Location.
 @var BWAPI::Errors::Unbuildable_Location
 Unbuildable Location. Corresponds with Errors::Enum::Unbuildable_Location.
 
+@m_keywords{Unbuildable Location}
 
 */
 /*!
@@ -206,6 +226,7 @@ Value of 20  [0x14]. See BWAPI::Errors::Unreachable_Location.
 @var BWAPI::Errors::Unreachable_Location
 Unreachable Location. Corresponds with Errors::Enum::Unreachable_Location.
 
+@m_keywords{Unreachable Location}
 
 */
 /*!
@@ -216,6 +237,7 @@ Value of 21  [0x15]. See BWAPI::Errors::Out_Of_Range.
 @var BWAPI::Errors::Out_Of_Range
 Out Of Range. Corresponds with Errors::Enum::Out_Of_Range.
 
+@m_keywords{Out Of Range}
 
 */
 /*!
@@ -226,6 +248,7 @@ Value of 22  [0x16]. See BWAPI::Errors::Unable_To_Hit.
 @var BWAPI::Errors::Unable_To_Hit
 Unable To Hit. Corresponds with Errors::Enum::Unable_To_Hit.
 
+@m_keywords{Unable To Hit}
 
 */
 /*!
@@ -236,6 +259,7 @@ Value of 23  [0x17]. See BWAPI::Errors::Access_Denied.
 @var BWAPI::Errors::Access_Denied
 Access Denied. Corresponds with Errors::Enum::Access_Denied.
 
+@m_keywords{Access Denied}
 
 */
 /*!
@@ -246,6 +270,7 @@ Value of 24  [0x18]. See BWAPI::Errors::File_Not_Found.
 @var BWAPI::Errors::File_Not_Found
 File Not Found. Corresponds with Errors::Enum::File_Not_Found.
 
+@m_keywords{File Not Found}
 
 */
 /*!
@@ -256,5 +281,6 @@ Value of 25  [0x19]. See BWAPI::Errors::Invalid_Parameter.
 @var BWAPI::Errors::Invalid_Parameter
 Invalid Parameter. Corresponds with Errors::Enum::Invalid_Parameter.
 
+@m_keywords{Invalid Parameter}
 
 */

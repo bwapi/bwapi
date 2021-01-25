@@ -11,6 +11,7 @@ void writeUnitSizeInfo()
 
     of << docIntro(t) << "\n";
 
+    of << makekeywords(t);
 
     of << docEnd();
   }

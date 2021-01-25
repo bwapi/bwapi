@@ -32,6 +32,7 @@ Value of 0  [0x0]. See BWAPI::UpgradeTypes::Terran_Infantry_Armor.
 <tr><td><strong>Level 3 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon116}@m_endspan
 @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
 </table>
+@m_keywords{Terran Infantry Armor}
 
 */
 /*!
@@ -65,6 +66,7 @@ Value of 1  [0x1]. See BWAPI::UpgradeTypes::Terran_Vehicle_Plating.
 <tr><td><strong>Level 3 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon116}@m_endspan
 @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
 </table>
+@m_keywords{Terran Vehicle Plating}
 
 */
 /*!
@@ -101,6 +103,7 @@ Value of 2  [0x2]. See BWAPI::UpgradeTypes::Terran_Ship_Plating.
 <tr><td><strong>Level 3 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon116}@m_endspan
 @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
 </table>
+@m_keywords{Terran Ship Plating}
 
 */
 /*!
@@ -144,6 +147,7 @@ Value of 3  [0x3]. See BWAPI::UpgradeTypes::Zerg_Carapace.
 <tr><td><strong>Level 3 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon133}@m_endspan
 @ref UnitTypes::Zerg_Hive "Zerg Hive"</td></tr>
 </table>
+@m_keywords{Zerg Carapace}
 
 */
 /*!
@@ -179,6 +183,7 @@ Value of 4  [0x4]. See BWAPI::UpgradeTypes::Zerg_Flyer_Carapace.
 <tr><td><strong>Level 3 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon133}@m_endspan
 @ref UnitTypes::Zerg_Hive "Zerg Hive"</td></tr>
 </table>
+@m_keywords{Zerg Flyer Carapace}
 
 */
 /*!
@@ -220,6 +225,7 @@ Value of 5  [0x5]. See BWAPI::UpgradeTypes::Protoss_Ground_Armor.
 <tr><td><strong>Level 3 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon165}@m_endspan
 @ref UnitTypes::Protoss_Templar_Archives "Protoss Templar Archives"</td></tr>
 </table>
+@m_keywords{Protoss Ground Armor}
 
 */
 /*!
@@ -257,6 +263,7 @@ Value of 6  [0x6]. See BWAPI::UpgradeTypes::Protoss_Air_Armor.
 <tr><td><strong>Level 3 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon169}@m_endspan
 @ref UnitTypes::Protoss_Fleet_Beacon "Protoss Fleet Beacon"</td></tr>
 </table>
+@m_keywords{Protoss Air Armor}
 
 */
 /*!
@@ -293,6 +300,7 @@ Value of 7  [0x7]. See BWAPI::UpgradeTypes::Terran_Infantry_Weapons.
 <tr><td><strong>Level 3 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon116}@m_endspan
 @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
 </table>
+@m_keywords{Terran Infantry Weapons}
 
 */
 /*!
@@ -330,6 +338,7 @@ Value of 8  [0x8]. See BWAPI::UpgradeTypes::Terran_Vehicle_Weapons.
 <tr><td><strong>Level 3 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon116}@m_endspan
 @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
 </table>
+@m_keywords{Terran Vehicle Weapons}
 
 */
 /*!
@@ -363,6 +372,7 @@ Value of 9  [0x9]. See BWAPI::UpgradeTypes::Terran_Ship_Weapons.
 <tr><td><strong>Level 3 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon116}@m_endspan
 @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
 </table>
+@m_keywords{Terran Ship Weapons}
 
 */
 /*!
@@ -394,6 +404,7 @@ Value of 10  [0xa]. See BWAPI::UpgradeTypes::Zerg_Melee_Attacks.
 <tr><td><strong>Level 3 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon133}@m_endspan
 @ref UnitTypes::Zerg_Hive "Zerg Hive"</td></tr>
 </table>
+@m_keywords{Zerg Melee Attacks}
 
 */
 /*!
@@ -422,6 +433,7 @@ Value of 11  [0xb]. See BWAPI::UpgradeTypes::Zerg_Missile_Attacks.
 <tr><td><strong>Level 3 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon133}@m_endspan
 @ref UnitTypes::Zerg_Hive "Zerg Hive"</td></tr>
 </table>
+@m_keywords{Zerg Missile Attacks}
 
 */
 /*!
@@ -452,6 +464,7 @@ Value of 12  [0xc]. See BWAPI::UpgradeTypes::Zerg_Flyer_Attacks.
 <tr><td><strong>Level 3 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon133}@m_endspan
 @ref UnitTypes::Zerg_Hive "Zerg Hive"</td></tr>
 </table>
+@m_keywords{Zerg Flyer Attacks}
 
 */
 /*!
@@ -488,6 +501,7 @@ Value of 13  [0xd]. See BWAPI::UpgradeTypes::Protoss_Ground_Weapons.
 <tr><td><strong>Level 3 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon165}@m_endspan
 @ref UnitTypes::Protoss_Templar_Archives "Protoss Templar Archives"</td></tr>
 </table>
+@m_keywords{Protoss Ground Weapons}
 
 */
 /*!
@@ -521,6 +535,7 @@ Value of 14  [0xe]. See BWAPI::UpgradeTypes::Protoss_Air_Weapons.
 <tr><td><strong>Level 3 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon169}@m_endspan
 @ref UnitTypes::Protoss_Fleet_Beacon "Protoss Fleet Beacon"</td></tr>
 </table>
+@m_keywords{Protoss Air Weapons}
 
 */
 /*!
@@ -574,6 +589,7 @@ Value of 15  [0xf]. See BWAPI::UpgradeTypes::Protoss_Plasma_Shields.
 <tr><td><strong>Level 3 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon164}@m_endspan
 @ref UnitTypes::Protoss_Cybernetics_Core "Protoss Cybernetics Core"</td></tr>
 </table>
+@m_keywords{Protoss Plasma Shields}
 
 */
 /*!
@@ -595,6 +611,7 @@ Value of 16  [0x10]. See BWAPI::UpgradeTypes::U_238_Shells.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon0}@m_endspan
 @ref UnitTypes::Terran_Marine "Terran Marine"</td></tr>
 </table>
+@m_keywords{U 238 Shells}
 
 */
 /*!
@@ -616,6 +633,7 @@ Value of 17  [0x11]. See BWAPI::UpgradeTypes::Ion_Thrusters.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon2}@m_endspan
 @ref UnitTypes::Terran_Vulture "Terran Vulture"</td></tr>
 </table>
+@m_keywords{Ion Thrusters}
 
 */
 /*!
@@ -637,6 +655,7 @@ Value of 19  [0x13]. See BWAPI::UpgradeTypes::Titan_Reactor.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon9}@m_endspan
 @ref UnitTypes::Terran_Science_Vessel "Terran Science Vessel"</td></tr>
 </table>
+@m_keywords{Titan Reactor}
 
 */
 /*!
@@ -658,6 +677,7 @@ Value of 20  [0x14]. See BWAPI::UpgradeTypes::Ocular_Implants.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon1}@m_endspan
 @ref UnitTypes::Terran_Ghost "Terran Ghost"</td></tr>
 </table>
+@m_keywords{Ocular Implants}
 
 */
 /*!
@@ -679,6 +699,7 @@ Value of 21  [0x15]. See BWAPI::UpgradeTypes::Moebius_Reactor.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon1}@m_endspan
 @ref UnitTypes::Terran_Ghost "Terran Ghost"</td></tr>
 </table>
+@m_keywords{Moebius Reactor}
 
 */
 /*!
@@ -700,6 +721,7 @@ Value of 22  [0x16]. See BWAPI::UpgradeTypes::Apollo_Reactor.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon8}@m_endspan
 @ref UnitTypes::Terran_Wraith "Terran Wraith"</td></tr>
 </table>
+@m_keywords{Apollo Reactor}
 
 */
 /*!
@@ -721,6 +743,7 @@ Value of 23  [0x17]. See BWAPI::UpgradeTypes::Colossus_Reactor.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon12}@m_endspan
 @ref UnitTypes::Terran_Battlecruiser "Terran Battlecruiser"</td></tr>
 </table>
+@m_keywords{Colossus Reactor}
 
 */
 /*!
@@ -742,6 +765,7 @@ Value of 24  [0x18]. See BWAPI::UpgradeTypes::Ventral_Sacs.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon42}@m_endspan
 @ref UnitTypes::Zerg_Overlord "Zerg Overlord"</td></tr>
 </table>
+@m_keywords{Ventral Sacs}
 
 */
 /*!
@@ -763,6 +787,7 @@ Value of 25  [0x19]. See BWAPI::UpgradeTypes::Antennae.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon42}@m_endspan
 @ref UnitTypes::Zerg_Overlord "Zerg Overlord"</td></tr>
 </table>
+@m_keywords{Antennae}
 
 */
 /*!
@@ -784,6 +809,7 @@ Value of 26  [0x1a]. See BWAPI::UpgradeTypes::Pneumatized_Carapace.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon42}@m_endspan
 @ref UnitTypes::Zerg_Overlord "Zerg Overlord"</td></tr>
 </table>
+@m_keywords{Pneumatized Carapace}
 
 */
 /*!
@@ -805,6 +831,7 @@ Value of 27  [0x1b]. See BWAPI::UpgradeTypes::Metabolic_Boost.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon37}@m_endspan
 @ref UnitTypes::Zerg_Zergling "Zerg Zergling"</td></tr>
 </table>
+@m_keywords{Metabolic Boost}
 
 */
 /*!
@@ -828,6 +855,7 @@ Value of 28  [0x1c]. See BWAPI::UpgradeTypes::Adrenal_Glands.
 <tr><td><strong>Level 1 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon133}@m_endspan
 @ref UnitTypes::Zerg_Hive "Zerg Hive"</td></tr>
 </table>
+@m_keywords{Adrenal Glands}
 
 */
 /*!
@@ -849,6 +877,7 @@ Value of 29  [0x1d]. See BWAPI::UpgradeTypes::Muscular_Augments.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon38}@m_endspan
 @ref UnitTypes::Zerg_Hydralisk "Zerg Hydralisk"</td></tr>
 </table>
+@m_keywords{Muscular Augments}
 
 */
 /*!
@@ -870,6 +899,7 @@ Value of 30  [0x1e]. See BWAPI::UpgradeTypes::Grooved_Spines.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon38}@m_endspan
 @ref UnitTypes::Zerg_Hydralisk "Zerg Hydralisk"</td></tr>
 </table>
+@m_keywords{Grooved Spines}
 
 */
 /*!
@@ -891,6 +921,7 @@ Value of 31  [0x1f]. See BWAPI::UpgradeTypes::Gamete_Meiosis.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon45}@m_endspan
 @ref UnitTypes::Zerg_Queen "Zerg Queen"</td></tr>
 </table>
+@m_keywords{Gamete Meiosis}
 
 */
 /*!
@@ -912,6 +943,7 @@ Value of 32  [0x20]. See BWAPI::UpgradeTypes::Metasynaptic_Node.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon46}@m_endspan
 @ref UnitTypes::Zerg_Defiler "Zerg Defiler"</td></tr>
 </table>
+@m_keywords{Metasynaptic Node}
 
 */
 /*!
@@ -933,6 +965,7 @@ Value of 33  [0x21]. See BWAPI::UpgradeTypes::Singularity_Charge.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon66}@m_endspan
 @ref UnitTypes::Protoss_Dragoon "Protoss Dragoon"</td></tr>
 </table>
+@m_keywords{Singularity Charge}
 
 */
 /*!
@@ -954,6 +987,7 @@ Value of 34  [0x22]. See BWAPI::UpgradeTypes::Leg_Enhancements.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon65}@m_endspan
 @ref UnitTypes::Protoss_Zealot "Protoss Zealot"</td></tr>
 </table>
+@m_keywords{Leg Enhancements}
 
 */
 /*!
@@ -975,6 +1009,7 @@ Value of 35  [0x23]. See BWAPI::UpgradeTypes::Scarab_Damage.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon83}@m_endspan
 @ref UnitTypes::Protoss_Reaver "Protoss Reaver"</td></tr>
 </table>
+@m_keywords{Scarab Damage}
 
 */
 /*!
@@ -996,6 +1031,7 @@ Value of 36  [0x24]. See BWAPI::UpgradeTypes::Reaver_Capacity.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon83}@m_endspan
 @ref UnitTypes::Protoss_Reaver "Protoss Reaver"</td></tr>
 </table>
+@m_keywords{Reaver Capacity}
 
 */
 /*!
@@ -1017,6 +1053,7 @@ Value of 37  [0x25]. See BWAPI::UpgradeTypes::Gravitic_Drive.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon69}@m_endspan
 @ref UnitTypes::Protoss_Shuttle "Protoss Shuttle"</td></tr>
 </table>
+@m_keywords{Gravitic Drive}
 
 */
 /*!
@@ -1038,6 +1075,7 @@ Value of 38  [0x26]. See BWAPI::UpgradeTypes::Sensor_Array.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon84}@m_endspan
 @ref UnitTypes::Protoss_Observer "Protoss Observer"</td></tr>
 </table>
+@m_keywords{Sensor Array}
 
 */
 /*!
@@ -1059,6 +1097,7 @@ Value of 39  [0x27]. See BWAPI::UpgradeTypes::Gravitic_Boosters.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon84}@m_endspan
 @ref UnitTypes::Protoss_Observer "Protoss Observer"</td></tr>
 </table>
+@m_keywords{Gravitic Boosters}
 
 */
 /*!
@@ -1080,6 +1119,7 @@ Value of 40  [0x28]. See BWAPI::UpgradeTypes::Khaydarin_Amulet.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon67}@m_endspan
 @ref UnitTypes::Protoss_High_Templar "Protoss High Templar"</td></tr>
 </table>
+@m_keywords{Khaydarin Amulet}
 
 */
 /*!
@@ -1101,6 +1141,7 @@ Value of 41  [0x29]. See BWAPI::UpgradeTypes::Apial_Sensors.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon70}@m_endspan
 @ref UnitTypes::Protoss_Scout "Protoss Scout"</td></tr>
 </table>
+@m_keywords{Apial Sensors}
 
 */
 /*!
@@ -1122,6 +1163,7 @@ Value of 42  [0x2a]. See BWAPI::UpgradeTypes::Gravitic_Thrusters.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon70}@m_endspan
 @ref UnitTypes::Protoss_Scout "Protoss Scout"</td></tr>
 </table>
+@m_keywords{Gravitic Thrusters}
 
 */
 /*!
@@ -1143,6 +1185,7 @@ Value of 43  [0x2b]. See BWAPI::UpgradeTypes::Carrier_Capacity.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon72}@m_endspan
 @ref UnitTypes::Protoss_Carrier "Protoss Carrier"</td></tr>
 </table>
+@m_keywords{Carrier Capacity}
 
 */
 /*!
@@ -1164,6 +1207,7 @@ Value of 44  [0x2c]. See BWAPI::UpgradeTypes::Khaydarin_Core.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon71}@m_endspan
 @ref UnitTypes::Protoss_Arbiter "Protoss Arbiter"</td></tr>
 </table>
+@m_keywords{Khaydarin Core}
 
 */
 /*!
@@ -1185,6 +1229,7 @@ Value of 47  [0x2f]. See BWAPI::UpgradeTypes::Argus_Jewel.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon60}@m_endspan
 @ref UnitTypes::Protoss_Corsair "Protoss Corsair"</td></tr>
 </table>
+@m_keywords{Argus Jewel}
 
 */
 /*!
@@ -1206,6 +1251,7 @@ Value of 49  [0x31]. See BWAPI::UpgradeTypes::Argus_Talisman.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon63}@m_endspan
 @ref UnitTypes::Protoss_Dark_Archon "Protoss Dark Archon"</td></tr>
 </table>
+@m_keywords{Argus Talisman}
 
 */
 /*!
@@ -1227,6 +1273,7 @@ Value of 51  [0x33]. See BWAPI::UpgradeTypes::Caduceus_Reactor.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon34}@m_endspan
 @ref UnitTypes::Terran_Medic "Terran Medic"</td></tr>
 </table>
+@m_keywords{Caduceus Reactor}
 
 */
 /*!
@@ -1248,6 +1295,7 @@ Value of 52  [0x34]. See BWAPI::UpgradeTypes::Chitinous_Plating.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon39}@m_endspan
 @ref UnitTypes::Zerg_Ultralisk "Zerg Ultralisk"</td></tr>
 </table>
+@m_keywords{Chitinous Plating}
 
 */
 /*!
@@ -1269,6 +1317,7 @@ Value of 53  [0x35]. See BWAPI::UpgradeTypes::Anabolic_Synthesis.
 <tr><td><strong>Used by</strong></td><td>@m_span{cmdbtn cmdbtn-icon39}@m_endspan
 @ref UnitTypes::Zerg_Ultralisk "Zerg Ultralisk"</td></tr>
 </table>
+@m_keywords{Anabolic Synthesis}
 
 */
 /*!
@@ -1292,5 +1341,6 @@ Value of 54  [0x36]. See BWAPI::UpgradeTypes::Charon_Boosters.
 <tr><td><strong>Level 1 Requires</strong></td><td>@m_span{cmdbtn cmdbtn-icon123}@m_endspan
 @ref UnitTypes::Terran_Armory "Terran Armory"</td></tr>
 </table>
+@m_keywords{Charon Boosters}
 
 */

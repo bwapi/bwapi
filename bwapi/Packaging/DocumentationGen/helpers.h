@@ -103,6 +103,19 @@ std::string makeiconlist(T const & list)
 }
 
 template <class T>
+std::string makekeywords(T const& t)
+{
+  std::ostringstream ss;
+  ss << "@m_keywords{";
+  std::string name = t.getName();
+  for (char& c : name) {
+    if (c == '_') c = ' ';
+  }
+  ss << name << "}\n";
+  return ss.str();
+}
+
+template <class T>
 std::string docEnum(T const & t)
 {
   std::ostringstream ss;

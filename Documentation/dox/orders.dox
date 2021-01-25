@@ -6,6 +6,7 @@ Value of 0  [0x0]. See BWAPI::Orders::Die.
 @var BWAPI::Orders::Die
  Die. Corresponds with Orders::Enum::Die.
 
+@m_keywords{Die}
 
 */
 /*!
@@ -17,6 +18,7 @@ Value of 1  [0x1]. See BWAPI::Orders::Stop.
 @m_span{cmdbtn cmdbtn-icon229}@m_endspan
  Stop. Corresponds with Orders::Enum::Stop.
 
+@m_keywords{Stop}
 
 */
 /*!
@@ -28,6 +30,7 @@ Value of 2  [0x2]. See BWAPI::Orders::Guard.
 @m_span{cmdbtn cmdbtn-icon229}@m_endspan
  Guard. Corresponds with Orders::Enum::Guard.
 
+@m_keywords{Guard}
 
 */
 /*!
@@ -39,6 +42,7 @@ Value of 3  [0x3]. See BWAPI::Orders::PlayerGuard.
 @m_span{cmdbtn cmdbtn-icon229}@m_endspan
  PlayerGuard. Corresponds with Orders::Enum::PlayerGuard.
 
+@m_keywords{PlayerGuard}
 
 */
 /*!
@@ -49,6 +53,7 @@ Value of 4  [0x4]. See BWAPI::Orders::TurretGuard.
 @var BWAPI::Orders::TurretGuard
  TurretGuard. Corresponds with Orders::Enum::TurretGuard.
 
+@m_keywords{TurretGuard}
 
 */
 /*!
@@ -60,6 +65,7 @@ Value of 5  [0x5]. See BWAPI::Orders::BunkerGuard.
 @m_span{cmdbtn cmdbtn-icon229}@m_endspan
  BunkerGuard. Corresponds with Orders::Enum::BunkerGuard.
 
+@m_keywords{BunkerGuard}
 
 */
 /*!
@@ -71,6 +77,7 @@ Value of 6  [0x6]. See BWAPI::Orders::Move.
 @m_span{cmdbtn cmdbtn-icon228}@m_endspan
  Move. Corresponds with Orders::Enum::Move.
 
+@m_keywords{Move}
 
 */
 /*!
@@ -82,6 +89,7 @@ Value of 10  [0xa]. See BWAPI::Orders::AttackUnit.
 @m_span{cmdbtn cmdbtn-icon230}@m_endspan
  AttackUnit. Corresponds with Orders::Enum::AttackUnit.
 
+@m_keywords{AttackUnit}
 
 */
 /*!
@@ -93,6 +101,7 @@ Value of 12  [0xc]. See BWAPI::Orders::AttackTile.
 @m_span{cmdbtn cmdbtn-icon230}@m_endspan
  AttackTile. Corresponds with Orders::Enum::AttackTile.
 
+@m_keywords{AttackTile}
 
 */
 /*!
@@ -104,6 +113,7 @@ Value of 13  [0xd]. See BWAPI::Orders::Hover.
 @m_span{cmdbtn cmdbtn-icon230}@m_endspan
  Hover. Corresponds with Orders::Enum::Hover.
 
+@m_keywords{Hover}
 
 */
 /*!
@@ -115,6 +125,7 @@ Value of 14  [0xe]. See BWAPI::Orders::AttackMove.
 @m_span{cmdbtn cmdbtn-icon230}@m_endspan
  AttackMove. Corresponds with Orders::Enum::AttackMove.
 
+@m_keywords{AttackMove}
 
 */
 /*!
@@ -125,6 +136,7 @@ Value of 15  [0xf]. See BWAPI::Orders::InfestedCommandCenter.
 @var BWAPI::Orders::InfestedCommandCenter
  InfestedCommandCenter. Corresponds with Orders::Enum::InfestedCommandCenter.
 
+@m_keywords{InfestedCommandCenter}
 
 */
 /*!
@@ -136,6 +148,7 @@ Value of 16  [0x10]. See BWAPI::Orders::UnusedNothing.
 @m_span{cmdbtn cmdbtn-icon229}@m_endspan
  UnusedNothing. Corresponds with Orders::Enum::UnusedNothing.
 
+@m_keywords{UnusedNothing}
 
 */
 /*!
@@ -147,6 +160,7 @@ Value of 17  [0x11]. See BWAPI::Orders::UnusedPowerup.
 @m_span{cmdbtn cmdbtn-icon229}@m_endspan
  UnusedPowerup. Corresponds with Orders::Enum::UnusedPowerup.
 
+@m_keywords{UnusedPowerup}
 
 */
 /*!
@@ -158,6 +172,7 @@ Value of 18  [0x12]. See BWAPI::Orders::TowerGuard.
 @m_span{cmdbtn cmdbtn-icon229}@m_endspan
  TowerGuard. Corresponds with Orders::Enum::TowerGuard.
 
+@m_keywords{TowerGuard}
 
 */
 /*!
@@ -168,6 +183,7 @@ Value of 20  [0x14]. See BWAPI::Orders::VultureMine.
 @var BWAPI::Orders::VultureMine
  VultureMine. Corresponds with Orders::Enum::VultureMine.
 
+@m_keywords{VultureMine}
 
 */
 /*!
@@ -179,6 +195,7 @@ Value of 23  [0x17]. See BWAPI::Orders::Nothing.
 @m_span{cmdbtn cmdbtn-icon229}@m_endspan
  Nothing. Corresponds with Orders::Enum::Nothing.
 
+@m_keywords{Nothing}
 
 */
 /*!
@@ -190,6 +207,7 @@ Value of 27  [0x1b]. See BWAPI::Orders::CastInfestation.
 @m_span{cmdbtn cmdbtn-icon313}@m_endspan
  CastInfestation. Corresponds with Orders::Enum::CastInfestation.
 
+@m_keywords{CastInfestation}
 
 */
 /*!
@@ -201,6 +219,7 @@ Value of 29  [0x1d]. See BWAPI::Orders::InfestingCommandCenter.
 @m_span{cmdbtn cmdbtn-icon313}@m_endspan
  InfestingCommandCenter. Corresponds with Orders::Enum::InfestingCommandCenter.
 
+@m_keywords{InfestingCommandCenter}
 
 */
 /*!
@@ -211,6 +230,7 @@ Value of 30  [0x1e]. See BWAPI::Orders::PlaceBuilding.
 @var BWAPI::Orders::PlaceBuilding
  PlaceBuilding. Corresponds with Orders::Enum::PlaceBuilding.
 
+@m_keywords{PlaceBuilding}
 
 */
 /*!
@@ -221,6 +241,7 @@ Value of 32  [0x20]. See BWAPI::Orders::CreateProtossBuilding.
 @var BWAPI::Orders::CreateProtossBuilding
  CreateProtossBuilding. Corresponds with Orders::Enum::CreateProtossBuilding.
 
+@m_keywords{CreateProtossBuilding}
 
 */
 /*!
@@ -232,6 +253,7 @@ Value of 33  [0x21]. See BWAPI::Orders::ConstructingBuilding.
 @m_span{cmdbtn cmdbtn-icon232}@m_endspan
  ConstructingBuilding. Corresponds with Orders::Enum::ConstructingBuilding.
 
+@m_keywords{ConstructingBuilding}
 
 */
 /*!
@@ -243,6 +265,7 @@ Value of 34  [0x22]. See BWAPI::Orders::Repair.
 @m_span{cmdbtn cmdbtn-icon232}@m_endspan
  Repair. Corresponds with Orders::Enum::Repair.
 
+@m_keywords{Repair}
 
 */
 /*!
@@ -253,6 +276,7 @@ Value of 36  [0x24]. See BWAPI::Orders::PlaceAddon.
 @var BWAPI::Orders::PlaceAddon
  PlaceAddon. Corresponds with Orders::Enum::PlaceAddon.
 
+@m_keywords{PlaceAddon}
 
 */
 /*!
@@ -263,6 +287,7 @@ Value of 37  [0x25]. See BWAPI::Orders::BuildAddon.
 @var BWAPI::Orders::BuildAddon
  BuildAddon. Corresponds with Orders::Enum::BuildAddon.
 
+@m_keywords{BuildAddon}
 
 */
 /*!
@@ -273,6 +298,7 @@ Value of 38  [0x26]. See BWAPI::Orders::Train.
 @var BWAPI::Orders::Train
  Train. Corresponds with Orders::Enum::Train.
 
+@m_keywords{Train}
 
 */
 /*!
@@ -283,6 +309,7 @@ Value of 39  [0x27]. See BWAPI::Orders::RallyPointUnit.
 @var BWAPI::Orders::RallyPointUnit
  RallyPointUnit. Corresponds with Orders::Enum::RallyPointUnit.
 
+@m_keywords{RallyPointUnit}
 
 */
 /*!
@@ -293,6 +320,7 @@ Value of 40  [0x28]. See BWAPI::Orders::RallyPointTile.
 @var BWAPI::Orders::RallyPointTile
  RallyPointTile. Corresponds with Orders::Enum::RallyPointTile.
 
+@m_keywords{RallyPointTile}
 
 */
 /*!
@@ -303,6 +331,7 @@ Value of 41  [0x29]. See BWAPI::Orders::ZergBirth.
 @var BWAPI::Orders::ZergBirth
  ZergBirth. Corresponds with Orders::Enum::ZergBirth.
 
+@m_keywords{ZergBirth}
 
 */
 /*!
@@ -313,6 +342,7 @@ Value of 42  [0x2a]. See BWAPI::Orders::ZergUnitMorph.
 @var BWAPI::Orders::ZergUnitMorph
  ZergUnitMorph. Corresponds with Orders::Enum::ZergUnitMorph.
 
+@m_keywords{ZergUnitMorph}
 
 */
 /*!
@@ -323,6 +353,7 @@ Value of 43  [0x2b]. See BWAPI::Orders::ZergBuildingMorph.
 @var BWAPI::Orders::ZergBuildingMorph
  ZergBuildingMorph. Corresponds with Orders::Enum::ZergBuildingMorph.
 
+@m_keywords{ZergBuildingMorph}
 
 */
 /*!
@@ -333,6 +364,7 @@ Value of 44  [0x2c]. See BWAPI::Orders::IncompleteBuilding.
 @var BWAPI::Orders::IncompleteBuilding
  IncompleteBuilding. Corresponds with Orders::Enum::IncompleteBuilding.
 
+@m_keywords{IncompleteBuilding}
 
 */
 /*!
@@ -343,6 +375,7 @@ Value of 46  [0x2e]. See BWAPI::Orders::BuildNydusExit.
 @var BWAPI::Orders::BuildNydusExit
  BuildNydusExit. Corresponds with Orders::Enum::BuildNydusExit.
 
+@m_keywords{BuildNydusExit}
 
 */
 /*!
@@ -354,6 +387,7 @@ Value of 47  [0x2f]. See BWAPI::Orders::EnterNydusCanal.
 @m_span{cmdbtn cmdbtn-icon228}@m_endspan
  EnterNydusCanal. Corresponds with Orders::Enum::EnterNydusCanal.
 
+@m_keywords{EnterNydusCanal}
 
 */
 /*!
@@ -365,6 +399,7 @@ Value of 49  [0x31]. See BWAPI::Orders::Follow.
 @m_span{cmdbtn cmdbtn-icon228}@m_endspan
  Follow. Corresponds with Orders::Enum::Follow.
 
+@m_keywords{Follow}
 
 */
 /*!
@@ -376,6 +411,7 @@ Value of 50  [0x32]. See BWAPI::Orders::Carrier.
 @m_span{cmdbtn cmdbtn-icon229}@m_endspan
  Carrier. Corresponds with Orders::Enum::Carrier.
 
+@m_keywords{Carrier}
 
 */
 /*!
@@ -387,6 +423,7 @@ Value of 51  [0x33]. See BWAPI::Orders::ReaverCarrierMove.
 @m_span{cmdbtn cmdbtn-icon228}@m_endspan
  ReaverCarrierMove. Corresponds with Orders::Enum::ReaverCarrierMove.
 
+@m_keywords{ReaverCarrierMove}
 
 */
 /*!
@@ -398,6 +435,7 @@ Value of 55  [0x37]. See BWAPI::Orders::CarrierIgnore2.
 @m_span{cmdbtn cmdbtn-icon230}@m_endspan
  CarrierIgnore2. Corresponds with Orders::Enum::CarrierIgnore2.
 
+@m_keywords{CarrierIgnore2}
 
 */
 /*!
@@ -409,6 +447,7 @@ Value of 58  [0x3a]. See BWAPI::Orders::Reaver.
 @m_span{cmdbtn cmdbtn-icon229}@m_endspan
  Reaver. Corresponds with Orders::Enum::Reaver.
 
+@m_keywords{Reaver}
 
 */
 /*!
@@ -419,6 +458,7 @@ Value of 63  [0x3f]. See BWAPI::Orders::TrainFighter.
 @var BWAPI::Orders::TrainFighter
  TrainFighter. Corresponds with Orders::Enum::TrainFighter.
 
+@m_keywords{TrainFighter}
 
 */
 /*!
@@ -429,6 +469,7 @@ Value of 64  [0x40]. See BWAPI::Orders::InterceptorAttack.
 @var BWAPI::Orders::InterceptorAttack
  InterceptorAttack. Corresponds with Orders::Enum::InterceptorAttack.
 
+@m_keywords{InterceptorAttack}
 
 */
 /*!
@@ -439,6 +480,7 @@ Value of 65  [0x41]. See BWAPI::Orders::ScarabAttack.
 @var BWAPI::Orders::ScarabAttack
  ScarabAttack. Corresponds with Orders::Enum::ScarabAttack.
 
+@m_keywords{ScarabAttack}
 
 */
 /*!
@@ -449,6 +491,7 @@ Value of 66  [0x42]. See BWAPI::Orders::RechargeShieldsUnit.
 @var BWAPI::Orders::RechargeShieldsUnit
  RechargeShieldsUnit. Corresponds with Orders::Enum::RechargeShieldsUnit.
 
+@m_keywords{RechargeShieldsUnit}
 
 */
 /*!
@@ -459,6 +502,7 @@ Value of 67  [0x43]. See BWAPI::Orders::RechargeShieldsBattery.
 @var BWAPI::Orders::RechargeShieldsBattery
  RechargeShieldsBattery. Corresponds with Orders::Enum::RechargeShieldsBattery.
 
+@m_keywords{RechargeShieldsBattery}
 
 */
 /*!
@@ -469,6 +513,7 @@ Value of 68  [0x44]. See BWAPI::Orders::ShieldBattery.
 @var BWAPI::Orders::ShieldBattery
  ShieldBattery. Corresponds with Orders::Enum::ShieldBattery.
 
+@m_keywords{ShieldBattery}
 
 */
 /*!
@@ -479,6 +524,7 @@ Value of 69  [0x45]. See BWAPI::Orders::InterceptorReturn.
 @var BWAPI::Orders::InterceptorReturn
  InterceptorReturn. Corresponds with Orders::Enum::InterceptorReturn.
 
+@m_keywords{InterceptorReturn}
 
 */
 /*!
@@ -490,6 +536,7 @@ Value of 71  [0x47]. See BWAPI::Orders::BuildingLand.
 @m_span{cmdbtn cmdbtn-icon283}@m_endspan
  BuildingLand. Corresponds with Orders::Enum::BuildingLand.
 
+@m_keywords{BuildingLand}
 
 */
 /*!
@@ -501,6 +548,7 @@ Value of 72  [0x48]. See BWAPI::Orders::BuildingLiftOff.
 @m_span{cmdbtn cmdbtn-icon282}@m_endspan
  BuildingLiftOff. Corresponds with Orders::Enum::BuildingLiftOff.
 
+@m_keywords{BuildingLiftOff}
 
 */
 /*!
@@ -511,6 +559,7 @@ Value of 73  [0x49]. See BWAPI::Orders::DroneLiftOff.
 @var BWAPI::Orders::DroneLiftOff
  DroneLiftOff. Corresponds with Orders::Enum::DroneLiftOff.
 
+@m_keywords{DroneLiftOff}
 
 */
 /*!
@@ -521,6 +570,7 @@ Value of 74  [0x4a]. See BWAPI::Orders::LiftingOff.
 @var BWAPI::Orders::LiftingOff
  LiftingOff. Corresponds with Orders::Enum::LiftingOff.
 
+@m_keywords{LiftingOff}
 
 */
 /*!
@@ -531,6 +581,7 @@ Value of 75  [0x4b]. See BWAPI::Orders::ResearchTech.
 @var BWAPI::Orders::ResearchTech
  ResearchTech. Corresponds with Orders::Enum::ResearchTech.
 
+@m_keywords{ResearchTech}
 
 */
 /*!
@@ -541,6 +592,7 @@ Value of 76  [0x4c]. See BWAPI::Orders::Upgrade.
 @var BWAPI::Orders::Upgrade
  Upgrade. Corresponds with Orders::Enum::Upgrade.
 
+@m_keywords{Upgrade}
 
 */
 /*!
@@ -551,6 +603,7 @@ Value of 77  [0x4d]. See BWAPI::Orders::Larva.
 @var BWAPI::Orders::Larva
  Larva. Corresponds with Orders::Enum::Larva.
 
+@m_keywords{Larva}
 
 */
 /*!
@@ -561,6 +614,7 @@ Value of 78  [0x4e]. See BWAPI::Orders::SpawningLarva.
 @var BWAPI::Orders::SpawningLarva
  SpawningLarva. Corresponds with Orders::Enum::SpawningLarva.
 
+@m_keywords{SpawningLarva}
 
 */
 /*!
@@ -572,6 +626,7 @@ Value of 79  [0x4f]. See BWAPI::Orders::Harvest1.
 @m_span{cmdbtn cmdbtn-icon231}@m_endspan
  Harvest1. Corresponds with Orders::Enum::Harvest1.
 
+@m_keywords{Harvest1}
 
 */
 /*!
@@ -583,6 +638,7 @@ Value of 80  [0x50]. See BWAPI::Orders::Harvest2.
 @m_span{cmdbtn cmdbtn-icon231}@m_endspan
  Harvest2. Corresponds with Orders::Enum::Harvest2.
 
+@m_keywords{Harvest2}
 
 */
 /*!
@@ -594,6 +650,7 @@ Value of 81  [0x51]. See BWAPI::Orders::MoveToGas.
 @m_span{cmdbtn cmdbtn-icon231}@m_endspan
  MoveToGas. Corresponds with Orders::Enum::MoveToGas.
 
+@m_keywords{MoveToGas}
 
 */
 /*!
@@ -605,6 +662,7 @@ Value of 82  [0x52]. See BWAPI::Orders::WaitForGas.
 @m_span{cmdbtn cmdbtn-icon231}@m_endspan
  WaitForGas. Corresponds with Orders::Enum::WaitForGas.
 
+@m_keywords{WaitForGas}
 
 */
 /*!
@@ -616,6 +674,7 @@ Value of 83  [0x53]. See BWAPI::Orders::HarvestGas.
 @m_span{cmdbtn cmdbtn-icon231}@m_endspan
  HarvestGas. Corresponds with Orders::Enum::HarvestGas.
 
+@m_keywords{HarvestGas}
 
 */
 /*!
@@ -627,6 +686,7 @@ Value of 84  [0x54]. See BWAPI::Orders::ReturnGas.
 @m_span{cmdbtn cmdbtn-icon233}@m_endspan
  ReturnGas. Corresponds with Orders::Enum::ReturnGas.
 
+@m_keywords{ReturnGas}
 
 */
 /*!
@@ -638,6 +698,7 @@ Value of 85  [0x55]. See BWAPI::Orders::MoveToMinerals.
 @m_span{cmdbtn cmdbtn-icon231}@m_endspan
  MoveToMinerals. Corresponds with Orders::Enum::MoveToMinerals.
 
+@m_keywords{MoveToMinerals}
 
 */
 /*!
@@ -649,6 +710,7 @@ Value of 86  [0x56]. See BWAPI::Orders::WaitForMinerals.
 @m_span{cmdbtn cmdbtn-icon231}@m_endspan
  WaitForMinerals. Corresponds with Orders::Enum::WaitForMinerals.
 
+@m_keywords{WaitForMinerals}
 
 */
 /*!
@@ -660,6 +722,7 @@ Value of 87  [0x57]. See BWAPI::Orders::MiningMinerals.
 @m_span{cmdbtn cmdbtn-icon231}@m_endspan
  MiningMinerals. Corresponds with Orders::Enum::MiningMinerals.
 
+@m_keywords{MiningMinerals}
 
 */
 /*!
@@ -671,6 +734,7 @@ Value of 88  [0x58]. See BWAPI::Orders::Harvest3.
 @m_span{cmdbtn cmdbtn-icon231}@m_endspan
  Harvest3. Corresponds with Orders::Enum::Harvest3.
 
+@m_keywords{Harvest3}
 
 */
 /*!
@@ -682,6 +746,7 @@ Value of 89  [0x59]. See BWAPI::Orders::Harvest4.
 @m_span{cmdbtn cmdbtn-icon231}@m_endspan
  Harvest4. Corresponds with Orders::Enum::Harvest4.
 
+@m_keywords{Harvest4}
 
 */
 /*!
@@ -693,6 +758,7 @@ Value of 90  [0x5a]. See BWAPI::Orders::ReturnMinerals.
 @m_span{cmdbtn cmdbtn-icon233}@m_endspan
  ReturnMinerals. Corresponds with Orders::Enum::ReturnMinerals.
 
+@m_keywords{ReturnMinerals}
 
 */
 /*!
@@ -704,6 +770,7 @@ Value of 91  [0x5b]. See BWAPI::Orders::Interrupted.
 @m_span{cmdbtn cmdbtn-icon231}@m_endspan
  Interrupted. Corresponds with Orders::Enum::Interrupted.
 
+@m_keywords{Interrupted}
 
 */
 /*!
@@ -715,6 +782,7 @@ Value of 92  [0x5c]. See BWAPI::Orders::EnterTransport.
 @m_span{cmdbtn cmdbtn-icon228}@m_endspan
  EnterTransport. Corresponds with Orders::Enum::EnterTransport.
 
+@m_keywords{EnterTransport}
 
 */
 /*!
@@ -726,6 +794,7 @@ Value of 93  [0x5d]. See BWAPI::Orders::PickupIdle.
 @m_span{cmdbtn cmdbtn-icon229}@m_endspan
  PickupIdle. Corresponds with Orders::Enum::PickupIdle.
 
+@m_keywords{PickupIdle}
 
 */
 /*!
@@ -737,6 +806,7 @@ Value of 94  [0x5e]. See BWAPI::Orders::PickupTransport.
 @m_span{cmdbtn cmdbtn-icon309}@m_endspan
  PickupTransport. Corresponds with Orders::Enum::PickupTransport.
 
+@m_keywords{PickupTransport}
 
 */
 /*!
@@ -748,6 +818,7 @@ Value of 95  [0x5f]. See BWAPI::Orders::PickupBunker.
 @m_span{cmdbtn cmdbtn-icon229}@m_endspan
  PickupBunker. Corresponds with Orders::Enum::PickupBunker.
 
+@m_keywords{PickupBunker}
 
 */
 /*!
@@ -759,6 +830,7 @@ Value of 96  [0x60]. See BWAPI::Orders::Pickup4.
 @m_span{cmdbtn cmdbtn-icon228}@m_endspan
  Pickup4. Corresponds with Orders::Enum::Pickup4.
 
+@m_keywords{Pickup4}
 
 */
 /*!
@@ -769,6 +841,7 @@ Value of 97  [0x61]. See BWAPI::Orders::PowerupIdle.
 @var BWAPI::Orders::PowerupIdle
  PowerupIdle. Corresponds with Orders::Enum::PowerupIdle.
 
+@m_keywords{PowerupIdle}
 
 */
 /*!
@@ -780,6 +853,7 @@ Value of 98  [0x62]. See BWAPI::Orders::Sieging.
 @m_span{cmdbtn cmdbtn-icon245}@m_endspan
  Sieging. Corresponds with Orders::Enum::Sieging.
 
+@m_keywords{Sieging}
 
 */
 /*!
@@ -791,6 +865,7 @@ Value of 99  [0x63]. See BWAPI::Orders::Unsieging.
 @m_span{cmdbtn cmdbtn-icon246}@m_endspan
  Unsieging. Corresponds with Orders::Enum::Unsieging.
 
+@m_keywords{Unsieging}
 
 */
 /*!
@@ -801,6 +876,7 @@ Value of 101  [0x65]. See BWAPI::Orders::InitCreepGrowth.
 @var BWAPI::Orders::InitCreepGrowth
  InitCreepGrowth. Corresponds with Orders::Enum::InitCreepGrowth.
 
+@m_keywords{InitCreepGrowth}
 
 */
 /*!
@@ -811,6 +887,7 @@ Value of 102  [0x66]. See BWAPI::Orders::SpreadCreep.
 @var BWAPI::Orders::SpreadCreep
  SpreadCreep. Corresponds with Orders::Enum::SpreadCreep.
 
+@m_keywords{SpreadCreep}
 
 */
 /*!
@@ -821,6 +898,7 @@ Value of 103  [0x67]. See BWAPI::Orders::StoppingCreepGrowth.
 @var BWAPI::Orders::StoppingCreepGrowth
  StoppingCreepGrowth. Corresponds with Orders::Enum::StoppingCreepGrowth.
 
+@m_keywords{StoppingCreepGrowth}
 
 */
 /*!
@@ -831,6 +909,7 @@ Value of 104  [0x68]. See BWAPI::Orders::GuardianAspect.
 @var BWAPI::Orders::GuardianAspect
  GuardianAspect. Corresponds with Orders::Enum::GuardianAspect.
 
+@m_keywords{GuardianAspect}
 
 */
 /*!
@@ -842,6 +921,7 @@ Value of 105  [0x69]. See BWAPI::Orders::ArchonWarp.
 @m_span{cmdbtn cmdbtn-icon67}@m_endspan
  ArchonWarp. Corresponds with Orders::Enum::ArchonWarp.
 
+@m_keywords{ArchonWarp}
 
 */
 /*!
@@ -852,6 +932,7 @@ Value of 106  [0x6a]. See BWAPI::Orders::CompletingArchonSummon.
 @var BWAPI::Orders::CompletingArchonSummon
  CompletingArchonSummon. Corresponds with Orders::Enum::CompletingArchonSummon.
 
+@m_keywords{CompletingArchonSummon}
 
 */
 /*!
@@ -863,6 +944,7 @@ Value of 107  [0x6b]. See BWAPI::Orders::HoldPosition.
 @m_span{cmdbtn cmdbtn-icon255}@m_endspan
  HoldPosition. Corresponds with Orders::Enum::HoldPosition.
 
+@m_keywords{HoldPosition}
 
 */
 /*!
@@ -874,6 +956,7 @@ Value of 109  [0x6d]. See BWAPI::Orders::Cloak.
 @m_span{cmdbtn cmdbtn-icon252}@m_endspan
  Cloak. Corresponds with Orders::Enum::Cloak.
 
+@m_keywords{Cloak}
 
 */
 /*!
@@ -885,6 +968,7 @@ Value of 110  [0x6e]. See BWAPI::Orders::Decloak.
 @m_span{cmdbtn cmdbtn-icon253}@m_endspan
  Decloak. Corresponds with Orders::Enum::Decloak.
 
+@m_keywords{Decloak}
 
 */
 /*!
@@ -896,6 +980,7 @@ Value of 111  [0x6f]. See BWAPI::Orders::Unload.
 @m_span{cmdbtn cmdbtn-icon312}@m_endspan
  Unload. Corresponds with Orders::Enum::Unload.
 
+@m_keywords{Unload}
 
 */
 /*!
@@ -907,6 +992,7 @@ Value of 112  [0x70]. See BWAPI::Orders::MoveUnload.
 @m_span{cmdbtn cmdbtn-icon312}@m_endspan
  MoveUnload. Corresponds with Orders::Enum::MoveUnload.
 
+@m_keywords{MoveUnload}
 
 */
 /*!
@@ -918,6 +1004,7 @@ Value of 113  [0x71]. See BWAPI::Orders::FireYamatoGun.
 @m_span{cmdbtn cmdbtn-icon251}@m_endspan
  FireYamatoGun. Corresponds with Orders::Enum::FireYamatoGun.
 
+@m_keywords{FireYamatoGun}
 
 */
 /*!
@@ -929,6 +1016,7 @@ Value of 115  [0x73]. See BWAPI::Orders::CastLockdown.
 @m_span{cmdbtn cmdbtn-icon240}@m_endspan
  CastLockdown. Corresponds with Orders::Enum::CastLockdown.
 
+@m_keywords{CastLockdown}
 
 */
 /*!
@@ -940,6 +1028,7 @@ Value of 116  [0x74]. See BWAPI::Orders::Burrowing.
 @m_span{cmdbtn cmdbtn-icon259}@m_endspan
  Burrowing. Corresponds with Orders::Enum::Burrowing.
 
+@m_keywords{Burrowing}
 
 */
 /*!
@@ -950,6 +1039,7 @@ Value of 117  [0x75]. See BWAPI::Orders::Burrowed.
 @var BWAPI::Orders::Burrowed
  Burrowed. Corresponds with Orders::Enum::Burrowed.
 
+@m_keywords{Burrowed}
 
 */
 /*!
@@ -961,6 +1051,7 @@ Value of 118  [0x76]. See BWAPI::Orders::Unburrowing.
 @m_span{cmdbtn cmdbtn-icon260}@m_endspan
  Unburrowing. Corresponds with Orders::Enum::Unburrowing.
 
+@m_keywords{Unburrowing}
 
 */
 /*!
@@ -971,6 +1062,7 @@ Value of 119  [0x77]. See BWAPI::Orders::CastDarkSwarm.
 @var BWAPI::Orders::CastDarkSwarm
  CastDarkSwarm. Corresponds with Orders::Enum::CastDarkSwarm.
 
+@m_keywords{CastDarkSwarm}
 
 */
 /*!
@@ -982,6 +1074,7 @@ Value of 120  [0x78]. See BWAPI::Orders::CastParasite.
 @m_span{cmdbtn cmdbtn-icon271}@m_endspan
  CastParasite. Corresponds with Orders::Enum::CastParasite.
 
+@m_keywords{CastParasite}
 
 */
 /*!
@@ -993,6 +1086,7 @@ Value of 121  [0x79]. See BWAPI::Orders::CastSpawnBroodlings.
 @m_span{cmdbtn cmdbtn-icon40}@m_endspan
  CastSpawnBroodlings. Corresponds with Orders::Enum::CastSpawnBroodlings.
 
+@m_keywords{CastSpawnBroodlings}
 
 */
 /*!
@@ -1004,6 +1098,7 @@ Value of 122  [0x7a]. See BWAPI::Orders::CastEMPShockwave.
 @m_span{cmdbtn cmdbtn-icon241}@m_endspan
  CastEMPShockwave. Corresponds with Orders::Enum::CastEMPShockwave.
 
+@m_keywords{CastEMPShockwave}
 
 */
 /*!
@@ -1014,6 +1109,7 @@ Value of 123  [0x7b]. See BWAPI::Orders::NukeWait.
 @var BWAPI::Orders::NukeWait
  NukeWait. Corresponds with Orders::Enum::NukeWait.
 
+@m_keywords{NukeWait}
 
 */
 /*!
@@ -1024,6 +1120,7 @@ Value of 124  [0x7c]. See BWAPI::Orders::NukeTrain.
 @var BWAPI::Orders::NukeTrain
  NukeTrain. Corresponds with Orders::Enum::NukeTrain.
 
+@m_keywords{NukeTrain}
 
 */
 /*!
@@ -1034,6 +1131,7 @@ Value of 125  [0x7d]. See BWAPI::Orders::NukeLaunch.
 @var BWAPI::Orders::NukeLaunch
  NukeLaunch. Corresponds with Orders::Enum::NukeLaunch.
 
+@m_keywords{NukeLaunch}
 
 */
 /*!
@@ -1045,6 +1143,7 @@ Value of 126  [0x7e]. See BWAPI::Orders::NukePaint.
 @m_span{cmdbtn cmdbtn-icon311}@m_endspan
  NukePaint. Corresponds with Orders::Enum::NukePaint.
 
+@m_keywords{NukePaint}
 
 */
 /*!
@@ -1056,6 +1155,7 @@ Value of 127  [0x7f]. See BWAPI::Orders::NukeUnit.
 @m_span{cmdbtn cmdbtn-icon311}@m_endspan
  NukeUnit. Corresponds with Orders::Enum::NukeUnit.
 
+@m_keywords{NukeUnit}
 
 */
 /*!
@@ -1067,6 +1167,7 @@ Value of 128  [0x80]. See BWAPI::Orders::CastNuclearStrike.
 @m_span{cmdbtn cmdbtn-icon311}@m_endspan
  CastNuclearStrike. Corresponds with Orders::Enum::CastNuclearStrike.
 
+@m_keywords{CastNuclearStrike}
 
 */
 /*!
@@ -1078,6 +1179,7 @@ Value of 129  [0x81]. See BWAPI::Orders::NukeTrack.
 @m_span{cmdbtn cmdbtn-icon311}@m_endspan
  NukeTrack. Corresponds with Orders::Enum::NukeTrack.
 
+@m_keywords{NukeTrack}
 
 */
 /*!
@@ -1088,6 +1190,7 @@ Value of 131  [0x83]. See BWAPI::Orders::CloakNearbyUnits.
 @var BWAPI::Orders::CloakNearbyUnits
  CloakNearbyUnits. Corresponds with Orders::Enum::CloakNearbyUnits.
 
+@m_keywords{CloakNearbyUnits}
 
 */
 /*!
@@ -1098,6 +1201,7 @@ Value of 132  [0x84]. See BWAPI::Orders::PlaceMine.
 @var BWAPI::Orders::PlaceMine
  PlaceMine. Corresponds with Orders::Enum::PlaceMine.
 
+@m_keywords{PlaceMine}
 
 */
 /*!
@@ -1109,6 +1213,7 @@ Value of 133  [0x85]. See BWAPI::Orders::RightClickAction.
 @m_span{cmdbtn cmdbtn-icon228}@m_endspan
  RightClickAction. Corresponds with Orders::Enum::RightClickAction.
 
+@m_keywords{RightClickAction}
 
 */
 /*!
@@ -1119,6 +1224,7 @@ Value of 137  [0x89]. See BWAPI::Orders::CastRecall.
 @var BWAPI::Orders::CastRecall
  CastRecall. Corresponds with Orders::Enum::CastRecall.
 
+@m_keywords{CastRecall}
 
 */
 /*!
@@ -1129,6 +1235,7 @@ Value of 138  [0x8a]. See BWAPI::Orders::Teleport.
 @var BWAPI::Orders::Teleport
  Teleport. Corresponds with Orders::Enum::Teleport.
 
+@m_keywords{Teleport}
 
 */
 /*!
@@ -1139,6 +1246,7 @@ Value of 139  [0x8b]. See BWAPI::Orders::CastScannerSweep.
 @var BWAPI::Orders::CastScannerSweep
  CastScannerSweep. Corresponds with Orders::Enum::CastScannerSweep.
 
+@m_keywords{CastScannerSweep}
 
 */
 /*!
@@ -1149,6 +1257,7 @@ Value of 140  [0x8c]. See BWAPI::Orders::Scanner.
 @var BWAPI::Orders::Scanner
  Scanner. Corresponds with Orders::Enum::Scanner.
 
+@m_keywords{Scanner}
 
 */
 /*!
@@ -1160,6 +1269,7 @@ Value of 141  [0x8d]. See BWAPI::Orders::CastDefensiveMatrix.
 @m_span{cmdbtn cmdbtn-icon247}@m_endspan
  CastDefensiveMatrix. Corresponds with Orders::Enum::CastDefensiveMatrix.
 
+@m_keywords{CastDefensiveMatrix}
 
 */
 /*!
@@ -1170,6 +1280,7 @@ Value of 142  [0x8e]. See BWAPI::Orders::CastPsionicStorm.
 @var BWAPI::Orders::CastPsionicStorm
  CastPsionicStorm. Corresponds with Orders::Enum::CastPsionicStorm.
 
+@m_keywords{CastPsionicStorm}
 
 */
 /*!
@@ -1180,6 +1291,7 @@ Value of 143  [0x8f]. See BWAPI::Orders::CastIrradiate.
 @var BWAPI::Orders::CastIrradiate
  CastIrradiate. Corresponds with Orders::Enum::CastIrradiate.
 
+@m_keywords{CastIrradiate}
 
 */
 /*!
@@ -1190,6 +1302,7 @@ Value of 144  [0x90]. See BWAPI::Orders::CastPlague.
 @var BWAPI::Orders::CastPlague
  CastPlague. Corresponds with Orders::Enum::CastPlague.
 
+@m_keywords{CastPlague}
 
 */
 /*!
@@ -1200,6 +1313,7 @@ Value of 145  [0x91]. See BWAPI::Orders::CastConsume.
 @var BWAPI::Orders::CastConsume
  CastConsume. Corresponds with Orders::Enum::CastConsume.
 
+@m_keywords{CastConsume}
 
 */
 /*!
@@ -1210,6 +1324,7 @@ Value of 146  [0x92]. See BWAPI::Orders::CastEnsnare.
 @var BWAPI::Orders::CastEnsnare
  CastEnsnare. Corresponds with Orders::Enum::CastEnsnare.
 
+@m_keywords{CastEnsnare}
 
 */
 /*!
@@ -1220,6 +1335,7 @@ Value of 147  [0x93]. See BWAPI::Orders::CastStasisField.
 @var BWAPI::Orders::CastStasisField
  CastStasisField. Corresponds with Orders::Enum::CastStasisField.
 
+@m_keywords{CastStasisField}
 
 */
 /*!
@@ -1231,6 +1347,7 @@ Value of 148  [0x94]. See BWAPI::Orders::CastHallucination.
 @m_span{cmdbtn cmdbtn-icon277}@m_endspan
  CastHallucination. Corresponds with Orders::Enum::CastHallucination.
 
+@m_keywords{CastHallucination}
 
 */
 /*!
@@ -1241,6 +1358,7 @@ Value of 149  [0x95]. See BWAPI::Orders::Hallucination2.
 @var BWAPI::Orders::Hallucination2
  Hallucination2. Corresponds with Orders::Enum::Hallucination2.
 
+@m_keywords{Hallucination2}
 
 */
 /*!
@@ -1251,6 +1369,7 @@ Value of 150  [0x96]. See BWAPI::Orders::ResetCollision.
 @var BWAPI::Orders::ResetCollision
  ResetCollision. Corresponds with Orders::Enum::ResetCollision.
 
+@m_keywords{ResetCollision}
 
 */
 /*!
@@ -1262,6 +1381,7 @@ Value of 152  [0x98]. See BWAPI::Orders::Patrol.
 @m_span{cmdbtn cmdbtn-icon254}@m_endspan
  Patrol. Corresponds with Orders::Enum::Patrol.
 
+@m_keywords{Patrol}
 
 */
 /*!
@@ -1272,6 +1392,7 @@ Value of 153  [0x99]. See BWAPI::Orders::CTFCOPInit.
 @var BWAPI::Orders::CTFCOPInit
  CTFCOPInit. Corresponds with Orders::Enum::CTFCOPInit.
 
+@m_keywords{CTFCOPInit}
 
 */
 /*!
@@ -1282,6 +1403,7 @@ Value of 154  [0x9a]. See BWAPI::Orders::CTFCOPStarted.
 @var BWAPI::Orders::CTFCOPStarted
  CTFCOPStarted. Corresponds with Orders::Enum::CTFCOPStarted.
 
+@m_keywords{CTFCOPStarted}
 
 */
 /*!
@@ -1292,6 +1414,7 @@ Value of 155  [0x9b]. See BWAPI::Orders::CTFCOP2.
 @var BWAPI::Orders::CTFCOP2
  CTFCOP2. Corresponds with Orders::Enum::CTFCOP2.
 
+@m_keywords{CTFCOP2}
 
 */
 /*!
@@ -1302,6 +1425,7 @@ Value of 156  [0x9c]. See BWAPI::Orders::ComputerAI.
 @var BWAPI::Orders::ComputerAI
  ComputerAI. Corresponds with Orders::Enum::ComputerAI.
 
+@m_keywords{ComputerAI}
 
 */
 /*!
@@ -1313,6 +1437,7 @@ Value of 157  [0x9d]. See BWAPI::Orders::AtkMoveEP.
 @m_span{cmdbtn cmdbtn-icon230}@m_endspan
  AtkMoveEP. Corresponds with Orders::Enum::AtkMoveEP.
 
+@m_keywords{AtkMoveEP}
 
 */
 /*!
@@ -1324,6 +1449,7 @@ Value of 158  [0x9e]. See BWAPI::Orders::HarassMove.
 @m_span{cmdbtn cmdbtn-icon230}@m_endspan
  HarassMove. Corresponds with Orders::Enum::HarassMove.
 
+@m_keywords{HarassMove}
 
 */
 /*!
@@ -1335,6 +1461,7 @@ Value of 159  [0x9f]. See BWAPI::Orders::AIPatrol.
 @m_span{cmdbtn cmdbtn-icon230}@m_endspan
  AIPatrol. Corresponds with Orders::Enum::AIPatrol.
 
+@m_keywords{AIPatrol}
 
 */
 /*!
@@ -1346,6 +1473,7 @@ Value of 160  [0xa0]. See BWAPI::Orders::GuardPost.
 @m_span{cmdbtn cmdbtn-icon229}@m_endspan
  GuardPost. Corresponds with Orders::Enum::GuardPost.
 
+@m_keywords{GuardPost}
 
 */
 /*!
@@ -1356,6 +1484,7 @@ Value of 161  [0xa1]. See BWAPI::Orders::RescuePassive.
 @var BWAPI::Orders::RescuePassive
  RescuePassive. Corresponds with Orders::Enum::RescuePassive.
 
+@m_keywords{RescuePassive}
 
 */
 /*!
@@ -1366,6 +1495,7 @@ Value of 162  [0xa2]. See BWAPI::Orders::Neutral.
 @var BWAPI::Orders::Neutral
  Neutral. Corresponds with Orders::Enum::Neutral.
 
+@m_keywords{Neutral}
 
 */
 /*!
@@ -1376,6 +1506,7 @@ Value of 163  [0xa3]. See BWAPI::Orders::ComputerReturn.
 @var BWAPI::Orders::ComputerReturn
  ComputerReturn. Corresponds with Orders::Enum::ComputerReturn.
 
+@m_keywords{ComputerReturn}
 
 */
 /*!
@@ -1386,6 +1517,7 @@ Value of 165  [0xa5]. See BWAPI::Orders::SelfDestructing.
 @var BWAPI::Orders::SelfDestructing
  SelfDestructing. Corresponds with Orders::Enum::SelfDestructing.
 
+@m_keywords{SelfDestructing}
 
 */
 /*!
@@ -1397,6 +1529,7 @@ Value of 166  [0xa6]. See BWAPI::Orders::Critter.
 @m_span{cmdbtn cmdbtn-icon229}@m_endspan
  Critter. Corresponds with Orders::Enum::Critter.
 
+@m_keywords{Critter}
 
 */
 /*!
@@ -1407,6 +1540,7 @@ Value of 167  [0xa7]. See BWAPI::Orders::HiddenGun.
 @var BWAPI::Orders::HiddenGun
  HiddenGun. Corresponds with Orders::Enum::HiddenGun.
 
+@m_keywords{HiddenGun}
 
 */
 /*!
@@ -1417,6 +1551,7 @@ Value of 168  [0xa8]. See BWAPI::Orders::OpenDoor.
 @var BWAPI::Orders::OpenDoor
  OpenDoor. Corresponds with Orders::Enum::OpenDoor.
 
+@m_keywords{OpenDoor}
 
 */
 /*!
@@ -1427,6 +1562,7 @@ Value of 169  [0xa9]. See BWAPI::Orders::CloseDoor.
 @var BWAPI::Orders::CloseDoor
  CloseDoor. Corresponds with Orders::Enum::CloseDoor.
 
+@m_keywords{CloseDoor}
 
 */
 /*!
@@ -1437,6 +1573,7 @@ Value of 170  [0xaa]. See BWAPI::Orders::HideTrap.
 @var BWAPI::Orders::HideTrap
  HideTrap. Corresponds with Orders::Enum::HideTrap.
 
+@m_keywords{HideTrap}
 
 */
 /*!
@@ -1447,6 +1584,7 @@ Value of 171  [0xab]. See BWAPI::Orders::RevealTrap.
 @var BWAPI::Orders::RevealTrap
  RevealTrap. Corresponds with Orders::Enum::RevealTrap.
 
+@m_keywords{RevealTrap}
 
 */
 /*!
@@ -1457,6 +1595,7 @@ Value of 172  [0xac]. See BWAPI::Orders::EnableDoodad.
 @var BWAPI::Orders::EnableDoodad
  EnableDoodad. Corresponds with Orders::Enum::EnableDoodad.
 
+@m_keywords{EnableDoodad}
 
 */
 /*!
@@ -1467,6 +1606,7 @@ Value of 173  [0xad]. See BWAPI::Orders::DisableDoodad.
 @var BWAPI::Orders::DisableDoodad
  DisableDoodad. Corresponds with Orders::Enum::DisableDoodad.
 
+@m_keywords{DisableDoodad}
 
 */
 /*!
@@ -1477,6 +1617,7 @@ Value of 174  [0xae]. See BWAPI::Orders::WarpIn.
 @var BWAPI::Orders::WarpIn
  WarpIn. Corresponds with Orders::Enum::WarpIn.
 
+@m_keywords{WarpIn}
 
 */
 /*!
@@ -1488,6 +1629,7 @@ Value of 175  [0xaf]. See BWAPI::Orders::Medic.
 @m_span{cmdbtn cmdbtn-icon229}@m_endspan
  Medic. Corresponds with Orders::Enum::Medic.
 
+@m_keywords{Medic}
 
 */
 /*!
@@ -1499,6 +1641,7 @@ Value of 176  [0xb0]. See BWAPI::Orders::MedicHeal.
 @m_span{cmdbtn cmdbtn-icon365}@m_endspan
  MedicHeal. Corresponds with Orders::Enum::MedicHeal.
 
+@m_keywords{MedicHeal}
 
 */
 /*!
@@ -1510,6 +1653,7 @@ Value of 177  [0xb1]. See BWAPI::Orders::HealMove.
 @m_span{cmdbtn cmdbtn-icon228}@m_endspan
  HealMove. Corresponds with Orders::Enum::HealMove.
 
+@m_keywords{HealMove}
 
 */
 /*!
@@ -1520,6 +1664,7 @@ Value of 179  [0xb3]. See BWAPI::Orders::MedicHealToIdle.
 @var BWAPI::Orders::MedicHealToIdle
  MedicHealToIdle. Corresponds with Orders::Enum::MedicHealToIdle.
 
+@m_keywords{MedicHealToIdle}
 
 */
 /*!
@@ -1531,6 +1676,7 @@ Value of 180  [0xb4]. See BWAPI::Orders::CastRestoration.
 @m_span{cmdbtn cmdbtn-icon277}@m_endspan
  CastRestoration. Corresponds with Orders::Enum::CastRestoration.
 
+@m_keywords{CastRestoration}
 
 */
 /*!
@@ -1542,6 +1688,7 @@ Value of 181  [0xb5]. See BWAPI::Orders::CastDisruptionWeb.
 @m_span{cmdbtn cmdbtn-icon369}@m_endspan
  CastDisruptionWeb. Corresponds with Orders::Enum::CastDisruptionWeb.
 
+@m_keywords{CastDisruptionWeb}
 
 */
 /*!
@@ -1553,6 +1700,7 @@ Value of 182  [0xb6]. See BWAPI::Orders::CastMindControl.
 @m_span{cmdbtn cmdbtn-icon371}@m_endspan
  CastMindControl. Corresponds with Orders::Enum::CastMindControl.
 
+@m_keywords{CastMindControl}
 
 */
 /*!
@@ -1564,6 +1712,7 @@ Value of 183  [0xb7]. See BWAPI::Orders::DarkArchonMeld.
 @m_span{cmdbtn cmdbtn-icon67}@m_endspan
  DarkArchonMeld. Corresponds with Orders::Enum::DarkArchonMeld.
 
+@m_keywords{DarkArchonMeld}
 
 */
 /*!
@@ -1575,6 +1724,7 @@ Value of 184  [0xb8]. See BWAPI::Orders::CastFeedback.
 @m_span{cmdbtn cmdbtn-icon372}@m_endspan
  CastFeedback. Corresponds with Orders::Enum::CastFeedback.
 
+@m_keywords{CastFeedback}
 
 */
 /*!
@@ -1586,6 +1736,7 @@ Value of 185  [0xb9]. See BWAPI::Orders::CastOpticalFlare.
 @m_span{cmdbtn cmdbtn-icon373}@m_endspan
  CastOpticalFlare. Corresponds with Orders::Enum::CastOpticalFlare.
 
+@m_keywords{CastOpticalFlare}
 
 */
 /*!
@@ -1597,6 +1748,7 @@ Value of 186  [0xba]. See BWAPI::Orders::CastMaelstrom.
 @m_span{cmdbtn cmdbtn-icon240}@m_endspan
  CastMaelstrom. Corresponds with Orders::Enum::CastMaelstrom.
 
+@m_keywords{CastMaelstrom}
 
 */
 /*!
@@ -1607,6 +1759,7 @@ Value of 187  [0xbb]. See BWAPI::Orders::JunkYardDog.
 @var BWAPI::Orders::JunkYardDog
  JunkYardDog. Corresponds with Orders::Enum::JunkYardDog.
 
+@m_keywords{JunkYardDog}
 
 */
 /*!
@@ -1617,5 +1770,6 @@ Value of 188  [0xbc]. See BWAPI::Orders::Fatal.
 @var BWAPI::Orders::Fatal
  Fatal. Corresponds with Orders::Enum::Fatal.
 
+@m_keywords{Fatal}
 
 */

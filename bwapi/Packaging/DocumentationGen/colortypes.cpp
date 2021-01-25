@@ -18,6 +18,10 @@ void writeColorInfo()
     of << "@htmlonly\n";
     of << "<div style='width:64px;height:64px;background-color:#" << colorStr << ";'></div>\n";
     of << "@endhtmlonly\n";
+
+    if (!t.getName().empty())
+      of << makekeywords(t);
+
     of << docEnd();
   }
 }

@@ -20,6 +20,7 @@ Value of 0  [0x0]. See BWAPI::WeaponTypes::Gauss_Rifle.
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{Gauss Rifle}
 
 */
 /*!
@@ -44,6 +45,7 @@ Value of 1  [0x1]. See BWAPI::WeaponTypes::Gauss_Rifle_Jim_Raynor.
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{Gauss Rifle Jim Raynor}
 
 */
 /*!
@@ -68,6 +70,7 @@ Value of 2  [0x2]. See BWAPI::WeaponTypes::C_10_Canister_Rifle.
 <tr><td><strong>Maximum Range</strong></td><td>224</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{C 10 Canister Rifle}
 
 */
 /*!
@@ -92,6 +95,7 @@ Value of 3  [0x3]. See BWAPI::WeaponTypes::C_10_Canister_Rifle_Sarah_Kerrigan.
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{C 10 Canister Rifle Sarah Kerrigan}
 
 */
 /*!
@@ -116,6 +120,7 @@ Value of 4  [0x4]. See BWAPI::WeaponTypes::Fragmentation_Grenade.
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Fragmentation Grenade}
 
 */
 /*!
@@ -140,6 +145,7 @@ Value of 5  [0x5]. See BWAPI::WeaponTypes::Fragmentation_Grenade_Jim_Raynor.
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Fragmentation Grenade Jim Raynor}
 
 */
 /*!
@@ -167,6 +173,7 @@ Value of 6  [0x6]. See BWAPI::WeaponTypes::Spider_Mines.
 <tr><td><strong>Splash Radii</strong></td><td>50, 75, 100</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground, NonBuilding</td></tr>
 </table>
+@m_keywords{Spider Mines}
 
 */
 /*!
@@ -191,6 +198,7 @@ Value of 7  [0x7]. See BWAPI::WeaponTypes::Twin_Autocannons.
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Twin Autocannons}
 
 */
 /*!
@@ -215,6 +223,7 @@ Value of 8  [0x8]. See BWAPI::WeaponTypes::Hellfire_Missile_Pack.
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{Hellfire Missile Pack}
 
 */
 /*!
@@ -239,6 +248,7 @@ Value of 9  [0x9]. See BWAPI::WeaponTypes::Twin_Autocannons_Alan_Schezar.
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Twin Autocannons Alan Schezar}
 
 */
 /*!
@@ -263,6 +273,7 @@ Value of 10  [0xa]. See BWAPI::WeaponTypes::Hellfire_Missile_Pack_Alan_Schezar.
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{Hellfire Missile Pack Alan Schezar}
 
 */
 /*!
@@ -287,6 +298,7 @@ Value of 11  [0xb]. See BWAPI::WeaponTypes::Arclite_Cannon.
 <tr><td><strong>Maximum Range</strong></td><td>224</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Arclite Cannon}
 
 */
 /*!
@@ -311,6 +323,7 @@ Value of 12  [0xc]. See BWAPI::WeaponTypes::Arclite_Cannon_Edmund_Duke.
 <tr><td><strong>Maximum Range</strong></td><td>224</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Arclite Cannon Edmund Duke}
 
 */
 /*!
@@ -335,6 +348,7 @@ Value of 13  [0xd]. See BWAPI::WeaponTypes::Fusion_Cutter.
 <tr><td><strong>Maximum Range</strong></td><td>10</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Fusion Cutter}
 
 */
 /*!
@@ -359,6 +373,7 @@ Value of 15  [0xf]. See BWAPI::WeaponTypes::Gemini_Missiles.
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{Gemini Missiles}
 
 */
 /*!
@@ -383,6 +398,7 @@ Value of 16  [0x10]. See BWAPI::WeaponTypes::Burst_Lasers.
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Burst Lasers}
 
 */
 /*!
@@ -407,6 +423,7 @@ Value of 17  [0x11]. See BWAPI::WeaponTypes::Gemini_Missiles_Tom_Kazansky.
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{Gemini Missiles Tom Kazansky}
 
 */
 /*!
@@ -431,6 +448,7 @@ Value of 18  [0x12]. See BWAPI::WeaponTypes::Burst_Lasers_Tom_Kazansky.
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Burst Lasers Tom Kazansky}
 
 */
 /*!
@@ -455,6 +473,7 @@ Value of 19  [0x13]. See BWAPI::WeaponTypes::ATS_Laser_Battery.
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{ATS Laser Battery}
 
 */
 /*!
@@ -479,6 +498,7 @@ Value of 20  [0x14]. See BWAPI::WeaponTypes::ATA_Laser_Battery.
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{ATA Laser Battery}
 
 */
 /*!
@@ -503,6 +523,7 @@ Value of 21  [0x15]. See BWAPI::WeaponTypes::ATS_Laser_Battery_Hero.
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{ATS Laser Battery Hero}
 
 */
 /*!
@@ -527,6 +548,7 @@ Value of 22  [0x16]. See BWAPI::WeaponTypes::ATA_Laser_Battery_Hero.
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{ATA Laser Battery Hero}
 
 */
 /*!
@@ -551,6 +573,7 @@ Value of 23  [0x17]. See BWAPI::WeaponTypes::ATS_Laser_Battery_Hyperion.
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{ATS Laser Battery Hyperion}
 
 */
 /*!
@@ -575,6 +598,7 @@ Value of 24  [0x18]. See BWAPI::WeaponTypes::ATA_Laser_Battery_Hyperion.
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{ATA Laser Battery Hyperion}
 
 */
 /*!
@@ -600,6 +624,7 @@ Value of 25  [0x19]. See BWAPI::WeaponTypes::Flame_Thrower.
 <tr><td><strong>Splash Radii</strong></td><td>15, 20, 25</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Flame Thrower}
 
 */
 /*!
@@ -625,6 +650,7 @@ Value of 26  [0x1a]. See BWAPI::WeaponTypes::Flame_Thrower_Gui_Montag.
 <tr><td><strong>Splash Radii</strong></td><td>15, 20, 25</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Flame Thrower Gui Montag}
 
 */
 /*!
@@ -651,6 +677,7 @@ Value of 27  [0x1b]. See BWAPI::WeaponTypes::Arclite_Shock_Cannon.
 <tr><td><strong>Splash Radii</strong></td><td>10, 25, 40</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Arclite Shock Cannon}
 
 */
 /*!
@@ -677,6 +704,7 @@ Value of 28  [0x1c]. See BWAPI::WeaponTypes::Arclite_Shock_Cannon_Edmund_Duke.
 <tr><td><strong>Splash Radii</strong></td><td>10, 25, 40</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Arclite Shock Cannon Edmund Duke}
 
 */
 /*!
@@ -701,6 +729,7 @@ Value of 29  [0x1d]. See BWAPI::WeaponTypes::Longbolt_Missile.
 <tr><td><strong>Maximum Range</strong></td><td>224</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{Longbolt Missile}
 
 */
 /*!
@@ -727,6 +756,7 @@ Value of 30  [0x1e]. See BWAPI::WeaponTypes::Yamato_Gun.
 <tr><td><strong>Maximum Range</strong></td><td>320</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{Yamato Gun}
 
 */
 /*!
@@ -754,6 +784,7 @@ Value of 31  [0x1f]. See BWAPI::WeaponTypes::Nuclear_Strike.
 <tr><td><strong>Splash Radii</strong></td><td>128, 192, 256</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{Nuclear Strike}
 
 */
 /*!
@@ -780,6 +811,7 @@ Value of 32  [0x20]. See BWAPI::WeaponTypes::Lockdown.
 <tr><td><strong>Maximum Range</strong></td><td>256</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Mechanical, NonBuilding</td></tr>
 </table>
+@m_keywords{Lockdown}
 
 */
 /*!
@@ -807,6 +839,7 @@ Value of 33  [0x21]. See BWAPI::WeaponTypes::EMP_Shockwave.
 <tr><td><strong>Splash Radii</strong></td><td>64, 64, 64</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
+@m_keywords{EMP Shockwave}
 
 */
 /*!
@@ -833,6 +866,7 @@ Value of 34  [0x22]. See BWAPI::WeaponTypes::Irradiate.
 <tr><td><strong>Maximum Range</strong></td><td>288</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
+@m_keywords{Irradiate}
 
 */
 /*!
@@ -857,6 +891,7 @@ Value of 35  [0x23]. See BWAPI::WeaponTypes::Claws.
 <tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Claws}
 
 */
 /*!
@@ -881,6 +916,7 @@ Value of 36  [0x24]. See BWAPI::WeaponTypes::Claws_Devouring_One.
 <tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Claws Devouring One}
 
 */
 /*!
@@ -905,6 +941,7 @@ Value of 37  [0x25]. See BWAPI::WeaponTypes::Claws_Infested_Kerrigan.
 <tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Claws Infested Kerrigan}
 
 */
 /*!
@@ -929,6 +966,7 @@ Value of 38  [0x26]. See BWAPI::WeaponTypes::Needle_Spines.
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{Needle Spines}
 
 */
 /*!
@@ -953,6 +991,7 @@ Value of 39  [0x27]. See BWAPI::WeaponTypes::Needle_Spines_Hunter_Killer.
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{Needle Spines Hunter Killer}
 
 */
 /*!
@@ -977,6 +1016,7 @@ Value of 40  [0x28]. See BWAPI::WeaponTypes::Kaiser_Blades.
 <tr><td><strong>Maximum Range</strong></td><td>25</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Kaiser Blades}
 
 */
 /*!
@@ -1001,6 +1041,7 @@ Value of 41  [0x29]. See BWAPI::WeaponTypes::Kaiser_Blades_Torrasque.
 <tr><td><strong>Maximum Range</strong></td><td>25</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Kaiser Blades Torrasque}
 
 */
 /*!
@@ -1025,6 +1066,7 @@ Value of 42  [0x2a]. See BWAPI::WeaponTypes::Toxic_Spores.
 <tr><td><strong>Maximum Range</strong></td><td>2</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Toxic Spores}
 
 */
 /*!
@@ -1049,6 +1091,7 @@ Value of 43  [0x2b]. See BWAPI::WeaponTypes::Spines.
 <tr><td><strong>Maximum Range</strong></td><td>32</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Spines}
 
 */
 /*!
@@ -1073,6 +1116,7 @@ Value of 46  [0x2e]. See BWAPI::WeaponTypes::Acid_Spore.
 <tr><td><strong>Maximum Range</strong></td><td>256</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Acid Spore}
 
 */
 /*!
@@ -1097,6 +1141,7 @@ Value of 47  [0x2f]. See BWAPI::WeaponTypes::Acid_Spore_Kukulza.
 <tr><td><strong>Maximum Range</strong></td><td>256</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Acid Spore Kukulza}
 
 */
 /*!
@@ -1121,6 +1166,7 @@ Value of 48  [0x30]. See BWAPI::WeaponTypes::Glave_Wurm.
 <tr><td><strong>Maximum Range</strong></td><td>96</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{Glave Wurm}
 
 */
 /*!
@@ -1145,6 +1191,7 @@ Value of 49  [0x31]. See BWAPI::WeaponTypes::Glave_Wurm_Kukulza.
 <tr><td><strong>Maximum Range</strong></td><td>96</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{Glave Wurm Kukulza}
 
 */
 /*!
@@ -1169,6 +1216,7 @@ Value of 52  [0x34]. See BWAPI::WeaponTypes::Seeker_Spores.
 <tr><td><strong>Maximum Range</strong></td><td>224</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{Seeker Spores}
 
 */
 /*!
@@ -1193,6 +1241,7 @@ Value of 53  [0x35]. See BWAPI::WeaponTypes::Subterranean_Tentacle.
 <tr><td><strong>Maximum Range</strong></td><td>224</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Subterranean Tentacle}
 
 */
 /*!
@@ -1218,6 +1267,7 @@ Value of 54  [0x36]. See BWAPI::WeaponTypes::Suicide_Infested_Terran.
 <tr><td><strong>Splash Radii</strong></td><td>20, 40, 60</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Suicide Infested Terran}
 
 */
 /*!
@@ -1242,6 +1292,7 @@ Value of 55  [0x37]. See BWAPI::WeaponTypes::Suicide_Scourge.
 <tr><td><strong>Maximum Range</strong></td><td>3</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{Suicide Scourge}
 
 */
 /*!
@@ -1268,6 +1319,7 @@ Value of 56  [0x38]. See BWAPI::WeaponTypes::Parasite.
 <tr><td><strong>Maximum Range</strong></td><td>384</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, NonBuilding</td></tr>
 </table>
+@m_keywords{Parasite}
 
 */
 /*!
@@ -1294,6 +1346,7 @@ Value of 57  [0x39]. See BWAPI::WeaponTypes::Spawn_Broodlings.
 <tr><td><strong>Maximum Range</strong></td><td>288</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground, NonBuilding, NonRobotic, OrgOrMech</td></tr>
 </table>
+@m_keywords{Spawn Broodlings}
 
 */
 /*!
@@ -1320,6 +1373,7 @@ Value of 58  [0x3a]. See BWAPI::WeaponTypes::Ensnare.
 <tr><td><strong>Maximum Range</strong></td><td>288</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
+@m_keywords{Ensnare}
 
 */
 /*!
@@ -1346,6 +1400,7 @@ Value of 59  [0x3b]. See BWAPI::WeaponTypes::Dark_Swarm.
 <tr><td><strong>Maximum Range</strong></td><td>288</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{Dark Swarm}
 
 */
 /*!
@@ -1372,6 +1427,7 @@ Value of 60  [0x3c]. See BWAPI::WeaponTypes::Plague.
 <tr><td><strong>Maximum Range</strong></td><td>288</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
+@m_keywords{Plague}
 
 */
 /*!
@@ -1398,6 +1454,7 @@ Value of 61  [0x3d]. See BWAPI::WeaponTypes::Consume.
 <tr><td><strong>Maximum Range</strong></td><td>16</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Organic, NonBuilding, Own</td></tr>
 </table>
+@m_keywords{Consume}
 
 */
 /*!
@@ -1422,6 +1479,7 @@ Value of 62  [0x3e]. See BWAPI::WeaponTypes::Particle_Beam.
 <tr><td><strong>Maximum Range</strong></td><td>32</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Particle Beam}
 
 */
 /*!
@@ -1446,6 +1504,7 @@ Value of 64  [0x40]. See BWAPI::WeaponTypes::Psi_Blades.
 <tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Psi Blades}
 
 */
 /*!
@@ -1470,6 +1529,7 @@ Value of 65  [0x41]. See BWAPI::WeaponTypes::Psi_Blades_Fenix.
 <tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Psi Blades Fenix}
 
 */
 /*!
@@ -1494,6 +1554,7 @@ Value of 66  [0x42]. See BWAPI::WeaponTypes::Phase_Disruptor.
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{Phase Disruptor}
 
 */
 /*!
@@ -1518,6 +1579,7 @@ Value of 67  [0x43]. See BWAPI::WeaponTypes::Phase_Disruptor_Fenix.
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{Phase Disruptor Fenix}
 
 */
 /*!
@@ -1542,6 +1604,7 @@ Value of 69  [0x45]. See BWAPI::WeaponTypes::Psi_Assault.
 <tr><td><strong>Maximum Range</strong></td><td>96</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Psi Assault}
 
 */
 /*!
@@ -1567,6 +1630,7 @@ Value of 70  [0x46]. See BWAPI::WeaponTypes::Psionic_Shockwave.
 <tr><td><strong>Splash Radii</strong></td><td>3, 15, 30</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{Psionic Shockwave}
 
 */
 /*!
@@ -1592,6 +1656,7 @@ Value of 71  [0x47]. See BWAPI::WeaponTypes::Psionic_Shockwave_TZ_Archon.
 <tr><td><strong>Splash Radii</strong></td><td>3, 15, 30</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{Psionic Shockwave TZ Archon}
 
 */
 /*!
@@ -1616,6 +1681,7 @@ Value of 73  [0x49]. See BWAPI::WeaponTypes::Dual_Photon_Blasters.
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Dual Photon Blasters}
 
 */
 /*!
@@ -1640,6 +1706,7 @@ Value of 74  [0x4a]. See BWAPI::WeaponTypes::Anti_Matter_Missiles.
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{Anti Matter Missiles}
 
 */
 /*!
@@ -1664,6 +1731,7 @@ Value of 75  [0x4b]. See BWAPI::WeaponTypes::Dual_Photon_Blasters_Mojo.
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Dual Photon Blasters Mojo}
 
 */
 /*!
@@ -1688,6 +1756,7 @@ Value of 76  [0x4c]. See BWAPI::WeaponTypes::Anti_Matter_Missiles_Mojo.
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{Anti Matter Missiles Mojo}
 
 */
 /*!
@@ -1712,6 +1781,7 @@ Value of 77  [0x4d]. See BWAPI::WeaponTypes::Phase_Disruptor_Cannon.
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{Phase Disruptor Cannon}
 
 */
 /*!
@@ -1736,6 +1806,7 @@ Value of 78  [0x4e]. See BWAPI::WeaponTypes::Phase_Disruptor_Cannon_Danimoth.
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{Phase Disruptor Cannon Danimoth}
 
 */
 /*!
@@ -1760,6 +1831,7 @@ Value of 79  [0x4f]. See BWAPI::WeaponTypes::Pulse_Cannon.
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{Pulse Cannon}
 
 */
 /*!
@@ -1784,6 +1856,7 @@ Value of 80  [0x50]. See BWAPI::WeaponTypes::STS_Photon_Cannon.
 <tr><td><strong>Maximum Range</strong></td><td>224</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{STS Photon Cannon}
 
 */
 /*!
@@ -1808,6 +1881,7 @@ Value of 81  [0x51]. See BWAPI::WeaponTypes::STA_Photon_Cannon.
 <tr><td><strong>Maximum Range</strong></td><td>224</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{STA Photon Cannon}
 
 */
 /*!
@@ -1833,6 +1907,7 @@ Value of 82  [0x52]. See BWAPI::WeaponTypes::Scarab.
 <tr><td><strong>Splash Radii</strong></td><td>20, 40, 60</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Scarab}
 
 */
 /*!
@@ -1859,6 +1934,7 @@ Value of 83  [0x53]. See BWAPI::WeaponTypes::Stasis_Field.
 <tr><td><strong>Maximum Range</strong></td><td>288</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
+@m_keywords{Stasis Field}
 
 */
 /*!
@@ -1886,6 +1962,7 @@ Value of 84  [0x54]. See BWAPI::WeaponTypes::Psionic_Storm.
 <tr><td><strong>Splash Radii</strong></td><td>48, 48, 48</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, NonBuilding, Terrain</td></tr>
 </table>
+@m_keywords{Psionic Storm}
 
 */
 /*!
@@ -1910,6 +1987,7 @@ Value of 85  [0x55]. See BWAPI::WeaponTypes::Warp_Blades_Zeratul.
 <tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Warp Blades Zeratul}
 
 */
 /*!
@@ -1934,6 +2012,7 @@ Value of 86  [0x56]. See BWAPI::WeaponTypes::Warp_Blades_Hero.
 <tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Warp Blades Hero}
 
 */
 /*!
@@ -1958,6 +2037,7 @@ Value of 93  [0x5d]. See BWAPI::WeaponTypes::Independant_Laser_Battery.
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{Independant Laser Battery}
 
 */
 /*!
@@ -1982,6 +2062,7 @@ Value of 96  [0x60]. See BWAPI::WeaponTypes::Twin_Autocannons_Floor_Trap.
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Twin Autocannons Floor Trap}
 
 */
 /*!
@@ -2006,6 +2087,7 @@ Value of 97  [0x61]. See BWAPI::WeaponTypes::Hellfire_Missile_Pack_Wall_Trap.
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Hellfire Missile Pack Wall Trap}
 
 */
 /*!
@@ -2031,6 +2113,7 @@ Value of 98  [0x62]. See BWAPI::WeaponTypes::Flame_Thrower_Wall_Trap.
 <tr><td><strong>Splash Radii</strong></td><td>15, 20, 25</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Flame Thrower Wall Trap}
 
 */
 /*!
@@ -2055,6 +2138,7 @@ Value of 99  [0x63]. See BWAPI::WeaponTypes::Hellfire_Missile_Pack_Floor_Trap.
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Hellfire Missile Pack Floor Trap}
 
 */
 /*!
@@ -2080,6 +2164,7 @@ Value of 100  [0x64]. See BWAPI::WeaponTypes::Neutron_Flare.
 <tr><td><strong>Splash Radii</strong></td><td>5, 50, 100</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{Neutron Flare}
 
 */
 /*!
@@ -2106,6 +2191,7 @@ Value of 101  [0x65]. See BWAPI::WeaponTypes::Disruption_Web.
 <tr><td><strong>Maximum Range</strong></td><td>288</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Disruption Web}
 
 */
 /*!
@@ -2132,6 +2218,7 @@ Value of 102  [0x66]. See BWAPI::WeaponTypes::Restoration.
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
+@m_keywords{Restoration}
 
 */
 /*!
@@ -2157,6 +2244,7 @@ Value of 103  [0x67]. See BWAPI::WeaponTypes::Halo_Rockets.
 <tr><td><strong>Splash Radii</strong></td><td>5, 50, 100</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{Halo Rockets}
 
 */
 /*!
@@ -2181,6 +2269,7 @@ Value of 104  [0x68]. See BWAPI::WeaponTypes::Corrosive_Acid.
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{Corrosive Acid}
 
 */
 /*!
@@ -2207,6 +2296,7 @@ Value of 105  [0x69]. See BWAPI::WeaponTypes::Mind_Control.
 <tr><td><strong>Maximum Range</strong></td><td>256</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
+@m_keywords{Mind Control}
 
 */
 /*!
@@ -2233,6 +2323,7 @@ Value of 106  [0x6a]. See BWAPI::WeaponTypes::Feedback.
 <tr><td><strong>Maximum Range</strong></td><td>320</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
+@m_keywords{Feedback}
 
 */
 /*!
@@ -2259,6 +2350,7 @@ Value of 107  [0x6b]. See BWAPI::WeaponTypes::Optical_Flare.
 <tr><td><strong>Maximum Range</strong></td><td>288</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Optical Flare}
 
 */
 /*!
@@ -2285,6 +2377,7 @@ Value of 108  [0x6c]. See BWAPI::WeaponTypes::Maelstrom.
 <tr><td><strong>Maximum Range</strong></td><td>320</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
+@m_keywords{Maelstrom}
 
 */
 /*!
@@ -2310,6 +2403,7 @@ Value of 109  [0x6d]. See BWAPI::WeaponTypes::Subterranean_Spines.
 <tr><td><strong>Splash Radii</strong></td><td>20, 20, 20</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Subterranean Spines}
 
 */
 /*!
@@ -2334,6 +2428,7 @@ Value of 111  [0x6f]. See BWAPI::WeaponTypes::Warp_Blades.
 <tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Warp Blades}
 
 */
 /*!
@@ -2358,6 +2453,7 @@ Value of 112  [0x70]. See BWAPI::WeaponTypes::C_10_Canister_Rifle_Samir_Duran.
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{C 10 Canister Rifle Samir Duran}
 
 */
 /*!
@@ -2382,6 +2478,7 @@ Value of 113  [0x71]. See BWAPI::WeaponTypes::C_10_Canister_Rifle_Infested_Duran
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{C 10 Canister Rifle Infested Duran}
 
 */
 /*!
@@ -2406,6 +2503,7 @@ Value of 114  [0x72]. See BWAPI::WeaponTypes::Dual_Photon_Blasters_Artanis.
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
+@m_keywords{Dual Photon Blasters Artanis}
 
 */
 /*!
@@ -2430,6 +2528,7 @@ Value of 115  [0x73]. See BWAPI::WeaponTypes::Anti_Matter_Missiles_Artanis.
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
+@m_keywords{Anti Matter Missiles Artanis}
 
 */
 /*!
@@ -2454,5 +2553,6 @@ Value of 116  [0x74]. See BWAPI::WeaponTypes::C_10_Canister_Rifle_Alexei_Stukov.
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
+@m_keywords{C 10 Canister Rifle Alexei Stukov}
 
 */

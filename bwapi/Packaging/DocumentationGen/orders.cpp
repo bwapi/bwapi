@@ -11,6 +11,8 @@ void writeOrderInfo()
 
     of << icon(t) << " " << docIntro(t) << "\n";
 
+    of << makekeywords(t);
+
     of << docEnd();
   }
 }

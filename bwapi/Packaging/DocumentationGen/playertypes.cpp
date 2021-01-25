@@ -24,6 +24,9 @@ void writePlayerTypeInfo()
       of << row("Game Locations", makelist(locations));
       of << "</table>\n";
     }
+
+    of << makekeywords(t);
+
     of << docEnd();
   }
 }

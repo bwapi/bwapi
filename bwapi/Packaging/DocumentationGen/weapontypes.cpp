@@ -46,6 +46,8 @@ void writeWeaponInfo()
     of << row("Target Attributes", makelist(attributes));
     of << "</table>\n";
 
+    of << makekeywords(t);
+
     of << docEnd();
   }
 }

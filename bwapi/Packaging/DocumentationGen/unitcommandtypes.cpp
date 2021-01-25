@@ -11,6 +11,7 @@ void writeUnitCommandInfo()
 
     of << docIntro(t) << "\n";
 
+    of << makekeywords(t);
 
     of << docEnd();
   }

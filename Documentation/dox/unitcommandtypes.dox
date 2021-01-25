@@ -6,6 +6,7 @@ Value of 0  [0x0]. See BWAPI::UnitCommandTypes::Attack_Move.
 @var BWAPI::UnitCommandTypes::Attack_Move
 Attack Move. Corresponds with UnitCommandTypes::Enum::Attack_Move.
 
+@m_keywords{Attack Move}
 
 */
 /*!
@@ -16,6 +17,7 @@ Value of 1  [0x1]. See BWAPI::UnitCommandTypes::Attack_Unit.
 @var BWAPI::UnitCommandTypes::Attack_Unit
 Attack Unit. Corresponds with UnitCommandTypes::Enum::Attack_Unit.
 
+@m_keywords{Attack Unit}
 
 */
 /*!
@@ -26,6 +28,7 @@ Value of 2  [0x2]. See BWAPI::UnitCommandTypes::Build.
 @var BWAPI::UnitCommandTypes::Build
 Build. Corresponds with UnitCommandTypes::Enum::Build.
 
+@m_keywords{Build}
 
 */
 /*!
@@ -36,6 +39,7 @@ Value of 3  [0x3]. See BWAPI::UnitCommandTypes::Build_Addon.
 @var BWAPI::UnitCommandTypes::Build_Addon
 Build Addon. Corresponds with UnitCommandTypes::Enum::Build_Addon.
 
+@m_keywords{Build Addon}
 
 */
 /*!
@@ -46,6 +50,7 @@ Value of 4  [0x4]. See BWAPI::UnitCommandTypes::Train.
 @var BWAPI::UnitCommandTypes::Train
 Train. Corresponds with UnitCommandTypes::Enum::Train.
 
+@m_keywords{Train}
 
 */
 /*!
@@ -56,6 +61,7 @@ Value of 5  [0x5]. See BWAPI::UnitCommandTypes::Morph.
 @var BWAPI::UnitCommandTypes::Morph
 Morph. Corresponds with UnitCommandTypes::Enum::Morph.
 
+@m_keywords{Morph}
 
 */
 /*!
@@ -66,6 +72,7 @@ Value of 6  [0x6]. See BWAPI::UnitCommandTypes::Research.
 @var BWAPI::UnitCommandTypes::Research
 Research. Corresponds with UnitCommandTypes::Enum::Research.
 
+@m_keywords{Research}
 
 */
 /*!
@@ -76,6 +83,7 @@ Value of 7  [0x7]. See BWAPI::UnitCommandTypes::Upgrade.
 @var BWAPI::UnitCommandTypes::Upgrade
 Upgrade. Corresponds with UnitCommandTypes::Enum::Upgrade.
 
+@m_keywords{Upgrade}
 
 */
 /*!
@@ -86,6 +94,7 @@ Value of 8  [0x8]. See BWAPI::UnitCommandTypes::Set_Rally_Position.
 @var BWAPI::UnitCommandTypes::Set_Rally_Position
 Set Rally Position. Corresponds with UnitCommandTypes::Enum::Set_Rally_Position.
 
+@m_keywords{Set Rally Position}
 
 */
 /*!
@@ -96,6 +105,7 @@ Value of 9  [0x9]. See BWAPI::UnitCommandTypes::Set_Rally_Unit.
 @var BWAPI::UnitCommandTypes::Set_Rally_Unit
 Set Rally Unit. Corresponds with UnitCommandTypes::Enum::Set_Rally_Unit.
 
+@m_keywords{Set Rally Unit}
 
 */
 /*!
@@ -106,6 +116,7 @@ Value of 10  [0xa]. See BWAPI::UnitCommandTypes::Move.
 @var BWAPI::UnitCommandTypes::Move
 Move. Corresponds with UnitCommandTypes::Enum::Move.
 
+@m_keywords{Move}
 
 */
 /*!
@@ -116,6 +127,7 @@ Value of 11  [0xb]. See BWAPI::UnitCommandTypes::Patrol.
 @var BWAPI::UnitCommandTypes::Patrol
 Patrol. Corresponds with UnitCommandTypes::Enum::Patrol.
 
+@m_keywords{Patrol}
 
 */
 /*!
@@ -126,6 +138,7 @@ Value of 12  [0xc]. See BWAPI::UnitCommandTypes::Hold_Position.
 @var BWAPI::UnitCommandTypes::Hold_Position
 Hold Position. Corresponds with UnitCommandTypes::Enum::Hold_Position.
 
+@m_keywords{Hold Position}
 
 */
 /*!
@@ -136,6 +149,7 @@ Value of 13  [0xd]. See BWAPI::UnitCommandTypes::Stop.
 @var BWAPI::UnitCommandTypes::Stop
 Stop. Corresponds with UnitCommandTypes::Enum::Stop.
 
+@m_keywords{Stop}
 
 */
 /*!
@@ -146,6 +160,7 @@ Value of 14  [0xe]. See BWAPI::UnitCommandTypes::Follow.
 @var BWAPI::UnitCommandTypes::Follow
 Follow. Corresponds with UnitCommandTypes::Enum::Follow.
 
+@m_keywords{Follow}
 
 */
 /*!
@@ -156,6 +171,7 @@ Value of 15  [0xf]. See BWAPI::UnitCommandTypes::Gather.
 @var BWAPI::UnitCommandTypes::Gather
 Gather. Corresponds with UnitCommandTypes::Enum::Gather.
 
+@m_keywords{Gather}
 
 */
 /*!
@@ -166,6 +182,7 @@ Value of 16  [0x10]. See BWAPI::UnitCommandTypes::Return_Cargo.
 @var BWAPI::UnitCommandTypes::Return_Cargo
 Return Cargo. Corresponds with UnitCommandTypes::Enum::Return_Cargo.
 
+@m_keywords{Return Cargo}
 
 */
 /*!
@@ -176,6 +193,7 @@ Value of 17  [0x11]. See BWAPI::UnitCommandTypes::Repair.
 @var BWAPI::UnitCommandTypes::Repair
 Repair. Corresponds with UnitCommandTypes::Enum::Repair.
 
+@m_keywords{Repair}
 
 */
 /*!
@@ -186,6 +204,7 @@ Value of 18  [0x12]. See BWAPI::UnitCommandTypes::Burrow.
 @var BWAPI::UnitCommandTypes::Burrow
 Burrow. Corresponds with UnitCommandTypes::Enum::Burrow.
 
+@m_keywords{Burrow}
 
 */
 /*!
@@ -196,6 +215,7 @@ Value of 19  [0x13]. See BWAPI::UnitCommandTypes::Unburrow.
 @var BWAPI::UnitCommandTypes::Unburrow
 Unburrow. Corresponds with UnitCommandTypes::Enum::Unburrow.
 
+@m_keywords{Unburrow}
 
 */
 /*!
@@ -206,6 +226,7 @@ Value of 20  [0x14]. See BWAPI::UnitCommandTypes::Cloak.
 @var BWAPI::UnitCommandTypes::Cloak
 Cloak. Corresponds with UnitCommandTypes::Enum::Cloak.
 
+@m_keywords{Cloak}
 
 */
 /*!
@@ -216,6 +237,7 @@ Value of 21  [0x15]. See BWAPI::UnitCommandTypes::Decloak.
 @var BWAPI::UnitCommandTypes::Decloak
 Decloak. Corresponds with UnitCommandTypes::Enum::Decloak.
 
+@m_keywords{Decloak}
 
 */
 /*!
@@ -226,6 +248,7 @@ Value of 22  [0x16]. See BWAPI::UnitCommandTypes::Siege.
 @var BWAPI::UnitCommandTypes::Siege
 Siege. Corresponds with UnitCommandTypes::Enum::Siege.
 
+@m_keywords{Siege}
 
 */
 /*!
@@ -236,6 +259,7 @@ Value of 23  [0x17]. See BWAPI::UnitCommandTypes::Unsiege.
 @var BWAPI::UnitCommandTypes::Unsiege
 Unsiege. Corresponds with UnitCommandTypes::Enum::Unsiege.
 
+@m_keywords{Unsiege}
 
 */
 /*!
@@ -246,6 +270,7 @@ Value of 24  [0x18]. See BWAPI::UnitCommandTypes::Lift.
 @var BWAPI::UnitCommandTypes::Lift
 Lift. Corresponds with UnitCommandTypes::Enum::Lift.
 
+@m_keywords{Lift}
 
 */
 /*!
@@ -256,6 +281,7 @@ Value of 25  [0x19]. See BWAPI::UnitCommandTypes::Land.
 @var BWAPI::UnitCommandTypes::Land
 Land. Corresponds with UnitCommandTypes::Enum::Land.
 
+@m_keywords{Land}
 
 */
 /*!
@@ -266,6 +292,7 @@ Value of 26  [0x1a]. See BWAPI::UnitCommandTypes::Load.
 @var BWAPI::UnitCommandTypes::Load
 Load. Corresponds with UnitCommandTypes::Enum::Load.
 
+@m_keywords{Load}
 
 */
 /*!
@@ -276,6 +303,7 @@ Value of 27  [0x1b]. See BWAPI::UnitCommandTypes::Unload.
 @var BWAPI::UnitCommandTypes::Unload
 Unload. Corresponds with UnitCommandTypes::Enum::Unload.
 
+@m_keywords{Unload}
 
 */
 /*!
@@ -286,6 +314,7 @@ Value of 28  [0x1c]. See BWAPI::UnitCommandTypes::Unload_All.
 @var BWAPI::UnitCommandTypes::Unload_All
 Unload All. Corresponds with UnitCommandTypes::Enum::Unload_All.
 
+@m_keywords{Unload All}
 
 */
 /*!
@@ -296,6 +325,7 @@ Value of 29  [0x1d]. See BWAPI::UnitCommandTypes::Unload_All_Position.
 @var BWAPI::UnitCommandTypes::Unload_All_Position
 Unload All Position. Corresponds with UnitCommandTypes::Enum::Unload_All_Position.
 
+@m_keywords{Unload All Position}
 
 */
 /*!
@@ -306,6 +336,7 @@ Value of 30  [0x1e]. See BWAPI::UnitCommandTypes::Right_Click_Position.
 @var BWAPI::UnitCommandTypes::Right_Click_Position
 Right Click Position. Corresponds with UnitCommandTypes::Enum::Right_Click_Position.
 
+@m_keywords{Right Click Position}
 
 */
 /*!
@@ -316,6 +347,7 @@ Value of 31  [0x1f]. See BWAPI::UnitCommandTypes::Right_Click_Unit.
 @var BWAPI::UnitCommandTypes::Right_Click_Unit
 Right Click Unit. Corresponds with UnitCommandTypes::Enum::Right_Click_Unit.
 
+@m_keywords{Right Click Unit}
 
 */
 /*!
@@ -326,6 +358,7 @@ Value of 32  [0x20]. See BWAPI::UnitCommandTypes::Halt_Construction.
 @var BWAPI::UnitCommandTypes::Halt_Construction
 Halt Construction. Corresponds with UnitCommandTypes::Enum::Halt_Construction.
 
+@m_keywords{Halt Construction}
 
 */
 /*!
@@ -336,6 +369,7 @@ Value of 33  [0x21]. See BWAPI::UnitCommandTypes::Cancel_Construction.
 @var BWAPI::UnitCommandTypes::Cancel_Construction
 Cancel Construction. Corresponds with UnitCommandTypes::Enum::Cancel_Construction.
 
+@m_keywords{Cancel Construction}
 
 */
 /*!
@@ -346,6 +380,7 @@ Value of 34  [0x22]. See BWAPI::UnitCommandTypes::Cancel_Addon.
 @var BWAPI::UnitCommandTypes::Cancel_Addon
 Cancel Addon. Corresponds with UnitCommandTypes::Enum::Cancel_Addon.
 
+@m_keywords{Cancel Addon}
 
 */
 /*!
@@ -356,6 +391,7 @@ Value of 35  [0x23]. See BWAPI::UnitCommandTypes::Cancel_Train.
 @var BWAPI::UnitCommandTypes::Cancel_Train
 Cancel Train. Corresponds with UnitCommandTypes::Enum::Cancel_Train.
 
+@m_keywords{Cancel Train}
 
 */
 /*!
@@ -366,6 +402,7 @@ Value of 36  [0x24]. See BWAPI::UnitCommandTypes::Cancel_Train_Slot.
 @var BWAPI::UnitCommandTypes::Cancel_Train_Slot
 Cancel Train Slot. Corresponds with UnitCommandTypes::Enum::Cancel_Train_Slot.
 
+@m_keywords{Cancel Train Slot}
 
 */
 /*!
@@ -376,6 +413,7 @@ Value of 37  [0x25]. See BWAPI::UnitCommandTypes::Cancel_Morph.
 @var BWAPI::UnitCommandTypes::Cancel_Morph
 Cancel Morph. Corresponds with UnitCommandTypes::Enum::Cancel_Morph.
 
+@m_keywords{Cancel Morph}
 
 */
 /*!
@@ -386,6 +424,7 @@ Value of 38  [0x26]. See BWAPI::UnitCommandTypes::Cancel_Research.
 @var BWAPI::UnitCommandTypes::Cancel_Research
 Cancel Research. Corresponds with UnitCommandTypes::Enum::Cancel_Research.
 
+@m_keywords{Cancel Research}
 
 */
 /*!
@@ -396,6 +435,7 @@ Value of 39  [0x27]. See BWAPI::UnitCommandTypes::Cancel_Upgrade.
 @var BWAPI::UnitCommandTypes::Cancel_Upgrade
 Cancel Upgrade. Corresponds with UnitCommandTypes::Enum::Cancel_Upgrade.
 
+@m_keywords{Cancel Upgrade}
 
 */
 /*!
@@ -406,6 +446,7 @@ Value of 40  [0x28]. See BWAPI::UnitCommandTypes::Use_Tech.
 @var BWAPI::UnitCommandTypes::Use_Tech
 Use Tech. Corresponds with UnitCommandTypes::Enum::Use_Tech.
 
+@m_keywords{Use Tech}
 
 */
 /*!
@@ -416,6 +457,7 @@ Value of 41  [0x29]. See BWAPI::UnitCommandTypes::Use_Tech_Position.
 @var BWAPI::UnitCommandTypes::Use_Tech_Position
 Use Tech Position. Corresponds with UnitCommandTypes::Enum::Use_Tech_Position.
 
+@m_keywords{Use Tech Position}
 
 */
 /*!
@@ -426,6 +468,7 @@ Value of 42  [0x2a]. See BWAPI::UnitCommandTypes::Use_Tech_Unit.
 @var BWAPI::UnitCommandTypes::Use_Tech_Unit
 Use Tech Unit. Corresponds with UnitCommandTypes::Enum::Use_Tech_Unit.
 
+@m_keywords{Use Tech Unit}
 
 */
 /*!
@@ -436,5 +479,6 @@ Value of 43  [0x2b]. See BWAPI::UnitCommandTypes::Place_COP.
 @var BWAPI::UnitCommandTypes::Place_COP
 Place COP. Corresponds with UnitCommandTypes::Enum::Place_COP.
 
+@m_keywords{Place COP}
 
 */

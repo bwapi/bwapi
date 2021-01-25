@@ -1304,7 +1304,7 @@ namespace BWAPI
     /// 
     /// @note Prior to version 4.0.1, isUnpowered was used instead.
     ///
-    /// @m_since 4.0.1
+    /// @m_since{4,0,1}
     bool isPowered() const { return getData().isPowered; }
 
     /// <summary>Checks if this unit is a structure that is currently upgrading an upgrade.</summary>

@@ -6,6 +6,7 @@ Value of 0  [0x0]. See BWAPI::UnitSizeTypes::Independent.
 @var BWAPI::UnitSizeTypes::Independent
 Independent. Corresponds with UnitSizeTypes::Enum::Independent.
 
+@m_keywords{Independent}
 
 */
 /*!
@@ -16,6 +17,7 @@ Value of 1  [0x1]. See BWAPI::UnitSizeTypes::Small.
 @var BWAPI::UnitSizeTypes::Small
 Small. Corresponds with UnitSizeTypes::Enum::Small.
 
+@m_keywords{Small}
 
 */
 /*!
@@ -26,6 +28,7 @@ Value of 2  [0x2]. See BWAPI::UnitSizeTypes::Medium.
 @var BWAPI::UnitSizeTypes::Medium
 Medium. Corresponds with UnitSizeTypes::Enum::Medium.
 
+@m_keywords{Medium}
 
 */
 /*!
@@ -36,5 +39,6 @@ Value of 3  [0x3]. See BWAPI::UnitSizeTypes::Large.
 @var BWAPI::UnitSizeTypes::Large
 Large. Corresponds with UnitSizeTypes::Enum::Large.
 
+@m_keywords{Large}
 
 */

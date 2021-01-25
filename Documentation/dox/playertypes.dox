@@ -8,6 +8,7 @@ Computer. Corresponds with PlayerTypes::Enum::Computer.
 
 <table><tr><td><strong>Game Locations</strong></td><td>Game</td></tr>
 </table>
+@m_keywords{Computer}
 
 */
 /*!
@@ -20,6 +21,7 @@ Player. Corresponds with PlayerTypes::Enum::Player.
 
 <table><tr><td><strong>Game Locations</strong></td><td>Game</td></tr>
 </table>
+@m_keywords{Player}
 
 */
 /*!
@@ -32,6 +34,7 @@ RescuePassive. Corresponds with PlayerTypes::Enum::RescuePassive.
 
 <table><tr><td><strong>Game Locations</strong></td><td>Game, Lobby</td></tr>
 </table>
+@m_keywords{RescuePassive}
 
 */
 /*!
@@ -44,6 +47,7 @@ EitherPreferComputer. Corresponds with PlayerTypes::Enum::EitherPreferComputer.
 
 <table><tr><td><strong>Game Locations</strong></td><td>Lobby</td></tr>
 </table>
+@m_keywords{EitherPreferComputer}
 
 */
 /*!
@@ -56,6 +60,7 @@ EitherPreferHuman. Corresponds with PlayerTypes::Enum::EitherPreferHuman.
 
 <table><tr><td><strong>Game Locations</strong></td><td>Lobby</td></tr>
 </table>
+@m_keywords{EitherPreferHuman}
 
 */
 /*!
@@ -68,6 +73,7 @@ Neutral. Corresponds with PlayerTypes::Enum::Neutral.
 
 <table><tr><td><strong>Game Locations</strong></td><td>Game, Lobby</td></tr>
 </table>
+@m_keywords{Neutral}
 
 */
 /*!
@@ -78,6 +84,7 @@ Value of 8  [0x8]. See BWAPI::PlayerTypes::Closed.
 @var BWAPI::PlayerTypes::Closed
 Closed. Corresponds with PlayerTypes::Enum::Closed.
 
+@m_keywords{Closed}
 
 */
 /*!
@@ -88,6 +95,7 @@ Value of 10  [0xa]. See BWAPI::PlayerTypes::PlayerLeft.
 @var BWAPI::PlayerTypes::PlayerLeft
 PlayerLeft. Corresponds with PlayerTypes::Enum::PlayerLeft.
 
+@m_keywords{PlayerLeft}
 
 */
 /*!
@@ -98,5 +106,6 @@ Value of 11  [0xb]. See BWAPI::PlayerTypes::ComputerLeft.
 @var BWAPI::PlayerTypes::ComputerLeft
 ComputerLeft. Corresponds with PlayerTypes::Enum::ComputerLeft.
 
+@m_keywords{ComputerLeft}
 
 */
