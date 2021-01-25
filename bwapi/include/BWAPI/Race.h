@@ -58,7 +58,7 @@ namespace BWAPI
       /// 
       /// @returns UnitType of the center that this race uses.
       ///
-      /// @since 4.2.0
+      /// @m_since{4,2,0}
       UnitType getResourceDepot() const;
 
       /// <summary>Deprecated. Use getResourceDepot instead.</summary>

@@ -816,7 +816,7 @@ namespace BWAPI
     /// @returns true if this unit type spreads creep.
     /// @implies getRace() == Races::Zerg, isBuilding()
     ///
-    /// @since 4.1.2
+    /// @m_since{4,1,2}
     bool producesCreep() const;
 
     /// <summary>Checks if this unit type produces larva.</summary> This is essentially used to
@@ -871,7 +871,7 @@ namespace BWAPI
     /// @returns UnitType::set containing the units it can build.
     /// @see Player::isUnitAvailable
     ///
-    /// @since 4.1.2
+    /// @m_since{4,1,2}
     const UnitType::set& buildsWhat() const;
 
     /// <summary>Retrieves the set of technologies that this unit type is capable of researching.</summary>
@@ -883,7 +883,7 @@ namespace BWAPI
     /// @returns TechType::set containing the technology types that can be researched.
     /// @see Player::isResearchAvailable
     ///
-    /// @since 4.1.2
+    /// @m_since{4,1,2}
     const SetContainer<TechType>& researchesWhat() const;
 
     /// <summary>Retrieves the set of upgrades that this unit type is capable of upgrading.</summary>
@@ -894,7 +894,7 @@ namespace BWAPI
     /// @returns UpgradeType::set containing the upgrade types that can be upgraded.
     /// @see Player::getMaxUpgradeLevel
     ///
-    /// @since 4.1.2
+    /// @m_since{4,1,2}
     const SetContainer<UpgradeType>& upgradesWhat() const;
 
     /// <summary>Checks if the current type is equal to the provided type, or a successor of the
@@ -906,26 +906,26 @@ namespace BWAPI
     /// </param>
     ///
     /// @see TechType::whatResearches, UpgradeType::whatUpgrades
-    /// @since 4.2.0
+    /// @m_since{4,2,0}
     bool isSuccessorOf(UnitType type) const;
   };
 
   /// <summary>The amount of shield points that a unit recovers over 256 frames.</summary>
   /// That is, 7/256 shields are regenerated per frame.
   ///
-  /// @since 4.1.0 Beta
+  /// @m_since{4,1,0}
   static const int SHIELD_REGEN_RATE = 7;
 
   /// <summary>The amount of energy that a unit with special abilities recovers over 256 frames.</summary>
   /// That is, 8/256 energy is generated per frame.
   ///
-  /// @since 4.1.0 Beta
+  /// @m_since{4,1,0}
   static const int ENERGY_REGEN_RATE = 8;
 
   /// <summary>The amount of life that a zerg unit recovers over 256 frames.</summary>
   /// That is, 4/256 life is regenerated per frame.
   ///
-  /// @since 4.1.0 Beta
+  /// @m_since{4,1,0}
   static const int LIFE_REGEN_RATE = 4;
 
   /// @ingroup Types

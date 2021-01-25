@@ -1301,8 +1301,10 @@ namespace BWAPI
     ///
     /// @returns true if this unit has power or is inaccessible, and false if this unit is
     /// unpowered.
+    /// 
+    /// @note Prior to version 4.0.1, isUnpowered was used instead.
     ///
-    /// @since 4.0.1 Beta (previously isUnpowered)
+    /// @m_since 4.0.1
     bool isPowered() const { return getData().isPowered; }
 
     /// <summary>Checks if this unit is a structure that is currently upgrading an upgrade.</summary>

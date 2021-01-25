@@ -150,7 +150,7 @@ namespace BWAPI
       ///
       /// @see Player::completedUnitCount
       ///
-      /// @since 4.1.2
+      /// @m_since{4,1,2}
       UnitType requiredUnit() const;
   };
 

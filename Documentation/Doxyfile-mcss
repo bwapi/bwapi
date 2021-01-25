@@ -3,6 +3,8 @@ GENERATE_HTML           = NO
 GENERATE_XML            = YES
 XML_PROGRAMLISTING      = NO
 
+M_VERSION_LABELS = YES
+M_SINCE_BADGES = YES
 M_SHOW_UNDOCUMENTED = YES
 
 HTML_HEADER           =
@@ -37,4 +39,6 @@ ALIASES += \
     "m_examplenavigation{2}=@xmlonly<mcss:examplenavigation xmlns:mcss=\"http://mcss.mosra.cz/doxygen/\" mcss:page=\"\1\" mcss:prefix=\"\2\" />@endxmlonly" \
     "m_keywords{1}=@xmlonly<mcss:search xmlns:mcss=\"http://mcss.mosra.cz/doxygen/\" mcss:keywords=\"\1\" />@endxmlonly" \
     "m_keyword{3}=@xmlonly<mcss:search xmlns:mcss=\"http://mcss.mosra.cz/doxygen/\" mcss:keyword=\"\1\" mcss:title=\"\2\" mcss:suffix-length=\"\3\" />@endxmlonly" \
-    "m_enum_values_as_keywords=@xmlonly<mcss:search xmlns:mcss=\"http://mcss.mosra.cz/doxygen/\" mcss:enum-values-as-keywords=\"true\" />@endxmlonly"
+    "m_enum_values_as_keywords=@xmlonly<mcss:search xmlns:mcss=\"http://mcss.mosra.cz/doxygen/\" mcss:enum-values-as-keywords=\"true\" />@endxmlonly" \
+    "m_since{3}=@since @m_class{m-label m-success m-flat} [since v\1.\2.\3](https://github.com/bwapi/bwapi/wiki/Changes#bwapi-\1\2\3)" \
+    "m_deprecated_since{2}=@since deprecated in v\1.\2 @deprecated"

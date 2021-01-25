@@ -1429,7 +1429,7 @@ namespace BWAPI
     /// @returns The version number for the BWAPI client.
     ///
     /// @threadsafe
-    /// @since 4.2.0
+    /// @m_since{4,2,0}
     int getClientVersion() const;
 
     /// <summary>Retrieves the debug state of the BWAPI build.</summary>
@@ -1799,7 +1799,7 @@ namespace BWAPI
     /// that developers can deterministically reproduce the error. Works in both games and replays.
     ///
     /// @returns This game's random seed.
-    /// @since 4.2.0
+    /// @m_since{4,2,0}
     unsigned getRandomSeed() const;
 
     /// <summary>Checks if this point is within the game's map bounds.</summary>
