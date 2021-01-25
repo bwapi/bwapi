@@ -8,8 +8,6 @@
 
 int main()
 {
-  genUnitTypeTest();
-
   writeUnitInfo();
   writeColorInfo();
   writeWeaponInfo();

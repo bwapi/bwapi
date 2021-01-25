@@ -33,7 +33,7 @@ std::string tref(std::string const &t)
 
 std::string sprite(std::string const & group, std::string const & name)
 {
-  return "@htmlonly\n<i class=\'" + group + " " + group + "-" + name + "\'></i>\n@endhtmlonly ";
+  return "@m_span{" + group + " " + group + "-" + name + "}@m_endspan\n";
 }
 
 std::string tooltipIcon(std::string const & name)

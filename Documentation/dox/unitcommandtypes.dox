@@ -1,14 +1,4 @@
 /*!
-@var BWAPI::UnitCommandTypes::Enum::Set_Rally_Position
-Value of 8  [0x8]. See BWAPI::UnitCommandTypes::Set_Rally_Position.
-*/
-/*!
-@var BWAPI::UnitCommandTypes::Set_Rally_Position
-Set Rally Position. Corresponds with UnitCommandTypes::Enum::Set_Rally_Position.
-
-
-*/
-/*!
 @var BWAPI::UnitCommandTypes::Enum::Attack_Move
 Value of 0  [0x0]. See BWAPI::UnitCommandTypes::Attack_Move.
 */
@@ -85,6 +75,16 @@ Value of 7  [0x7]. See BWAPI::UnitCommandTypes::Upgrade.
 /*!
 @var BWAPI::UnitCommandTypes::Upgrade
 Upgrade. Corresponds with UnitCommandTypes::Enum::Upgrade.
+
+
+*/
+/*!
+@var BWAPI::UnitCommandTypes::Enum::Set_Rally_Position
+Value of 8  [0x8]. See BWAPI::UnitCommandTypes::Set_Rally_Position.
+*/
+/*!
+@var BWAPI::UnitCommandTypes::Set_Rally_Position
+Set Rally Position. Corresponds with UnitCommandTypes::Enum::Set_Rally_Position.
 
 
 */

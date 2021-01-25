@@ -14,8 +14,8 @@ namespace BWAPI
   ///
   /// @tparam T
   ///     Type that this set contains.
-  /// @tparam HashT
-  ///     Hash type. Defaults to integral hashing for BWAPI usage.
+  /// @tparam Compare
+  ///     Function to ensure ordering.
   template <class T, typename Compare = std::less<>>
   class SetContainer : public SetContainerUnderlyingT < T, Compare >
   {

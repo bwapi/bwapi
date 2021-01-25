@@ -389,9 +389,9 @@ ALIASES                = "Dropships=@ref BWAPI::UnitTypes::Terran_Dropship \"Dro
                          "Greater_Spire=@ref BWAPI::UnitTypes::Zerg_Greater_Spire \"Greater Spire\"" \
                          "Protoss_Shields=@ref BWAPI::UpgradeTypes::Protoss_Plasma_Shields \"Protoss Shields\"" \
                          "Ventral_Sacs=@ref BWAPI::UpgradeTypes::Ventral_Sacs \"Ventral Sacs\"" \
-                         "liquipedia{1}=[View on Liquipedia](http://wiki.teamliquid.net/starcraft/\1)<br>" \
-                         "sccofficial{1}=[View on Starcraft Campendium (Official Website)](http://classic.battle.net/scc/\1.shtml)<br>" \
-                         "scwikia{1}=[View on Starcraft Wikia](http://starcraft.wikia.com/wiki/\1)<br>" \
+                         "liquipedia{1}=@li [View on Liquipedia](http://wiki.teamliquid.net/starcraft/\1)<br>" \
+                         "sccofficial{1}=@li [View on Starcraft Campendium (Official Website)](http://classic.battle.net/scc/\1.shtml)<br>" \
+                         "scwikia{1}=@li [View on Starcraft Wikia](http://starcraft.wikia.com/wiki/\1)<br>" \
                          "sccTerran=@sccofficial{terran/index}" \
                          "sccProtoss=@sccofficial{protoss/index}" \
                          "sccZerg=@sccofficial{zerg/index}" \

@@ -1,14 +1,4 @@
 /*!
-@var BWAPI::GameTypes::Enum::Use_Map_Settings
-Value of 10  [0xa]. See BWAPI::GameTypes::Use_Map_Settings.
-*/
-/*!
-@var BWAPI::GameTypes::Use_Map_Settings
-Use Map Settings. Corresponds with GameTypes::Enum::Use_Map_Settings.
-
-
-*/
-/*!
 @var BWAPI::GameTypes::Enum::Melee
 Value of 2  [0x2]. See BWAPI::GameTypes::Melee.
 */
@@ -85,6 +75,16 @@ Value of 9  [0x9]. See BWAPI::GameTypes::Ladder.
 /*!
 @var BWAPI::GameTypes::Ladder
 Ladder. Corresponds with GameTypes::Enum::Ladder.
+
+
+*/
+/*!
+@var BWAPI::GameTypes::Enum::Use_Map_Settings
+Value of 10  [0xa]. See BWAPI::GameTypes::Use_Map_Settings.
+*/
+/*!
+@var BWAPI::GameTypes::Use_Map_Settings
+Use Map Settings. Corresponds with GameTypes::Enum::Use_Map_Settings.
 
 
 */

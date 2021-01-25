@@ -1,14 +1,4 @@
 /*!
-@var BWAPI::BulletTypes::Enum::Gemini_Missiles
-Value of 144  [0x90]. See BWAPI::BulletTypes::Gemini_Missiles.
-*/
-/*!
-@var BWAPI::BulletTypes::Gemini_Missiles
-Gemini Missiles. Corresponds with BulletTypes::Enum::Gemini_Missiles.
-
-
-*/
-/*!
 @var BWAPI::BulletTypes::Enum::Melee
 Value of 0  [0x0]. See BWAPI::BulletTypes::Melee.
 */
@@ -19,32 +9,12 @@ Melee. Corresponds with BulletTypes::Enum::Melee.
 
 */
 /*!
-@var BWAPI::BulletTypes::Enum::Burst_Lasers
-Value of 149  [0x95]. See BWAPI::BulletTypes::Burst_Lasers.
-*/
-/*!
-@var BWAPI::BulletTypes::Burst_Lasers
-Burst Lasers. Corresponds with BulletTypes::Enum::Burst_Lasers.
-
-
-*/
-/*!
 @var BWAPI::BulletTypes::Enum::Fusion_Cutter_Hit
 Value of 141  [0x8d]. See BWAPI::BulletTypes::Fusion_Cutter_Hit.
 */
 /*!
 @var BWAPI::BulletTypes::Fusion_Cutter_Hit
 Fusion Cutter Hit. Corresponds with BulletTypes::Enum::Fusion_Cutter_Hit.
-
-
-*/
-/*!
-@var BWAPI::BulletTypes::Enum::Neutron_Flare
-Value of 206  [0xce]. See BWAPI::BulletTypes::Neutron_Flare.
-*/
-/*!
-@var BWAPI::BulletTypes::Neutron_Flare
-Neutron Flare. Corresponds with BulletTypes::Enum::Neutron_Flare.
 
 
 */
@@ -65,6 +35,16 @@ Value of 143  [0x8f]. See BWAPI::BulletTypes::C_10_Canister_Rifle_Hit.
 /*!
 @var BWAPI::BulletTypes::C_10_Canister_Rifle_Hit
 C 10 Canister Rifle Hit. Corresponds with BulletTypes::Enum::C_10_Canister_Rifle_Hit.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Gemini_Missiles
+Value of 144  [0x90]. See BWAPI::BulletTypes::Gemini_Missiles.
+*/
+/*!
+@var BWAPI::BulletTypes::Gemini_Missiles
+Gemini Missiles. Corresponds with BulletTypes::Enum::Gemini_Missiles.
 
 
 */
@@ -95,6 +75,16 @@ Value of 148  [0x94]. See BWAPI::BulletTypes::ATS_ATA_Laser_Battery.
 /*!
 @var BWAPI::BulletTypes::ATS_ATA_Laser_Battery
 ATS ATA Laser Battery. Corresponds with BulletTypes::Enum::ATS_ATA_Laser_Battery.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Burst_Lasers
+Value of 149  [0x95]. See BWAPI::BulletTypes::Burst_Lasers.
+*/
+/*!
+@var BWAPI::BulletTypes::Burst_Lasers
+Burst Lasers. Corresponds with BulletTypes::Enum::Burst_Lasers.
 
 
 */
@@ -345,6 +335,16 @@ Value of 204  [0xcc]. See BWAPI::BulletTypes::Corrosive_Acid_Shot.
 /*!
 @var BWAPI::BulletTypes::Corrosive_Acid_Shot
 Corrosive Acid Shot. Corresponds with BulletTypes::Enum::Corrosive_Acid_Shot.
+
+
+*/
+/*!
+@var BWAPI::BulletTypes::Enum::Neutron_Flare
+Value of 206  [0xce]. See BWAPI::BulletTypes::Neutron_Flare.
+*/
+/*!
+@var BWAPI::BulletTypes::Neutron_Flare
+Neutron Flare. Corresponds with BulletTypes::Enum::Neutron_Flare.
 
 
 */

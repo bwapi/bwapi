@@ -1,14 +1,4 @@
 /*!
-@var BWAPI::ExplosionTypes::Enum::EMP_Shockwave
-Value of 8  [0x8]. See BWAPI::ExplosionTypes::EMP_Shockwave.
-*/
-/*!
-@var BWAPI::ExplosionTypes::EMP_Shockwave
-EMP Shockwave. Corresponds with ExplosionTypes::Enum::EMP_Shockwave.
-
-
-*/
-/*!
 @var BWAPI::ExplosionTypes::Enum::Normal
 Value of 1  [0x1]. See BWAPI::ExplosionTypes::Normal.
 */
@@ -75,6 +65,16 @@ Value of 7  [0x7]. See BWAPI::ExplosionTypes::Broodlings.
 /*!
 @var BWAPI::ExplosionTypes::Broodlings
 Broodlings. Corresponds with ExplosionTypes::Enum::Broodlings.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::EMP_Shockwave
+Value of 8  [0x8]. See BWAPI::ExplosionTypes::EMP_Shockwave.
+*/
+/*!
+@var BWAPI::ExplosionTypes::EMP_Shockwave
+EMP Shockwave. Corresponds with ExplosionTypes::Enum::EMP_Shockwave.
 
 
 */

@@ -1,14 +1,4 @@
 /*!
-@var BWAPI::Errors::Enum::Fully_Upgraded
-Value of 8  [0x8]. See BWAPI::Errors::Fully_Upgraded.
-*/
-/*!
-@var BWAPI::Errors::Fully_Upgraded
-Fully Upgraded. Corresponds with Errors::Enum::Fully_Upgraded.
-
-
-*/
-/*!
 @var BWAPI::Errors::Enum::Unit_Does_Not_Exist
 Value of 0  [0x0]. See BWAPI::Errors::Unit_Does_Not_Exist.
 */
@@ -85,6 +75,16 @@ Value of 7  [0x7]. See BWAPI::Errors::Already_Researched.
 /*!
 @var BWAPI::Errors::Already_Researched
 Already Researched. Corresponds with Errors::Enum::Already_Researched.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Fully_Upgraded
+Value of 8  [0x8]. See BWAPI::Errors::Fully_Upgraded.
+*/
+/*!
+@var BWAPI::Errors::Fully_Upgraded
+Fully Upgraded. Corresponds with Errors::Enum::Fully_Upgraded.
 
 
 */

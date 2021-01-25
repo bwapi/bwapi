@@ -92,7 +92,6 @@
     <ClCompile Include="unitcommandtypes.cpp" />
     <ClCompile Include="unitsizetypes.cpp" />
     <ClCompile Include="unittypes.cpp" />
-    <ClCompile Include="unittypestestgen.cpp" />
     <ClCompile Include="upgradetypes.cpp" />
     <ClCompile Include="weapontypes.cpp" />
   </ItemGroup>

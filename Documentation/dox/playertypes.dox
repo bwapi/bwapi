@@ -1,14 +1,4 @@
 /*!
-@var BWAPI::PlayerTypes::Enum::Closed
-Value of 8  [0x8]. See BWAPI::PlayerTypes::Closed.
-*/
-/*!
-@var BWAPI::PlayerTypes::Closed
-Closed. Corresponds with PlayerTypes::Enum::Closed.
-
-
-*/
-/*!
 @var BWAPI::PlayerTypes::Enum::Computer
 Value of 1  [0x1]. See BWAPI::PlayerTypes::Computer.
 */
@@ -16,18 +6,8 @@ Value of 1  [0x1]. See BWAPI::PlayerTypes::Computer.
 @var BWAPI::PlayerTypes::Computer
 Computer. Corresponds with PlayerTypes::Enum::Computer.
 
-<table border='0'><tr><td><strong>Game Locations</strong></td><td>Game</td></tr>
+<table><tr><td><strong>Game Locations</strong></td><td>Game</td></tr>
 </table>
-
-*/
-/*!
-@var BWAPI::PlayerTypes::Enum::PlayerLeft
-Value of 10  [0xa]. See BWAPI::PlayerTypes::PlayerLeft.
-*/
-/*!
-@var BWAPI::PlayerTypes::PlayerLeft
-PlayerLeft. Corresponds with PlayerTypes::Enum::PlayerLeft.
-
 
 */
 /*!
@@ -38,7 +18,7 @@ Value of 2  [0x2]. See BWAPI::PlayerTypes::Player.
 @var BWAPI::PlayerTypes::Player
 Player. Corresponds with PlayerTypes::Enum::Player.
 
-<table border='0'><tr><td><strong>Game Locations</strong></td><td>Game</td></tr>
+<table><tr><td><strong>Game Locations</strong></td><td>Game</td></tr>
 </table>
 
 */
@@ -50,7 +30,7 @@ Value of 3  [0x3]. See BWAPI::PlayerTypes::RescuePassive.
 @var BWAPI::PlayerTypes::RescuePassive
 RescuePassive. Corresponds with PlayerTypes::Enum::RescuePassive.
 
-<table border='0'><tr><td><strong>Game Locations</strong></td><td>Game, Lobby</td></tr>
+<table><tr><td><strong>Game Locations</strong></td><td>Game, Lobby</td></tr>
 </table>
 
 */
@@ -62,7 +42,7 @@ Value of 5  [0x5]. See BWAPI::PlayerTypes::EitherPreferComputer.
 @var BWAPI::PlayerTypes::EitherPreferComputer
 EitherPreferComputer. Corresponds with PlayerTypes::Enum::EitherPreferComputer.
 
-<table border='0'><tr><td><strong>Game Locations</strong></td><td>Lobby</td></tr>
+<table><tr><td><strong>Game Locations</strong></td><td>Lobby</td></tr>
 </table>
 
 */
@@ -74,7 +54,7 @@ Value of 6  [0x6]. See BWAPI::PlayerTypes::EitherPreferHuman.
 @var BWAPI::PlayerTypes::EitherPreferHuman
 EitherPreferHuman. Corresponds with PlayerTypes::Enum::EitherPreferHuman.
 
-<table border='0'><tr><td><strong>Game Locations</strong></td><td>Lobby</td></tr>
+<table><tr><td><strong>Game Locations</strong></td><td>Lobby</td></tr>
 </table>
 
 */
@@ -86,8 +66,28 @@ Value of 7  [0x7]. See BWAPI::PlayerTypes::Neutral.
 @var BWAPI::PlayerTypes::Neutral
 Neutral. Corresponds with PlayerTypes::Enum::Neutral.
 
-<table border='0'><tr><td><strong>Game Locations</strong></td><td>Game, Lobby</td></tr>
+<table><tr><td><strong>Game Locations</strong></td><td>Game, Lobby</td></tr>
 </table>
+
+*/
+/*!
+@var BWAPI::PlayerTypes::Enum::Closed
+Value of 8  [0x8]. See BWAPI::PlayerTypes::Closed.
+*/
+/*!
+@var BWAPI::PlayerTypes::Closed
+Closed. Corresponds with PlayerTypes::Enum::Closed.
+
+
+*/
+/*!
+@var BWAPI::PlayerTypes::Enum::PlayerLeft
+Value of 10  [0xa]. See BWAPI::PlayerTypes::PlayerLeft.
+*/
+/*!
+@var BWAPI::PlayerTypes::PlayerLeft
+PlayerLeft. Corresponds with PlayerTypes::Enum::PlayerLeft.
+
 
 */
 /*!

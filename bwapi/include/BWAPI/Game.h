@@ -597,7 +597,6 @@ namespace BWAPI
     ///     - 3: High ground doodad
     ///     - 4: Very high ground
     ///     - 5: Very high ground doodad
-    ///     .
     int  getGroundHeight(int tileX, int tileY) const;
     /// @overload
     int  getGroundHeight(TilePosition position) const;
@@ -1626,7 +1625,6 @@ namespace BWAPI
     ///         - Cancel_Morph (for non-buildings only)
     ///         - Use_Tech
     ///         - Use_Tech_Unit
-    ///         .
     ///       - The following order transformations are applied to allow better grouping:
     ///         - Attack_Unit becomes Right_Click_Unit if the target is an enemy
     ///         - Move becomes Right_Click_Position
@@ -1634,8 +1632,6 @@ namespace BWAPI
     ///         - Set_Rally_Position becomes Right_Click_Position for buildings
     ///         - Set_Rally_Unit becomes Right_Click_Unit for buildings
     ///         - Use_Tech_Unit with Infestation becomes Right_Click_Unit if the target is valid
-    ///         .
-    ///       .
     ///     - 2: More optimization by grouping structures.
     ///       - Includes the optimizations made by all previous levels.
     ///       - May be detected as a hack by some replay utilities.
@@ -1653,8 +1649,6 @@ namespace BWAPI
     ///         - Cancel_Morph
     ///         - Cancel_Research
     ///         - Cancel_Upgrade
-    ///         .
-    ///       .
     ///     - 3: Extensive optimization 
     ///       - Includes the optimizations made by all previous levels.
     ///       - Units may behave or move differently than expected.
@@ -1667,17 +1661,12 @@ namespace BWAPI
     ///         - Unload_All_Position
     ///         - Right_Click_Position
     ///         - Use_Tech_Position
-    ///         .
-    ///       .
     ///     - 4: Aggressive optimization
     ///       - Includes the optimizations made by all previous levels.
     ///       - Positions used in commands will be rounded to multiples of 32.
     ///       - @High_Templar and @Dark_Templar that merge into @Archons will be grouped and may
     ///         choose a different target to merge with. It will not merge with a target that
     ///         wasn't included.
-    ///       .
-    ///     .
-    ///
     void setCommandOptimizationLevel(int level);
 
     /// <summary>Returns the remaining countdown time.</summary> The countdown timer is used in
