@@ -328,7 +328,7 @@ EXPORTS
   ;SMemMove                      @493 NONAME
   SMemZero                      @494 NONAME
   SMemCmp                       @495 NONAME
-  ;SMem496                       @496 NONAME
+  ;SMemSetDebugFlags             @496 NONAME
   ;SMemDumpState                 @497 NONAME
   ;Ordinal498                    @498 NONAME
 
