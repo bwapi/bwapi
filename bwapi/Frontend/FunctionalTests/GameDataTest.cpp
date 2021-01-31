@@ -41,7 +41,7 @@ TEST(TriggerTests, KillUnitTest)
   funGame.advance(COMMANDWAIT);
 
   auto units = funGame->getAllUnits();
-  ASSERT_EQ(units.size(), 1);
+  ASSERT_EQ(units.size(), 1U);
 
   auto selfMarine = *units.begin();
 
@@ -62,17 +62,17 @@ TEST(GameDataTest, CloakedUnits)
   auto marine = UnitTypes::Terran_Marine;
   auto darkTemplar = UnitTypes::Protoss_Dark_Templar;
 
-  EXPECT_EQ(funGame->getAllUnits().size(), 0);
+  EXPECT_EQ(funGame->getAllUnits().size(), 0U);
 
   funGame->createUnit(self, marine, Position{ 20, 20 }, 1);
   funGame.advance(COMMANDWAIT);
-  EXPECT_EQ(funGame->getAllUnits().size(), 1);
+  EXPECT_EQ(funGame->getAllUnits().size(), 1U);
 
   funGame->createUnit(neutral, darkTemplar, Position{ 20, 21 }, 1);
   funGame.advance(COMMANDWAIT*5);
   auto allUnits = funGame->getAllUnits();
   
-  EXPECT_EQ(allUnits.size(), 2);
+  EXPECT_EQ(allUnits.size(), 2U);
 
   std::vector<UnitType> allUnitTypes;
   std::transform(allUnits.begin(), allUnits.end(), std::back_inserter(allUnitTypes), Filter::GetType);
@@ -88,7 +88,7 @@ TEST(GameDataTest, CloakedUnits)
   funGame.advance(COMMANDWAIT);
 
   allUnits = funGame->getAllUnits();
-  EXPECT_EQ(allUnits.size(), 3);
+  EXPECT_EQ(allUnits.size(), 3U);
 
   for (auto &u : allUnits)
   {
@@ -106,23 +106,23 @@ TEST(GameDataTest, CloakedUnits)
 TEST(GameDataTest, ForcesTest)
 {
   auto forces = funGame->getForces();
-  EXPECT_EQ(forces.size(), 4);
+  EXPECT_EQ(forces.size(), 4U);
   int i = 0;
   for (auto &f : forces)
   {
     switch (i)
     {
     case 0:
-      EXPECT_EQ(f.getPlayers().size(), 1);
+      EXPECT_EQ(f.getPlayers().size(), 1U);
       break;
     case 1:
-      EXPECT_EQ(f.getPlayers().size(), 7);
+      EXPECT_EQ(f.getPlayers().size(), 7U);
       break;
     case 2:
-      EXPECT_EQ(f.getPlayers().size(), 0);
+      EXPECT_EQ(f.getPlayers().size(), 0U);
       break;
     case 3:
-      EXPECT_EQ(f.getPlayers().size(), 0);
+      EXPECT_EQ(f.getPlayers().size(), 0U);
       break;
     }
     i++;

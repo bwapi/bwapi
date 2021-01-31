@@ -138,6 +138,8 @@
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <AdditionalIncludeDirectories>./include;./src</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4459</DisableSpecificWarnings>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -55,7 +55,7 @@ void UDPSocket::bind(int port)
   sockaddr_in service;
   service.sin_family = AF_INET;
   service.sin_addr.s_addr = htonl(INADDR_ANY);
-  service.sin_port = htons(port);
+  service.sin_port = htons(u_short(port));
   if(::bind(_s, (sockaddr*)&service, sizeof(service)) == SOCKET_ERROR)
   {
     throw GeneralException("::bind failed");

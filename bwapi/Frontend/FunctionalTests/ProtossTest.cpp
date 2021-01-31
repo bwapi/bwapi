@@ -1,4 +1,4 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 #include "game.h"
 #include "ProtossBaseFixture.h"
@@ -25,12 +25,8 @@ TEST_F(ProtossBaseFixture, BuildPower)
     funGame->sendText("operation cwal");
     funGame.advance(5);
   }
-  Unit probe = nullptr;
-  for (auto& u : probes)
-  {
-    probe = u;
-    break;
-  }
+  ASSERT_FALSE(probes.empty());
+  Unit probe = *probes.begin();
   UnitType toBuild = UnitTypes::Protoss_Pylon;
   probe->build(toBuild, funGame->getBuildLocation(toBuild, probe.getTilePosition()));
   funGame.advance(120);
@@ -53,12 +49,9 @@ TEST_F(ProtossBaseFixture, NoPowerTest)
 {
   using namespace Funtest;
   UnitType toBuild = UnitTypes::Protoss_Gateway;
-  Unit probe = nullptr;
-  for (auto& u : probes)
-  {
-    probe = u;
-    break;
-  }
+
+  ASSERT_FALSE(probes.empty());
+  Unit probe = *probes.begin();
   EXPECT_EQ(probe->build(toBuild, nexus.getTilePosition() + TilePosition{ -1 * toBuild.tileWidth(), 0 }), false);
 
   funGame->createUnit(self, toBuild, nexus.getPosition() + Position{ -1 * toBuild.width(), 0 }, 1);
@@ -122,13 +115,13 @@ TEST_F(ProtossBaseFixture, ReaverTest)
   EXPECT_EQ(u.getScarabCount(), 0);
   u->train(UnitTypes::Protoss_Scarab);
   funGame.advance(COMMANDWAIT);
-  EXPECT_EQ(u->getTrainingQueue().size(), 1);
+  EXPECT_EQ(u->getTrainingQueue().size(), 1U);
   u->train(UnitTypes::Protoss_Scarab);
   funGame.advance(COMMANDWAIT);
-  EXPECT_EQ(u->getTrainingQueue().size(), 2);
+  EXPECT_EQ(u->getTrainingQueue().size(), 2U);
   u->cancelTrain();
   funGame.advance(COMMANDWAIT);
-  EXPECT_EQ(u->getTrainingQueue().size(), 1);
+  EXPECT_EQ(u->getTrainingQueue().size(), 1U);
   funGame.advance(UnitTypes::Protoss_Scarab.buildTime() - COMMANDWAIT * 2);
   EXPECT_EQ(u.getScarabCount(), 1);
 }
@@ -149,13 +142,13 @@ TEST_F(ProtossBaseFixture, CarrierTest)
   EXPECT_EQ(u.getInterceptorCount(), 0);
   u->train(UnitTypes::Protoss_Interceptor);
   funGame.advance(COMMANDWAIT);
-  EXPECT_EQ(u->getTrainingQueue().size(), 1);
+  EXPECT_EQ(u->getTrainingQueue().size(), 1U);
   u->train(UnitTypes::Protoss_Interceptor);
   funGame.advance(COMMANDWAIT);
-  EXPECT_EQ(u->getTrainingQueue().size(), 2);
+  EXPECT_EQ(u->getTrainingQueue().size(), 2U);
   u->cancelTrain();
   funGame.advance(COMMANDWAIT);
-  EXPECT_EQ(u->getTrainingQueue().size(), 1);
+  EXPECT_EQ(u->getTrainingQueue().size(), 1U);
   funGame.advance(UnitTypes::Protoss_Interceptor.buildTime() - COMMANDWAIT * 2);
   EXPECT_EQ(u.getInterceptorCount(), 1);
 }

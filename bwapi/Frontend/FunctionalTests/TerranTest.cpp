@@ -1,4 +1,4 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 #include "game.h"
 #include "TerranBaseFixture.h"
@@ -14,13 +14,13 @@ TEST_F(TerranBaseFixture, TerranTrain)
   funGame.advance(COMMANDWAIT);
   EXPECT_EQ(commandCenter.isTraining(), true);
   EXPECT_EQ(commandCenter.isIdle(), false);
-  EXPECT_EQ(commandCenter.getTrainingQueue().size(), 1);
+  EXPECT_EQ(commandCenter.getTrainingQueue().size(), 1U);
   commandCenter.train(UnitTypes::Terran_SCV);
   funGame.advance(COMMANDWAIT);
-  EXPECT_EQ(commandCenter.getTrainingQueue().size(), 2);
+  EXPECT_EQ(commandCenter.getTrainingQueue().size(), 2U);
   commandCenter.cancelTrain();
   funGame.advance(COMMANDWAIT);
-  EXPECT_EQ(commandCenter.getTrainingQueue().size(), 1);
+  EXPECT_EQ(commandCenter.getTrainingQueue().size(), 1U);
   commandCenter.cancelTrain();
   funGame.advance(COMMANDWAIT);
 }
@@ -70,12 +70,12 @@ TEST_F(TerranBaseFixture, TerranAddonMove)
 TEST_F(TerranBaseFixture, TerranBunker)
 {
   //Test information around a bunker, and test loading/unloading.
-  EXPECT_EQ(bunker.getLoadedUnits().size(), 0);
+  EXPECT_EQ(bunker.getLoadedUnits().size(), 0U);
   Position bunkerPosition = bunker.getPosition();
   funGame->createUnit(self, UnitTypes::Terran_Marine, bunkerPosition + Position{ 0, bunker.getType().height() }, 2);
   funGame.advance(2);
   auto marines = funGame->getUnitsInRadius(bunkerPosition, 500, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Marine);
-  EXPECT_EQ(marines.size(), 2);
+  EXPECT_EQ(marines.size(), 2U);
   for (auto& u : marines)
   {
     if (!u.isLoaded())
@@ -85,7 +85,7 @@ TEST_F(TerranBaseFixture, TerranBunker)
     }
   }
   funGame.advance(40);
-  EXPECT_EQ(bunker.getLoadedUnits().size(), 1);
+  EXPECT_EQ(bunker.getLoadedUnits().size(), 1U);
   for (auto& u : marines)
   {
     if (!u.isLoaded())
@@ -95,10 +95,10 @@ TEST_F(TerranBaseFixture, TerranBunker)
     }
   }
   funGame.advance(40);
-  EXPECT_EQ(bunker.getLoadedUnits().size(), 2);
+  EXPECT_EQ(bunker.getLoadedUnits().size(), 2U);
   bunker.unloadAll();
   funGame.advance(40);
-  EXPECT_EQ(bunker.getLoadedUnits().size(), 0);
+  EXPECT_EQ(bunker.getLoadedUnits().size(), 0U);
 }
 
 TEST_F(TerranBaseFixture, Nuke)
@@ -116,15 +116,15 @@ TEST_F(TerranBaseFixture, Nuke)
   u->train(UnitTypes::Terran_Nuclear_Missile);
   funGame.advance(100);
   EXPECT_EQ(u->hasNuke(), true);
-  EXPECT_EQ(funGame->getNukeDots().size(), 0);
+  EXPECT_EQ(funGame->getNukeDots().size(), 0U);
   u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == ghost);
   u->useTech(TechTypes::Nuclear_Strike, Position{ 50, 50 });
   funGame.advance(60);
-  EXPECT_EQ(funGame->getNukeDots().size(), 1);
+  EXPECT_EQ(funGame->getNukeDots().size(), 1U);
   EXPECT_EQ(*funGame->getNukeDots().begin(), Position(50, 50));
   funGame->killUnit(u);
   funGame.advance(10);
-  EXPECT_EQ(funGame->getNukeDots().size(), 0);
+  EXPECT_EQ(funGame->getNukeDots().size(), 0U);
   funGame->createUnit(self, ghost, Position{ 100, 100 }, 1);
   u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == nukeSilo);
   u->train(UnitTypes::Terran_Nuclear_Missile);
@@ -132,8 +132,8 @@ TEST_F(TerranBaseFixture, Nuke)
   u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == ghost);
   u->useTech(TechTypes::Nuclear_Strike, Position{ 50, 50 });
   funGame.advance(60);
-  EXPECT_EQ(funGame->getNukeDots().size(), 1);
+  EXPECT_EQ(funGame->getNukeDots().size(), 1U);
   funGame->sendText("Operation cwal");
   funGame.advance(400);
-  EXPECT_EQ(funGame->getNukeDots().size(), 0);
+  EXPECT_EQ(funGame->getNukeDots().size(), 0U);
 }

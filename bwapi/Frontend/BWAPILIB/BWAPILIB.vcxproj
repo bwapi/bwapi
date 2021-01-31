@@ -48,7 +48,7 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level4</WarningLevel>
-      <DisableSpecificWarnings>4100</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4100;4458</DisableSpecificWarnings>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -71,7 +71,7 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4100</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4100;4458</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ProgramDataBaseFileName>$(OutDir)BWAPILibd.pdb</ProgramDataBaseFileName>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>

@@ -154,6 +154,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)/Backend/libprotobuf-lite/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <PreBuildEvent>
       <Command>"../Messages/proto/protoc-3.6.0-win32/bin/protoc" --cpp_out="$(ProjectDir)generated/cpp/" --error_format=msvs Wrapper.proto

@@ -427,13 +427,13 @@ namespace BWAPI4
         }
         else  // Otherwise send to all
         {
-          SNetSendMessage(-1, szMessage, msgLen + 3);
+          SNetSendMessage(SNET_BROADCASTPLAYERID, szMessage, msgLen + 3);
         } // toAllies
       }
       else  // assume in lobby, then send lobby message
       {
         szMessage[1] = 0x4C;
-        SNetSendMessage(-1, &szMessage[1], msgLen + 2);
+        SNetSendMessage(SNET_BROADCASTPLAYERID, &szMessage[1], msgLen + 2);
       } // isInGame
     } // multi
   }

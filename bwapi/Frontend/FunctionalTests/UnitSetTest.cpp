@@ -1,4 +1,4 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 #include "game.h"
 
@@ -35,8 +35,7 @@ TEST(UnitSetTest, Train)
     funGame->createUnit(self, commandCenter, static_cast<Position>(positions[i]), 1);
   funGame.advance(2);
   //verify spawn.
-  EXPECT_EQ(self.allUnitCount(commandCenter), std::extent<decltype(positions)>::value);
-
+  EXPECT_EQ(self.allUnitCount(commandCenter), int(std::extent<decltype(positions)>::value));
 
   auto orderUnits = self.getUnits();
   //Verify we have the expected # of spawned units
@@ -47,7 +46,7 @@ TEST(UnitSetTest, Train)
   funGame.advance(COMMANDWAIT);
 
   auto numberTrainedUnits = self.incompleteUnitCount(SCV);
-  EXPECT_EQ(numberTrainedUnits, std::extent<decltype(positions)>::value);
+  EXPECT_EQ(numberTrainedUnits, int(std::extent<decltype(positions)>::value));
 
   //Let the SCVs build a little.
   funGame.advance(46);
@@ -143,6 +142,6 @@ TEST(UnitSetTest, NuetralUnitSetTest)
   funGame->createUnit(self, UnitTypes::Special_Map_Revealer, Position{ 200, 200 }, 1);
 
   funGame.advance(COMMANDWAIT);
-  EXPECT_EQ(funGame->getNeutralUnits().size(), 1);
+  EXPECT_EQ(funGame->getNeutralUnits().size(), 1U);
   funGame.reset();
 }

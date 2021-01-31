@@ -132,7 +132,7 @@ namespace DRIP
     UDPAddr host;
     host.sin_family = AF_INET;
     host.sin_addr.s_addr = inet_addr(getHostIPString());
-    host.sin_port = htons(atoi(getHostPortString()));
+    host.sin_port = htons(u_short(std::atoi(getHostPortString())));
     session.sendPacket(host, sendBuffer.getFrameUpto(ping_server));
   }
   void DirectIP::sendAsyn(const SNETADDR& him, Util::MemoryFrame packet)

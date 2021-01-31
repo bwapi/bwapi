@@ -134,7 +134,7 @@ namespace BWAPI
                 {
                   game.gameData->map.groundHeight[groundHeight->x()][groundHeight->y()] = groundHeight->value();
                   game.gameData->map.isBuildable[isBuildable->x()][isBuildable->y()] = isBuildable->value();
-                  game.gameData->map.mapTileRegionId[mapTile->x()][mapTile->y()] = mapTile->value();
+                  game.gameData->map.mapTileRegionId[mapTile->x()][mapTile->y()] = static_cast<unsigned short>(mapTile->value());
                   groundHeight++;
                   isBuildable++;
                   mapTile++;
@@ -715,22 +715,22 @@ namespace BWAPI
             // engaged_target_tag
 
             //unitData.acidSporeCount = u.acidsporecount(); // Where is this?
-            unitData.type = static_cast<UnitType>(u.unit_type());
+            unitData.type = UnitType(u.unit_type());
             if (u.has_add_on_tag())
-              unitData.addon = static_cast<UnitID>(u.add_on_tag());
-            unitData.airWeaponCooldown = u.weapon_cooldown();
-            unitData.angle = static_cast<double>(u.facing());
+              unitData.addon = UnitID(int(u.add_on_tag()));
+            unitData.airWeaponCooldown = int(u.weapon_cooldown());
+            unitData.angle = double(u.facing());
             //unitData.buildUnit = UnitID{ u.buildunit() }; // What is this training, or what is building me?
             if (u.orders().size())
             {
-              switch (static_cast<Order>(u.orders().begin()->ability_id()))
+              switch (Order(u.orders().begin()->ability_id()))
               {
               case Orders::Enum::IncompleteBuilding:
               case Orders::Enum::IncompleteWarping:
                 unitData.buildType = unitData.type;
                 break;
               case Orders::Enum::ConstructingBuilding:
-                if (unitData.buildUnit != static_cast<UnitID>(-1))
+                if (unitData.buildUnit != UnitID(-1))
                   unitData.buildType = units.find(unitData.buildUnit) == units.end() ? units.find(unitData.buildUnit)->type : UnitTypes::None;
                 break;
                 /*case Orders::Enum::IncompleteMorphing:
@@ -744,7 +744,7 @@ namespace BWAPI
               case Orders::Enum::ZergUnitMorph:
               case Orders::Enum::ZergBuildingMorph:
               case Orders::Enum::DroneLand:
-                unitData.buildType = static_cast<UnitType>(u.add_on_tag());
+                unitData.buildType = UnitType(int(u.add_on_tag()));
                 break;
                 /*case Orders::Enum::ResearchTech:
                   unitData.tech = static_cast<TechType>(u.add_on_tag());
@@ -760,13 +760,13 @@ namespace BWAPI
             //unitData.carryResourceType = u.carryresourcetype();
             //unitData.defenseMatrixPoints = u.defensematrixpoints();
             //unitData.defenseMatrixTimer = u.defensematrixtimer();
-            unitData.energy = u.energy();
+            unitData.energy = int(u.energy());
             //unitData.ensnareTimer = u.ensnaretimer();
-            unitData.groundWeaponCooldown = u.weapon_cooldown();
+            unitData.groundWeaponCooldown = int(u.weapon_cooldown());
             //unitData.hasNuke = u.hasnuke();
             //unitData.hatchery = UnitID{ u.hatchery() };
             unitData.lastHitPoints = unitData.hitPoints;
-            unitData.hitPoints = u.health();
+            unitData.hitPoints = int(u.health());
             //unitData.interceptorCount = u.interceptorcount();
             //unitData.irradiateTimer = u.irradiatetimer();
             //unitData.isAccelerating = u.isaccelerating();
@@ -803,7 +803,7 @@ namespace BWAPI
               unitData.isTraining = false;
               for (auto o : u.orders())
               {
-                if (o.ability_id() == Orders::Train)
+                if (BWAPI::Order(o.ability_id()) == Orders::Train)
                 {
                   unitData.isTraining = true;
                   break;
@@ -823,7 +823,7 @@ namespace BWAPI
             //unitData.lastHitPoints = u.lasthitpoints();
             unitData.loadedUnits.clear();
             for (auto &lu : u.passengers())
-              unitData.loadedUnits.push_back(static_cast<UnitID>(lu.tag()));
+              unitData.loadedUnits.push_back(UnitID(int(lu.tag())));
             //unitData.lockdownTimer = u.lockdowntimer();
             //unitData.maelstromTimer = u.maelstromtimer();
             //unitData.nydusExit = UnitID{ u.nydusexit() };
@@ -832,9 +832,9 @@ namespace BWAPI
             {
               unitData.order = static_cast<Order>(u.orders().begin()->ability_id());
               if (itr->has_target_unit_tag())
-                unitData.orderTarget = static_cast<UnitID>(itr->target_unit_tag());
+                unitData.orderTarget = UnitID(int(itr->target_unit_tag()));
               else if (itr->has_target_world_space_pos())
-                unitData.orderTargetPosition = Position{ static_cast<int>(itr->target_world_space_pos().x()), static_cast<int>(itr->target_world_space_pos().y()) };
+                unitData.orderTargetPosition = Position{ int(itr->target_world_space_pos().x()), int(itr->target_world_space_pos().y()) };
             }
             unitData.isMorphing = unitData.order == Orders::ZergBirth ||
               unitData.order == Orders::ZergBuildingMorph ||
@@ -900,7 +900,7 @@ namespace BWAPI
               unitData.resources = u.vespene_contents();
             //unitData.scarabCount = u.scarabcount();
             //unitData.secondaryOrder = Order{ u.secondaryorder() };
-            unitData.shields = u.shield();
+            unitData.shields = int(u.shield());
             //unitData.spellCooldown = u.spellcooldown();
             //unitData.spiderMineCount = u.spiderminecount();
             //unitData.stasisTimer = u.stasistimer();
@@ -921,7 +921,7 @@ namespace BWAPI
           {
             if (u.unit_type() == 191) // Bullet, not unit, ignore for now.
               continue;
-            UnitID unitID = static_cast<UnitID>(u.tag());
+            UnitID unitID = static_cast<UnitID>(int(u.tag()));
             auto itr = units.find(unitID);
             if (itr == units.end())
             {
@@ -959,7 +959,7 @@ namespace BWAPI
             for (const auto& tag : observationRaw.event().dead_units())
             {
               Event e;
-              auto unitID = static_cast<UnitID>(tag);
+              auto unitID = UnitID(int(tag));
               auto itr = units.find(unitID);
               if (itr == units.end())
                 continue;
@@ -1418,16 +1418,16 @@ namespace BWAPI
       case UnitCommandTypes::Right_Click_Position:
       {
         auto targetPoint = actionRawUnitCommand->mutable_target_world_space_pos();
-        targetPoint->set_x(command.x);
-        targetPoint->set_y(command.y);
+        targetPoint->set_x(float(command.x));
+        targetPoint->set_y(float(command.y));
       }
       break;
       case UnitCommandTypes::Build:
       case UnitCommandTypes::Build_Addon:
       {
         auto targetPoint = actionRawUnitCommand->mutable_target_world_space_pos();
-        targetPoint->set_x(command.x);
-        targetPoint->set_y(command.y);
+        targetPoint->set_x(float(command.x));
+        targetPoint->set_y(float(command.y));
         actionRawUnitCommand->add_unit_tags(command.extra);
       }
       break;
@@ -1458,8 +1458,8 @@ namespace BWAPI
         if (ut != UnitTypes::Terran_Bunker)
         {
           auto targetPoint = actionRawUnitCommand->mutable_target_world_space_pos();
-          targetPoint->set_x(units.begin()->getPosition().x);
-          targetPoint->set_y(units.begin()->getPosition().y);
+          targetPoint->set_x(float(units.begin()->getPosition().x));
+          targetPoint->set_y(float(units.begin()->getPosition().y));
         }
       default:
         break;

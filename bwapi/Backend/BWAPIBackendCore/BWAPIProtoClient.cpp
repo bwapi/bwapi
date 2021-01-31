@@ -67,10 +67,10 @@ namespace BWAPI
       return;
 
     sf::Packet packet;
-    bool skip = false;
+    //bool skip = false;
     //Look for a 1.16.1 backend first.
     auto broadcastMessage = std::make_unique<bwapi::message::Message>();
-    auto initResponse = broadcastMessage->mutable_initbroadcast();
+    /*auto initResponse =*/ broadcastMessage->mutable_initbroadcast();
 
     auto size = broadcastMessage->ByteSize();
     std::unique_ptr<char[]> buffer(new char[size]);
