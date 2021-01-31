@@ -17,11 +17,6 @@ set PATH=%PATH%;%cd%/apps/doxygen/;%cd%/apps/graphviz/bin/;%cd%/apps/
 if defined APPVEYOR (
   set MSBUILD_ADDITIONAL_OPTIONS=/logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   set VSTEST_ADDITIONAL_OPTIONS=/logger:Appveyor
-
-  doskey pip3 = C:\Python39-x64\pip.exe
-  doskey python3 = C:\Python39-x64\python.exe
-
-  appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
 )
 
 :: Prep repository
@@ -57,10 +52,10 @@ popd
 set DOT_PATH=%cd%/apps/graphviz/bin/dot.exe
 pushd Documentation
 
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 if %errorlevel% neq 0 exit 1
 
-python3 m.css/documentation/doxygen.py Doxyfile-mcss
+python m.css/documentation/doxygen.py Doxyfile-mcss
 if %errorlevel% neq 0 exit 1
 
 popd
