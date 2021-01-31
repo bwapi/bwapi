@@ -12,7 +12,7 @@
 ::  - Inno Setup (Installer)
 ::  - 7-Zip (archive without installer)
 
-pushd %CD%
+set PATH=%PATH%;%cd%/apps/doxygen/;%cd%/apps/graphviz/bin/;%cd%/apps/
 
 if defined APPVEYOR (
   set MSBUILD_ADDITIONAL_OPTIONS=/logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
@@ -20,16 +20,25 @@ if defined APPVEYOR (
 )
 
 :: Build BWAPI's full stack
-cd bwapi
-::nuget restore
+pushd bwapi
+nuget restore
 msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Debug /p:Platform=Win32 bwapi.sln
 msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Release /p:Platform=Win32 bwapi.sln
-msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Installer_Target /p:Platform=Win32 bwapi.sln
+::msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Installer_Target /p:Platform=Win32 bwapi.sln
+popd
 
 :: Run unit tests (TODO: do in Appveyor test step)
 ::cd Debug
 ::vstest.console BWAPILIBTest.dll BWAPICoreTest.dll %VSTEST_ADDITIONAL_OPTIONS%
 
-:: Finish
+:: Documentation generation
+set DOT_PATH=%cd%/apps/graphviz/bin/dot.exe
+pushd Documentation
+pip3 install -r requirements.txt
+python3 m.css/documentation/doxygen.py Doxyfile-mcss
 popd
 
+:: Archive artifacts
+7z a -r -mx=9 -myx=9 BWAPI.7z Release_Binary
+
+:: Finish
