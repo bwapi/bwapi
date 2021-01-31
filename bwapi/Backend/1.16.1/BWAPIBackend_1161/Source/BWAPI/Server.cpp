@@ -504,6 +504,9 @@ namespace BWAPI4
     auto game = frameUpdate->mutable_game();
     auto gameData = game->mutable_gamedata();
     auto mapData = gameData->mutable_map();
+
+    // TODO: Investigate whether https://github.com/bwapi/bwapi/commit/82ce2e7e4b958052a4f72eb7965769dc25221e27 needs to be applied
+
     if (BroodwarImpl.isInGame())
     {
       data->gameType = BroodwarImpl.getGameType();
