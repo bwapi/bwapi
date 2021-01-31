@@ -56,6 +56,10 @@ if %errorlevel% neq 0 exit 1
 
 popd
 
+:: Remove temp xml directory
+rmdir /S /Q Release_Binary\documentation\xml
+
+
 :: Archive artifacts
 7z a -r -mx=9 -myx=9 BWAPI.7z Release_Binary
 if %errorlevel% neq 0 exit 1

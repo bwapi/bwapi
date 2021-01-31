@@ -8,7 +8,7 @@ build_script:
   - cmd: build.bat
 test_script:
   - '"bwapi/Debug/BWAPILIBUnitTest.exe" --gtest_output=xml:unit_test_results.xml'
-  - curl "https://ci.appveyor.com/api/testresults/junit/%APPVEYOR_JOB_ID%" --upload-file unit_test_results.xml
+  - curl -F 'file=@unit_test_results.xml' "https://ci.appveyor.com/api/testresults/junit/%APPVEYOR_JOB_ID%"
 artifacts:
   - path: BWAPI.7z
     name: Archive
