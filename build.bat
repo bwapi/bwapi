@@ -44,10 +44,6 @@ if %errorlevel% neq 0 exit 1
 ::msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Installer_Target /p:Platform=Win32 bwapi.sln
 popd
 
-:: Run unit tests (TODO: do in Appveyor test step)
-::cd Debug
-::vstest.console BWAPILIBTest.dll BWAPICoreTest.dll %VSTEST_ADDITIONAL_OPTIONS%
-
 :: Documentation generation
 set DOT_PATH=%cd%/apps/graphviz/bin/dot.exe
 pushd Documentation
