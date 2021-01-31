@@ -20,13 +20,23 @@ if defined APPVEYOR (
 
   ::doskey pip3 = C:\Python39-x64\pip3.9.exe
   ::doskey python3 = C:\Python39-x64\python3.9.exe
+
+  appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+)
+
+pushd bwapi
+:: Restore nuget packages
+curl --output nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+if %errorlevel% neq 0 exit 1
+
+nuget restore -DisableParallelProcessing -verbosity detailed
+if %errorlevel% neq 0 (
+  timeout /t 2 /nobreak
+  nuget restore -DisableParallelProcessing -verbosity detailed
+  if %errorlevel% neq 0 exit 1
 )
 
 :: Build BWAPI's full stack
-pushd bwapi
-nuget restore
-if %errorlevel% neq 0 exit 1
-
 msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Debug /p:Platform=Win32 bwapi.sln
 if %errorlevel% neq 0 exit 1
 
