@@ -14,6 +14,4 @@ End If
 Set svnrev = objFS.CreateTextFile("include/svnrev.h")
 svnrev.WriteLine("static const int SVN_REV = " & revNumber & ";")
 svnrev.WriteLine("")
-svnrev.WriteLine("#include ""starcraftver.h""")
-svnrev.WriteLine("")
 svnrev.Close()
