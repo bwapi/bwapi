@@ -14,13 +14,9 @@
 
 set PATH=%PATH%;%cd%/apps/doxygen/;%cd%/apps/graphviz/bin/;%cd%/apps/
 
-if defined APPVEYOR (
-  set MSBUILD_ADDITIONAL_OPTIONS=/logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  set VSTEST_ADDITIONAL_OPTIONS=/logger:Appveyor
-)
-
 pushd bwapi
 :: Restore nuget packages
+curl --output nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
 nuget restore -DisableParallelProcessing -verbosity detailed
 if %errorlevel% neq 0 (
   timeout /t 2 /nobreak
