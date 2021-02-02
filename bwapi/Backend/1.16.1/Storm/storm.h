@@ -6,8 +6,6 @@
 // Note to self: Linker error => forgot a return value in cpp
 
 #include <windows.h>
-#include <winuser.h>
-#include <winsock.h>
 #include <ddraw.h>
 
 #ifndef STORMAPI
