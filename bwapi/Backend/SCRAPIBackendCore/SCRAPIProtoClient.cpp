@@ -2,18 +2,25 @@
 
 #include<SFML/Network.hpp>
 
+#include <chrono>
+#include <iostream>
+#include <vector>
+
 namespace BWAPI
 {
-  SCRAPIProtoClient::SCRAPIProtoClient() : mt(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()))
+  SCRAPIProtoClient::SCRAPIProtoClient()
+    : mt(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()))
+    , connected(false)
+    , udpbound(false)
+    , remaster(false)
+    , connectionPort(1025)
   {
-    connected = false;
-    udpbound = false;
-    remaster = false;
-    connectionPort = 1025;
   }
 
   void BWAPI::SCRAPIProtoClient::lookForServer(int apiversion, std::string bwapiversion, bool tournament)
   {
+    using namespace std::chrono_literals;
+
     if (isConnected())
       return;
 
@@ -27,10 +34,10 @@ namespace BWAPI
     broadcastMessage->mutable_connect();
 
     auto size = broadcastMessage->ByteSize();
-    std::unique_ptr<char[]> buffer(new char[size]);
+    std::vector<char> buffer(size);
 
-    broadcastMessage->SerializeToArray(&buffer[0], size);
-    packet.append(buffer.get(), size);
+    broadcastMessage->SerializeToArray(buffer.data(), size);
+    packet.append(buffer.data(), size);
 
     sf::IpAddress server = sf::IpAddress::Broadcast;
     unsigned short port = 1024;
@@ -40,20 +47,13 @@ namespace BWAPI
     udpSocket.setBlocking(false);
 
     // Sleep to give Remaster a chance to send the packet.
-    {
-      using namespace std::chrono_literals;
-      std::this_thread::sleep_for(2s);
-    }
+    std::this_thread::sleep_for(2s);
 
     if (udpSocket.receive(packet, server, port) != sf::Socket::Done)
       return;
 
-    size = packet.getDataSize();
-    std::unique_ptr<char[]> replyBuffer(new char[size]);
-    memcpy(replyBuffer.get(), packet.getData(), size);
-
     auto currentMessage = std::make_unique<SCRAPIProtocol::Response>();
-    currentMessage->ParseFromArray(replyBuffer.get(), size);
+    currentMessage->ParseFromArray(packet.getData(), packet.getDataSize());
 
     if (!currentMessage->has_connect())
       return;
@@ -61,7 +61,7 @@ namespace BWAPI
     connectionPort = 8999;
     tcpSocket.connect(server, connectionPort);
     if (tcpSocket.getRemoteAddress() == sf::IpAddress::None)
-      fprintf(stderr, "%s", "Connection failed.\n");
+      std::cerr << "Connection failed." << std::endl;
     remaster = true;
   }
 
@@ -79,14 +79,15 @@ namespace BWAPI
       packet.clear();
       currentMessage = std::move(requestQueue.front());
       requestQueue.pop_front();
+
       auto size = currentMessage->ByteSize();
-      std::unique_ptr<char[]> buffer(new char[size]);
-      currentMessage->SerializeToArray(&buffer[0], size);
-      packet.append(buffer.get(), size);
+      std::vector<char> buffer(size);
+      currentMessage->SerializeToArray(buffer.data(), size);
+      packet.append(buffer.data(), size);
       if (tcpSocket.send(packet) != sf::Socket::Done)
       {
         //Error sending command, we should do something here?
-        fprintf(stderr, "Failed to send a Message.\n");
+        std::cerr << "Failed to send a Message." << std::endl;
       }
     }
 
@@ -94,14 +95,15 @@ namespace BWAPI
     auto endOfQueue = std::make_unique<SCRAPIProtocol::Request>();
     endOfQueue->mutable_end_of_queue();
     packet.clear();
+
     auto size = endOfQueue->ByteSize();
-    std::unique_ptr<char[]> buffer(new char[size]);
-    endOfQueue->SerializeToArray(&buffer[0], size);
-    packet.append(buffer.get(), size);
+    std::vector<char> buffer(size);
+    endOfQueue->SerializeToArray(buffer.data(), size);
+    packet.append(buffer.data(), size);
     if (tcpSocket.send(packet) != sf::Socket::Done)
     {
       //Error sending EndofQueue
-      fprintf(stderr, "Failed to send end of queue command.");
+      std::cerr << "Failed to send end of queue command." << std::endl;
     }
   }
 
@@ -119,13 +121,10 @@ namespace BWAPI
       auto currentMessage = std::make_unique<SCRAPIProtocol::Response>();
       if (tcpSocket.receive(packet) != sf::Socket::Done)
       {
-        fprintf(stderr, "Failed to receive messages.\n");
+        std::cerr << "Failed to receive messages." << std::endl;
         return;
       }
-      auto size = packet.getDataSize();
-      std::unique_ptr<char[]> packetContents(new char[size]);
-      memcpy(packetContents.get(), packet.getData(), size);
-      currentMessage->ParseFromArray(packetContents.get(), packet.getDataSize());
+      currentMessage->ParseFromArray(packet.getData(), packet.getDataSize());
       if (currentMessage->has_end_of_queue())
         return;
       responseQueue.push_back(std::move(currentMessage));

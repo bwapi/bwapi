@@ -1,13 +1,9 @@
 #pragma once
-#pragma once
 
-#include<iostream>
-#include<deque>
-#include<fstream>
-#include<random>
-#include<chrono>
+#include <deque>
+#include <random>
 
-#include<SFML/Network.hpp>
+#include <SFML/Network.hpp>
 
 // Protobuf headers have some warnings we don't care about
 #pragma warning(push, 0)
@@ -39,7 +35,6 @@ namespace BWAPI
     sf::UdpSocket udpSocket;
     sf::TcpSocket tcpSocket;
     sf::TcpListener tcpListener;
-    sf::SocketSelector socketSelector;
     std::deque<std::unique_ptr<SCRAPIProtocol::Request>> requestQueue;
     std::deque<std::unique_ptr<SCRAPIProtocol::Response>> responseQueue;
     std::mt19937 mt;

@@ -2,13 +2,18 @@
 
 #include<SFML/Network.hpp>
 
+#include <chrono>
+#include <iostream>
+#include <vector>
+
 namespace BWAPI
 {
-  BWAPIProtoClient::BWAPIProtoClient() : mt(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()))
+  BWAPIProtoClient::BWAPIProtoClient()
+    : mt(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()))
+    , connected(false)
+    , udpbound(false)
+    , connectionPort(1025)
   {
-    connected = false;
-    udpbound = false;
-    connectionPort = 1025;
   }
 
   void BWAPIProtoClient::checkForConnection(uint32_t apiVersion, std::string enginetype, std::string engineVersion)
@@ -30,13 +35,7 @@ namespace BWAPI
     if (udpSocket.receive(packet, sender, port) != sf::Socket::Done)
       return;
 
-    auto size = packet.getDataSize();
-    std::unique_ptr<char[]> packetContents(new char[size]);
-    memcpy(packetContents.get(), packet.getData(), size);
-
-    auto currentMessage = std::make_unique<bwapi::message::Message>();
-    currentMessage->ParseFromArray(packetContents.get(), static_cast<int>(size));
-
+    auto currentMessage = messageFromPacket(packet);
     if (!currentMessage->has_initbroadcast())
       return;
 
@@ -45,13 +44,8 @@ namespace BWAPI
 
     initResponse->set_port(static_cast<int>(connectionPort));
 
-
     packet.clear();
-    size = reply->ByteSize();
-    std::unique_ptr<char[]> buffer(new char[size]);
-
-    reply->SerializeToArray(&buffer[0], size);
-    packet.append(buffer.get(), size);
+    appendMessageToPacket(reply, packet);
 
     udpSocket.send(packet, sender, port);
     udpSocket.unbind();
@@ -63,20 +57,17 @@ namespace BWAPI
 
   void BWAPI::BWAPIProtoClient::lookForServer(int apiversion, std::string bwapiversion, bool tournament)
   {
+    using namespace std::chrono_literals;
+
     if (isConnected())
       return;
 
     sf::Packet packet;
-    //bool skip = false;
     //Look for a 1.16.1 backend first.
     auto broadcastMessage = std::make_unique<bwapi::message::Message>();
-    /*auto initResponse =*/ broadcastMessage->mutable_initbroadcast();
+    broadcastMessage->mutable_initbroadcast();
 
-    auto size = broadcastMessage->ByteSize();
-    std::unique_ptr<char[]> buffer(new char[size]);
-
-    broadcastMessage->SerializeToArray(&buffer[0], size);
-    packet.append(buffer.get(), size);
+    appendMessageToPacket(broadcastMessage, packet);
 
     sf::IpAddress server = sf::IpAddress::Broadcast;
     unsigned short port = 1024;
@@ -84,19 +75,13 @@ namespace BWAPI
     udpSocket.send(packet, server, port);
     server = sf::IpAddress::Any;
     udpSocket.setBlocking(false);
+
     // Sleep to give 1.16.1 a chance to send the packet.
-    {
-      using namespace std::chrono_literals;
-      std::this_thread::sleep_for(2s);
-    }
+    std::this_thread::sleep_for(2s);
+
     if (udpSocket.receive(packet, server, port) == sf::Socket::Done)
     {
-      size = packet.getDataSize();
-      std::unique_ptr<char[]> replyBuffer(new char[size]);
-      memcpy(replyBuffer.get(), packet.getData(), size);
-
-      auto currentMessage = std::make_unique<bwapi::message::Message>();
-      currentMessage->ParseFromArray(replyBuffer.get(), size);
+      auto currentMessage = messageFromPacket(packet);
 
       if (!currentMessage->has_initresponse())
         return;
@@ -105,7 +90,7 @@ namespace BWAPI
 
       tcpSocket.connect(server, connectionPort);
       if (tcpSocket.getRemoteAddress() == sf::IpAddress::None)
-        fprintf(stderr, "%s", "Connection failed.\n");
+        std::cerr << "Connection failed." << std::endl;
     }
   }
 
@@ -123,16 +108,14 @@ namespace BWAPI
       packet.clear();
       currentMessage = std::move(messageQueue.front());
       messageQueue.pop_front();
-      auto size = currentMessage->ByteSize();
-      if (size > 0) {
-        std::unique_ptr<char[]> buffer(new char[size]);
-        currentMessage->SerializeToArray(&buffer[0], size);
-        packet.append(buffer.get(), size);
+
+      if (currentMessage->ByteSize() > 0) {
+        appendMessageToPacket(currentMessage, packet);
       }
       if (tcpSocket.send(packet) != sf::Socket::Done)
       {
         //Error sending command, we should do something here?
-        fprintf(stderr, "Failed to send a Message.\n");
+        std::cerr << "Failed to send a Message." << std::endl;
       }
     }
 
@@ -140,14 +123,12 @@ namespace BWAPI
     currentMessage = std::make_unique<bwapi::message::Message>();
     currentMessage->mutable_endofqueue();
     packet.clear();
-    auto size = currentMessage->ByteSize();
-    std::unique_ptr<char[]> buffer(new char[size]);
-    currentMessage->SerializeToArray(&buffer[0], size);
-    packet.append(buffer.get(), size);
+
+    appendMessageToPacket(currentMessage, packet);
     if (tcpSocket.send(packet) != sf::Socket::Done)
     {
       //Error sending EndofQueue
-      fprintf(stderr, "Failed to send end of queue command.");
+      std::cerr << "Failed to send end of queue command." << std::endl;
     }
   }
 
@@ -163,16 +144,13 @@ namespace BWAPI
     while (true)
     {
       packet.clear();
-      currentMessage = std::make_unique<bwapi::message::Message>();
       if (tcpSocket.receive(packet) != sf::Socket::Done)
       {
-        fprintf(stderr, "Failed to receive messages.\n");
+        std::cerr << "Failed to receive messages." << std::endl;
         return;
       }
-      auto size = packet.getDataSize();
-      std::unique_ptr<char[]> packetContents(new char[size]);
-      memcpy(packetContents.get(), packet.getData(), size);
-      currentMessage->ParseFromArray(packetContents.get(), packet.getDataSize());
+
+      currentMessage = messageFromPacket(packet);
       if (currentMessage->has_endofqueue())
         return;
       //if (currentMessage->has_frameupdate())
