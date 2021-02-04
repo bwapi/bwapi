@@ -53,7 +53,6 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <AdditionalIncludeDirectories>../Storm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <StringPooling>true</StringPooling>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -67,7 +66,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y /B "$(OutDir)$(TargetName)$(TargetExt)" + "SNP\caps.mpq" "$(OutDir)$(TargetName).snp"</Command>
+      <Command>copy /Y /B "$(TargetPath)" + "SNP\caps.mpq" "$(OutDir)$(TargetName).snp"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -81,7 +80,6 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>../Storm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <StringPooling>true</StringPooling>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -95,7 +93,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y /B "$(OutDir)$(TargetName)$(TargetExt)" + "SNP\caps.mpq" "$(SolutionDir)..\Release_Binary\Starcraft\$(TargetName).snp"</Command>
+      <Command>copy /Y /B "$(TargetPath)" + "SNP\caps.mpq" "$(SolutionDir)..\Release_Binary\Starcraft\$(TargetName).snp"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -45,7 +45,6 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{760E9359-EC46-48F7-AE1D-E238B17C4797}</ProjectGuid>
     <RootNamespace>BWAPIFrontendClient</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
