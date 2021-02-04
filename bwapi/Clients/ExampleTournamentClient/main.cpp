@@ -16,7 +16,7 @@ std::set<RegionData, IDCompare> regions;
 std::set<BulletData, IDCompare> bullets;
 std::set<ForceData, IDCompare> forces;
 
-int main(int argc, const char* argv[])
+int main()
 {
   BWAPIProtoClient connectionToClient;
   BWAPIProtoClient connectionToServer;
@@ -100,10 +100,10 @@ void update(Game& game, BWAPIProtoClient& protoClient)
       //update game here
       if (message->frameupdate().has_game())
       {
-        auto gameMessage = message->frameupdate().game();
+        auto& gameMessage = message->frameupdate().game();
         if (gameMessage.has_gamedata())
         {
-          auto gameUpdate = gameMessage.gamedata();
+          auto& gameUpdate = gameMessage.gamedata();
           game.gameData->player = PlayerID{ gameUpdate.player() };
           game.gameData->screenPosition = { gameUpdate.screenposition().x(), gameUpdate.screenposition().y() };
           game.gameData->frameCount = gameUpdate.framecount();
@@ -124,9 +124,9 @@ void update(Game& game, BWAPIProtoClient& protoClient)
           game.gameData->randomSeed = gameUpdate.randomseed();
           if (gameUpdate.has_staticmap())
           {
-            auto staticMap = gameUpdate.staticmap();
+            auto& staticMap = gameUpdate.staticmap();
             game.gameData->map.size = TilePosition{ staticMap.size().x(), staticMap.size().y() };
-            for (auto isWalkable : staticMap.iswalkable())
+            for (auto& isWalkable : staticMap.iswalkable())
               game.gameData->map.isWalkable[isWalkable.x()][isWalkable.y()] = isWalkable.value();
 
             auto groundHeight = staticMap.groundheight().begin();
@@ -136,7 +136,7 @@ void update(Game& game, BWAPIProtoClient& protoClient)
             {
               game.gameData->map.groundHeight[groundHeight->x()][groundHeight->y()] = groundHeight->value();
               game.gameData->map.isBuildable[isBuildable->x()][isBuildable->y()] = isBuildable->value();
-              game.gameData->map.mapTileRegionId[mapTile->x()][mapTile->y()] = mapTile->value();
+              game.gameData->map.mapTileRegionId[mapTile->x()][mapTile->y()] = static_cast<unsigned short>(mapTile->value());
               groundHeight++;
               isBuildable++;
               mapTile++;
@@ -144,9 +144,9 @@ void update(Game& game, BWAPIProtoClient& protoClient)
             game.gameData->map.mapHash = staticMap.maphash();
 
             // TODO: These uint32 are being implicitly cast to unsigned short, they need a proper explicit cast/conversion
-            std::copy(staticMap.mapsplittilesminitilemask().begin(), staticMap.mapsplittilesminitilemask().end(), &game.gameData->map.mapSplitTilesMiniTileMask[0]);
-            std::copy(staticMap.mapsplittilesregion1().begin(), staticMap.mapsplittilesregion1().end(), &game.gameData->map.mapSplitTilesRegion1[0]);
-            std::copy(staticMap.mapsplittilesregion2().begin(), staticMap.mapsplittilesregion2().end(), &game.gameData->map.mapSplitTilesRegion2[0]);
+            std::copy(staticMap.mapsplittilesminitilemask().begin(), staticMap.mapsplittilesminitilemask().end(), std::begin(game.gameData->map.mapSplitTilesMiniTileMask));
+            std::copy(staticMap.mapsplittilesregion1().begin(), staticMap.mapsplittilesregion1().end(), std::begin(game.gameData->map.mapSplitTilesRegion1));
+            std::copy(staticMap.mapsplittilesregion2().begin(), staticMap.mapsplittilesregion2().end(), std::begin(game.gameData->map.mapSplitTilesRegion2));
 
             game.gameData->map.tileset = staticMap.tileset();
             game.gameData->mapName = staticMap.mapname();
@@ -158,7 +158,7 @@ void update(Game& game, BWAPIProtoClient& protoClient)
           }
           if (gameUpdate.has_map())
           {
-            auto map = gameUpdate.map();
+            auto& map = gameUpdate.map();
             for (auto& data : map.hascreep())
               game.gameData->map.hasCreep[data.x()][data.y()] = data.value();
             for (auto& data : map.isexplored())
@@ -478,7 +478,7 @@ void update(Game& game, BWAPIProtoClient& protoClient)
     else if (message->has_event())
     {
       Event e2;
-      auto e = message->event();
+      auto& e = message->event();
       if (e.has_matchstart())
       {
         e2.setType(EventType::MatchStart);
@@ -519,7 +519,7 @@ void update(Game& game, BWAPIProtoClient& protoClient)
       }
       else if (e.has_nukedetect())
       {
-        auto target = e.nukedetect().target();
+        auto& target = e.nukedetect().target();
         e2.setType(EventType::NukeDetect);
         e2.setPosition(Position{ target.x(),target.y() });
       }

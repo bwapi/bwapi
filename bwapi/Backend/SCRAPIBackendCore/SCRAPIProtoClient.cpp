@@ -53,7 +53,7 @@ namespace BWAPI
       return;
 
     auto currentMessage = std::make_unique<SCRAPIProtocol::Response>();
-    currentMessage->ParseFromArray(packet.getData(), packet.getDataSize());
+    currentMessage->ParseFromArray(packet.getData(), static_cast<int>(packet.getDataSize()));
 
     if (!currentMessage->has_connect())
       return;
@@ -124,7 +124,7 @@ namespace BWAPI
         std::cerr << "Failed to receive messages." << std::endl;
         return;
       }
-      currentMessage->ParseFromArray(packet.getData(), packet.getDataSize());
+      currentMessage->ParseFromArray(packet.getData(), static_cast<int>(packet.getDataSize()));
       if (currentMessage->has_end_of_queue())
         return;
       responseQueue.push_back(std::move(currentMessage));
@@ -141,14 +141,14 @@ namespace BWAPI
     return tcpSocket.getRemoteAddress() != sf::IpAddress::None;
   }
 
-  int SCRAPIProtoClient::responseQueueSize() const
+  size_t SCRAPIProtoClient::responseQueueSize() const
   {
     return responseQueue.size();
   }
 
   std::unique_ptr<SCRAPIProtocol::Response> SCRAPIProtoClient::getNextResponse()
   {
-    auto nextMessage = std::move(responseQueue.front());
+    std::unique_ptr<SCRAPIProtocol::Response> nextMessage = std::move(responseQueue.front());
     responseQueue.pop_front();
     return nextMessage;
   }

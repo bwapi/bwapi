@@ -25,7 +25,7 @@ void reconnect(Client &BWAPIClient)
   }
 }
 
-int main(int argc, const char* argv[])
+int main()
 {
   ProtoClient BWAPIClient;
   Game Broodwar(BWAPIClient);
@@ -54,7 +54,7 @@ int main(int argc, const char* argv[])
     {
       Broodwar << "The following players are in this replay:" << std::endl;
       Playerset players = Broodwar->getPlayers();
-      for (auto p : players)
+      for (Player p : players)
       {
         if (!p->getUnits().empty() && !p->isNeutral())
           Broodwar << p->getName() << ", playing as " << p->getRace() << std::endl;
@@ -68,13 +68,13 @@ int main(int argc, const char* argv[])
       //send each worker to the mineral field that is closest to it
       Unitset units = Broodwar->self()->getUnits();
       Unitset minerals = Broodwar->getMinerals();
-      for (auto &u : units)
+      for (Unit u : units)
       {
         if (u->getType().isWorker())
         {
           Unit closestMineral = nullptr;
 
-          for (auto &m : minerals)
+          for (Unit m : minerals)
           {
             if (!closestMineral || u->getDistance(m) < u->getDistance(closestMineral))
               closestMineral = m;
@@ -119,6 +119,7 @@ int main(int argc, const char* argv[])
           break;
         case EventType::PlayerLeft:
           Broodwar << e.getPlayer()->getName() << " left the game." << std::endl;
+          break;
         case EventType::NukeDetect:
           if (e.getPosition() != Positions::Unknown)
           {
@@ -213,7 +214,7 @@ void drawStats(Game &Broodwar)
 {
   int line = 0;
   Broodwar->drawTextScreen(5, 0, "I have %d units:", Broodwar->self()->allUnitCount());
-  for (auto &unitType : UnitTypes::allUnitTypes())
+  for (UnitType unitType : UnitTypes::allUnitTypes())
   {
     int count = Broodwar->self()->allUnitCount(unitType);
     if (count)
@@ -226,7 +227,7 @@ void drawStats(Game &Broodwar)
 
 void drawBullets(Game &Broodwar)
 {
-  for (auto &b : Broodwar->getBullets())
+  for (Bullet b : Broodwar->getBullets())
   {
     Position p = b->getPosition();
     double velocityX = b->getVelocityX();
@@ -252,18 +253,18 @@ void drawVisibilityData(Game &Broodwar)
 void showPlayers(Game &Broodwar)
 {
   Playerset players = Broodwar.getPlayers();
-  for (auto p : players)
+  for (Player p : players)
     Broodwar << "Player [" << p->getID().id << "]: " << p->getName() << " is in force: " << p->getForce()->getName() << std::endl;
 }
 
 void showForces(Game &Broodwar)
 {
   Forceset forces = Broodwar.getForces();
-  for (auto f : forces)
+  for (Force f : forces)
   {
     Playerset players = f->getPlayers();
     Broodwar << "Force " << f->getName() << " has the following players:" << std::endl;
-    for (auto p : players)
+    for (Player p : players)
       Broodwar << "  - Player [" << p->getID().id << "]: " << p->getName() << std::endl;
   }
 }

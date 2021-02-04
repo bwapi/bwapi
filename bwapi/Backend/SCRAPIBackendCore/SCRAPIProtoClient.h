@@ -29,7 +29,7 @@ namespace BWAPI
     std::unique_ptr<SCRAPIProtocol::Response> getNextResponse();
 
     bool isConnected() const;
-    int responseQueueSize() const;
+    size_t responseQueueSize() const;
 
   private:
     sf::UdpSocket udpSocket;

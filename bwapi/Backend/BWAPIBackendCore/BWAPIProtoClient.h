@@ -30,7 +30,7 @@ namespace BWAPI
     std::unique_ptr<bwapi::message::Message> getNextMessage();
         
     bool isConnected() const;
-    int messageQueueSize() const;
+    size_t messageQueueSize() const;
 
   private:
     sf::UdpSocket udpSocket;
@@ -46,7 +46,7 @@ namespace BWAPI
 
     static std::unique_ptr<bwapi::message::Message> messageFromPacket(const sf::Packet& packet) {
       auto message = std::make_unique<bwapi::message::Message>();
-      message->ParseFromArray(packet.getData(), packet.getDataSize());
+      message->ParseFromArray(packet.getData(), static_cast<int>(packet.getDataSize()));
       return message;
     }
 

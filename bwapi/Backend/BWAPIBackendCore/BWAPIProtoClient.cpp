@@ -169,7 +169,7 @@ namespace BWAPI
     return tcpSocket.getRemoteAddress() != sf::IpAddress::None;
   }
 
-  int BWAPIProtoClient::messageQueueSize() const
+  size_t BWAPIProtoClient::messageQueueSize() const
   {
     return messageQueue.size();
   }
@@ -178,7 +178,7 @@ namespace BWAPI
   {
     //if (!messageQueue.size())
     //  return std::make_unique<bwapi::message::Message>(nullptr);
-    auto nextMessage = std::move(messageQueue.front());
+    std::unique_ptr<bwapi::message::Message> nextMessage = std::move(messageQueue.front());
     messageQueue.pop_front();
     return nextMessage;
   }

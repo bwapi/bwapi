@@ -95,10 +95,10 @@ namespace BWAPI
           //update game here
           if (message->frameupdate().has_game())
           {
-            auto gameMessage = message->frameupdate().game();
+            auto& gameMessage = message->frameupdate().game();
             if (gameMessage.has_gamedata())
             {
-              auto gameUpdate = gameMessage.gamedata();
+              auto& gameUpdate = gameMessage.gamedata();
               game.gameData->player = PlayerID{ gameUpdate.player() };
               game.gameData->screenPosition = { gameUpdate.screenposition().x(), gameUpdate.screenposition().y() };
               game.gameData->gameType = gameUpdate.gametype();
@@ -123,9 +123,9 @@ namespace BWAPI
                 game.gameData->nukeDots.emplace_back(Position{ nd.x(), nd.y() });
               if (gameUpdate.has_staticmap())
               {
-                auto staticMap = gameUpdate.staticmap();
+                auto& staticMap = gameUpdate.staticmap();
                 game.gameData->map.size = TilePosition{ staticMap.size().x(), staticMap.size().y() };
-                for (auto isWalkable : staticMap.iswalkable())
+                for (auto& isWalkable : staticMap.iswalkable())
                   game.gameData->map.isWalkable[isWalkable.x()][isWalkable.y()] = isWalkable.value();
 
                 auto groundHeight = staticMap.groundheight().begin();
@@ -142,10 +142,11 @@ namespace BWAPI
                 }
                 game.gameData->map.mapHash = staticMap.maphash();
 
+
                 // TODO: These uint32 are being implicitly cast to unsigned short, they need a proper explicit cast/conversion
-                std::copy(staticMap.mapsplittilesminitilemask().begin(), staticMap.mapsplittilesminitilemask().end(), &game.gameData->map.mapSplitTilesMiniTileMask[0]);
-                std::copy(staticMap.mapsplittilesregion1().begin(), staticMap.mapsplittilesregion1().end(), &game.gameData->map.mapSplitTilesRegion1[0]);
-                std::copy(staticMap.mapsplittilesregion2().begin(), staticMap.mapsplittilesregion2().end(), &game.gameData->map.mapSplitTilesRegion2[0]);
+                std::copy(staticMap.mapsplittilesminitilemask().begin(), staticMap.mapsplittilesminitilemask().end(), std::begin(game.gameData->map.mapSplitTilesMiniTileMask));
+                std::copy(staticMap.mapsplittilesregion1().begin(), staticMap.mapsplittilesregion1().end(), std::begin(game.gameData->map.mapSplitTilesRegion1));
+                std::copy(staticMap.mapsplittilesregion2().begin(), staticMap.mapsplittilesregion2().end(), std::begin(game.gameData->map.mapSplitTilesRegion2));
 
                 game.gameData->map.tileset = staticMap.tileset();
                 game.gameData->mapName = staticMap.mapname();
@@ -157,7 +158,7 @@ namespace BWAPI
               }
               if (gameUpdate.has_map())
               {
-                auto map = gameUpdate.map();
+                auto& map = gameUpdate.map();
                 for (auto& data : map.hascreep())
                   game.gameData->map.hasCreep[data.x()][data.y()] = data.value();
                 for (auto& data : map.isexplored())
@@ -479,7 +480,7 @@ namespace BWAPI
         else if (message->has_event())
         {
           Event e2;
-          auto e = message->event();
+          auto& e = message->event();
           if (e.has_matchstart())
           {
             e2.setType(EventType::MatchStart);
@@ -520,7 +521,7 @@ namespace BWAPI
           }
           else if (e.has_nukedetect())
           {
-            auto target = e.nukedetect().target();
+            auto& target = e.nukedetect().target();
             e2.setType(EventType::NukeDetect);
             e2.setPosition(Position{ target.x(),target.y() });
           }
@@ -678,11 +679,11 @@ namespace BWAPI
         }
         if (response->has_observation())
         {
-          auto responseObservation = &response->observation();
-          auto observation = &responseObservation->observation();
-          game.gameData->frameCount = observation->game_loop();
-          auto observationRaw = observation->raw_data();
-          auto player_common = observation->player_common();
+          auto& responseObservation = response->observation();
+          auto& observation = responseObservation.observation();
+          game.gameData->frameCount = observation.game_loop();
+          auto& observationRaw = observation.raw_data();
+          auto& player_common = observation.player_common();
           auto fillPlayerData = [](PlayerData& playerData, const SCRAPIProtocol::PlayerCommon& p, const SCRAPIProtocol::ObservationRaw& o) {
             playerData.minerals = p.minerals();
             playerData.gas = p.vespene();
@@ -693,9 +694,9 @@ namespace BWAPI
           };
           auto itr = players.find(game.gameData->player);
           fillPlayerData(const_cast<PlayerData &>(*itr), player_common, observationRaw);
-          auto mapState = observationRaw.map_state();
-          auto creep = mapState.creep();
-          auto visibility = mapState.visibility();
+          auto& mapState = observationRaw.map_state();
+          auto& creep = mapState.creep();
+          auto& visibility = mapState.visibility();
           game.gameData->map.size = TilePosition{ creep.size().x(), creep.size().y() };
           for (int x = 0; x < creep.size().x(); x++)
           {
@@ -706,7 +707,7 @@ namespace BWAPI
               game.gameData->map.isExplored[x][y] = (visibility.data()[x + y * creep.size().x()] - '0' == 1) || (visibility.data()[x + y * creep.size().x()] - '0' == 0);
             }
           }
-          auto SCRAPIunits = observationRaw.units();
+          auto& SCRAPIunits = observationRaw.units();
           auto fillUnitData = [&](UnitData& unitData, const SCRAPIProtocol::Unit& u) {
             // radius?
             // is_flying?
@@ -802,7 +803,7 @@ namespace BWAPI
             else if (unitData.type.isBuilding())
             {
               unitData.isTraining = false;
-              for (auto o : u.orders())
+              for (auto& o : u.orders())
               {
                 if (BWAPI::Order(o.ability_id()) == Orders::Train)
                 {
@@ -973,7 +974,7 @@ namespace BWAPI
         }
         if (response->has_query())
         {
-          for (auto pathing : response->query().pathing())
+          for (auto& pathing : response->query().pathing())
           {
             //pathing.
           }
@@ -1016,7 +1017,7 @@ namespace BWAPI
         const_cast<PlayerData &>(*itr).completedUnitCount[i] = 0;
       }
     }
-    for (auto u : game.getAllUnits())
+    for (auto& u : game.getAllUnits())
     {
       auto itr = players.find(u.getPlayer());
       const_cast<PlayerData &>(*itr).allUnitCount[u.getType()] += 1;
@@ -1165,7 +1166,7 @@ namespace BWAPI
     {
       auto newMessage = std::make_unique<bwapi::message::Message>();
       auto newUnitCommand = newMessage->mutable_command()->mutable_unitcommand();
-      for (auto unit : units)
+      for (auto& unit : units)
       {
         newUnitCommand->add_unitid(unit.getID().id);
       }
@@ -1462,6 +1463,7 @@ namespace BWAPI
           targetPoint->set_x(float(units.begin()->getPosition().x));
           targetPoint->set_y(float(units.begin()->getPosition().y));
         }
+        break;
       default:
         break;
       }
