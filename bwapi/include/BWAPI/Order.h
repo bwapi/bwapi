@@ -388,7 +388,7 @@ namespace BWAPI
     constexpr Order Fatal{Enum::Fatal};
     constexpr Order None{Enum::None};
     constexpr Order Unknown{Enum::Unknown};
-  };
+  }
 
   static_assert(sizeof(Order) == sizeof(int), "Expected type to resolve to primitive size.");
 } // namespace BWAPI

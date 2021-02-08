@@ -28,7 +28,7 @@ namespace BWAPI
         Unknown,
         MAX
       };
-    };
+    }
   }
 
   /// <summary>The Race object is used to get information about a particular race.</summary> For

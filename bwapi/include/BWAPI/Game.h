@@ -1,10 +1,11 @@
 #pragma once
+#include <cstdarg>
 #include <list>
 #include <map>
+#include <memory>
 #include <set>
-#include <string>
-#include <cstdarg>
 #include <sstream>
+#include <string>
 
 #include <BWAPI/Error.h>
 

@@ -133,6 +133,6 @@ namespace BWAPI
     std::ostream &operator << (std::ostream &out, const Text::Enum &t)
     {
       return out << (char)t;
-    };
+    }
   }
 }

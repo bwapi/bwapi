@@ -120,7 +120,7 @@ namespace BWAPI
     constexpr BulletType Neutron_Flare{Enum::Neutron_Flare};
     constexpr BulletType None{Enum::None};
     constexpr BulletType Unknown{Enum::Unknown};
-  };
+  }
   static_assert(sizeof(BulletType) == sizeof(int), "Expected type to resolve to primitive size.");
 } // namespace BWAPI
 

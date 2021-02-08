@@ -43,8 +43,8 @@ namespace BWAPI
         Unknown,
         MAX
       };
-    };
-  };
+    }
+  }
   /// <summary>A representation of a weapon's explosion type.</summary> This indicates how the
   /// weapon behaves, such as if it deals splash damage or causes an effect to occur.
   ///

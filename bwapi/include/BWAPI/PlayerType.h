@@ -30,8 +30,8 @@ namespace BWAPI
         Unknown,
         MAX
       };
-    };
-  };
+    }
+  }
   /// <summary>Represents the type of controller for the player slot (i.e. human, computer).</summary>
   /// 
   /// @see PlayerTypes

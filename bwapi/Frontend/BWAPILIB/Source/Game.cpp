@@ -165,7 +165,7 @@ namespace BWAPI
             for (int y = min; y < max; ++y)
                 for (int x = min; x < max; ++x)
                     proc(this, x, y);
-        };
+        }
 
         bool hasValidSpace() const
         {
@@ -181,16 +181,16 @@ namespace BWAPI
                 }
             }
             return false;
-        };
+        }
 
         void backup()
         {
             memcpy(save, data, sizeof(data));
-        };
+        }
         void restore()
         {
             memcpy(data, save, sizeof(data));
-        };
+        }
         void restoreIfInvalid(const char * /*const pszDebug*/)
         {
             if (!hasValidSpace())
@@ -198,11 +198,11 @@ namespace BWAPI
                 //Broodwar << pszDebug << std::endl;
                 restore();
             }
-        };
+        }
         int getMaxRange() const
         {
             return this->maxSearch;
-        };
+        }
     private:
         unsigned char data[MAX_RANGE][MAX_RANGE];
         unsigned char save[MAX_RANGE][MAX_RANGE];
@@ -644,14 +644,14 @@ namespace BWAPI
         va_start(ap, format);
         vSendTextEx(toAllies, format, ap);
         va_end(ap);
-    };
+    }
     void Game::printf(const char *format, ...)
     {
         va_list ap;
         va_start(ap, format);
         vPrintf(format, ap);
         va_end(ap);
-    };
+    }
     //--------------------------------------------- HAS POWER --------------------------------------------------
     bool Game::hasPower(int tileX, int tileY, UnitType unitType) const
     {

@@ -37,8 +37,8 @@ namespace BWAPI
         Unknown,
         MAX
       };
-    };
-  };
+    }
+  }
   /// <summary>A class that represents game types in Broodwar.</summary> A game type is selected
   /// when creating a game.
   ///

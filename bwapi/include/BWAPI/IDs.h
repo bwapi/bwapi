@@ -84,7 +84,8 @@ namespace BWAPI {
 
     struct Hash { 
       auto operator()(const InterfaceDataWrapper &idw) const {
-        return decltype(Data::id)::Hash()(idw.getData().id);
+        using hash = typename decltype(Data::id)::Hash;
+        return hash{}(idw.getData().id);
       }
     };
 

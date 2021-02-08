@@ -63,8 +63,8 @@ namespace BWAPI
         Unknown,
         MAX
       };
-    };
-  };
+    }
+  }
   /// <summary>A representation of a unit command in BWAPI.</summary> This is used by bots to
   /// notify BWAPI which commands to use. BWAPI filters commands accordingly and then converts
   /// them to Broodwar commands, which differ in complexity.

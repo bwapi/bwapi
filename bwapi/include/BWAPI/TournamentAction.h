@@ -50,5 +50,5 @@ namespace BWAPI
       SetCommandOptimizationLevel
     };
 
-  };
-};
+  }
+}

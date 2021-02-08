@@ -60,7 +60,7 @@ namespace BWAPI
       None, None, None, // unused
       Unknown, None, Unknown // random, none, unk
     };
-  };// end local scope
+  } // end local scope
 
   namespace RaceSet
   {

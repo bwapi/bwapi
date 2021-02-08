@@ -47,8 +47,8 @@ namespace BWAPI
         Unknown,
         MAX
       };
-    };
-  };
+    }
+  }
   
   /// <summary>The Error object is generally used to determine why certain functions in BWAPI
   /// have failed.</summary>

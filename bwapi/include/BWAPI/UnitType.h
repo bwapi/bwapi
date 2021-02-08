@@ -265,7 +265,7 @@ namespace BWAPI
         MAX
       };
 
-    };
+    }
   }
   /// <summary>The UnitType is used to get information about a particular type of unit, such as its cost,
   /// build time, weapon, hit points, abilities, etc.</summary>

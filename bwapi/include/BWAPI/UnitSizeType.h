@@ -26,8 +26,8 @@ namespace BWAPI
         Unknown,
         MAX
       };
-    };
-  };
+    }
+  }
 
   /// <summary>Size types are used by unit types in Broodwar to determine how much damage will be
   /// applied.</summary> This corresponds with DamageType for several different damage reduction

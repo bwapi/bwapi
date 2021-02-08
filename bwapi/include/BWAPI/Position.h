@@ -1,7 +1,8 @@
 #pragma once
-#include <utility>
+#include <cmath>
 #include <deque>
 #include <iostream>
+#include <utility>
 
 namespace BWAPI
 {
@@ -256,7 +257,7 @@ namespace BWAPI
     {
       double x = (double)this->x;
       double y = (double)this->y;
-      return sqrt(x * x + y * y);
+      return std::sqrt(x * x + y * y);
     };
     
     /// <summary>Retrieves the approximate distance using an algorithm from Starcraft: Broodwar.</summary>

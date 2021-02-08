@@ -450,7 +450,7 @@ namespace BWAPI
       Hero_Artanis, Hero_Artanis, Hero_Alexei_Stukov, None, None, None, None, None, None, None, None, None, None, None, None, None,
       None, Unknown
     };
-  };
+  }
 
   namespace WeaponTypesSet
   {

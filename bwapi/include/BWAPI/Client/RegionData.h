@@ -28,4 +28,4 @@ namespace BWAPI
     bool  isAccessible = false;
     bool  isHigherGround = false;
   };
-};
+}
