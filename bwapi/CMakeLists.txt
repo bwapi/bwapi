@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.16)
 # General CMake settings
 
 set(CMAKE_COLOR_MAKEFILE ON)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 #########################

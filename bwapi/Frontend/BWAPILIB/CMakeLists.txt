@@ -11,12 +11,14 @@ project(BWAPILIB
 file(GLOB_RECURSE CPP_FILES Source/*.cpp)
 file(GLOB_RECURSE HEADER_FILES Source/*.h)
 file(GLOB_RECURSE INTERFACE_FILES ${BWAPI_INCLUDE_DIR}/*.h)
-include_directories(${BWAPI_INCLUDE_DIR})
+
 add_library(${PROJECT_NAME} STATIC
   ${CPP_FILES}
   ${HEADER_FILES}
   ${INTERFACE_FILES}
 )
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${BWAPI_INCLUDE_DIR})
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/Source PREFIX "Source Files" FILES ${CPP_FILES})
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/Source PREFIX "Header Files" FILES ${HEADER_FILES})
