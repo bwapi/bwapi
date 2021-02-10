@@ -1,20 +1,29 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(BWAPIProject)
-
 #########################
 # General CMake settings
 
 set(CMAKE_COLOR_MAKEFILE ON)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-
 #########################
 # BWAPI Project globals
+
+if(DEFINED ENV{APPVEYOR_BUILD_VERSION})
+  set(BWAPI_VERSION $ENV{APPVEYOR_BUILD_VERSION})
+else()
+  set(BWAPI_VERSION 5.0.0)
+endif()
 
 set(BWAPI_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 #########################
 # Projects
 
+project(BWAPIProject
+  VERSION ${BWAPI_VERSION}
+  HOMEPAGE_URL https://bwapi.github.io/
+)
+
 add_subdirectory(Frontend/BWAPILIB)
+add_subdirectory(Backend/Messages)

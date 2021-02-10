@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.16)
 # Project configuration
 
 project(BWAPILIB
+  VERSION ${BWAPI_VERSION}
   DESCRIPTION "Static library containing BWAPI types, containers, and interfaces"
 )
 
