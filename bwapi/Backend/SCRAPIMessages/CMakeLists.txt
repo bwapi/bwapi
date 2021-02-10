@@ -1,0 +1,44 @@
+cmake_minimum_required(VERSION 3.16)
+include(FetchContent)
+include(LoadProto3)
+
+#########################
+# Project configuration
+
+project(SCRAPIMessages
+  DESCRIPTION "BWAPI protobuf network message definitions for Starcraft: Remastered (DEMO)"
+)
+
+file(GLOB_RECURSE PROTO_INPUTS ${CMAKE_CURRENT_SOURCE_DIR}/*.proto)
+set(GENERATED_PROTO_DIR ${CMAKE_CURRENT_BINARY_DIR}/generated/cpp)
+
+protoc_to_cpp_files("${PROTO_INPUTS}" "${GENERATED_PROTO_DIR}" GENERATED_PROTO_SOURCES GENERATED_PROTO_HEADERS)
+
+add_library(${PROJECT_NAME} STATIC
+  ${PROTO_INPUTS}
+  ${GENERATED_PROTO_SOURCES}
+  ${GENERATED_PROTO_HEADERS}
+)
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${protobuf_INCLUDE_DIR} ${GENERATED_PROTO_DIR})
+
+source_group("Proto Files" FILES ${PROTO_INPUTS})
+source_group("Source Files" FILES ${GENERATED_PROTO_SOURCES})
+source_group("Header Files" FILES ${GENERATED_PROTO_HEADERS})
+
+#########################
+# Project Properties
+
+target_link_libraries(${PROJECT_NAME} libprotobuf)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+  FOLDER Backend
+  CXX_STANDARD 17
+  CXX_STANDARD_REQUIRED ON
+  CXX_EXTENSIONS OFF
+)
+
+if(MSVC)
+  # /MP                 <-- Enable multi-processor compilation
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+endif()
