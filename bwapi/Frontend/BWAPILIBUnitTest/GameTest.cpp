@@ -393,7 +393,7 @@ namespace GameTest::SetAlliance {
     EXPECT_CALL(client, setAlliance(3, 2));
     game.setAlliance(player, true, true);
   }
-};
+}
 namespace GameTest::SetVision {
   TEST_F(Game_SetVision, callsClient)
   {
