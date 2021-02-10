@@ -1,3 +1,5 @@
+include(FetchContent)
+
 set(PROTOBUF_VERSION 3.14.0)
 
 # Disable all other protobuf projects
