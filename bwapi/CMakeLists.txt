@@ -7,6 +7,9 @@ set(CMAKE_COLOR_MAKEFILE ON)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+# Make only Debug/Release valid in IDEs
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
+
 enable_testing()
 
 #########################
