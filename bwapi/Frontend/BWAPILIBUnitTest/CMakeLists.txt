@@ -21,6 +21,8 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "Header Files" FILES ${HEAD
 
 target_link_libraries(${PROJECT_NAME} BWAPILIB gmock)
 
+add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME} --gtest_output=xml:unit_test_results.xml)
+
 #########################
 # Project Properties
 
