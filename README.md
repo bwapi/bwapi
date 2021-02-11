@@ -1,8 +1,10 @@
+[Documentation](http://bwapi.github.io/) | [Github Repository](https://github.com/bwapi/bwapi) | [Issues](https://github.com/bwapi/bwapi/issues) | [More Resources](https://github.com/bwapi/bwapi/wiki/Useful-Links)
+
 [![Build status](https://ci.appveyor.com/api/projects/status/6eikd5g49co6l5ty/branch/develop?svg=true)](https://ci.appveyor.com/project/heinermann/bwapi/branch/develop)
 
-# Project Information
+## Project Information
 
-## Overview
+### Overview
 
 The Brood War [Application Programming Interface](https://en.wikipedia.org/wiki/Application_programming_interface) (BWAPI)
 is a free and open source C++ framework that is used to interact with the popular
@@ -18,7 +20,7 @@ These defaults can be changed for flexibility, unless enforced by a Tournament M
 AI tournaments). Changed defaults will be advertised when the match begins.
 
 
-## Capabilities
+### Capabilities
 
  - Write competitive AIs for Starcraft: Broodwar by controlling individual units.
  - Read all relevant aspects of the game state.
@@ -27,77 +29,85 @@ AI tournaments). Changed defaults will be advertised when the match begins.
  - Study and research real-time AI algorithms in a robust commercial RTS environment.
 
  
-## Getting Started
- - Developing a bot in C++? Then download the [latest release](https://github.com/bwapi/bwapi/releases).
- - If you would like to develop a bot in Java, please follow [this tutorial](http://sscaitournament.com/index.php?action=tutorial).
- - Want to help improve BWAPI? Fork the [develop branch](https://github.com/bwapi/bwapi/tree/develop).
+### Users Getting Started
+Developing a bot in C++? Then download the [latest release](https://github.com/bwapi/bwapi/releases). If you would like to develop a bot in Java, please follow [this tutorial](http://sscaitournament.com/index.php?action=tutorial).
 
-## Quick Start
-1. Installation
-   1. Install **Visual Studio 2017**
-   2. Install **StarCraft: Brood War**
-   3. Update **StarCraft: Brood War** to `1.16.1`
-   4. Install **BWAPI**
-2. Compile
-   1. Open `ExampleProjects.sln` in the BWAPI install directory
-   2. Build the ExampleAIModule project in RELEASE mode
-   3. Copy `ExampleAIModule.dll` to `bwapi-data/AI` inside the StarCraft install folder
-3. Run StarCraft through Chaoslauncher
-   1. Run `Chaoslauncher.exe` as administrator
-      - Chaoslauncher is found in Chaoslauncher directory of BWAPI install directory
-   3. Check the *BWAPI Injector x.x.x [RELEASE]*
-   4. Click Start
-      - Make sure the version is set to Starcraft 1.16.1, not ICCup 1.16.1
-4. Run a game against Blizzard's AI
-   1. Go to **Single Player** -> **Expansion**
-   2. Select any user and click **OK**
-   3. Click **Play Custom**, select a map, and start a game
-5. Run a game against yourself
-   1. Run `Chaoslauncher - MultiInstance.exe` as administrator
-   2. Start
-      1. Go to **Multiplayer** -> **Expansion** -> **Local PC**
-      2. Select any user and click **OK**
-      3. Click **Create Game**, select a map, and click **OK**
-   3. Start -- Uncheck *BWAPI Injector x.x.x [RELEASE]* to let a human play, leave alone to make AI play itself
-      1. Go to **Multiplayer** -> **Expansion** -> **Local PC**
-      2. Select any user and click **OK**
-      3. Join the existing game created by the other client
- 
-## Important Links & Contact Information
-* **Documentation:**         http://bwapi.github.io/
-* **Repository:**            https://github.com/bwapi/bwapi
-* **Issue Tracker:**         https://github.com/bwapi/bwapi/issues
-* **Releases:**              https://github.com/bwapi/bwapi/releases
-* **SSCAIT Discord:**        https://discord.gg/DqvHsq9
-* **IRC Channel:**           http://webchat.freenode.net/?channels=BWAPI
-* **Facebook:**              https://www.facebook.com/groups/bwapi/
-* **Links to competitions, bots, etc. :**    https://github.com/bwapi/bwapi/wiki/Useful-Links
+1. Find and install one of the supported flavours of **StarCraft: Brood War**:
+  - StarCraft: Brood War 1.16.1
+2. Download and extract a [BWAPI 5+ release](https://github.com/bwapi/bwapi/releases)
+3. Follow one of the *Quick Start* sections below to build a bot.
+4. Follow *Starting the Game Client* to start Starcraft.
+5. Run your bot executable. It will connect to the Starcraft instance and wait for a game to start.
 
+*Note: At this time, OpenBW and StarCraft: Remastered are unsupported (but being worked on).*
 
-## Competitions
-Various venues host remote competitive AI competitions that allow developers from around the world to participate. These venues are often held annually and will sometimes offer prizes to the winners. It is also a great way to test your bot's capabilities.
-* [AAAI Conference on Artificial Intelligence and Interactive Digital Entertainment (AIIDE)](http://www.starcraftaicompetition.com)
-* [IEEE Conference on Computational Intelligence and Games (CIG)](http://cilab.sejong.ac.kr/sc_competition/)
-* [Student StarCraft AI (SSCAI) Tournament](http://sscaitournament.com/)
-* [BWAPI Bots Ladder](http://bots-stats.krasi0.com)
+#### Quick Start With Visual Studio (Windows)
 
+1. Install [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/)
+3. Open the sample `.sln` from the BWAPI release.
+4. Build the solution.
 
-## Issues
+#### Quick Start With CMake (Windows, Mac, Linux)
+
+1. Install [CMake](https://cmake.org/)
+2. Open a command line in the BWAPI directory you just extracted.
+3. Run the following commands to configure and build the project:
+
+    ```sh
+    mkdir Debug
+    cd Debug
+    cmake .. -DCMAKE_BUILD_TYPE=Debug
+    cmake --build . --parallel
+    ```
+
+For a release target, replace `Debug` with `Release`.
+
+#### Starting the Game Client
+
+##### Starcraft 1.16.1
+1. Run `Chaoslauncher.exe` from the provided Chaoslauncher directory (it comes with the download)
+2. Check *BWAPI Injector* and any other plugins you want to include
+3. Click **Start**
+
+To run a game against Blizzard's AI:
+  1. Go to **Single Player** -> **Expansion**
+  2. Select any user and click **OK**
+  3. Click **Play Custom**, select a map, and start a game
+
+To Run a game against yourself:
+  1. Run `Chaoslauncher - MultiInstance.exe`
+  2. Click **Start**
+    1. Go to **Multiplayer** -> **Expansion** -> **Local PC**
+    2. Select a user and click **OK**
+    3. Click **Create Game**, select a map, and click **OK**
+  3. Click **Start** in Chaoslauncher again
+    1. Go to **Multiplayer** -> **Expansion** -> **Local PC**
+    2. Select a user and click **OK**
+    3. Join the existing game created by the other client
+
+Each bot instance will connect to only one Starcraft instance.
+
+#### Issues
 You may experience issues when working with BWAPI. Here are some steps you may want to follow in order to resolve them.
 1. Check the log files found in `Starcraft/Errors/`.
-2. Ask in the IRC channel if anyone has experienced your issue before.
-3. Check the Issue Tracker to see if your issue has already been reported.
-4. Submit an issue to the Issue Tracker. Some pieces of information to consider submitting are
+2. Ask around if anyone has experienced your issue before.
+3. Check the [Issue Tracker](https://github.com/bwapi/bwapi/issues) to see if your issue has already been reported.
+4. Submit an issue to the [Issue Tracker](https://github.com/bwapi/bwapi/issues). Some pieces of information to consider submitting are:
   * Log files
   * Screenshots
-  * Version or revision number
+  * Version (or git commit hash)
   * Operating System
   * **Steps to reproduce the problem**
 
-[Go to the Issue tracker](https://github.com/bwapi/bwapi/issues)
+### BWAPI Developers Getting Started
+Want to help improve BWAPI? Fork the [develop branch](https://github.com/bwapi/bwapi/tree/develop).
+
+#### Developing BWAPI with Visual Studio
+1. Install [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/).
+
+#### Developing BWAPI with Something Else
+1. Install [CMake](https://cmake.org/)
 
 
-## Legal
-[Starcraft](http://www.blizzard.com/games/sc/) and [Starcraft: Broodwar](http://www.blizzard.com/games/sc/) are trademarks of
-[Blizzard Entertainment](http://www.blizzard.com). BWAPI is a third party "hack" that violates the End User License Agreement (EULA).
-It is strongly recommended to purchase a legitimate copy of Starcraft: Broodwar from Blizzard Entertainment before using BWAPI.
+TODO: This is a WIP, need to find out what is needed from a fresh Windows/Linux perspective.
+
