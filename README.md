@@ -105,9 +105,14 @@ Want to help improve BWAPI? Fork the [develop branch](https://github.com/bwapi/b
 #### Developing BWAPI with Visual Studio
 1. Install [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/).
 
+WIP
+
+Extensions: OpenCppCoverage Plugin(???), Test Adapter for Google Test, 
+
 #### Developing BWAPI with Something Else
 1. Install [CMake](https://cmake.org/)
 
+Reqs: lcov
 
 TODO: This is a WIP, need to find out what is needed from a fresh Windows/Linux perspective.
 

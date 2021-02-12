@@ -33,5 +33,7 @@ project(BWAPIProject
 
 add_subdirectory(Frontend/BWAPILIB)
 add_subdirectory(Frontend/BWAPILIBUnitTest)
+add_subdirectory(Frontend) # Coverage targets
 add_subdirectory(Backend/Messages)
 add_subdirectory(Backend/SCRAPIMessages)
+

@@ -40,6 +40,12 @@ if(MSVC)
   # /wd4100 /wd4458     <-- Disable warnings 4100 and 4458
   # /MP                 <-- Enable multi-processor compilation
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Za /permissive- /Zc:rvalueCast /wd4100 /wd4458 /MP")
-else()
+elseif(CMAKE_COMPILER_IS_GNUCXX)
   target_compile_options(${PROJECT_NAME} PRIVATE -Wpedantic)
+
+  if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "")
+    include(CodeCoverage)
+    target_compile_options(${PROJECT_NAME} PRIVATE -g -fprofile-arcs -ftest-coverage -O0)
+    target_link_libraries(${PROJECT_NAME} gcov)
+  endif()
 endif()
