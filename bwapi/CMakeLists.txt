@@ -36,4 +36,4 @@ add_subdirectory(Frontend/BWAPILIBUnitTest)
 add_subdirectory(Frontend) # Coverage targets
 add_subdirectory(Backend/Messages)
 add_subdirectory(Backend/SCRAPIMessages)
-
+add_subdirectory(contrib/SFML-2.5.1)
