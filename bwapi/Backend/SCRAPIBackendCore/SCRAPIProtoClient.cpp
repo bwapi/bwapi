@@ -4,6 +4,7 @@
 
 #include <chrono>
 #include <iostream>
+#include <thread>
 #include <vector>
 
 namespace BWAPI
@@ -33,7 +34,7 @@ namespace BWAPI
 
     broadcastMessage->mutable_connect();
 
-    auto size = broadcastMessage->ByteSize();
+    auto size = broadcastMessage->ByteSizeLong();
     std::vector<char> buffer(size);
 
     broadcastMessage->SerializeToArray(buffer.data(), size);
@@ -80,7 +81,7 @@ namespace BWAPI
       currentMessage = std::move(requestQueue.front());
       requestQueue.pop_front();
 
-      auto size = currentMessage->ByteSize();
+      auto size = currentMessage->ByteSizeLong();
       std::vector<char> buffer(size);
       currentMessage->SerializeToArray(buffer.data(), size);
       packet.append(buffer.data(), size);
@@ -96,7 +97,7 @@ namespace BWAPI
     endOfQueue->mutable_end_of_queue();
     packet.clear();
 
-    auto size = endOfQueue->ByteSize();
+    auto size = endOfQueue->ByteSizeLong();
     std::vector<char> buffer(size);
     endOfQueue->SerializeToArray(buffer.data(), size);
     packet.append(buffer.data(), size);

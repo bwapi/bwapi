@@ -7,7 +7,7 @@
 
 // Protobuf headers have some warnings we don't care about
 #pragma warning(push, 0)
-#include "..\..\SCRAPIMessages\generated\cpp\scrapi.pb.h"
+#include <generated/cpp/scrapi.pb.h>
 #pragma warning(pop)
 
 

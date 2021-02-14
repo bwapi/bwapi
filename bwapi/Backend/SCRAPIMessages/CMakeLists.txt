@@ -5,7 +5,7 @@ include(LoadProto3)
 # Project configuration
 
 project(SCRAPIMessages
-  DESCRIPTION "BWAPI protobuf network message definitions for Starcraft: Remastered (DEMO)"
+  DESCRIPTION "BWAPI protobuf network message definitions for Starcraft: Remastered (WIP)"
 )
 
 file(GLOB_RECURSE PROTO_INPUTS ${CMAKE_CURRENT_SOURCE_DIR}/*.proto)
@@ -19,7 +19,7 @@ add_library(${PROJECT_NAME} STATIC
   ${GENERATED_PROTO_HEADERS}
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${protobuf_INCLUDE_DIR} ${GENERATED_PROTO_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${protobuf_INCLUDE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
 source_group("Proto Files" FILES ${PROTO_INPUTS})
 source_group("Source Files" FILES ${GENERATED_PROTO_SOURCES})
