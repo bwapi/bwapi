@@ -19,7 +19,7 @@ add_library(${PROJECT_NAME} STATIC
   ${GENERATED_PROTO_HEADERS}
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${protobuf_INCLUDE_DIR} ${GENERATED_PROTO_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${protobuf_INCLUDE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
 source_group("Proto Files" FILES ${PROTO_INPUTS})
 source_group("Source Files" FILES ${GENERATED_PROTO_SOURCES})

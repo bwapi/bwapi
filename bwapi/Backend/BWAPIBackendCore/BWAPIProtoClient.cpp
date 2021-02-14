@@ -4,6 +4,7 @@
 
 #include <chrono>
 #include <iostream>
+#include <thread>
 #include <vector>
 
 namespace BWAPI
@@ -109,7 +110,7 @@ namespace BWAPI
       currentMessage = std::move(messageQueue.front());
       messageQueue.pop_front();
 
-      if (currentMessage->ByteSize() > 0) {
+      if (currentMessage->ByteSizeLong() > 0) {
         appendMessageToPacket(currentMessage, packet);
       }
       if (tcpSocket.send(packet) != sf::Socket::Done)

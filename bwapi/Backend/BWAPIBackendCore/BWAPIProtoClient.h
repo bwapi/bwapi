@@ -7,7 +7,7 @@
 
 // Protobuf headers have some warnings we don't care about
 #pragma warning(push, 0)
-#include "..\Messages\generated\cpp\message.pb.h"
+#include <generated/cpp/message.pb.h>
 #pragma warning(pop)
 
 
@@ -52,7 +52,7 @@ namespace BWAPI
 
     static void appendMessageToPacket(const std::unique_ptr<bwapi::message::Message>& message, sf::Packet& packet) {
       static thread_local std::vector<char> buffer;
-      auto size = message->ByteSize();
+      auto size = message->ByteSizeLong();
 
       buffer.clear();
       buffer.resize(size);
