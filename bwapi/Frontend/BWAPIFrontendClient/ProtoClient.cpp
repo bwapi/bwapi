@@ -6,6 +6,10 @@
 #include <thread>
 #include <chrono>
 
+#include <BWAPI/Game.h>
+#include <BWAPI/Client/PlayerData.h>
+#include <BWAPI/Client/UnitData.h>
+
 #undef max
 
 namespace BWAPI

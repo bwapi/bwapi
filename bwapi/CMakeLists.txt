@@ -31,12 +31,13 @@ project(BWAPIProject
   HOMEPAGE_URL https://bwapi.github.io/
 )
 
+add_subdirectory(Backend/BWAPIBackendCore)
+add_subdirectory(Backend/Messages)
+add_subdirectory(Backend/SCRAPIMessages)
+add_subdirectory(Backend/SCRAPIBackendCore)
+add_subdirectory(Frontend/BWAPIFrontendClient)
 add_subdirectory(Frontend/BWAPILIB)
 add_subdirectory(Frontend/BWAPILIBUnitTest)
 add_subdirectory(Frontend) # Coverage targets
-add_subdirectory(Backend/Messages)
-add_subdirectory(Backend/BWAPIBackendCore)
-add_subdirectory(Backend/SCRAPIMessages)
-add_subdirectory(Backend/SCRAPIBackendCore)
 add_subdirectory(Packaging/DocumentationGen)
 add_subdirectory(contrib/SFML-2.5.1)

@@ -29,7 +29,7 @@ AI tournaments). Changed defaults will be advertised when the match begins.
  - Study and research real-time AI algorithms in a robust commercial RTS environment.
 
  
-### Users Getting Started
+## Users Getting Started
 Developing a bot in C++? Then download the [latest release](https://github.com/bwapi/bwapi/releases). If you would like to develop a bot in Java, please follow [this tutorial](http://sscaitournament.com/index.php?action=tutorial).
 
 1. Find and install one of the supported flavours of **StarCraft: Brood War**:
@@ -41,13 +41,13 @@ Developing a bot in C++? Then download the [latest release](https://github.com/b
 
 *Note: At this time, OpenBW and StarCraft: Remastered are unsupported (but being worked on).*
 
-#### Quick Start With Visual Studio (Windows)
+### Quick Start With Visual Studio (Windows)
 
 1. Install [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/)
 3. Open the sample `.sln` from the BWAPI release.
 4. Build the solution.
 
-#### Quick Start With CMake (Windows, Mac, Linux)
+### Quick Start With CMake (Windows, Mac, Linux)
 
 1. Install [CMake](https://cmake.org/)
 2. Open a command line in the BWAPI directory you just extracted.
@@ -62,9 +62,9 @@ Developing a bot in C++? Then download the [latest release](https://github.com/b
 
 For a release target, replace `Debug` with `Release`.
 
-#### Starting the Game Client
+### Starting the Game Client
 
-##### Starcraft 1.16.1
+#### Starcraft 1.16.1
 1. Run `Chaoslauncher.exe` from the provided Chaoslauncher directory (it comes with the download)
 2. Check *BWAPI Injector* and any other plugins you want to include
 3. Click **Start**
@@ -87,7 +87,7 @@ To Run a game against yourself:
 
 Each bot instance will connect to only one Starcraft instance.
 
-#### Issues
+### Issues
 You may experience issues when working with BWAPI. Here are some steps you may want to follow in order to resolve them.
 1. Check the log files found in `Starcraft/Errors/`.
 2. Ask around if anyone has experienced your issue before.
@@ -99,17 +99,17 @@ You may experience issues when working with BWAPI. Here are some steps you may w
   * Operating System
   * **Steps to reproduce the problem**
 
-### BWAPI Developers Getting Started
+## BWAPI Developers Getting Started
 Want to help improve BWAPI? Fork the [develop branch](https://github.com/bwapi/bwapi/tree/develop).
 
-#### Developing BWAPI with Visual Studio
+### Developing BWAPI with Visual Studio
 1. Install [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/).
 
 WIP
 
 Extensions: OpenCppCoverage Plugin(???), Test Adapter for Google Test, 
 
-#### Developing BWAPI with Something Else
+### Developing BWAPI with Something Else
 1. Install [CMake](https://cmake.org/)
 
 Reqs: lcov

@@ -1,13 +1,16 @@
 #pragma once
-#include <BWAPI/Client/Client.h>
-#include <BWAPI/Client/GameData.h>
-#include <BWAPI/Game.h>
-#include <map>
+#include <set>
+#include <string>
+
 #include "../Backend/BWAPIBackendCore/BWAPIProtoClient.h"
 #include "../Backend/SCRAPIBackendCore/SCRAPIProtoClient.h"
 
+#include <BWAPI/Client.h>
+
 namespace BWAPI
 {
+  class Game;
+
   class ProtoClient : public Client
   {
   public:
