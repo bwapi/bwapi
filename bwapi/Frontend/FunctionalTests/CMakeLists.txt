@@ -4,8 +4,8 @@ include(LoadGoogleTest)
 #########################
 # Project configuration
 
-project(BWAPILIBUnitTest
-  DESCRIPTION "Unit tests for BWAPILIB"
+project(FunctionalTests
+  DESCRIPTION "Functional tests for BWAPI"
 )
 
 file(GLOB_RECURSE CPP_FILES *.cpp)
@@ -19,9 +19,9 @@ add_executable(${PROJECT_NAME}
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "Source Files" FILES ${CPP_FILES})
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "Header Files" FILES ${HEADER_FILES})
 
-target_link_libraries(${PROJECT_NAME} BWAPILIB gmock)
+target_link_libraries(${PROJECT_NAME} BWAPILIB gmock BWAPIFrontendClient)
 
-add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME} --gtest_output=xml:unit_test_results.xml --gtest_shuffle)
+add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME} --gtest_output=xml:functional_test_results.xml --gtest_shuffle)
 
 #########################
 # Project Properties

@@ -1,5 +1,5 @@
 #include "game.h"
-#include "..\Frontend\BWAPIFrontendClient\ProtoClient.h"
+#include "../BWAPIFrontendClient/ProtoClient.h"
 
 #include <chrono>
 #include <thread>

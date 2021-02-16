@@ -19,9 +19,7 @@ add_library(${PROJECT_NAME} STATIC
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "Source Files" FILES ${CPP_FILES})
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "Header Files" FILES ${HEADER_FILES})
 
-target_link_libraries(${PROJECT_NAME} BWAPIBackendCore SCRAPIBackendCore)
-
-target_include_directories(${PROJECT_NAME} PRIVATE ${BWAPI_INCLUDE_DIR})
+target_link_libraries(${PROJECT_NAME} BWAPIBackendCore SCRAPIBackendCore BWAPILIB)
 
 #########################
 # Project Properties

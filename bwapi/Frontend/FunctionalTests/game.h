@@ -1,7 +1,7 @@
 #pragma once
 
 #include <BWAPI/Game.h>
-#include "..\Frontend\BWAPIFrontendClient\ProtoClient.h"
+#include "../BWAPIFrontendClient/ProtoClient.h"
 
 #include <memory>
 

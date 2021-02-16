@@ -14,7 +14,7 @@ using namespace Funtest;
 std::ostream& operator << (std::ostream& os, const UnitType& t)
 {
   return os << t.getName();
-};
+}
 
 TEST(TriggerTests, CreateUnitTest)
 {

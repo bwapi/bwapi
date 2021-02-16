@@ -42,7 +42,14 @@ else()
 endif()
 
 # Download the protobuf source and protoc
-FetchContent_MakeAvailable(protobuf protoc)
+FetchContent_MakeAvailable(protoc)
+FetchContent_GetProperties(protobuf)
+if(NOT protobuf_POPULATED)
+  FetchContent_Populate(protobuf)
+
+  add_subdirectory(${protobuf_SOURCE_DIR}/cmake
+                   ${protobuf_BINARY_DIR})
+endif()
 
 # Set the protoc error format (to be passed to protoc CLI)
 if(MSVC)
