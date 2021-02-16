@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.14)
 
 #########################
 # Project configuration
@@ -16,8 +16,8 @@ add_library(${PROJECT_NAME} STATIC
   ${HEADER_FILES}
 )
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "Source Files" FILES ${CPP_FILES})
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "Header Files" FILES ${HEADER_FILES})
+source_group("Source Files" FILES ${CPP_FILES})
+source_group("Header Files" FILES ${HEADER_FILES})
 
 target_link_libraries(${PROJECT_NAME} SFML_network_lite Messages)
 
