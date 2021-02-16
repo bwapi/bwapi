@@ -33,7 +33,7 @@ AI tournaments). Changed defaults will be advertised when the match begins.
 Developing a bot in C++? Then download the [latest release](https://github.com/bwapi/bwapi/releases). If you would like to develop a bot in Java, please follow [this tutorial](http://sscaitournament.com/index.php?action=tutorial).
 
 1. Find and install one of the supported flavours of **StarCraft: Brood War**:
-  - StarCraft: Brood War 1.16.1
+   - StarCraft: Brood War 1.16.1
 2. Download and extract a [BWAPI 5+ release](https://github.com/bwapi/bwapi/releases)
 3. Follow one of the *Quick Start* sections below to build a bot.
 4. Follow *Starting the Game Client* to start Starcraft.
@@ -52,7 +52,6 @@ Developing a bot in C++? Then download the [latest release](https://github.com/b
 1. Install [CMake](https://cmake.org/)
 2. Open a command line in the BWAPI directory you just extracted.
 3. Run the following commands to configure and build the project:
-
     ```sh
     mkdir Debug
     cd Debug
@@ -77,13 +76,13 @@ To run a game against Blizzard's AI:
 To Run a game against yourself:
   1. Run `Chaoslauncher - MultiInstance.exe`
   2. Click **Start**
-    1. Go to **Multiplayer** -> **Expansion** -> **Local PC**
-    2. Select a user and click **OK**
-    3. Click **Create Game**, select a map, and click **OK**
+      1. Go to **Multiplayer** -> **Expansion** -> **Local PC**
+      2. Select a user and click **OK**
+      3. Click **Create Game**, select a map, and click **OK**
   3. Click **Start** in Chaoslauncher again
-    1. Go to **Multiplayer** -> **Expansion** -> **Local PC**
-    2. Select a user and click **OK**
-    3. Join the existing game created by the other client
+      1. Go to **Multiplayer** -> **Expansion** -> **Local PC**
+      2. Select a user and click **OK**
+      3. Join the existing game created by the other client
 
 Each bot instance will connect to only one Starcraft instance.
 
@@ -93,11 +92,11 @@ You may experience issues when working with BWAPI. Here are some steps you may w
 2. Ask around if anyone has experienced your issue before.
 3. Check the [Issue Tracker](https://github.com/bwapi/bwapi/issues) to see if your issue has already been reported.
 4. Submit an issue to the [Issue Tracker](https://github.com/bwapi/bwapi/issues). Some pieces of information to consider submitting are:
-  * Log files
-  * Screenshots
-  * Version (or git commit hash)
-  * Operating System
-  * **Steps to reproduce the problem**
+   - Log files
+   - Screenshots
+   - Version (or git commit hash)
+   - Operating System
+   - **Steps to reproduce the problem**
 
 ## BWAPI Developers Getting Started
 Want to help improve BWAPI? Fork the [develop branch](https://github.com/bwapi/bwapi/tree/develop).
