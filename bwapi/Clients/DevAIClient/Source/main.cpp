@@ -1,5 +1,5 @@
 #include <BWAPI.h>
-#include "..\Frontend\BWAPIFrontendClient\ProtoClient.h"
+#include "../Frontend/BWAPIFrontendClient/ProtoClient.h"
 
 #include <iostream>
 
