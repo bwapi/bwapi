@@ -42,4 +42,5 @@ add_subdirectory(Frontend/FunctionalTests)
 add_subdirectory(Frontend) # Coverage targets
 add_subdirectory(Packaging/DocumentationGen)
 add_subdirectory(Clients/DevAIClient)
+add_subdirectory(Clients/ExampleAIClient)
 add_subdirectory(contrib/SFML-2.5.1)
