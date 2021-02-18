@@ -67,7 +67,8 @@
       </MapFileName>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>Advapi32.lib;User32.lib;Shell32.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <ModuleDefinitionFile>QDPlugin.def</ModuleDefinitionFile>
     </Link>
@@ -110,25 +111,6 @@ COPY /Y "$(TargetPath)" "$(SolutionDir)..\Release_Binary\MPQDraft\$(ProjectName)
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="chaoslauncher.cpp" />
-    <ClCompile Include="common.cpp" />
-    <ClCompile Include="config.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="mpqdraft.cpp" />
-    <ClCompile Include="remotethread.cpp" />
-    <ClCompile Include="valloc.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="chaoslauncher.h" />
-    <ClInclude Include="common.h" />
-    <ClInclude Include="config.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="mpqdraft.h" />
-    <ClInclude Include="QDPlugin.h" />
-    <ClInclude Include="remotethread.h" />
-    <ClInclude Include="valloc.h" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="QDPlugin.def" />
     <None Include="README.md" />
   </ItemGroup>
@@ -136,6 +118,25 @@ COPY /Y "$(TargetPath)" "$(SolutionDir)..\Release_Binary\MPQDraft\$(ProjectName)
     <ProjectReference Include="..\..\..\SVNRevGen\SVNRevGen.vcxproj">
       <Project>{3cc5ba45-00b1-4b7c-bf07-341c90343f39}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\chaoslauncher.cpp" />
+    <ClCompile Include="src\common.cpp" />
+    <ClCompile Include="src\config.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\mpqdraft.cpp" />
+    <ClCompile Include="src\remotethread.cpp" />
+    <ClCompile Include="src\valloc.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\chaoslauncher.h" />
+    <ClInclude Include="src\common.h" />
+    <ClInclude Include="src\config.h" />
+    <ClInclude Include="src\main.h" />
+    <ClInclude Include="src\mpqdraft.h" />
+    <ClInclude Include="src\QDPlugin.h" />
+    <ClInclude Include="src\remotethread.h" />
+    <ClInclude Include="src\valloc.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

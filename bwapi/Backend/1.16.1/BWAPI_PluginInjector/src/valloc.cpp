@@ -1,5 +1,7 @@
 #include "valloc.h"
 
+#include <Windows.h>
+
 VAlloc::VAlloc(HANDLE hProcess, SIZE_T dwSize)
   : hTargetProcess(hProcess)
   , pAddress( VirtualAllocEx(hProcess, NULL, dwSize, MEM_COMMIT, PAGE_READWRITE) )

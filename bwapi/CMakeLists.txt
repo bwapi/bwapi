@@ -23,6 +23,13 @@ endif()
 
 set(BWAPI_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
+set(BWAPI_RELEASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../Release_Binary")
+set(BWAPI_RELEASE_CHAOS_PLUGIN_DIR "${BWAPI_RELEASE_DIR}/Chaoslauncher/Plugins")
+set(BWAPI_RELEASE_MPQDRAFT_DIR "${BWAPI_RELEASE_DIR}/MPQdraft")
+set(BWAPI_RELEASE_STARCRAFT_DIR "${BWAPI_RELEASE_DIR}/Starcraft")
+set(BWAPI_RELEASE_BWAPIDATA_DIR "${BWAPI_RELEASE_STARCRAFT_DIR}/bwapi-data")
+set(BWAPI_RELEASE_DOCUMENTATION_DIR "${BWAPI_RELEASE_DIR}/documentation")
+
 #########################
 # Projects
 
@@ -45,3 +52,8 @@ add_subdirectory(Clients/DevAIClient)
 add_subdirectory(Clients/ExampleAIClient)
 add_subdirectory(Clients/ExampleTournamentClient)
 add_subdirectory(contrib/SFML-2.5.1)
+
+# 1.16.1 Projects, only Win32 supported
+if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+  add_subdirectory(Backend/1.16.1/BWAPI_PluginInjector)
+endif()

@@ -6,6 +6,13 @@
 #include <iomanip>
 #include "common.h"
 
+// For MessageBox()
+#pragma comment(lib, "User32.lib")
+
+// For Reg* functions
+#pragma comment(lib, "Advapi32.lib")
+
+
 std::string GetPluginName()
 {
 #ifdef _DEBUG
@@ -32,12 +39,12 @@ DWORD GetSingleRegString(HKEY hBaseKey, const char *pszSubKey, const char *pszVa
   pszOutput[0] = '\0';
 
   // Open the key
-  DWORD dwErrCode = RegOpenKeyExA(hBaseKey, pszSubKey, 0, KEY_QUERY_VALUE, &hKey);
+  DWORD dwErrCode = RegOpenKeyEx(hBaseKey, pszSubKey, 0, KEY_QUERY_VALUE, &hKey);
   if ( dwErrCode != ERROR_SUCCESS )
     return dwErrCode;
 
   // Query the value
-  dwErrCode = RegQueryValueExA(hKey, pszValueName, NULL, NULL, (LPBYTE)pszOutput, dwOutSize);
+  dwErrCode = RegQueryValueEx(hKey, pszValueName, NULL, NULL, (LPBYTE)pszOutput, dwOutSize);
 
   // Close key and return error code
   RegCloseKey(hKey);
@@ -73,21 +80,21 @@ bool BWAPIError(const char *format, ...)
   va_end(ap);
 
   // Get the last error and error message
-  wchar_t szErrMsg[MAX_PATH];
+  char szErrMsg[MAX_PATH];
   DWORD dwLastError = GetLastError();
   FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwLastError, 0, szErrMsg, MAX_PATH, NULL);
 
-  std::wostringstream errorMessage;
+  std::ostringstream errorMessage;
   errorMessage << buffer << '\n'
     << "ID " << reinterpret_cast<void*>(dwLastError) << ": \n"
     << szErrMsg << std::endl;
 
   // Open a log file and print to it
-  std::wofstream log{ "bwapi-error.txt", std::ios::app };
+  std::ofstream log{ "bwapi-error.txt", std::ios::app };
   if (log)
   {
     const time_t now = std::time(nullptr);
-    log << '[' << std::put_time(std::localtime(&now), L"%F %T") << "] " << errorMessage.str();
+    log << '[' << std::put_time(std::localtime(&now), "%F %T") << "] " << errorMessage.str();
   }
 
   // Create a message box with the message and the error message

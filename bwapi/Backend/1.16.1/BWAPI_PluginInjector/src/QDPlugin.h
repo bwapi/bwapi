@@ -96,7 +96,7 @@
 #ifndef QDPLUGIN_H
 #define QDPLUGIN_H
 
-#include <windows.h>
+#include <Windows.h>
 
 // The maximum length of a plugin module's filename. INCLUDES final NULL.
 #define MPQDRAFT_MAX_PATH 264
@@ -111,7 +111,7 @@
   files (called plugin modules) that are to be loaded. Read description of
   that function for more information.
 */
-#include <pshpack1.h>
+
 struct MPQDRAFTPLUGINMODULE
 {
   /* dwComponentID: The ID of the plugin. Should be the same value as is
@@ -125,7 +125,8 @@ struct MPQDRAFTPLUGINMODULE
   // szModuleFileName: The absolute path of the plugin module file.
   char szModuleFileName[MPQDRAFT_MAX_PATH];
 };
-#include <poppack.h>
+
+static_assert(sizeof(MPQDRAFTPLUGINMODULE) == 12 + MPQDRAFT_MAX_PATH);
 
 /*
   IMPQDraftServer

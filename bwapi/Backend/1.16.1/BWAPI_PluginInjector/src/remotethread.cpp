@@ -1,5 +1,7 @@
 #include "remotethread.h"
 
+#include <Windows.h>
+
 RemoteThread::RemoteThread(HANDLE hProcess, LPTHREAD_START_ROUTINE lpStartAddress, LPVOID lpParameter)
   : hThread( CreateRemoteThread(hProcess, NULL, 0, lpStartAddress, lpParameter, 0, NULL) )
 {}

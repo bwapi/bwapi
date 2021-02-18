@@ -54,7 +54,7 @@ BOOL WINAPI MPQDraftPluginInterface::InitializePlugin(IMPQDraftServer* /*server*
 {
   std::string target = GetBWAPITarget();
 
-  if ( !LoadLibraryA(target.c_str()) )
+  if ( !LoadLibrary(target.c_str()) )
     return BWAPIError("Could not load \"%s\".", target.c_str());
   return TRUE;
 }
@@ -72,4 +72,3 @@ BOOL WINAPI GetMPQDraftPlugin(IMPQDraftPlugin** lppMPQDraftPlugin)
   *lppMPQDraftPlugin = &pluginInterface;
   return TRUE;
 }
-

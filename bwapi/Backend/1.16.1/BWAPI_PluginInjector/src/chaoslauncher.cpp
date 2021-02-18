@@ -1,7 +1,8 @@
-#include <Windows.h>
-#include <cstdio>
+#include <filesystem>
 #include <sstream>
 #include <string>
+
+#include <Windows.h>
 
 #include "chaoslauncher.h"
 #include "common.h"
@@ -30,8 +31,8 @@ extern "C" __declspec(dllexport) void GetData(char* name, char* description, cha
      << "Check for updates at https://bwapi.github.io/ \r\n\r\n"
      << "Created by the BWAPI Project Team.";
 
-  strcpy(name, GetPluginName().substr(0, 64).c_str());
-  strcpy(description, ss_desc.str().substr(0, 512).c_str());
+  strcpy(name, GetPluginName().substr(0, 63).c_str());
+  strcpy(description, ss_desc.str().substr(0, 511).c_str());
   strcpy(updateurl, "");
 }
 
@@ -50,16 +51,13 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE, DWORD)
 extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE hProcess, DWORD)
 {
   // Get target file name
-  char szTarget[MAX_PATH];
-  strncpy(szTarget, GetBWAPITarget().c_str(), MAX_PATH-1);
-  szTarget[MAX_PATH-1] = '\0';
+  std::string bwapiDllPath = GetBWAPITarget();
 
-  // Check if the file exists, INVALID_FILE_ATTRIBUTES will have this bit set too
-  if ( GetFileAttributesA(GetBWAPITarget().c_str()) & FILE_ATTRIBUTE_DIRECTORY )
-    return BWAPIError("Unable to find %s.", szTarget);
+  if ( !std::filesystem::exists(bwapiDllPath) )
+    return BWAPIError("Unable to find %s.", bwapiDllPath.c_str());
 
   // Get the address for the LoadLibrary procedure
-  HMODULE hKernalModule = GetModuleHandle(L"Kernel32");
+  HMODULE hKernalModule = GetModuleHandle("Kernel32");
   if ( !hKernalModule )
     return BWAPIError("Unable to get module handle for Kernel32.");
 
@@ -73,7 +71,7 @@ extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE hProcess, DWORD
     return BWAPIError("Could not allocate memory for DLL path.");
 
   // Write the DLL path to the allocation
-  if ( !alloc.Write(szTarget, MAX_PATH) )
+  if ( !alloc.Write(bwapiDllPath.c_str(), bwapiDllPath.size() + 1) )
     return BWAPIError("Write process memory failed.");
 
   // Create a remote thread for LoadLibrary and pass the DLL path as a parameter
