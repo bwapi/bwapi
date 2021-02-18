@@ -3,13 +3,14 @@ include(FetchContent)
 set(PROTOBUF_VERSION 3.14.0)
 
 # Disable all other protobuf projects
-option(protobuf_BUILD_TESTS "" OFF)
-option(protobuf_BUILD_CONFORMANCE "" OFF)
-option(protobuf_BUILD_EXAMPLES "" OFF)
-option(protobuf_BUILD_PROTOC_BINARIES "" OFF)
-option(protobuf_BUILD_LIBPROTOC "" OFF)
-option(protobuf_WITH_ZLIB "" OFF)
-option(protobuf_BUILD_SHARED_LIBS "" OFF)
+set(protobuf_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(protobuf_BUILD_CONFORMANCE OFF CACHE BOOL "" FORCE)
+set(protobuf_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(protobuf_BUILD_PROTOC_BINARIES OFF CACHE BOOL "" FORCE)
+set(protobuf_BUILD_LIBPROTOC OFF CACHE BOOL "" FORCE)
+set(protobuf_WITH_ZLIB OFF CACHE BOOL "" FORCE)
+set(protobuf_BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+set(protobuf_MSVC_STATIC_RUNTIME OFF CACHE BOOL "" FORCE)
 
 # Get Protobuf source code, the library is needed to compile the generated protobuf files
 FetchContent_Declare(protobuf

@@ -3,9 +3,10 @@ include(FetchContent)
 set(GTEST_VERSION 1.10.0)
 
 # Set Googletest CMake options
-option(BUILD_GMOCK "" ON)
-option(INSTALL_GTEST "" OFF)
-option(BUILD_SHARED_LIBS "" OFF)
+set(BUILD_GMOCK ON CACHE BOOL "" FORCE)
+set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 # Get Googletest source code
 FetchContent_Declare(googletest

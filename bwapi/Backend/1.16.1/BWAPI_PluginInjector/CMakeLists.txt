@@ -45,16 +45,18 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
   FOLDER "1.16.1"
-  MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
   CXX_STANDARD 17
   CXX_STANDARD_REQUIRED ON
   CXX_EXTENSIONS OFF
 )
 
 if(MSVC)
+  # Get rid of auto-inserted warnings
+  string(REGEX REPLACE "/W[0-9]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+  # /W4                 <-- Warning level 4
+  # /wd####             <-- Disable warning number
   # /permissive- /Zc:rvalueCast    <-- C++ standard conformance (as best as VS can manage, allow windows.h)
   # /MP                 <-- Enable multi-processor compilation
-  target_compile_options(${PROJECT_NAME} PRIVATE /W4 /permissive- /Zc:rvalueCast /MP)
-
-  #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Za /permissive- /Zc:rvalueCast /wd4100 /wd4458 /MP")
+  # /MT /MTd            <-- MultiThreaded (statically linked runtime)
+  target_compile_options(${PROJECT_NAME} PRIVATE /W4 /wd4996 /permissive- /Zc:rvalueCast /MP /MT$<$<CONFIG:Debug>:d>)
 endif()

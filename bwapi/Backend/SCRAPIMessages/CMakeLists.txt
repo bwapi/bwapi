@@ -8,7 +8,7 @@ project(SCRAPIMessages
   DESCRIPTION "BWAPI protobuf network message definitions for Starcraft: Remastered (WIP)"
 )
 
-file(GLOB_RECURSE PROTO_INPUTS ${CMAKE_CURRENT_SOURCE_DIR}/*.proto)
+file(GLOB_RECURSE PROTO_INPUTS *.proto)
 set(GENERATED_PROTO_DIR ${CMAKE_CURRENT_BINARY_DIR}/generated/cpp)
 
 protoc_to_cpp_files("${PROTO_INPUTS}" "${GENERATED_PROTO_DIR}" GENERATED_PROTO_SOURCES GENERATED_PROTO_HEADERS)
@@ -38,6 +38,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 if(MSVC)
+  # Get rid of auto-inserted warnings
+  string(REGEX REPLACE "/W[0-9]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
   # /MP                 <-- Enable multi-processor compilation
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+  target_compile_options(${PROJECT_NAME} PRIVATE /MP /W0)
 endif()

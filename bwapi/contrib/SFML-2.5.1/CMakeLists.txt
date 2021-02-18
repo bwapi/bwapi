@@ -36,10 +36,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 if(MSVC)
-  target_compile_options(${PROJECT_NAME} PRIVATE /W4)
+  # Get rid of auto-inserted warnings
+  string(REGEX REPLACE "/W[0-9]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
   # /permissive- /Zc:rvalueCast    <-- Enforces conformance with the C++ standard (as best as VS can manage) (allows VS language extensions needed for windows.h)
   # /MP                 <-- Enable multi-processor compilation
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /permissive- /Zc:rvalueCast /MP")
+  target_compile_options(${PROJECT_NAME} PRIVATE /W4 /permissive- /Zc:rvalueCast /MP)
 elseif(CMAKE_COMPILER_IS_GNUCXX)
   target_compile_options(${PROJECT_NAME} PRIVATE -Wpedantic)
 endif()
