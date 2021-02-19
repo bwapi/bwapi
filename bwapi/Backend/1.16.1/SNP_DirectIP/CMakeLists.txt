@@ -3,9 +3,8 @@ cmake_minimum_required(VERSION 3.14)
 #########################
 # Project configuration
 
-project(BWAPI_PluginInjector
-  VERSION ${BWAPI_VERSION}
-  DESCRIPTION "BWAPI Chaoslauncher(.bwl) and MPQDraft(.qdp) plugin injector"
+project(SNP_DirectIP
+  DESCRIPTION "SNP for DirectIP and LocalPC network modes"
 )
 
 if (NOT WIN32 OR NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
@@ -14,33 +13,41 @@ endif()
 
 file(GLOB_RECURSE CPP_FILES src/*.cpp)
 file(GLOB_RECURSE HEADER_FILES src/*.h)
-set(DEF_FILE QDPlugin.def)
+set(DEF_FILE SNPModule.def)
+set(RC_FILE UI.rc)
 
 add_library(${PROJECT_NAME} SHARED
   ${CPP_FILES}
   ${HEADER_FILES}
   ${DEF_FILE}
+  ${RC_FILE}
+  resource.h
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/src PREFIX "Source Files" FILES ${CPP_FILES})
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/src PREFIX "Header Files" FILES ${HEADER_FILES})
-source_group("Resource Files" FILES ${DEF_FILE})
+source_group("Resource Files" FILES ${DEF_FILE} ${RC_FILE} resource.h)
+
+target_link_libraries(${PROJECT_NAME} ws2_32 storm)
 
 #########################
 # Post-build commands
 
-set(README_PREFIX "${BWAPI_RELEASE_CHAOS_PLUGIN_DIR}/${PROJECT_NAME}")
-set(BWL_PREFIX "${BWAPI_RELEASE_CHAOS_PLUGIN_DIR}/${PROJECT_NAME}")
-set(QDP_PREFIX "${BWAPI_RELEASE_MPQDRAFT_DIR}/${PROJECT_NAME}")
+set(CAPS_MPQ "${CMAKE_CURRENT_SOURCE_DIR}/caps.mpq")
+set(SNP_FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.snp")
 
+file(TO_NATIVE_PATH "${CAPS_MPQ}" NATIVE_CAPS_MPQ)
+file(TO_NATIVE_PATH "${SNP_FILE}" NATIVE_SNP_FILE)
+file(TO_NATIVE_PATH "${CMAKE_CURRENT_BINARY_DIR}" NATIVE_BINARY_DIR)
+
+# Note: Using windows-specific copy command. CMake 3.18 has a platform-independent "cat" command but we are targeting Windows here anyway.
+# The cat command was also broken in Windows for binary files until 3.18.5
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/README.md" "${README_PREFIX}$<$<CONFIG:Debug>:d>.txt"
-  COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:${PROJECT_NAME}>" "${BWL_PREFIX}$<$<CONFIG:Debug>:d>.bwl"
-  COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:${PROJECT_NAME}>" "${QDP_PREFIX}$<$<CONFIG:Debug>:d>.qdp"
-  BYPRODUCTS ${README_PREFIX}.txt ${README_PREFIX}d.txt
-    ${BWL_PREFIX}.bwl ${BWL_PREFIX}d.bwl
-    ${QDP_PREFIX}.bwl ${QDP_PREFIX}d.bwl
-  COMMENT "Copying README and .bwl for Chaoslauncher, copying .qdp for MPQDraft"
+  COMMAND copy /Y /B "$<SHELL_PATH:$<TARGET_FILE:${PROJECT_NAME}>>" + "${NATIVE_CAPS_MPQ}" "${NATIVE_SNP_FILE}"
+  COMMAND ${CMAKE_COMMAND} -E copy "${SNP_FILE}" "${BWAPI_RELEASE_STARCRAFT_DIR}/${PROJECT_NAME}.snp"
+  BYPRODUCTS ${SNP_FILE} ${BWAPI_RELEASE_STARCRAFT_DIR}/${PROJECT_NAME}.snp
+  COMMENT "Concatenating caps MPQ to create SNP file."
+  VERBATIM
 )
 
 #########################
@@ -64,7 +71,7 @@ if(MSVC)
   # /permissive- /Zc:rvalueCast    <-- C++ standard conformance (as best as VS can manage, allow windows.h)
   # /MP                 <-- Enable multi-processor compilation
   # /MT /MTd            <-- MultiThreaded (statically linked runtime)
-  target_compile_options(${PROJECT_NAME} PRIVATE /W4 /wd4996 /permissive- /Zc:rvalueCast /MP /MT$<$<CONFIG:Debug>:d>)
+  target_compile_options(${PROJECT_NAME} PRIVATE /W4 /wd4100 /permissive- /Zc:rvalueCast /MP /MT$<$<CONFIG:Debug>:d>)
 endif()
 
 # Minimize Windows.h overhead
@@ -76,12 +83,12 @@ add_compile_definitions(
   NOCOLOR
   NOCOMM
   NOCRYPT
-  NOCTLMGR
+  #NOCTLMGR
   NODEFERWINDOWPOS
   NODESKTOP
   NODRAWTEXT
-  NOFONTSIG
-  NOGDI
+  #NOFONTSIG
+  #NOGDI
   NOGDICAPMASKS
   NOHELP
   NOICONS
@@ -90,24 +97,24 @@ add_compile_definitions(
   NOKERNEL
   NOKEYSTATES
   NOLANGUAGE
-  #NOMB
+  NOMB
   NOMCX
   NOMDI
   NOMEMMGR
   NOMENUS
   NOMETAFILE
   NOMINMAX
-  NOMSG
+  #NOMSG
   NONCMESSAGES
   NONLS
   NOOPENFILE
   NOPROFILER
-  NORASTEROPS
+  #NORASTEROPS
   NORESOURCE
   NOSCROLL
   NOSECURITY
   NOSERVICE
-  #NOSHOWWINDOW
+  NOSHOWWINDOW
   NOSOUND
   NOSYSCOMMANDS
   NOSYSMETRICS
@@ -119,7 +126,7 @@ add_compile_definitions(
   NOWH
   NOWINABLE
   NOWINDOWSTATION
-  NOWINMESSAGES
+  #NOWINMESSAGES
   NOWINOFFSETS
   NOWINSTYLES
   WIN32_LEAN_AND_MEAN

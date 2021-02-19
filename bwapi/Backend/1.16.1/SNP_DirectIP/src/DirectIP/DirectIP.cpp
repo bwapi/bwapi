@@ -1,7 +1,7 @@
 
 #include "DirectIP.h"
 
-#include "Output.h"
+#include "../SNP/Output.h"
 #include "UDPSocket.h"
 #include "SettingsDialog.h"
 

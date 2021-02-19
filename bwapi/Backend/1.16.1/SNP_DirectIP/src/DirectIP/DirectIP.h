@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SNPNetwork.h"
+#include "../SNP/SNPNetwork.h"
 
 #include "../Util/Types.h"
 #include "UDPSocket.h"

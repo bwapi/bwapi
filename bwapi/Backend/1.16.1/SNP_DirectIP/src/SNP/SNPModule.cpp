@@ -1,6 +1,6 @@
 #include "SNPNetwork.h"
 
-#include "CriticalSection.h"
+#include "../Util/CriticalSection.h"
 #include "Output.h"
 #include "../Util/MemoryFrame.h"
 #include <storm.h>

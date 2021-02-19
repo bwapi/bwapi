@@ -2,9 +2,9 @@
 #include <windows.h>
 
 // these modi are implemented in this DLL
-#include "DirectIP.h"
+#include "../DirectIP/DirectIP.h"
 #define DRIP_ID 0
-#include "LocalPC.h"
+#include "../LocalPC/LocalPC.h"
 #define SMEM_ID 1
 
 BOOL WINAPI SnpQuery(DWORD index, DWORD *id, LPCSTR *description, LPCSTR *requirements, SNETCAPSPTR* caps)

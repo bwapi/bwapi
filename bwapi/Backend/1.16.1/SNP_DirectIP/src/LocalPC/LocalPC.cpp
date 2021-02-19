@@ -1,7 +1,7 @@
 
 #include "LocalPC.h"
 
-#include "Output.h"
+#include "../SNP/Output.h"
 
 #include "../Util/SharedMemory.h"
 #include "../Util/SharedStructure.h"

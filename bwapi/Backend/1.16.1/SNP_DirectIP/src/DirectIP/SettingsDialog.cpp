@@ -1,7 +1,7 @@
 #include "SettingsDialog.h"
 #include <windows.h>
 
-#include "resource.h"
+#include "../../resource.h"
 
 INT_PTR CALLBACK Settings( HWND, UINT, WPARAM, LPARAM );
 DWORD WINAPI dlgThread(LPVOID lpParameter);

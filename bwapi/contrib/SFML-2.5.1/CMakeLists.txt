@@ -9,8 +9,8 @@ project(SFML_network_lite
 )
 
 file(GLOB_RECURSE CPP_FILES src/*.cpp)
-file(GLOB_RECURSE HEADER_FILES src/*.h)
-file(GLOB_RECURSE INTERFACE_FILES include/*.h)
+file(GLOB_RECURSE HEADER_FILES src/*.h src/*.hpp)
+file(GLOB_RECURSE INTERFACE_FILES include/*.h include/*.hpp)
 
 add_library(${PROJECT_NAME} STATIC
   ${CPP_FILES}

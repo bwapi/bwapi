@@ -3,18 +3,17 @@ cmake_minimum_required(VERSION 3.14)
 #########################
 # Project configuration
 
-project(BWAPI_PluginInjector
-  VERSION ${BWAPI_VERSION}
-  DESCRIPTION "BWAPI Chaoslauncher(.bwl) and MPQDraft(.qdp) plugin injector"
+project(storm
+  DESCRIPTION "Placeholder for linking with storm.dll"
 )
 
 if (NOT WIN32 OR NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
   message(SEND_ERROR "${PROJECT_NAME} only supports a 32-bit Windows target")
 endif()
 
-file(GLOB_RECURSE CPP_FILES src/*.cpp)
-file(GLOB_RECURSE HEADER_FILES src/*.h)
-set(DEF_FILE QDPlugin.def)
+file(GLOB_RECURSE CPP_FILES *.cpp)
+file(GLOB_RECURSE HEADER_FILES *.h)
+set(DEF_FILE storm.def)
 
 add_library(${PROJECT_NAME} SHARED
   ${CPP_FILES}
@@ -22,26 +21,11 @@ add_library(${PROJECT_NAME} SHARED
   ${DEF_FILE}
 )
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/src PREFIX "Source Files" FILES ${CPP_FILES})
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/src PREFIX "Header Files" FILES ${HEADER_FILES})
+source_group("Source Files" FILES ${CPP_FILES})
+source_group("Header Files" FILES ${HEADER_FILES})
 source_group("Resource Files" FILES ${DEF_FILE})
 
-#########################
-# Post-build commands
-
-set(README_PREFIX "${BWAPI_RELEASE_CHAOS_PLUGIN_DIR}/${PROJECT_NAME}")
-set(BWL_PREFIX "${BWAPI_RELEASE_CHAOS_PLUGIN_DIR}/${PROJECT_NAME}")
-set(QDP_PREFIX "${BWAPI_RELEASE_MPQDRAFT_DIR}/${PROJECT_NAME}")
-
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/README.md" "${README_PREFIX}$<$<CONFIG:Debug>:d>.txt"
-  COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:${PROJECT_NAME}>" "${BWL_PREFIX}$<$<CONFIG:Debug>:d>.bwl"
-  COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:${PROJECT_NAME}>" "${QDP_PREFIX}$<$<CONFIG:Debug>:d>.qdp"
-  BYPRODUCTS ${README_PREFIX}.txt ${README_PREFIX}d.txt
-    ${BWL_PREFIX}.bwl ${BWL_PREFIX}d.bwl
-    ${QDP_PREFIX}.bwl ${QDP_PREFIX}d.bwl
-  COMMENT "Copying README and .bwl for Chaoslauncher, copying .qdp for MPQDraft"
-)
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 #########################
 # Project Properties
@@ -57,14 +41,13 @@ if(MSVC)
   # Get rid of auto-inserted flags
   foreach(flag CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE)
     string(REGEX REPLACE "/W[0-9]" "" ${flag} "${${flag}}")
-    string(REGEX REPLACE "/MDd?" "" ${flag} "${${flag}}")
   endforeach()
   # /W4                 <-- Warning level 4
   # /wd####             <-- Disable warning number
   # /permissive- /Zc:rvalueCast    <-- C++ standard conformance (as best as VS can manage, allow windows.h)
   # /MP                 <-- Enable multi-processor compilation
   # /MT /MTd            <-- MultiThreaded (statically linked runtime)
-  target_compile_options(${PROJECT_NAME} PRIVATE /W4 /wd4996 /permissive- /Zc:rvalueCast /MP /MT$<$<CONFIG:Debug>:d>)
+  target_compile_options(${PROJECT_NAME} PRIVATE /W4 /wd4100 /permissive- /Zc:rvalueCast /MP)
 endif()
 
 # Minimize Windows.h overhead
@@ -76,12 +59,12 @@ add_compile_definitions(
   NOCOLOR
   NOCOMM
   NOCRYPT
-  NOCTLMGR
+  #NOCTLMGR
   NODEFERWINDOWPOS
   NODESKTOP
   NODRAWTEXT
-  NOFONTSIG
-  NOGDI
+  #NOFONTSIG
+  #NOGDI
   NOGDICAPMASKS
   NOHELP
   NOICONS
@@ -90,24 +73,24 @@ add_compile_definitions(
   NOKERNEL
   NOKEYSTATES
   NOLANGUAGE
-  #NOMB
+  NOMB
   NOMCX
   NOMDI
   NOMEMMGR
   NOMENUS
   NOMETAFILE
   NOMINMAX
-  NOMSG
+  #NOMSG
   NONCMESSAGES
   NONLS
   NOOPENFILE
   NOPROFILER
-  NORASTEROPS
+  #NORASTEROPS
   NORESOURCE
   NOSCROLL
   NOSECURITY
   NOSERVICE
-  #NOSHOWWINDOW
+  NOSHOWWINDOW
   NOSOUND
   NOSYSCOMMANDS
   NOSYSMETRICS
