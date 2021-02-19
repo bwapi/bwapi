@@ -39,7 +39,7 @@ TEST_F(ZergBaseFixture, MorphBurrowTest)
   hatchery->train(UnitTypes::Zerg_Hydralisk);
   while (self.completedUnitCount(UnitTypes::Zerg_Hydralisk) < 1)
     funGame.advance();
-  auto u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Zerg_Hydralisk);
+  auto u = getFirstOwnedUnit(Filter::GetType == UnitTypes::Zerg_Hydralisk);
   u.morph(UnitTypes::Zerg_Lurker);
   funGame.advance(60);
   EXPECT_EQ(self.allUnitCount(UnitTypes::Zerg_Lurker), 1);

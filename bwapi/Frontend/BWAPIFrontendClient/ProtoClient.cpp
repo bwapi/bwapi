@@ -688,7 +688,7 @@ namespace BWAPI
           game.gameData->frameCount = observation.game_loop();
           auto& observationRaw = observation.raw_data();
           auto& player_common = observation.player_common();
-          auto fillPlayerData = [](PlayerData& playerData, const SCRAPIProtocol::PlayerCommon& p, const SCRAPIProtocol::ObservationRaw& o) {
+          auto fillPlayerData = [](PlayerData& playerData, const SCRAPIProtocol::PlayerCommon& p, const SCRAPIProtocol::ObservationRaw& ) {
             playerData.minerals = p.minerals();
             playerData.gas = p.vespene();
             playerData.supplyTotal[playerData.race] = p.food_cap();

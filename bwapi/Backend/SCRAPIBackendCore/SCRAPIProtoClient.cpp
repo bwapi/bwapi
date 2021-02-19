@@ -26,7 +26,6 @@ namespace BWAPI
       return;
 
     sf::Packet packet;
-    bool skip = false;
     //Look for a 1.16.1 backend first.
 
     //Look for a Remaster backend

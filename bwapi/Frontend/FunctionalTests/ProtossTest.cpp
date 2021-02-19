@@ -57,7 +57,7 @@ TEST_F(ProtossBaseFixture, NoPowerTest)
   funGame->createUnit(self, toBuild, nexus.getPosition() + Position{ -1 * toBuild.width(), 0 }, 1);
   funGame.advance(2);
 
-  auto u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == toBuild);
+  auto u = getFirstOwnedUnit(Filter::GetType == toBuild);
   EXPECT_EQ(u->isPowered(), false);
 }
 
@@ -77,7 +77,7 @@ TEST_F(ProtossBaseFixture, StormTest)
   funGame->createUnit(self, UnitTypes::Protoss_Pylon, static_cast<Position>(TilePosition{ 3, 15 }));
   funGame.advance(2);
 
-  auto u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == archives);
+  auto u = getFirstOwnedUnit(Filter::GetType == archives);
   u.research(storm);
   funGame.advance(COMMANDWAIT);
   while (u.isResearching())
@@ -90,7 +90,7 @@ TEST_F(ProtossBaseFixture, StormTest)
 
   funGame.advance(20);
 
-  u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == templar);
+  u = getFirstOwnedUnit(Filter::GetType == templar);
   EXPECT_EQ(u.isUnderStorm(), false);
   u.useTech(storm, Position{ 10, 10 });
   funGame.advance(23);
@@ -111,7 +111,7 @@ TEST_F(ProtossBaseFixture, ReaverTest)
   funGame->createUnit(self, reaver, Position{ 0, 0 }, 1);
   funGame.advance(COMMANDWAIT);
 
-  auto u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == reaver);
+  auto u = getFirstOwnedUnit(Filter::GetType == reaver);
   EXPECT_EQ(u.getScarabCount(), 0);
   u->train(UnitTypes::Protoss_Scarab);
   funGame.advance(COMMANDWAIT);
@@ -138,7 +138,7 @@ TEST_F(ProtossBaseFixture, CarrierTest)
   funGame->sendText("operation cwal");
   funGame.advance(COMMANDWAIT);
 
-  auto u = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == carrier);
+  auto u = getFirstOwnedUnit(Filter::GetType == carrier);
   EXPECT_EQ(u.getInterceptorCount(), 0);
   u->train(UnitTypes::Protoss_Interceptor);
   funGame.advance(COMMANDWAIT);

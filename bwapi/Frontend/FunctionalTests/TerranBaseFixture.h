@@ -54,12 +54,14 @@ public:
 
     funGame.advance(100);
 
-    commandCenter = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Command_Center);
-    academy = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Academy);
-    engineeringBay = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Engineering_Bay);
-    factory = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Factory);
-    bunker = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Bunker);
-    scienceFacility = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Terran_Science_Facility);
+    BWAPI::Unitset units = self->getUnits();
+
+    commandCenter = getFirstOwnedUnit(Filter::GetType == UnitTypes::Terran_Command_Center);
+    academy = getFirstOwnedUnit(Filter::GetType == UnitTypes::Terran_Academy);
+    engineeringBay = getFirstOwnedUnit(Filter::GetType == UnitTypes::Terran_Engineering_Bay);
+    factory = getFirstOwnedUnit(Filter::GetType == UnitTypes::Terran_Factory);
+    bunker = getFirstOwnedUnit(Filter::GetType == UnitTypes::Terran_Bunker);
+    scienceFacility = getFirstOwnedUnit(Filter::GetType == UnitTypes::Terran_Science_Facility);
   }
 
   virtual ~TerranBaseFixture() {}

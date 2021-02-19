@@ -51,8 +51,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 if(MSVC)
-  # Get rid of auto-inserted warnings
-  string(REGEX REPLACE "/W[0-9]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+  # Get rid of auto-inserted flags
+  foreach(flag CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE)
+    string(REGEX REPLACE "/W[0-9]" "" ${flag} "${${flag}}")
+    string(REGEX REPLACE "/MDd?" "" ${flag} "${${flag}}")
+  endforeach()
   # /W4                 <-- Warning level 4
   # /wd####             <-- Disable warning number
   # /permissive- /Zc:rvalueCast    <-- C++ standard conformance (as best as VS can manage, allow windows.h)

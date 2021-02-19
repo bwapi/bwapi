@@ -53,9 +53,9 @@ public:
     funGame->sendText("operation cwal");
     funGame.advance(5);
 
-    hatchery = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Zerg_Hatchery);
-    infestedCommandCenter = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Zerg_Infested_Command_Center);
-    hydraliskDen = funGame->getBestUnit([](Unit one, Unit two) { return one; }, Filter::IsOwned && Filter::GetType == UnitTypes::Zerg_Hydralisk_Den);
+    hatchery = getFirstOwnedUnit(Filter::GetType == UnitTypes::Zerg_Hatchery);
+    infestedCommandCenter = getFirstOwnedUnit(Filter::GetType == UnitTypes::Zerg_Infested_Command_Center);
+    hydraliskDen = getFirstOwnedUnit(Filter::GetType == UnitTypes::Zerg_Hydralisk_Den);
   }
 
   ~ZergBaseFixture() {}
