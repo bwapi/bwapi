@@ -15,6 +15,7 @@
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/PlayerImpl.h"
 #include <BWAPI/Race.h>
+#include <BWAPI/Flag.h>
 
 #include "BW/Offsets.h"
 #include "BW/TriggerEngine.h"
@@ -440,7 +441,7 @@ void __fastcall CommandFilter(BYTE *buffer, DWORD length)
     return;
 
   // Filter commands using BWAPI rules
-  if ( BWAPI4::BroodwarImpl.isFlagEnabled(BWAPI4::Flag::UserInput) ||
+  if ( BWAPI4::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) ||
        !BWAPI4::BroodwarImpl.onStartCalled ||
        buffer[0] <= 0x0B ||
        (buffer[0] >= 0x0F && buffer[0] <= 0x12) ||

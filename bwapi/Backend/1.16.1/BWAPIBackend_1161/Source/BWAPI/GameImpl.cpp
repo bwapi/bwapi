@@ -19,7 +19,7 @@
 #include "Templates.h"
 #include "Command.h"
 #include "Map.h"
-#include <BWAPI4/Flag.h>
+#include <BWAPI/Flag.h>
 
 #include <BWAPI4/Unitset.h>
 

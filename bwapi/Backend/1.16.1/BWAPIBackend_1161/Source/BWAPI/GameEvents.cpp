@@ -14,6 +14,8 @@
 #include "RegionImpl.h"
 
 #include <BWAPI/PlayerType.h>
+#include <BWAPI4/Event.h>
+#include <BWAPI/Flag.h>
 
 namespace BWAPI4
 {

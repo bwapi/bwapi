@@ -15,6 +15,10 @@
 #include <BWAPI/Color.h>
 #include <BWAPI4/Unitset.h>
 #include <BWAPI/Race.h>
+#include <BWAPI4/Client/Shape.h>
+#include <BWAPI/Flag.h>
+#include <BWAPI/Input.h>
+#include <BWAPI4/Event.h>
 
 #include "Command.h"
 #include <BWAPI/APMCounter.h>
@@ -373,8 +377,8 @@ namespace BWAPI4
       void applyLatencyCompensation();
       void computeSecondaryUnitSets();
 
-      std::array<bool,BWAPI4::Flag::Max> flags;
-      mutable BWAPI4::Error lastError;
+      std::array<bool, BWAPI::Flag::Max> flags;
+      mutable BWAPI::Error lastError;
       Unitset deadUnits;    // Keeps track of units that were removed from the game, used only to deallocate them
       u32 cheatFlags;
 

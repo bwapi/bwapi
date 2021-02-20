@@ -11,6 +11,7 @@
 #include "PlayerImpl.h"
 #include <BWAPI/WeaponType.h>
 #include <BWAPI/Race.h>
+#include <BWAPI/Flag.h>
 
 #include "../BW/CUnit.h"
 #include "../BW/CSprite.h"
@@ -404,7 +405,7 @@ namespace BWAPI4
       self->isLifted        = o->statusFlag(BW::StatusFlags::InAir) &&
                               o->type().isBuilding(); //isLifted
       self->isParasited     = o->status.parasiteFlags != 0; //isParasited
-      self->isSelected      = BWAPI4::BroodwarImpl.isFlagEnabled(BWAPI4::Flag::UserInput) && userSelected; //isSelected
+      self->isSelected      = BWAPI4::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) && userSelected; //isSelected
       self->isUnderStorm    = o->status.stormTimer != 0; //isUnderStorm
       self->isPowered       = !(_getType.getRace() == Races::Protoss && _getType.isBuilding() && o->statusFlag(BW::StatusFlags::DoodadStatesThing)); // !isUnpowered
       self->isStuck         = o->movementState == BW::UM_MoveToLegal;

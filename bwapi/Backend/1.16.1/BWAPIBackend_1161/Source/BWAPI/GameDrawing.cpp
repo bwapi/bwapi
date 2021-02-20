@@ -7,6 +7,7 @@
 
 #include "../BW/Dialog.h"
 #include <BWAPI/Color.h>
+#include <BWAPI4/Client/Shape.h>
 
 namespace BWAPI4
 {

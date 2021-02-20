@@ -8,7 +8,9 @@
 #include "PlayerImpl.h"
 #include <BWAPI/Race.h>
 #include <BWAPI/Order.h>
-#include <cassert>
+
+#include <BWAPI4/Event.h>
+#include <BWAPI/Flag.h>
 
 namespace BWAPI4
 {

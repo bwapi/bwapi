@@ -14,6 +14,8 @@
 #include "GameImpl.h"
 #include "PlayerImpl.h"
 
+#include <BWAPI/Flag.h>
+
 #pragma warning(push, 0)
 #include <generated/cpp/bwapidata.pb.h>
 #pragma warning(pop)

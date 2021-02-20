@@ -19,6 +19,8 @@
 #include "../Config.h"
 #include "../svnrev.h"
 
+#include <BWAPI4/Event.h>
+
 namespace BWAPI4
 {
   const int CLIENT_VERSION = 10002;
@@ -228,13 +230,6 @@ namespace BWAPI4
   }
   void Server::onMatchStart()
   {
-    data->self = getPlayerID(BroodwarImpl.self());
-    data->enemy = getPlayerID(BroodwarImpl.enemy());
-    data->neutral = getPlayerID(BroodwarImpl.neutral());
-    data->isMultiplayer = BroodwarImpl.isMultiplayer();
-    data->isBattleNet = BroodwarImpl.isBattleNet();
-    data->isReplay = BroodwarImpl.isReplay();
-
     auto staticMapMessage = std::make_unique<bwapi::message::Message>();
     auto staticMap = staticMapMessage->mutable_frameupdate()->mutable_game()->mutable_gamedata()->mutable_staticmap();
 
@@ -248,11 +243,10 @@ namespace BWAPI4
     {
       for (int y = 0; y < mapWalkSize.y; ++y)
       {
-        data->isWalkable[x][y] = BroodwarImpl.isWalkable(x, y);
         auto point = isWalkable->Add();
         point->set_x(x);
         point->set_y(y);
-        point->set_value(data->isWalkable[x][y]);
+        point->set_value(BroodwarImpl.isWalkable(x, y));
       }
     }
 
@@ -266,24 +260,21 @@ namespace BWAPI4
     for (int x = 0; x < mapSize.x; ++x)
       for (int y = 0; y < mapSize.y; ++y)
       {
-        data->isBuildable[x][y] = BroodwarImpl.isBuildable(x, y);
         auto buildablePoint = isBuildable->Add();
         buildablePoint->set_x(x);
         buildablePoint->set_y(y);
-        buildablePoint->set_value(data->isBuildable[x][y]);
-        data->getGroundHeight[x][y] = BroodwarImpl.getGroundHeight(x, y);
+        buildablePoint->set_value(BroodwarImpl.isBuildable(x, y));
+
         auto groundPoint = groundHeight->Add();
         groundPoint->set_x(x);
         groundPoint->set_y(y);
-        groundPoint->set_value(data->getGroundHeight[x][y]);
-        if (BW::BWDATA::SAIPathing)
-          data->mapTileRegionId[x][y] = BW::BWDATA::SAIPathing->mapTileRegionId[y][x];
-        else
-          data->mapTileRegionId[x][y] = 0;
+        groundPoint->set_value(BroodwarImpl.getGroundHeight(x, y));
+
+        unsigned short rgnId = BW::BWDATA::SAIPathing ? BW::BWDATA::SAIPathing->mapTileRegionId[y][x] : 0;
         auto tilePoint = mapTileRegionId->Add();
         tilePoint->set_x(x);
         tilePoint->set_y(y);
-        tilePoint->set_value(data->mapTileRegionId[x][y]);
+        tilePoint->set_value(rgnId);
       }
 
     /*auto isBuildableArr = &data->isBuildable[0][0];
@@ -296,13 +287,11 @@ namespace BWAPI4
     // Load pathing info
     if (BW::BWDATA::SAIPathing)
     {
-      data->regionCount = BW::BWDATA::SAIPathing->regionCount;
       auto regionMessage = std::make_unique<bwapi::message::Message>();
       auto regionUpdate = regionMessage->mutable_frameupdate();
       auto regionGame = regionUpdate->mutable_game();
       for (int i = 0; i < 5000; ++i)
       {
-        data->mapSplitTilesMiniTileMask[i] = BW::BWDATA::SAIPathing->splitTiles[i].minitileMask;
         data->mapSplitTilesRegion1[i] = BW::BWDATA::SAIPathing->splitTiles[i].rgn1;
         data->mapSplitTilesRegion2[i] = BW::BWDATA::SAIPathing->splitTiles[i].rgn2;
 
@@ -325,14 +314,9 @@ namespace BWAPI4
             r->set_rightmost(regionData.rightMost);
             r->set_topmost(regionData.topMost);
           };
-          data->regions[i] = *r->getData();
-          auto &regionData = data->regions[i];
+          auto &regionData = *r->getData();
           auto region = regionGame->add_regions();
           fillRegionData(regionData, region);
-        }
-        else
-        {
-          MemZero(data->regions[i]);
         }
       }
       protoClient.queueMessage(std::move(regionMessage));
@@ -341,33 +325,22 @@ namespace BWAPI4
     *staticMap->mutable_mapsplittilesregion2() = { data->mapSplitTilesRegion2, data->mapSplitTilesRegion2 + 5000 };
 
     // Store the map size
-    data->mapWidth = mapSize.x;
-    data->mapHeight = mapSize.y;
     auto size = staticMap->mutable_size();
-    size->set_x(data->mapWidth);
-    size->set_y(data->mapHeight);
+    size->set_x(mapSize.x);
+    size->set_y(mapSize.y);
 
     // Retrieve map strings
-    StrCopy(data->mapFileName, BroodwarImpl.mapFileName());
-    staticMap->set_mapfilename(data->mapFileName);
-    StrCopy(data->mapPathName, BroodwarImpl.mapPathName());
-    staticMap->set_mappath(data->mapPathName);
-    StrCopy(data->mapName, BroodwarImpl.mapName());
-    staticMap->set_mapname(data->mapName);
-    StrCopy(data->mapHash, BroodwarImpl.mapHash());
-    staticMap->set_maphash(data->mapHash);
+    staticMap->set_mapfilename(BroodwarImpl.mapFileName());
+    staticMap->set_mappath(BroodwarImpl.mapPathName());
+    staticMap->set_mapname(BroodwarImpl.mapName());
+    staticMap->set_maphash(BroodwarImpl.mapHash());
 
-    data->startLocationCount = BroodwarImpl.getStartLocations().size();
-    int idx = 0;
     for (TilePosition t : BroodwarImpl.getStartLocations())
     {
       auto startLocation = staticMap->add_startpositions();
       startLocation->set_x(t.x);
       startLocation->set_y(t.y);
       startLocation->set_scale(1);
-      data->startLocations[idx].x = t.x;
-      data->startLocations[idx].y = t.y;
-      idx++;
     }
 
     protoClient.queueMessage(std::move(staticMapMessage));
@@ -423,8 +396,6 @@ namespace BWAPI4
       player->add_startlocationy(p->startLocationY);
     }
     protoClient.queueMessage(std::move(playersMessage));
-    data->playerCount = playerVector.size();
-    data->initialUnitCount = unitVector.size();
 
     auto fillForceMessage = [&](const Force &f, bwapi::data::Force *force)
     {
@@ -444,9 +415,6 @@ namespace BWAPI4
       fillForceMessage(f, force);
     }
     protoClient.queueMessage(std::move(forceMessage));
-
-    data->botAPM_noselects = 0;
-    data->botAPM_selects = 0;
   }
   void Server::checkForConnections()
   {
@@ -457,7 +425,7 @@ namespace BWAPI4
       protoClient.initListen();
       listening = true;
     }
-    protoClient.checkForConnection(data->client_version, "x", "x");
+    protoClient.checkForConnection(CLIENT_VERSION, "x", "x");
     if (!protoClient.isConnected())
       return;
     protoClient.stopListen();
@@ -465,14 +433,6 @@ namespace BWAPI4
   void Server::initializeGameData()
   {
     //called once when Starcraft starts. Not at the start of every match.
-    data->instanceID = gdwProcNum;
-    data->revision = SVN_REV;
-    data->client_version = CLIENT_VERSION;
-    data->isDebug = (BUILD_DEBUG == 1);
-    data->mapFileName[0] = 0;
-    data->mapPathName[0] = 0;
-    data->mapName[0] = 0;
-    data->mapHash[0] = 0;
     data->hasGUI = true;
     data->hasLatCom = true;
     *oldData = *data;
@@ -483,22 +443,6 @@ namespace BWAPI4
     for (Unit u : BroodwarImpl.evadeUnits)
       data->units[getUnitID(u)] = static_cast<UnitImpl*>(u)->data;
 
-    data->frameCount = BroodwarImpl.getFrameCount();
-    data->replayFrameCount = BroodwarImpl.getReplayFrameCount();
-    data->randomSeed = BroodwarImpl.getRandomSeed();
-    data->fps = BroodwarImpl.getFPS();
-    data->botAPM_noselects = BroodwarImpl.getAPM(false);
-    data->botAPM_selects = BroodwarImpl.getAPM(true);
-    data->latencyFrames = BroodwarImpl.getLatencyFrames();
-    data->latencyTime = BroodwarImpl.getLatencyTime();
-    data->remainingLatencyFrames = BroodwarImpl.getRemainingLatencyFrames();
-    data->remainingLatencyTime = BroodwarImpl.getRemainingLatencyTime();
-    data->elapsedTime = BroodwarImpl.elapsedTime();
-    data->countdownTimer = BroodwarImpl.countdownTimer();
-    data->averageFPS = BroodwarImpl.getAverageFPS();
-    data->mouseX = BroodwarImpl.getMousePosition().x;
-    data->mouseY = BroodwarImpl.getMousePosition().y;
-    data->isInGame = BroodwarImpl.isInGame();
     auto message = std::make_unique<bwapi::message::Message>();
     auto frameUpdate = message->mutable_frameupdate();
     auto game = frameUpdate->mutable_game();
@@ -509,32 +453,6 @@ namespace BWAPI4
 
     if (BroodwarImpl.isInGame())
     {
-      data->gameType = BroodwarImpl.getGameType();
-      data->latency = BroodwarImpl.getLatency();
-
-      // Copy the mouse states
-      for (int i = 0; i < M_MAX; ++i)
-        data->mouseState[i] = BroodwarImpl.getMouseState((MouseButton)i);
-
-      // Copy the key states
-      for (int i = 0; i < K_MAX; ++i)
-        data->keyState[i] = BroodwarImpl.getKeyState((Key)i);
-
-      // Copy the screen position
-      data->screenX = BroodwarImpl.getScreenPosition().x;
-      data->screenY = BroodwarImpl.getScreenPosition().y;
-
-      for (int i = 0; i < BWAPI4::Flag::Max; ++i)
-        data->flags[i] = BroodwarImpl.isFlagEnabled(i);
-
-      data->isPaused = BroodwarImpl.isPaused();
-      data->selectedUnitCount = BroodwarImpl.getSelectedUnits().size();
-
-      int idx = 0;
-      for (Unit t : BroodwarImpl.getSelectedUnits())
-        data->selectedUnits[idx++] = getUnitID(t);
-
-
       //dynamic player data
       auto playersMessage = std::make_unique<bwapi::message::Message>();
       auto playersFrameUpdate = playersMessage->mutable_frameupdate();
@@ -763,24 +681,14 @@ namespace BWAPI4
         int id = -1;
         if (u)
           id = getUnitID(u);
-        data->unitArray[i] = id;
       }
 
-      //dynamic bullet data
-      for (int id = 0; id < 100; ++id)
-        data->bullets[id] = BroodwarImpl.getBulletFromIndex(id)->data;
-
       //dynamic nuke dot data
-      int j = 0;
-      data->nukeDotCount = BroodwarImpl.getNukeDots().size();
       for (Position const &nd : BroodwarImpl.getNukeDots())
       {
         auto newDot = gameData->add_nukedots();
         newDot->set_x(nd.x);
-        data->nukeDots[j].x = nd.x;
         newDot->set_y(nd.y);
-        data->nukeDots[j].y = nd.y;
-        ++j;
       }
     }
 
@@ -924,39 +832,39 @@ namespace BWAPI4
       addEvent(e);
     }
     //if (oldData->gameType != data->gameType)
-    gameData->set_gametype(data->gameType);
-    gameData->set_framecount(data->frameCount);
+    gameData->set_gametype(BroodwarImpl.getGameType());
+    gameData->set_framecount(BroodwarImpl.getFrameCount());
     //if (oldData->latencyFrames != data->latencyFrames)
-    gameData->set_latencyframes(data->latencyFrames);
+    gameData->set_latencyframes(BroodwarImpl.getLatencyFrames());
     //turnsize
     //gamespeed
     //frameskip
     //if (oldData->remainingLatencyFrames != data->remainingLatencyFrames)
-    gameData->set_remaininglatencyframes(data->remainingLatencyFrames);
+    gameData->set_remaininglatencyframes(BroodwarImpl.getRemainingLatencyFrames());
     gameData->set_lasteventtime(BroodwarImpl.getLastEventTime());
     //replayvisionplayers
     //if (oldData->latencyTime != data->latencyTime)
-    gameData->set_latencytime(data->latencyTime);
+    gameData->set_latencytime(BroodwarImpl.getLatencyTime());
     //if (oldData->remainingLatencyTime != data->remainingLatencyTime)
-    gameData->set_remaininglatencytime(data->remainingLatencyTime);
+    gameData->set_remaininglatencytime(BroodwarImpl.getRemainingLatencyTime());
     //if (oldData->elapsedTime != data->elapsedTime)
-    gameData->set_elapsedtime(data->elapsedTime);
+    gameData->set_elapsedtime(BroodwarImpl.elapsedTime());
     //millisecondsperframe
-    gameData->set_averagefps(static_cast<float>(data->averageFPS));
-    gameData->set_countdowntimer(data->countdownTimer);
-    gameData->set_ispaused(data->isPaused);
-    gameData->set_isingame(data->isInGame);
-    gameData->set_ismultiplayer(data->isMultiplayer);
-    gameData->set_isbattlenet(data->isBattleNet);
-    gameData->set_isreplay(data->isReplay);
+    gameData->set_averagefps(static_cast<float>(BroodwarImpl.getAverageFPS()));
+    gameData->set_countdowntimer(BroodwarImpl.countdownTimer());
+    gameData->set_ispaused(BroodwarImpl.isPaused());
+    gameData->set_isingame(BroodwarImpl.isInGame());
+    gameData->set_ismultiplayer(BroodwarImpl.isMultiplayer());
+    gameData->set_isbattlenet(BroodwarImpl.isBattleNet());
+    gameData->set_isreplay(BroodwarImpl.isReplay());
     //clientunitselection
     gameData->set_hasgui(data->hasGUI);
     //gamename
     std::stringstream randomSeed;
-    randomSeed << data->randomSeed;
+    randomSeed << BroodwarImpl.getRandomSeed();
     gameData->set_randomseed(randomSeed.str());
     BroodwarImpl.events.clear();
-    if (data->isInGame)
+    if (BroodwarImpl.isInGame())
     {
 
       //dynamic map data
@@ -1001,12 +909,12 @@ namespace BWAPI4
       for (int i = 0; i < 100; i++)
       {
         auto bulletData = bulletsMessage->mutable_frameupdate()->mutable_game()->add_bullets();
-        fillBulletData(data->bullets[i], bulletData, i);
+        fillBulletData(BroodwarImpl.getBulletFromIndex(i)->data, bulletData, i);
       }
       protoClient.queueMessage(std::move(bulletsMessage));
     }
     protoClient.queueMessage(std::move(message));
-    if (!data->isInGame)
+    if (!BroodwarImpl.isInGame())
     {
       clearAll();
     }

@@ -12,6 +12,8 @@
 #include "../BW/OrderTypes.h"
 #include <algorithm>
 
+#include <BWAPI4/Event.h>
+
 namespace BWAPI4
 {
   //------------------------------------------- LOAD AUTO MENU DATA ------------------------------------------

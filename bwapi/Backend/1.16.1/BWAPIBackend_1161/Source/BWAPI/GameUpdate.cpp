@@ -17,6 +17,7 @@
 #include "../BW/OrderTypes.h"
 #include "../BW/Pathing.h"
 #include <BWAPI/Color.h>
+#include <BWAPI4/Event.h>
 
 #include "../svnrev.h"
 
