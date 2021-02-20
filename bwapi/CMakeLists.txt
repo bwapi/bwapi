@@ -40,25 +40,27 @@ project(BWAPIProject
   HOMEPAGE_URL https://bwapi.github.io/
 )
 
-add_subdirectory(Backend/BWAPINetworkCore)
-add_subdirectory(Backend/Messages)
-add_subdirectory(Backend/SCRAPIMessages)
-add_subdirectory(Backend/SCRAPINetworkCore)
-add_subdirectory(Frontend/BWAPIFrontendClient)
-add_subdirectory(Frontend/BWAPILIB)
-add_subdirectory(Frontend/BWAPILIBUnitTest)
-add_subdirectory(Frontend/FunctionalTests)
-add_subdirectory(Frontend) # Coverage targets
-add_subdirectory(Packaging/DocumentationGen)
 add_subdirectory(Clients/DevAIClient)
 add_subdirectory(Clients/ExampleAIClient)
 add_subdirectory(Clients/ExampleTournamentClient)
-add_subdirectory(contrib/SFML-2.5.1)
+
+add_subdirectory(Library) # Coverage targets
+add_subdirectory(Library/BWAPILIB)
+add_subdirectory(Library/BWAPILIBUnitTest)
+add_subdirectory(Library/DocumentationGen)
+add_subdirectory(Library/FunctionalTests)
+
+add_subdirectory(Network/BWAPIFrontendClient)
+add_subdirectory(Network/BWAPINetworkCore)
+add_subdirectory(Network/Messages)
+add_subdirectory(Network/SCRAPIMessages)
+add_subdirectory(Network/SCRAPINetworkCore)
+add_subdirectory(Network/SFML-2.5.1)
 
 # 1.16.1 Projects, only Win32 supported
 if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
-  add_subdirectory(Backend/1.16.1/BWAPI_PluginInjector)
-  add_subdirectory(Backend/1.16.1/BWAPIBackend_1161)
-  add_subdirectory(Backend/1.16.1/SNP_DirectIP)
-  add_subdirectory(Backend/1.16.1/Storm)
+  add_subdirectory(1.16.1/BWAPI_PluginInjector)
+  add_subdirectory(1.16.1/BWAPIBackend_1161)
+  add_subdirectory(1.16.1/SNP_DirectIP)
+  add_subdirectory(1.16.1/Storm)
 endif()
