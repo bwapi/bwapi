@@ -3,9 +3,9 @@ cmake_minimum_required(VERSION 3.14)
 #########################
 # Project configuration
 
-project(BWAPIBackendCore
+project(SCRAPINetworkCore
   VERSION ${BWAPI_VERSION}
-  DESCRIPTION "BWAPI Network handling library for frontend and backend clients"
+  DESCRIPTION "SC:R API Network handling library for frontend and backend clients (WIP)"
 )
 
 file(GLOB_RECURSE CPP_FILES *.cpp)
@@ -16,10 +16,10 @@ add_library(${PROJECT_NAME} STATIC
   ${HEADER_FILES}
 )
 
-source_group("Source Files" FILES ${CPP_FILES})
-source_group("Header Files" FILES ${HEADER_FILES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "Source Files" FILES ${CPP_FILES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "Header Files" FILES ${HEADER_FILES})
 
-target_link_libraries(${PROJECT_NAME} SFML_network_lite Messages)
+target_link_libraries(${PROJECT_NAME} SFML_network_lite SCRAPIMessages)
 
 #########################
 # Project Properties

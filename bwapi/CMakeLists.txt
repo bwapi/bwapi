@@ -40,10 +40,10 @@ project(BWAPIProject
   HOMEPAGE_URL https://bwapi.github.io/
 )
 
-add_subdirectory(Backend/BWAPIBackendCore)
+add_subdirectory(Backend/BWAPINetworkCore)
 add_subdirectory(Backend/Messages)
 add_subdirectory(Backend/SCRAPIMessages)
-add_subdirectory(Backend/SCRAPIBackendCore)
+add_subdirectory(Backend/SCRAPINetworkCore)
 add_subdirectory(Frontend/BWAPIFrontendClient)
 add_subdirectory(Frontend/BWAPILIB)
 add_subdirectory(Frontend/BWAPILIBUnitTest)

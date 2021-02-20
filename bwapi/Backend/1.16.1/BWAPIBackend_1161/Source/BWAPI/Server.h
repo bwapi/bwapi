@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../BWAPIBackendCore/BWAPIProtoClient.h"
+#include "../../BWAPINetworkCore/BWAPIProtoClient.h"
 
 #include <vector>
 #include <unordered_map>

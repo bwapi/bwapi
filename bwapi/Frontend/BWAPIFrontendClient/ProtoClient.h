@@ -2,8 +2,8 @@
 #include <set>
 #include <string>
 
-#include "../Backend/BWAPIBackendCore/BWAPIProtoClient.h"
-#include "../Backend/SCRAPIBackendCore/SCRAPIProtoClient.h"
+#include "../Backend/BWAPINetworkCore/BWAPIProtoClient.h"
+#include "../Backend/SCRAPINetworkCore/SCRAPIProtoClient.h"
 
 #include <BWAPI/Client.h>
 

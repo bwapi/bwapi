@@ -30,7 +30,7 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/BWAPILIB_4_3_0 PREFIX "BWAPILIB_Ol
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/bwapi4_include PREFIX "BWAPILIB_Old" FILES ${BWAPILIB4_HEADER_FILES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE "bwapi4_include")
-target_link_libraries(${PROJECT_NAME} BWAPILIB BWAPIBackendCore storm Version)
+target_link_libraries(${PROJECT_NAME} BWAPILIB BWAPINetworkCore storm Version)
 
 #########################
 # Post-build commands
