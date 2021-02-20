@@ -6,17 +6,17 @@
 #include "../Detours.h"
 #include "../DLLMain.h"
 
-#include <BWAPI/BWtoBWAPI.h>
-#include <BWAPI/UnitImpl.h>
-#include <BWAPI/PlayerImpl.h>
-#include <BWAPI/BulletImpl.h>
-#include <BWAPI/RegionImpl.h>
+#include "BWtoBWAPI.h"
+#include "UnitImpl.h"
+#include "PlayerImpl.h"
+#include "BulletImpl.h"
+#include "RegionImpl.h"
 #include "Command.h"
 
-#include <BW/CBullet.h>
-#include <BW/CUnit.h>
-#include <BW/Dialog.h>
-#include <BW/Offsets.h>
+#include "../BW/CBullet.h"
+#include "../BW/CUnit.h"
+#include "../BW/Dialog.h"
+#include "../BW/Offsets.h"
 
 /*
   This files holds all functions of the GameImpl class that are not part of the Game interface.

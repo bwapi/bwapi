@@ -11,8 +11,8 @@
 #include "RegionImpl.h"
 #include <BWAPI4/Client/GameData.h>
 
-#include <BW/Pathing.h>
-#include <BW/Offsets.h>
+#include "../BW/Pathing.h"
+#include "../BW/Offsets.h"
 #include <BWAPI/PlayerType.h>
 #include <BWAPI/Race.h>
 

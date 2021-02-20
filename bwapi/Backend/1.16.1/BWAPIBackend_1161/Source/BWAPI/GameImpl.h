@@ -4,19 +4,21 @@
 #include <deque>
 
 #include "../Types.h"
-#include <BW/Constants.h>
+#include "../BW/Constants.h"
 
-#include <BWAPI/Server.h>
-#include <BWAPI/Map.h>
+#include "Server.h"
+#include "Map.h"
 #include <BWAPI4/Client/GameData.h>
 #include <BWAPI/CoordinateType.h>
 #include <BWAPI/Error.h>
 #include <BWAPI/GameType.h>
 #include <BWAPI/Color.h>
+#include <BWAPI4/Unitset.h>
+#include <BWAPI/Race.h>
 
 #include "Command.h"
-#include "APMCounter.h"
-#include "FPSCounter.h"
+#include <BWAPI/APMCounter.h>
+#include <BWAPI/FPSCounter.h>
 #include "AutoMenuManager.h"
 
 namespace BW

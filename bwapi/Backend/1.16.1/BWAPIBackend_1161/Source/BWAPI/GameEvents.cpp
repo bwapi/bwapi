@@ -4,14 +4,14 @@
 
 #include "../StringUtil.h"
 
-#include "Detours.h"
+#include "../Detours.h"
 
-#include <BW/Pathing.h>
-#include <BW/Offsets.h>
+#include "../BW/Pathing.h"
+#include "../BW/Offsets.h"
 
-#include <BWAPI/PlayerImpl.h>
+#include "PlayerImpl.h"
 #include <BWAPI/Race.h>
-#include <BWAPI/RegionImpl.h>
+#include "RegionImpl.h"
 
 #include <BWAPI/PlayerType.h>
 

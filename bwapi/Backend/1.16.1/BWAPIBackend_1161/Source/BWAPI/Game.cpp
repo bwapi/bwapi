@@ -2,7 +2,7 @@
 #include <BWAPI/CoordinateType.h>
 #include <BWAPI/Color.h>
 #include <BWAPI4/Unitset.h>
-#include <BWAPI/RegionImpl.h>
+#include "RegionImpl.h"
 
 #include <BWAPI/UnitSizeType.h>
 #include <BWAPI/DamageType.h>

@@ -11,28 +11,28 @@
 
 #include "../Convenience.h"
 
-#include <BWAPI/ForceImpl.h>
-#include <BWAPI/PlayerImpl.h>
-#include <BWAPI/RegionImpl.h>
-#include <BWAPI/UnitImpl.h>
-#include <BWAPI/BulletImpl.h>
-#include <Templates.h>
-#include <BWAPI/Command.h>
-#include <BWAPI/Map.h>
+#include "ForceImpl.h"
+#include "PlayerImpl.h"
+#include "RegionImpl.h"
+#include "UnitImpl.h"
+#include "BulletImpl.h"
+#include "Templates.h"
+#include "Command.h"
+#include "Map.h"
 #include <BWAPI4/Flag.h>
 
 #include <BWAPI4/Unitset.h>
 
-#include <BW/CUnit.h>
-#include <BW/CBullet.h>
-#include <BW/Offsets.h>
-#include <BW/UnitTarget.h>
-#include <BW/OrderTypes.h>
+#include "../BW/CUnit.h"
+#include "../BW/CBullet.h"
+#include "../BW/Offsets.h"
+#include "../BW/UnitTarget.h"
+#include "../BW/OrderTypes.h"
 #include <BWAPI4/Latency.h>
-#include <BW/TileType.h>
-#include <BW/TileSet.h>
-#include <BW/CheatType.h>
-#include <BW/Dialog.h>
+#include "../BW/TileType.h"
+#include "../BW/TileSet.h"
+#include "../BW/CheatType.h"
+#include "../BW/Dialog.h"
 
 #include "../DLLMain.h"
 #include "../Config.h"
@@ -41,6 +41,8 @@
 #include "BWtoBWAPI.h"
 
 #include "../BW/Pathing.h"
+
+#include <BWAPI/Input.h>
 
 namespace BWAPI4
 {
@@ -155,13 +157,13 @@ namespace BWAPI4
     switch ( button )
     {
       case BWAPI4::M_LEFT:
-        vkValue = VK_LBUTTON;
+        vkValue = K_LBUTTON;
         break;
       case BWAPI4::M_RIGHT:
-        vkValue = VK_RBUTTON;
+        vkValue = K_RBUTTON;
         break;
       case BWAPI4::M_MIDDLE:
-        vkValue = VK_MBUTTON;
+        vkValue = K_MBUTTON;
         break;
       default:
         return false;

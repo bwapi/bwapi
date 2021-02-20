@@ -7,18 +7,18 @@
 #include "../Convenience.h"
 
 #include <BWAPI/Order.h>
-#include <BWAPI/GameImpl.h>
-#include <BWAPI/PlayerImpl.h>
+#include "GameImpl.h"
+#include "PlayerImpl.h"
 #include <BWAPI/WeaponType.h>
 #include <BWAPI/Race.h>
 
-#include <BW/CUnit.h>
-#include <BW/CSprite.h>
-#include <BW/CImage.h>
-#include <BW/UnitTarget.h>
-#include <BW/UnitStatusFlags.h>
-#include <BW/MovementFlags.h>
-#include <BW/Path.h>
+#include "../BW/CUnit.h"
+#include "../BW/CSprite.h"
+#include "../BW/CImage.h"
+#include "../BW/UnitTarget.h"
+#include "../BW/UnitStatusFlags.h"
+#include "../BW/MovementFlags.h"
+#include "../BW/Path.h"
 #include "BWtoBWAPI.h"
 
 namespace BWAPI4

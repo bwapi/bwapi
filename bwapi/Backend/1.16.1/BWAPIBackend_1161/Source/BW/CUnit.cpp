@@ -1,7 +1,7 @@
 #include "../Types.h"
 #include <BWAPI/UnitType.h>
-#include <BW/CImage.h>
-#include <BW/CSprite.h>
+#include "CImage.h"
+#include "CSprite.h"
 
 #include "CUnit.h"
 

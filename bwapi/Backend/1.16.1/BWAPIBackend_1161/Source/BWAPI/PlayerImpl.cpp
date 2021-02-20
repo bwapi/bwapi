@@ -5,7 +5,7 @@
 #include <string>
 #include "../Convenience.h"
 
-#include <BW/Offsets.h>
+#include "../BW/Offsets.h"
 
 #include <BWAPI/PlayerType.h>
 #include <BWAPI/Color.h>

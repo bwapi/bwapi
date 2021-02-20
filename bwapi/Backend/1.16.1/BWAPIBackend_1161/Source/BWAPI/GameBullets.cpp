@@ -1,9 +1,9 @@
 #include "GameImpl.h"
 
-#include <BW/CBullet.h>
+#include "../BW/CBullet.h"
 #include <cassert>
 
-#include <BWAPI/BulletImpl.h>
+#include "BulletImpl.h"
 
 namespace BWAPI4
 {

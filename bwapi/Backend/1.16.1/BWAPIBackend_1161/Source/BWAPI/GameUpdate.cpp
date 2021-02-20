@@ -7,15 +7,15 @@
 
 #include "PlayerImpl.h"
 
-#include "DLLMain.h"
-#include "Config.h"
-#include "Detours.h"
+#include "../DLLMain.h"
+#include "../Config.h"
+#include "../Detours.h"
 
-#include <BW/Constants.h>
-#include <BW/Bitmap.h>
-#include <BW/CUnit.h>
-#include <BW/OrderTypes.h>
-#include <BW/Pathing.h>
+#include "../BW/Constants.h"
+#include "../BW/Bitmap.h"
+#include "../BW/CUnit.h"
+#include "../BW/OrderTypes.h"
+#include "../BW/Pathing.h"
 #include <BWAPI/Color.h>
 
 #include "../svnrev.h"

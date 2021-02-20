@@ -1,6 +1,6 @@
 #pragma once
 
-#include <BW/Position.h>
+#include "Position.h"
 
 #pragma pack(1)
 namespace BW

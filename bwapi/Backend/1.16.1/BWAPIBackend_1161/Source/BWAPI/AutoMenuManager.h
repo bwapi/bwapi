@@ -3,7 +3,7 @@
 #include <vector>
 #include <array>
 
-#include <BW/Constants.h>
+#include "../BW/Constants.h"
 
 namespace BW
 {

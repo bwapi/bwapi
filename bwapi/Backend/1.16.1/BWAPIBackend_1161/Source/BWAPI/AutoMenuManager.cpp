@@ -7,12 +7,14 @@
 #include <sstream>
 #include "../StringUtil.h"
 
-#include <BW/MenuPosition.h>
-#include <BW/Dialog.h>
-#include <BWAPI/GameImpl.h>
+#include "../BW/MenuPosition.h"
+#include "../BW/Dialog.h"
+#include "GameImpl.h"
 #include <BWAPI/PlayerType.h>
 #include <BWAPI/Race.h>
-#include <BW/Offsets.h>
+#include "../BW/Offsets.h"
+
+#include <BWAPI/Input.h>
 
 using namespace BWAPI4;
 
@@ -451,8 +453,8 @@ void AutoMenuManager::onMenuFrame()
     if (newIdPopup)
     {
       newIdPopup->findIndex(4)->setText(&name[0]); //it'll copy the string
-      BroodwarImpl.pressKey(VK_RETURN); // popup Ok
-      BroodwarImpl.pressKey(VK_RETURN); // main Ok
+      BroodwarImpl.pressKey(K_RETURN); // popup Ok
+      BroodwarImpl.pressKey(K_RETURN); // main Ok
     }
     else if (this->autoMenuCharacterName != "FIRST")
     {
@@ -462,12 +464,12 @@ void AutoMenuManager::onMenuFrame()
       if (characterList->getListCount() == 0)
         break; //wait for list to exist/be populated
       if (characterList->setSelectedByString(this->autoMenuCharacterName))
-        BroodwarImpl.pressKey(VK_RETURN); // main Ok
+        BroodwarImpl.pressKey(K_RETURN); // main Ok
       else
         pressDialogKey(BW::FindDialogGlobal("Login")->findIndex(6)); // New ID
     }
     else
-      BroodwarImpl.pressKey(VK_RETURN); // main Ok
+      BroodwarImpl.pressKey(K_RETURN); // main Ok
     break;
   }
   case BW::GLUE_SCORE_Z_DEFEAT:

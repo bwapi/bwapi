@@ -7,9 +7,9 @@
 #include <BWAPI/PlayerType.h>
 #include <BWAPI/Race.h>
 
-#include <BW/MenuPosition.h>
-#include <BW/Dialog.h>
-#include <BW/OrderTypes.h>
+#include "../BW/MenuPosition.h"
+#include "../BW/Dialog.h"
+#include "../BW/OrderTypes.h"
 #include <algorithm>
 
 namespace BWAPI4
@@ -36,7 +36,7 @@ namespace BWAPI4
     else if ( sChosenRace == "RANDOMPZ" )
       race = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
     else if ( sChosenRace == "RANDOMTPZ" )
-      race = {rand() % 3};
+      race = Race{rand() % 3};
     else
       race = Race::getType(sChosenRace);
     return race;

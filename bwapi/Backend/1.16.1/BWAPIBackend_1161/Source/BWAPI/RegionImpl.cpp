@@ -2,8 +2,8 @@
 
 #include "GameImpl.h"
 
-#include <BW/Offsets.h>
-#include <BW/Pathing.h>
+#include "../BW/Offsets.h"
+#include "../BW/Pathing.h"
 
 namespace BWAPI4
 {

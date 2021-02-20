@@ -2,8 +2,8 @@
 
 #include "Offsets.h"
 
-#include <BWAPI/UnitImpl.h>
-#include <BW/CUnit.h>
+#include "../BWAPI/UnitImpl.h"
+#include "CUnit.h"
 
 namespace BW
 {

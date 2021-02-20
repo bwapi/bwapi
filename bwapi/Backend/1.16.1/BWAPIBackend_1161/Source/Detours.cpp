@@ -11,16 +11,16 @@
 #include "Config.h"
 #include "NewHackUtil.h"
 #include "Detours.h"
-#include "../Convenience.h"
+#include "Convenience.h"
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/PlayerImpl.h"
 #include <BWAPI/Race.h>
 
-#include <BW/Offsets.h>
-#include <BW/TriggerEngine.h>
-#include <BW/MenuPosition.h>
-#include <BW/Dialog.h>
-#include <BW/OrderTypes.h>
+#include "BW/Offsets.h"
+#include "BW/TriggerEngine.h"
+#include "BW/MenuPosition.h"
+#include "BW/Dialog.h"
+#include "BW/OrderTypes.h"
 
 std::string gDesiredReplayName;
 

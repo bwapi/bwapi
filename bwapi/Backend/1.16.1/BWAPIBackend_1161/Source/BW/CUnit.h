@@ -1,9 +1,9 @@
 #pragma once
 
 #include "../Types.h"
-#include <BW/Position.h>
-#include <BW/Target.h>
-#include <BW/Path.h>
+#include "Position.h"
+#include "Target.h"
+#include "Path.h"
 
 #pragma pack(1)
 namespace BWAPI

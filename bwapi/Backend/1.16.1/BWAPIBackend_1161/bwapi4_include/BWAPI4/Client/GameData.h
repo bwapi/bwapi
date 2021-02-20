@@ -6,7 +6,6 @@
 #include "UnitData.h"
 #include "BulletData.h"
 #include "../Event.h"
-#include "Command.h"
 #include "Shape.h"
 
 #include <BWAPI4/Flag.h>

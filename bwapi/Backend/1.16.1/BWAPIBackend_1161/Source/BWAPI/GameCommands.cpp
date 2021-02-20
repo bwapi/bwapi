@@ -1,11 +1,13 @@
 #include "GameImpl.h"
 #include "../DLLMain.h"
 
-#include <BWAPI/Command.h>
+#include "Command.h"
+#include "UnitImpl.h"
+
 #include <BWAPI/TechType.h>
 #include <BWAPI/UnitType.h>
 
-#include <BW/OrderTypes.h>
+#include "../BW/OrderTypes.h"
 
 namespace BWAPI4
 {

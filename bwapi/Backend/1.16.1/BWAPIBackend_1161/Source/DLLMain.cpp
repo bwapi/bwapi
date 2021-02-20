@@ -6,7 +6,7 @@
 #include <algorithm>
 #include "Thread.h"
 
-#include "../Convenience.h"
+#include "Convenience.h"
 
 #include <BWAPI/Color.h>
 

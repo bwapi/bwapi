@@ -1,8 +1,8 @@
 #pragma once
 #include <array>
 #include "../Types.h"
-#include "BW/Constants.h"
-#include "BW/Position.h"
+#include "Constants.h"
+#include "Position.h"
 
 namespace BW
 {

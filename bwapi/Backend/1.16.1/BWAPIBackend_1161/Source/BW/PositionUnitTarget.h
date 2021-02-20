@@ -7,7 +7,7 @@ namespace BW
 {
   /**
    * Combination of bw position representation and bw target representation,
-   * it is connectd as bw uses this combination on several places.
+   * it is connected as bw uses this combination in several places.
    */
   class PositionUnitTarget
   {

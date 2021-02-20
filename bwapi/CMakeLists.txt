@@ -58,6 +58,7 @@ add_subdirectory(contrib/SFML-2.5.1)
 # 1.16.1 Projects, only Win32 supported
 if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
   add_subdirectory(Backend/1.16.1/BWAPI_PluginInjector)
+  add_subdirectory(Backend/1.16.1/BWAPIBackend_1161)
   add_subdirectory(Backend/1.16.1/SNP_DirectIP)
   add_subdirectory(Backend/1.16.1/Storm)
 endif()

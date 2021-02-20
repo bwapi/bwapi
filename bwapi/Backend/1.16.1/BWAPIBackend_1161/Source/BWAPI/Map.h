@@ -1,11 +1,12 @@
 #pragma once
 #include <string>
-#include <BW/Offsets.h>
+#include "../BW/Offsets.h"
 #include "../Types.h"
 
-#pragma warning(push, 0)
-#include "../../Messages/generated/cpp/message.pb.h"
-#pragma warning(pop)
+namespace bwapi::data
+{
+  class MapData;
+}
 
 namespace BWAPI4
 {

@@ -10,7 +10,7 @@
 #include <Dbghelp.h>
 #include <tlhelp32.h>
 
-#include <BWAPI/GameImpl.h>
+#include "BWAPI/GameImpl.h"
 
 #include "Config.h"
 #include "NewHackUtil.h"

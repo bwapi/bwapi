@@ -1,11 +1,11 @@
 #include "GameImpl.h"
 #include "../Convenience.h"
 
-#include <BW/CUnit.h>
-#include <BW/Dialog.h>
+#include "../BW/CUnit.h"
+#include "../BW/Dialog.h"
 
-#include <BWAPI/UnitImpl.h>
-#include <BWAPI/PlayerImpl.h>
+#include "UnitImpl.h"
+#include "PlayerImpl.h"
 #include <BWAPI/Race.h>
 #include <BWAPI/Order.h>
 #include <cassert>

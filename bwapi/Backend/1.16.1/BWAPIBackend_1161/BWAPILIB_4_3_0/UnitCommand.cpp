@@ -2,7 +2,7 @@
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
 #include <tuple>
-#include <BWAPI/UnitImpl.h>
+#include "../Source/BWAPI/UnitImpl.h"
 
 namespace BWAPI4
 {

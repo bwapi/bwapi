@@ -7,12 +7,16 @@
 #include "../DLLMain.h"
 #include "../Config.h"
 
-#include <BW/Offsets.h>
-#include <BW/TileSet.h>
-#include <BW/TileType.h>
-#include <BW/MiniTileFlags.h>
+#include "../BW/Offsets.h"
+#include "../BW/TileSet.h"
+#include "../BW/TileType.h"
+#include "../BW/MiniTileFlags.h"
 #include "GameImpl.h"
 #include "PlayerImpl.h"
+
+#pragma warning(push, 0)
+#include <generated/cpp/bwapidata.pb.h>
+#pragma warning(pop)
 
 using namespace std;
 namespace BWAPI4

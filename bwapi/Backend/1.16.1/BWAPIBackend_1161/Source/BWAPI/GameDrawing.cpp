@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "../Convenience.h"
 
-#include <BW/Dialog.h>
+#include "../BW/Dialog.h"
 #include <BWAPI/Color.h>
 
 namespace BWAPI4
