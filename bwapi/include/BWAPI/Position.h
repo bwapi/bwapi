@@ -268,6 +268,10 @@ namespace BWAPI
     /// Broodwar, so that calculations will be consistent with the game. It is also optimized
     /// for performance.
     ///
+    /// @note The algorithm source is from "Fast Linear Approximations of Euclidean Distance in
+    /// Higher Dimensions" by Yoshikazu Ohashi and appears in the book "Graphics Gems IV" edited
+    /// by Paul S Heckbert.
+    ///
     /// <param name="position">
     ///     The target point to measure the distance to.
     /// </param>
