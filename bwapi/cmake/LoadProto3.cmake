@@ -87,7 +87,6 @@ function(PROTOC_TO_CPP_FILES PROTO_INPUTS PROTO_OUTPUT_DIR OUT_GEN_SOURCES OUT_G
     add_custom_command(
       OUTPUT "${PROTO_C_FILE}" "${PROTO_H_FILE}"
       COMMAND "${protoc_BIN_DIR}/protoc" ARGS "--cpp_out=${PROTO_OUTPUT_DIR}" "--error_format=${PROTOC_ERROR_FORMAT}" "--proto_path=${PROTO_PATH}" "${PROTO_INPUT}"
-      BYPRODUCTS "${PROTO_C_FILE}" "${PROTO_H_FILE}"
     )
 
     list(APPEND GENERATED_PROTO_SOURCES "${PROTO_C_FILE}")
