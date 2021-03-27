@@ -2585,4 +2585,23 @@ namespace BWAPI
       return false;
     }
   }
+
+  static const UpgradeType speedUpgrade[UnitTypes::Enum::MAX] = {
+    None, None, Ion_Thrusters, None, None, None, None, None, None, None, None, None,
+    None, None, None, None, None, None, None, None, None, None, None, None,
+    None, None, None, None, None, None, None, None, None, None, None, None,
+    Metabolic_Boost, Muscular_Augments, Anabolic_Synthesis, None, None, Pneumatized_Carapace,
+    None, None, None, None, None, None, None, None, None, None, Muscular_Augments, Metabolic_Boost,
+    None, None, Pneumatized_Carapace, None, None, None, None, None, None, None, Leg_Enhancements, None,
+    None, None, Gravitic_Drive, Gravitic_Thrusters, None, None, None, None, None, None, Leg_Enhancements, None,
+    None, None, Gravitic_Thrusters, None, None, Gravitic_Boosters, None, None, None, Gravitic_Thrusters, None, None,
+    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+    None, None, None, None, None,
+  };
 }
