@@ -908,6 +908,11 @@ namespace BWAPI
     /// @see TechType::whatResearches, UpgradeType::whatUpgrades
     /// @m_since{4,2,0}
     bool isSuccessorOf(UnitType type) const;
+
+    /// <summary>Retrieves this unit type's upgrade type for upgrading speed</summary>
+    ///
+    /// @returns UpgradeType used as this unit type's ground weapon.
+    UpgradeType speedUpgrade() const;
   };
 
   /// <summary>The amount of shield points that a unit recovers over 256 frames.</summary>

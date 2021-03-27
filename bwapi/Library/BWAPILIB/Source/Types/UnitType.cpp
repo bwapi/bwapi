@@ -2608,4 +2608,8 @@ namespace BWAPI
       return false;
     }
   }
+  UpgradeType UnitType::speedUpgrade() const
+  {
+      return unitSpeedUpgrades::speedUpgrade[this->getID()];
+  }
 }
