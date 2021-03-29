@@ -554,6 +554,42 @@ namespace BWAPI
     };
   }
 
+  namespace attackUpgrades
+  {
+   using namespace UpgradeTypes;
+   static const UpgradeType attackUpgrade[UnitTypes::Enum::MAX] = {
+Terran_Infantry_Weapons,Terran_Infantry_Weapons,Terran_Vehicle_Weapons,Terran_Vehicle_Weapons,Terran_Vehicle_Weapons,Terran_Vehicle_Weapons,Terran_Vehicle_Weapons,None,
+Terran_Ship_Weapons,None,Terran_Infantry_Weapons,None,Terran_Ship_Weapons,None,None,None,
+Terran_Infantry_Weapons,Terran_Vehicle_Weapons,Terran_Vehicle_Weapons,Terran_Vehicle_Weapons,Terran_Infantry_Weapons,Terran_Ship_Weapons,None,Terran_Vehicle_Weapons,
+Terran_Vehicle_Weapons,Terran_Vehicle_Weapons,Terran_Vehicle_Weapons,Terran_Ship_Weapons,Terran_Ship_Weapons,Terran_Ship_Weapons,Terran_Vehicle_Weapons,Terran_Vehicle_Weapons,
+Terran_Infantry_Weapons,None,None,None,None,Zerg_Melee_Attacks,Zerg_Missile_Attacks,Zerg_Melee_Attacks,
+Zerg_Melee_Attacks,None,None,Zerg_Flyer_Attacks,Zerg_Flyer_Attacks,None,None,,Zerg_Melee_Attacks,None,None,Zerg_Melee_Attacks,None,Zerg_Missile_Attacks,Zerg_Melee_Attacks,Zerg_Flyer_Attacks,
+Zerg_Flyer_Attacks,None,Terran_Ship_Weapons,None,Protoss_Air_Weapons,Protoss_Ground_Weapons,Zerg_Flyer_Attacks,None,
+None,Protoss_Ground_Weapons,Protoss_Ground_Weapons,None,Protoss_Ground_Weapons,None,Protoss_Air_Weapons,Protoss_Air_Weapons,
+Protoss_Air_Weapons,Protoss_Air_Weapons,Protoss_Ground_Weapons,Protoss_Ground_Weapons,Protoss_Ground_Weapons,Protoss_Ground_Weapons,Protoss_Ground_Weapons,Protoss_Ground_Weapons,
+Protoss_Air_Weapons,Scarab_Damage,Protoss_Air_Weapons,Scarab_Damage,None,Scarab_Damage,Protoss_Air_Weapons,Protoss_Ground_Weapons,
+Protoss_Air_Weapons,None,None,None,None,None,None,None,
+None,None,Protoss_Air_Weapons,Terran_Infantry_Weapons,Terran_Infantry_Weapons,None,Terran_Ship_Weapons,Zerg_Missile_Attacks,
+Terran_Infantry_Weapons,None,None,None,None,None,None,None,
+None,None,None,None,None,None,None,None,
+None,None,None,None,None,None,None,None,
+None,None,None,None,None,None,None,None,
+None,None,None,None,None,None,None,None,
+None,None,None,None,None,None,None,None,
+None,None,None,None,None,None,None,None,
+None,None,None,None,None,None,None,None,
+None,None,None,None,None,None,None,None,
+None,None,None,None,None,None,None,None,
+None,None,None,None,None,None,None,None,
+None,None,None,None,None,None,None,None,
+None,None,None,None,None,None,None,None,
+None,None,None,None,None,None,None,None,
+None,None,None,None,None,None,None,None,
+None,None,None,None,None,None,None,None,
+None,Unknown
+      };
+  }
+
   namespace unitSpeedUpgrades
   {
       using namespace UpgradeTypes;
@@ -2247,6 +2283,10 @@ namespace BWAPI
   UpgradeType UnitType::attackRangeUpgrade() const
   {
       return unitAttackRangeUpgrades::attackRangeUpgrade[this->getID()];
+  }
+  UpgradeType UnitType::attackUpgrade() const
+  {
+      return attackUpgrades::attackUpgrade[this->getID()];
   }
   int UnitType::maxHitPoints() const
   {
