@@ -332,6 +332,12 @@ namespace BWAPI
     /// @returns UpgradeType indicating the upgrade that increases this unit type's armor amount.
     UpgradeType armorUpgrade() const;
 
+    /// <summary>Retrieves the upgrade that increases this unit type's attack range.</summary>
+    ///
+    /// @returns UpgradeType indicating the upgrade that increases this unit type's attack range.
+    /// @m_since{5,0,0}
+    UpgradeType attackRangeUpgrade() const;
+
     /// <summary>Retrieves the default maximum amount of hit points that this unit type can have.</summary>
     ///
     /// @note This value may not necessarily match the value seen in the @UMS game type.
