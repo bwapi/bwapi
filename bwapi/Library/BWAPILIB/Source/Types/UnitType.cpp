@@ -554,6 +554,23 @@ namespace BWAPI
     };
   }
 
+  namespace unitSpeedUpgrades
+  {
+      using namespace UpgradeTypes;
+      static const UpgradeType speedUpgrade[UnitTypes::Enum::MAX] = {
+      None,None,Ion_Thrusters,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,Ion_Thrusters,
+      None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,Metabolic_Boost,Muscular_Augments,
+      Anabolic_Synthesis,None,None,Pneumatized_Carapace,None,None,None,None,None,Anabolic_Synthesis,None,None,None,None,Muscular_Augments,
+      Metabolic_Boost,None,None,Pneumatized_Carapace,None,None,None,None,None,None,None,Leg_Enhancements,None,None,None,Gravitic_Drive,Gravitic_Thrusters,
+      None,None,None,None,None,None,Leg_Enhancements,None,None,Gravitic_Thrusters,None,None,None,Gravitic_Boosters,None,None,None,Gravitic_Thrusters,
+      None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
+      None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
+      None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
+      None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
+      None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,Unknown
+      };
+  }
+
   // DEFAULTS
   static const int defaultMaxHP[UnitTypes::Enum::MAX] = {
     40, 45, 80, 125, 0, 150, 0, 60, 120, 200, 160, 150, 500, 20, 100, 40, 250, 300, 0, 300, 200, 500, 800, 400, 0, 400, 0, 1000, 
@@ -2584,5 +2601,9 @@ namespace BWAPI
     default:
       return false;
     }
+  }
+  UpgradeType UnitType::speedUpgrade() const
+  {
+      return unitSpeedUpgrades::speedUpgrade[this->getID()];
   }
 }
