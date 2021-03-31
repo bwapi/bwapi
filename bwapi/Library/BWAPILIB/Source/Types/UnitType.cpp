@@ -577,7 +577,7 @@ namespace BWAPI
       static const UpgradeType attackRangeUpgrade[UnitTypes::Enum::MAX] = {
           U_238_Shells,None,None,Charon_Boosters,Charon_Boosters,None,None,None,None,None,None,None,None,None,None,None,None,None,
           None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,Grooved_Spines,None,
-          None,None,None,None,None,None,None,None,None,None,None,None,None,Grooved_Spines,None,None,None,None,None,None,None,None,
+          None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
           None,None,None,None,Singularity_Charge,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
           None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
           None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
