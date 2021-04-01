@@ -571,6 +571,23 @@ namespace BWAPI
       };
   }
 
+  namespace unitAttackRangeUpgrades
+  {
+      using namespace UpgradeTypes;
+      static const UpgradeType attackRangeUpgrade[UnitTypes::Enum::MAX] = {
+          U_238_Shells,None,None,Charon_Boosters,Charon_Boosters,None,None,None,None,None,None,None,None,None,None,None,None,None,
+          None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,Grooved_Spines,None,
+          None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
+          None,None,None,None,Singularity_Charge,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
+          None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
+          None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
+          None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
+          None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
+          None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
+          None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
+          None,None,None,None,None,None,Unknown
+      };
+  }
   // DEFAULTS
   static const int defaultMaxHP[UnitTypes::Enum::MAX] = {
     40, 45, 80, 125, 0, 150, 0, 60, 120, 200, 160, 150, 500, 20, 100, 40, 250, 300, 0, 300, 200, 500, 800, 400, 0, 400, 0, 1000, 
@@ -2226,6 +2243,10 @@ namespace BWAPI
   UpgradeType UnitType::armorUpgrade() const
   {
     return unitArmorUpgrades::armorUpgrade[this->getID()];
+  }
+  UpgradeType UnitType::attackRangeUpgrade() const
+  {
+      return unitAttackRangeUpgrades::attackRangeUpgrade[this->getID()];
   }
   int UnitType::maxHitPoints() const
   {
