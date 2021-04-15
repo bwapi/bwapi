@@ -332,6 +332,12 @@ namespace BWAPI
     /// @returns UpgradeType indicating the upgrade that increases this unit type's armor amount.
     UpgradeType armorUpgrade() const;
 
+    /// <summary>Retrieves the upgrade type used to upgrade the weapon damage of this unit type.</summary>
+    ///
+    /// @returns UpgradeType indicating the upgrade that increases this unit type's weapon damage amount.
+    /// @m_since{5,0,0}
+    UpgradeType attackUpgrade() const;
+
     /// <summary>Retrieves the upgrade that increases this unit type's attack range.</summary>
     ///
     /// @returns UpgradeType indicating the upgrade that increases this unit type's attack range.
