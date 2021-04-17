@@ -3,12 +3,52 @@
 #include <BWAPI/UnitType.h>
 #include <BWAPI/Race.h>
 
+#include "UnitTypeFixtures.h"
+#include "BW/DataEnv.h"
+
+#include <string>
 #include <iostream>
 #include <utility>
 #include <functional>
 
 using namespace BWAPI;
 
+std::string get_unitType_string(const testing::TestParamInfo<UnitType>& value) {
+  std::string result = value.param.getName();
+  if (result.empty()) {
+    result = std::to_string(value.index);
+  }
+  return result;
+}
+
+TEST_P(UnitTypeFixture, maxHitPoints) {
+  UnitType u = GetParam();
+  ASSERT_EQ(u.maxHitPoints(), BW::units.hitPoints[u.getID()] / 256);
+}
+
+TEST_P(UnitTypeFixture, maxShields) {
+  UnitType u = GetParam();
+  ASSERT_EQ(u.maxShields(), BW::units.shieldEnable[u.getID()] ? BW::units.shields[u.getID()] : 0);
+}
+
+INSTANTIATE_TEST_SUITE_P(
+  UnitTypes,
+  UnitTypeFixture,
+  ::testing::ValuesIn(UnitTypeFixture::allInternalUnitTypes),
+  get_unitType_string
+);
+
+TEST_P(NoneUnknownUnitTypeFixture, data) {
+  ASSERT_EQ(GetParam().maxHitPoints(), 0);
+  ASSERT_EQ(GetParam().maxShields(), 0);
+}
+
+INSTANTIATE_TEST_SUITE_P(
+  UnitTypes,
+  NoneUnknownUnitTypeFixture,
+  ::testing::ValuesIn(NoneUnknownUnitTypeFixture::allNoneUnknownTypes),
+  get_unitType_string
+);
 
 TEST(Terran_Marine, whatBuilds) {
     EXPECT_EQ(UnitTypes::Terran_Marine.whatBuilds(), std::make_pair(UnitTypes::Terran_Barracks, 1));
