@@ -3,6 +3,9 @@
 #include <array>
 #include <fstream>
 #include <stdexcept>
+#include <filesystem>
+#include <sstream>
+#include <cassert>
 
 namespace BW {
   UpgradeData upgrades;
@@ -27,15 +30,25 @@ namespace BW {
 
   void DataEnv::TearDown() {}
 
-  template<class T, int N>
-  void readArr(std::istream& is, std::array<T, N>& arr) {
-    if (!is.read(reinterpret_cast<char*>(arr.data()), N * sizeof(T))) {
-      throw std::exception("Failed to read arr data");
+  template<class T>
+  void readArr(std::istream& is, T& arr) {
+    if (!is.read(reinterpret_cast<char*>(arr.data()), arr.size() * sizeof(typename T::value_type))) {
+      std::ostringstream ss;
+      ss << "Failed to read arr data.\n"
+        << "Tried reading " << arr.size() << " entries of size " << sizeof(typename T::value_type) << "\n";
+      throw std::runtime_error(ss.str());
     }
   }
 
+  std::ifstream loadFile(const std::string& filename) {
+    std::filesystem::path path = std::filesystem::absolute(filename);
+    std::cerr << "Loading arr: " << path << "\n";
+    assert(std::filesystem::exists(path));
+    return std::ifstream(path, std::ios::binary);
+  }
+
   void DataEnv::initUpgrades() {
-    std::ifstream f("arr/upgrades.dat", std::ios::binary);
+    std::ifstream f = loadFile("arr/upgrades.dat");
 
     readArr(f, upgrades.oreCostBase);
     readArr(f, upgrades.oreCostFactor);
@@ -52,7 +65,7 @@ namespace BW {
   }
 
   void DataEnv::initTechs() {
-    std::ifstream f("arr/techdata.dat", std::ios::binary);
+    std::ifstream f = loadFile("arr/techdata.dat");
 
     readArr(f, techs.oreCost);
     readArr(f, techs.gasCost);
@@ -68,7 +81,7 @@ namespace BW {
   }
 
   void DataEnv::initWeapons() {
-    std::ifstream f("arr/weapons.dat", std::ios::binary);
+    std::ifstream f = loadFile("arr/weapons.dat");
 
     readArr(f, weapons.label);
     readArr(f, weapons.graphic);
@@ -97,7 +110,7 @@ namespace BW {
   }
 
   void DataEnv::initUnits() {
-    std::ifstream f("arr/units.dat", std::ios::binary);
+    std::ifstream f = loadFile("arr/units.dat");
 
     readArr(f, units.flingy);
     readArr(f, units.subunit1);
@@ -156,7 +169,7 @@ namespace BW {
   }
 
   void DataEnv::initOrders() {
-    std::ifstream f("arr/orders.dat", std::ios::binary);
+    std::ifstream f = loadFile("arr/orders.dat");
 
     readArr(f, orders.label);
     readArr(f, orders.useWeaponTargetting);
@@ -180,7 +193,7 @@ namespace BW {
   }
 
   void DataEnv::initSprites() {
-    std::ifstream f("arr/sprites.dat", std::ios::binary);
+    std::ifstream f = loadFile("arr/sprites.dat");
 
     readArr(f, sprites.image);
     readArr(f, sprites.healthbarSize);
@@ -191,7 +204,7 @@ namespace BW {
   }
 
   void DataEnv::initImages() {
-    std::ifstream f("arr/images.dat", std::ios::binary);
+    std::ifstream f = loadFile("arr/images.dat");
 
     readArr(f, images.grpFileIndex);
     readArr(f, images.hasTurns);
@@ -210,7 +223,7 @@ namespace BW {
   }
 
   void DataEnv::initFlingies() {
-    std::ifstream f("arr/flingy.dat", std::ios::binary);
+    std::ifstream f = loadFile("arr/flingy.dat");
 
     readArr(f, flingies.sprite);
     readArr(f, flingies.topSpeed);

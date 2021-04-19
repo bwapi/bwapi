@@ -25,14 +25,13 @@ add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME} --gtest_output=xml:unit_te
 
 #########################
 # Copy BW data
-configure_file(arr/flingy.dat arr/flingy.dat COPYONLY)
-configure_file(arr/images.dat arr/images.dat COPYONLY)
-configure_file(arr/orders.dat arr/orders.dat COPYONLY)
-configure_file(arr/sprites.dat arr/sprites.dat COPYONLY)
-configure_file(arr/techdata.dat arr/techdata.dat COPYONLY)
-configure_file(arr/units.dat arr/units.dat COPYONLY)
-configure_file(arr/upgrades.dat arr/upgrades.dat COPYONLY)
-configure_file(arr/weapons.dat arr/weapons.dat COPYONLY)
+file(GLOB ARR_ITEMS arr/*.dat)
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/arr")
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/arr")
+foreach(ARR_ITEM IN LISTS ARR_ITEMS)
+  configure_file(${ARR_ITEM} "${CMAKE_CURRENT_BINARY_DIR}/arr/" COPYONLY)
+  configure_file(${ARR_ITEM} "${CMAKE_BINARY_DIR}/arr/" COPYONLY)
+endforeach()
 
 #########################
 # Project Properties
