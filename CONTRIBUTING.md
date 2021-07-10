@@ -25,15 +25,15 @@ Beta              | Appended to a major version increase until stability has bee
 
 ## Developing with Visual Studio
 1. Install [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/).
-  - If VS is already installed, go to **Tools** -> **Get Tools and Features...**.
+    - If VS is already installed, go to **Tools** -> **Get Tools and Features...**.
 2. Enable the following **Individual Components**:
-  - C++ Clang Compiler for Windows
-  - C++ Clang-cl for v142 build tools (x64/x86)
-  - C++ Cmake tools for Windows
-  - MSBuild
-  - MSVC v142 - VS 2019 C++ x64/x86 build tools (Latest)
-  - Test Adapter for Google Test
-  - Windows 10 SDK *(Any)*
+    - C++ Clang Compiler for Windows
+    - C++ Clang-cl for v142 build tools (x64/x86)
+    - C++ Cmake tools for Windows
+    - MSBuild
+    - MSVC v142 - VS 2019 C++ x64/x86 build tools (Latest)
+    - Test Adapter for Google Test
+    - Windows 10 SDK *(Any)*
 3. (Re)start Visual Studio and go to **Extensions** -> **Manage Extensions**.
 4. Search for and install *Google Test Adapter*. Restart Visual Studio.
 5. Now go to **File** -> **Open** -> **Folder...** and select the *bwapi* directory in the bwapi repository (normally `bwapi/bwapi/`).
