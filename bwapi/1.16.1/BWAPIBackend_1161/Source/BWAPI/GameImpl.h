@@ -2,6 +2,7 @@
 #include <string>
 #include <list>
 #include <deque>
+#include <unordered_map>
 
 #include "../Types.h"
 #include "../BW/Constants.h"

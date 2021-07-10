@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unordered_map>
+
 #include <BWAPI/Position.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/UnitType.h>

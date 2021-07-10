@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.14)
 #
 # The BWAPILIB Coverage target is in here because gcov/lcov cannot include sources outside of its directory scope
 #
-# Usage: make 
+# Usage: cmake --build . --config Debug --target BWAPILIB_coverage
 if(CMAKE_COMPILER_IS_GNUCXX AND (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL ""))
   include(CodeCoverage)
 
