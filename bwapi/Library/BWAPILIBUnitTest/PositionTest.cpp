@@ -2,6 +2,8 @@
 
 #include <BWAPI/Position.h>
 
+#include <unordered_set>
+
 using namespace BWAPI;
 
 TEST(Positions, Origin) {
@@ -297,4 +299,12 @@ TEST(Position, WIstream)
   std::wstringstream ss(L"2 -3");
   ss >> p1;
   EXPECT_EQ(Position(2, -3), p1);
+}
+
+TEST(Position, IsHashable)
+{
+  Position p = { 5, 100 };
+  std::unordered_set<Position> positions{ p };
+
+  EXPECT_EQ(*positions.begin(), p);
 }

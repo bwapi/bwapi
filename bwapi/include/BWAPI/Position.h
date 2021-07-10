@@ -420,3 +420,12 @@ namespace BWAPI
   static_assert(sizeof(TilePosition) == 8, "Expected BWAPI Position to be 8 bytes.");
   static_assert(sizeof(WalkPosition) == 8, "Expected BWAPI Position to be 8 bytes.");
 }
+
+namespace std {
+  template<class T, int Scale>
+  struct hash<BWAPI::Point<T, Scale>> {
+    std::size_t operator()(const BWAPI::Point<T, Scale>& p) const noexcept {
+      return std::hash<T>{}(p.x) ^ (std::hash<T>{}(p.y) << 1);
+    }
+  };
+}
