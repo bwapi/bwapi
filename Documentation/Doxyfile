@@ -44,7 +44,7 @@ PROJECT_NUMBER         = 4.2.0
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = "An API for interacting with Starcraft: Broodwar (1.16.1)"
+PROJECT_BRIEF          = "An API for interacting with Starcraft: Broodwar"
 
 # With the PROJECT_LOGO tag one can specify an logo or icon that is included in
 # the documentation. The maximum height of the logo should not exceed 55 pixels
@@ -1727,7 +1727,7 @@ WARN_LOGFILE           =
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = ../bwapi/include/ \
+INPUT                  = ../include/ \
                          ../README.md \
                          ./dox/
 
@@ -1770,10 +1770,7 @@ RECURSIVE              = YES
 # Note that relative paths are relative to the directory from which doxygen is
 # run.
 
-EXCLUDE                = ../bwapi/include/BWAPI/Client/ \
-                         ./bwapi.wiki/_Footer.md \
-                         ./bwapi.wiki/_Sidebar.md \
-                         ./bwapi.wiki/Home.md
+EXCLUDE                = ../include/BWAPI/Client/
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -1805,8 +1802,7 @@ EXCLUDE_SYMBOLS        = BWAPI::Point< _T, 0 > \
                          BWAPI::Point< char, __Scale > \
                          BWAPI::Point< unsigned char, __Scale > \
                          __* \
-                         ~* \
-                         BWAPI::InterfaceEvent
+                         ~*
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or directories
 # that contain example code fragments that are included (see the \include
