@@ -18,7 +18,7 @@ jobs:
       run: cmake -B ${{github.workspace}}/bwapi/build -DCMAKE_BUILD_TYPE=Release
 
     - name: Build
-      run: cmake --build ${{github.workspace}}/bwapi/build --config Release
+      run: cmake --build ${{github.workspace}}/bwapi/build --config Release --parallel
   
   build-ubuntu:
     runs-on: ubuntu-latest
@@ -34,7 +34,7 @@ jobs:
       run: cmake -B ${{github.workspace}}/bwapi/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=${{matrix.compiler}}
 
     - name: Build
-      run: cmake --build ${{github.workspace}}/bwapi/build --config Release
+      run: cmake --build ${{github.workspace}}/bwapi/build --config Release --parallel
 
   test-unit:
     runs-on: ubuntu-latest
@@ -43,7 +43,7 @@ jobs:
 
     - name: Install LCov
       shell: bash
-      run: sudo apt-get install lcov > /dev/null
+      run: sudo apt-get install lcov
 
     - name: Configure CMake
       working-directory: ${{github.workspace}}/bwapi
@@ -51,7 +51,7 @@ jobs:
 
     - name: Run Tests
       working-directory: ${{github.workspace}}/bwapi/build
-      run: cmake --build ${{github.workspace}}/bwapi/build --config Debug --target BWAPILIB_coverage
+      run: cmake --build ${{github.workspace}}/bwapi/build --config Debug --target BWAPILIB_coverage --parallel
 
     - name: Report code coverage
       uses: actions/upload-artifact@v2
@@ -75,5 +75,5 @@ jobs:
       run: cmake -B ${{github.workspace}}/bwapi/build -DCMAKE_BUILD_TYPE=${{matrix.configuration}} -DCMAKE_GENERATOR_PLATFORM=${{matrix.platform}}
 
     - name: Build
-      run: cmake --build ${{github.workspace}}/bwapi/build --config ${{matrix.configuration}}
+      run: cmake --build ${{github.workspace}}/bwapi/build --config ${{matrix.configuration}} --parallel
 
