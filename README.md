@@ -102,5 +102,5 @@ You may experience issues when working with BWAPI. Here are some steps you may w
 - [SSCAIT Discord](https://discordapp.com/invite/w9wRRrF)
 
 ## BWAPI Developers Getting Started
-Want to help improve BWAPI? Fork the [develop branch](https://github.com/bwapi/bwapi/tree/develop) and read the [contributing guide](https://github.com/bwapi/bwapi/blob/main/CONTRIBUTING.md).
+Want to help improve BWAPI? Fork the [develop branch](https://github.com/bwapi/bwapi/tree/develop) and read the [contributing guide](CONTRIBUTING.md).
 
