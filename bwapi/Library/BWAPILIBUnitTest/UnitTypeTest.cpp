@@ -1,7 +1,10 @@
 #include <gtest/gtest.h>
 
+#include <BWAPI/WeaponType.h>
 #include <BWAPI/UnitType.h>
+#include <BWAPI/UpgradeType.h>
 #include <BWAPI/Race.h>
+#include <BWAPI/UnitSizeType.h>
 
 #include "UnitTypeFixtures.h"
 #include "BW/DataEnv.h"
@@ -14,40 +17,188 @@
 using namespace BWAPI;
 
 std::string get_unitType_string(const testing::TestParamInfo<UnitType>& value) {
-  std::string result = value.param.getName();
-  if (result.empty()) {
-    result = std::to_string(value.index);
-  }
-  return result;
+    std::string result = value.param.getName();
+    if (result.empty()) {
+        result = std::to_string(value.index);
+    }
+    return result;
 }
 
 TEST_P(UnitTypeFixture, maxHitPoints) {
-  UnitType u = GetParam();
-  ASSERT_EQ(u.maxHitPoints(), BW::units.hitPoints[u.getID()] / 256);
+    UnitType u = GetParam();
+    ASSERT_EQ(u.maxHitPoints(), BW::units.hitPoints[u.getID()] / 256);
 }
 
 TEST_P(UnitTypeFixture, maxShields) {
-  UnitType u = GetParam();
-  ASSERT_EQ(u.maxShields(), BW::units.shieldEnable[u.getID()] ? BW::units.shields[u.getID()] : 0);
+    UnitType u = GetParam();
+    ASSERT_EQ(u.maxShields(), BW::units.shieldEnable[u.getID()] ? BW::units.shields[u.getID()] : 0);
+}
+
+TEST_P(UnitTypeFixture, airWeapon) {
+    UnitType u = GetParam();
+    if (u == UnitTypes::Terran_Goliath) {
+        ASSERT_EQ(u.airWeapon().getID(), BWAPI::WeaponTypes::Hellfire_Missile_Pack);
+    }
+    else if (u == UnitTypes::Hero_Alan_Schezar) {
+        ASSERT_EQ(u.airWeapon().getID(), BWAPI::WeaponTypes::Hellfire_Missile_Pack_Alan_Schezar);
+    }
+    else {
+        ASSERT_EQ(u.airWeapon().getID(), BW::units.airWeapon[u.getID()]);
+    }
+}
+
+TEST_P(UnitTypeFixture, armor) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.armor(), BW::units.armorAmount[u.getID()]);
+}
+
+TEST_P(UnitTypeFixture, armorUpgrade) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.armorUpgrade().getID(), BW::units.armorUpgrade[u.getID()]);
+}
+
+TEST_P(UnitTypeFixture, buildScore) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.buildScore(), BW::units.buildScore[u.getID()]);
+}
+
+TEST_P(UnitTypeFixture, timeCost) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.buildTime(), BW::units.timeCost[u.getID()]);
+}
+
+TEST_P(UnitTypeFixture, destroyScore) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.destroyScore(), BW::units.destroyScore[u.getID()]);
+}
+
+TEST_P(UnitTypeFixture, dimensionLeft) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.dimensionLeft(), BW::units.dimensions[u.getID()].left);
+}
+
+TEST_P(UnitTypeFixture, dimensionUp) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.dimensionUp(), BW::units.dimensions[u.getID()].top);
+}
+
+TEST_P(UnitTypeFixture, dimensionRight) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.dimensionRight(), BW::units.dimensions[u.getID()].right);
+}
+
+TEST_P(UnitTypeFixture, dimensionDown) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.dimensionDown(), BW::units.dimensions[u.getID()].bottom);
+}
+
+TEST_P(UnitTypeFixture, gasPrice) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.gasPrice(), BW::units.gasCost[u.getID()]);
+}
+
+TEST_P(UnitTypeFixture, groundWeapon) {
+    UnitType u = GetParam();
+    if (BW::units.subunit1[u.getID()] != UnitTypes::Enum::None) {
+        int i = BW::units.subunit1[u.getID()];
+        u = UnitType(i);
+    }
+    ASSERT_EQ(u.groundWeapon().getID(), BW::units.groundWeapon[u.getID()]);
+}
+
+TEST_P(UnitTypeFixture, height) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.height(), BW::units.dimensions[u.getID()].top + BW::units.dimensions[u.getID()].bottom + 1);
+}
+
+TEST_P(UnitTypeFixture, maxAirHits) {
+    UnitType u = GetParam();
+    if (BW::units.subunit1[u.getID()] != UnitTypes::Enum::None) {
+        int i = BW::units.subunit1[u.getID()];
+        u = UnitType(i);
+    }
+    ASSERT_EQ(u.maxAirHits(), BW::units.maxAirHits[u.getID()]);
+}
+
+TEST_P(UnitTypeFixture, maxGroundHits) {
+    UnitType u = GetParam();
+    if (BW::units.subunit1[u.getID()] != UnitTypes::Enum::None) {
+        int i = BW::units.subunit1[u.getID()];
+        u = UnitType(i);
+    }
+    ASSERT_EQ(u.maxGroundHits(), BW::units.maxGroundHits[u.getID()]);
+
+}
+
+TEST_P(UnitTypeFixture, mineralPrice) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.mineralPrice(), BW::units.oreCost[u.getID()]);
+}
+
+TEST_P(UnitTypeFixture, seekRange) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.seekRange(), BW::units.targetAcquisitionRange[u.getID()] * 32);
+}
+
+TEST_P(UnitTypeFixture, sightRange) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.sightRange(), BW::units.sightRange[u.getID()] * 32);
+}
+
+TEST_P(UnitTypeFixture, size) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.size().getID(), BW::units.sizeType[u.getID()]);
+}
+
+TEST_P(UnitTypeFixture, spaceProvided) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.spaceProvided(), BW::units.spaceProvided[u.getID()]);
+}
+
+TEST_P(UnitTypeFixture, spaceRequired) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.spaceRequired(), BW::units.spaceRequired[u.getID()]);
+}
+
+TEST_P(UnitTypeFixture, supplyProvided) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.supplyProvided(), BW::units.supplyProvided[u.getID()]);
+}
+
+TEST_P(UnitTypeFixture, supplyRequired) {
+    UnitType u = GetParam();
+    ASSERT_EQ(u.supplyRequired(), BW::units.supplyRequired[u.getID()]);
 }
 
 INSTANTIATE_TEST_SUITE_P(
-  UnitTypes,
-  UnitTypeFixture,
-  ::testing::ValuesIn(UnitTypeFixture::allInternalUnitTypes),
-  get_unitType_string
+    UnitTypes,
+    UnitTypeFixture,
+    ::testing::ValuesIn(UnitTypeFixture::allInternalUnitTypes),
+    get_unitType_string
 );
 
 TEST_P(NoneUnknownUnitTypeFixture, data) {
-  ASSERT_EQ(GetParam().maxHitPoints(), 0);
-  ASSERT_EQ(GetParam().maxShields(), 0);
+    ASSERT_EQ(GetParam().maxHitPoints(), 0);
+    ASSERT_EQ(GetParam().maxShields(), 0);
+    if (GetParam() == UnitTypes::Unknown) {
+        ASSERT_EQ(GetParam().airWeapon(), 131);
+    }
+    else if (GetParam() == UnitTypes::None) {
+        ASSERT_EQ(GetParam().airWeapon(), 130);
+    }
+    else if (GetParam() == UnitTypes::AllUnits) {
+        ASSERT_EQ(GetParam().airWeapon(), 130);
+    }
+    else {
+        ASSERT_EQ(GetParam().airWeapon(), 130);
+    }
 }
 
 INSTANTIATE_TEST_SUITE_P(
-  UnitTypes,
-  NoneUnknownUnitTypeFixture,
-  ::testing::ValuesIn(NoneUnknownUnitTypeFixture::allNoneUnknownTypes),
-  get_unitType_string
+    UnitTypes,
+    NoneUnknownUnitTypeFixture,
+    ::testing::ValuesIn(NoneUnknownUnitTypeFixture::allNoneUnknownTypes),
+    get_unitType_string
 );
 
 TEST(Terran_Marine, whatBuilds) {
