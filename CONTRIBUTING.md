@@ -4,7 +4,9 @@
  - Non-trivial feature requests welcome ([example](https://github.com/bwapi/bwapi/issues/393))
 
 # Creating a Pull Request
+ - [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the repository.
  - Do development on the [`develop`](https://github.com/bwapi/bwapi/tree/develop) branch.
+ - Once you've committed your changes, [create a pull request](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
 
 # Versioning
 BWAPI versioning is categorized as follows: `major.minor.patch [Beta]`
@@ -16,7 +18,57 @@ minor             | Increased when breaking changes are made. Modules will need 
 patch             | Increased when non-breaking changes are made.
 Beta              | Appended to a major version increase until stability has been verified.
 
-# Coding Standards
+# Developing BWAPI
+1. Install [git](https://git-scm.com/).
+2. Install [CMake](https://cmake.org/).
+3. Choose your environment.
+
+## Developing with Visual Studio
+1. Install [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/).
+  - If VS is already installed, go to **Tools** -> **Get Tools and Features...**.
+2. Enable the following **Individual Components**:
+  - C++ Clang Compiler for Windows
+  - C++ Clang-cl for v142 build tools (x64/x86)
+  - C++ Cmake tools for Windows
+  - MSBuild
+  - MSVC v142 - VS 2019 C++ x64/x86 build tools (Latest)
+  - Test Adapter for Google Test
+  - Windows 10 SDK *(Any)*
+3. (Re)start Visual Studio and go to **Extensions** -> **Manage Extensions**.
+4. Search for and install *Google Test Adapter*. Restart Visual Studio.
+5. Now go to **File** -> **Open** -> **Folder...** and select the *bwapi* directory in the bwapi repository (normally `bwapi/bwapi/`).
+6. Build the project and check that tests appear in the *Test Explorer* which can be opened from either the **View** or **Test** menus.
+
+*Note: BWAPI.dll and other 1.16.1 projects only build in x86 project targets. These projects will be ignored in 64-bit targets.*
+
+## Developing BWAPI on Ubuntu
+1. Open a command line to `bwapi/bwapi`.
+2. Run `sudo apt-get install git cmake gcc lcov`
+3. Run `cmake -B Debug -DCMAKE_BUILD_TYPE=Debug` to configure the project.
+4. Run `cmake --build Debug --parallel` to build the project.
+
+Replace `Debug` with `Release` for release builds.
+
+## Testing
+
+### Code Coverage
+Code coverage is currently only supported on Ubuntu with [lcov](http://ltp.sourceforge.net/coverage/lcov.php). It is configured to provide line and branch coverage. Only works properly with a *Debug* target.
+
+1. Open a command line in your build directory.
+2. Run `cmake --build Debug --target BWAPILIB_coverage --parallel`.
+
+Use the `FunctionalTests_coverage` target for the functional tests.
+
+### Functional Tests
+1. Copy the map from `bwapi/library/FunctionalTests/64x64.scx` to your Starcraft maps folder.
+2. Start a game client.
+3. Run the FunctionalTest executable or test target.
+4. Create a new custom game in the client.
+5. Set the *Game Type* to **Use Map Settings**.
+6. Choose the `64x64.scx` map.
+7. Start the game.
+
+# Styleguide
 
 ## Spacing
 - Use double-spaces instead of tabs. You should be able to convert tabs to spaces automatically in your editor's settings.

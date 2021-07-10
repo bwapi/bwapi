@@ -1,4 +1,4 @@
-[Documentation](http://bwapi.github.io/) | [Github Repository](https://github.com/bwapi/bwapi) | [Issues](https://github.com/bwapi/bwapi/issues) | [More Resources](https://github.com/bwapi/bwapi/wiki/Useful-Links)
+[Documentation](http://bwapi.github.io/) | [Github Repository](https://github.com/bwapi/bwapi) | [Issues](https://github.com/bwapi/bwapi/issues) | [Q&A](https://github.com/bwapi/bwapi/discussions/categories/q-a) | [More Resources](https://github.com/bwapi/bwapi/wiki/Useful-Links)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/6eikd5g49co6l5ty/branch/develop?svg=true)](https://ci.appveyor.com/project/heinermann/bwapi/branch/develop)
 
@@ -44,8 +44,8 @@ Developing a bot in C++? Then download the [latest release](https://github.com/b
 ### Quick Start With Visual Studio (Windows)
 
 1. Install [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/)
-3. Open the sample `.sln` from the BWAPI release.
-4. Build the solution.
+2. Open the sample `.sln` from the BWAPI release.
+3. Build the solution.
 
 ### Quick Start With CMake (Windows, Mac, Linux)
 
@@ -53,17 +53,15 @@ Developing a bot in C++? Then download the [latest release](https://github.com/b
 2. Open a command line in the BWAPI directory you just extracted.
 3. Run the following commands to configure and build the project:
     ```sh
-    mkdir Debug
-    cd Debug
-    cmake .. -DCMAKE_BUILD_TYPE=Debug
-    cmake --build . --parallel
+    cmake -B Debug -DCMAKE_BUILD_TYPE=Debug
+    cmake -B Debug --build . --parallel
     ```
 
 For a release target, replace `Debug` with `Release`.
 
 ### Starting the Game Client
 
-#### Starcraft 1.16.1
+#### Starcraft 1.16.1 (Windows)
 1. Run `Chaoslauncher.exe` from the provided Chaoslauncher directory (it comes with the download)
 2. Check *BWAPI Injector* and any other plugins you want to include
 3. Click **Start**
@@ -74,12 +72,13 @@ To run a game against Blizzard's AI:
   3. Click **Play Custom**, select a map, and start a game
 
 To Run a game against yourself:
-  1. Run `Chaoslauncher - MultiInstance.exe`
-  2. Click **Start**
+  1. To use the *Local PC* and *Direct IP* multiplayer providers, copy `SNP_DirectIP.snp` to your Starcraft directory.
+  2. Run `Chaoslauncher - MultiInstance.exe`
+  3. Click **Start**
       1. Go to **Multiplayer** -> **Expansion** -> **Local PC**
       2. Select a user and click **OK**
       3. Click **Create Game**, select a map, and click **OK**
-  3. Click **Start** in Chaoslauncher again
+  4. Click **Start** in Chaoslauncher again
       1. Go to **Multiplayer** -> **Expansion** -> **Local PC**
       2. Select a user and click **OK**
       3. Join the existing game created by the other client
@@ -98,20 +97,10 @@ You may experience issues when working with BWAPI. Here are some steps you may w
    - Operating System
    - **Steps to reproduce the problem**
 
+### Getting Help
+- [Github Q&A Board](https://github.com/bwapi/bwapi/discussions/categories/q-a)
+- [SSCAIT Discord](https://discordapp.com/invite/w9wRRrF)
+
 ## BWAPI Developers Getting Started
-Want to help improve BWAPI? Fork the [develop branch](https://github.com/bwapi/bwapi/tree/develop).
-
-### Developing BWAPI with Visual Studio
-1. Install [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/).
-
-WIP
-
-Extensions: OpenCppCoverage Plugin(???), Test Adapter for Google Test, 
-
-### Developing BWAPI with Something Else
-1. Install [CMake](https://cmake.org/)
-
-Reqs: lcov
-
-TODO: This is a WIP, need to find out what is needed from a fresh Windows/Linux perspective.
+Want to help improve BWAPI? Fork the [develop branch](https://github.com/bwapi/bwapi/tree/develop) and read the [contributing guide](https://github.com/bwapi/bwapi/blob/main/CONTRIBUTING.md).
 
