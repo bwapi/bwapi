@@ -14,11 +14,11 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Configure CMake
-      working-directory: ${{github.workspace}}/bwapi
-      run: cmake -B ${{github.workspace}}/bwapi/build -DCMAKE_BUILD_TYPE=Release
+      working-directory: ${{github.workspace}}
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Release
 
     - name: Build
-      run: cmake --build ${{github.workspace}}/bwapi/build --config Release --parallel
+      run: cmake --build ${{github.workspace}}/build --config Release --parallel
   
   build-ubuntu:
     runs-on: ubuntu-latest
@@ -30,11 +30,11 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Configure CMake
-      working-directory: ${{github.workspace}}/bwapi
-      run: cmake -B ${{github.workspace}}/bwapi/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=${{matrix.compiler}}
+      working-directory: ${{github.workspace}}
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=${{matrix.compiler}}
 
     - name: Build
-      run: cmake --build ${{github.workspace}}/bwapi/build --config Release --parallel
+      run: cmake --build ${{github.workspace}}/build --config Release --parallel
 
   test-unit:
     runs-on: ubuntu-latest
@@ -46,18 +46,18 @@ jobs:
       run: sudo apt-get install lcov
 
     - name: Configure CMake
-      working-directory: ${{github.workspace}}/bwapi
-      run: cmake -B ${{github.workspace}}/bwapi/build -DCMAKE_BUILD_TYPE=Debug
+      working-directory: ${{github.workspace}}
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Debug
 
     - name: Run Tests
-      working-directory: ${{github.workspace}}/bwapi/build
-      run: cmake --build ${{github.workspace}}/bwapi/build --config Debug --target BWAPILIB_coverage --parallel
+      working-directory: ${{github.workspace}}/build
+      run: cmake --build ${{github.workspace}}/build --config Debug --target BWAPILIB_coverage --parallel
 
     - name: Report code coverage
       uses: actions/upload-artifact@v2
       with:
         name: BWAPILIB_coverage
-        path: ${{github.workspace}}/bwapi/build/BWAPILIB_coverage
+        path: ${{github.workspace}}/build/BWAPILIB_coverage
 
   build-windows:
     runs-on: windows-latest
@@ -71,9 +71,8 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Configure CMake
-      working-directory: ${{github.workspace}}/bwapi
-      run: cmake -B ${{github.workspace}}/bwapi/build -DCMAKE_BUILD_TYPE=${{matrix.configuration}} -DCMAKE_GENERATOR_PLATFORM=${{matrix.platform}}
+      working-directory: ${{github.workspace}}
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.configuration}} -DCMAKE_GENERATOR_PLATFORM=${{matrix.platform}}
 
     - name: Build
-      run: cmake --build ${{github.workspace}}/bwapi/build --config ${{matrix.configuration}} --parallel
-
+      run: cmake --build ${{github.workspace}}/build --config ${{matrix.configuration}} --parallel

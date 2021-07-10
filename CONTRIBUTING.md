@@ -36,13 +36,13 @@ Beta              | Appended to a major version increase until stability has bee
     - Windows 10 SDK *(Any)*
 3. (Re)start Visual Studio and go to **Extensions** -> **Manage Extensions**.
 4. Search for and install *Google Test Adapter*. Restart Visual Studio.
-5. Now go to **File** -> **Open** -> **Folder...** and select the *bwapi* directory in the bwapi repository (normally `bwapi/bwapi/`).
+5. Now go to **File** -> **Open** -> **Folder...** and select the BWAPI repository directory.
 6. Build the project and check that tests appear in the *Test Explorer* which can be opened from either the **View** or **Test** menus.
 
 *Note: BWAPI.dll and other 1.16.1 projects only build in x86 project targets. These projects will be ignored in 64-bit targets.*
 
 ## Developing BWAPI on Ubuntu
-1. Open a command line to `bwapi/bwapi`.
+1. Open a command line in the repository.
 2. Run `sudo apt-get install git cmake gcc lcov`
 3. Run `cmake -B Debug -DCMAKE_BUILD_TYPE=Debug` to configure the project.
 4. Run `cmake --build Debug --parallel` to build the project.
@@ -60,7 +60,7 @@ Code coverage is currently only supported on Ubuntu with [lcov](http://ltp.sourc
 Use the `FunctionalTests_coverage` target for the functional tests.
 
 ### Functional Tests
-1. Copy the map from `bwapi/library/FunctionalTests/64x64.scx` to your Starcraft maps folder.
+1. Copy the map from `Library/FunctionalTests/64x64.scx` to your Starcraft maps folder.
 2. Start a game client.
 3. Run the FunctionalTest executable or test target.
 4. Create a new custom game in the client.
