@@ -1,0 +1,32 @@
+name: Tests
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+  workflow_dispatch: ~
+
+jobs:
+  test-unit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install LCov
+      shell: bash
+      run: sudo apt-get install lcov
+
+    - name: Configure CMake
+      working-directory: ${{github.workspace}}
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Debug
+
+    - name: Run Tests
+      working-directory: ${{github.workspace}}/build
+      run: cmake --build ${{github.workspace}}/build --config Debug --target BWAPILIB_coverage --parallel
+
+    - name: Report code coverage
+      uses: actions/upload-artifact@v2
+      with:
+        name: BWAPILIB_coverage
+        path: ${{github.workspace}}/build/BWAPILIB_coverage
