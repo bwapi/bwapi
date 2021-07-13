@@ -68,6 +68,15 @@ Use the `FunctionalTests_coverage` target for the functional tests.
 6. Choose the `64x64.scx` map.
 7. Start the game.
 
+## Documentation Generation
+Documentation generation is easiest on Ubuntu. Use the following commands from the `./Documentation/` directory.
+
+```sh
+sudo apt-get install graphviz python3 python3-pip doxygen
+pip install -r requirements.txt
+python m.css/documentation/doxygen.py Doxyfile-mcss
+```
+
 # Styleguide
 
 ## Spacing
