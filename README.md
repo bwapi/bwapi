@@ -1,6 +1,6 @@
 [Documentation](http://bwapi.github.io/) | [Github Repository](https://github.com/bwapi/bwapi) | [Issues](https://github.com/bwapi/bwapi/issues) | [Q&A](https://github.com/bwapi/bwapi/discussions/categories/q-a) | [More Resources](https://github.com/bwapi/bwapi/wiki/Useful-Links)
 
-[![Build status](https://ci.appveyor.com/api/projects/status/6eikd5g49co6l5ty/branch/develop?svg=true)](https://ci.appveyor.com/project/heinermann/bwapi/branch/develop)
+[![Build](https://github.com/bwapi/bwapi/actions/workflows/build.yml/badge.svg)](https://github.com/bwapi/bwapi/actions/workflows/build.yml) [![Tests](https://github.com/bwapi/bwapi/actions/workflows/test.yml/badge.svg)](https://github.com/bwapi/bwapi/actions/workflows/test.yml)
 
 ## Project Information
 
