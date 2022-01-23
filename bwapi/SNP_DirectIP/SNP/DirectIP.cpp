@@ -118,12 +118,15 @@ namespace DRIP
     // bind to port
     rebind();
   }
+  
   void DirectIP::destroy()
   {
     settings->release();
     session->release();
     delete session;
+    delete settings;
   }
+
   void DirectIP::requestAds()
   {
     rebind();

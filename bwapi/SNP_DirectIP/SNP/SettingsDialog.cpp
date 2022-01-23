@@ -26,7 +26,7 @@ void SettingsDialog::release() {
 
 void SettingsDialog::showSettingsDialog()
 {
-  hdlgThread = CreateThread(NULL, NULL, dlgThread, this, NULL, NULL);
+  hdlgThread = CreateThread(NULL, NULL, dlgThread, NULL, NULL, NULL);
 }
 
 void SettingsDialog::hideSettingsDialog()
