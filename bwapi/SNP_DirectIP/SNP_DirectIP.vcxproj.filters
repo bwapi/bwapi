@@ -44,6 +44,9 @@
     <ClCompile Include="SNP\SettingsFile.cpp">
       <Filter>DirectIP</Filter>
     </ClCompile>
+    <ClCompile Include="SNP\SettingsEnvironment.cpp">
+      <Filter>DirectIP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SNP\CriticalSection.h">
@@ -81,6 +84,9 @@
       <Filter>DirectIP</Filter>
     </ClInclude>
     <ClInclude Include="SNP\SettingsFile.h">
+      <Filter>DirectIP</Filter>
+    </ClInclude>
+    <ClInclude Include="SNP\SettingsEnvironment.h">
       <Filter>DirectIP</Filter>
     </ClInclude>
   </ItemGroup>

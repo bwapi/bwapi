@@ -180,6 +180,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SNP\SettingsEnvironment.cpp" />
     <ClCompile Include="SNP\Settings.cpp" />
     <ClCompile Include="SNP\SettingsFile.cpp" />
     <ClCompile Include="SNP\CriticalSection.cpp" />
@@ -194,6 +195,7 @@
     <ClCompile Include="SNP\Output.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SNP\SettingsEnvironment.h" />
     <ClInclude Include="SNP\Settings.h" />
     <ClInclude Include="SNP\SettingsFile.h" />
     <ClInclude Include="SNP\CriticalSection.h" />
