@@ -9,7 +9,7 @@ namespace DRIP
 {
   extern SNP::NetworkInfo networkInfo;
 
-  class DirectIP : public SNP::Network<UDPAddr>
+  class DirectIP : public SNP::Network<Addr>
   {
   public:
     DirectIP(){};
@@ -18,7 +18,7 @@ namespace DRIP
     void initialize();
     void destroy();
     void requestAds();
-    void sendAsyn(const UDPAddr& to, Util::MemoryFrame packet);
+    void sendAsyn(const Addr& to, Util::MemoryFrame packet);
     void receive();
     void startAdvertising(Util::MemoryFrame ad);
     void stopAdvertising();

@@ -180,22 +180,30 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SNP\Settings.cpp" />
+    <ClCompile Include="SNP\SettingsFile.cpp" />
     <ClCompile Include="SNP\CriticalSection.cpp" />
     <ClCompile Include="SNP\DLLMain.cpp" />
     <ClCompile Include="SNP\SNPModule.cpp" />
     <ClCompile Include="SNP\DirectIP.cpp" />
     <ClCompile Include="SNP\SettingsDialog.cpp" />
+    <ClCompile Include="SNP\Socket.cpp" />
+    <ClCompile Include="SNP\TCPSocket.cpp" />
     <ClCompile Include="SNP\UDPSocket.cpp" />
     <ClCompile Include="SNP\LocalPC.cpp" />
     <ClCompile Include="SNP\Output.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SNP\Settings.h" />
+    <ClInclude Include="SNP\SettingsFile.h" />
     <ClInclude Include="SNP\CriticalSection.h" />
     <ClInclude Include="SNP\SNPModule.h" />
     <ClInclude Include="SNP\SNPNetwork.h" />
     <ClInclude Include="SNP\DirectIP.h" />
     <ClInclude Include="SNP\resource.h" />
     <ClInclude Include="SNP\SettingsDialog.h" />
+    <ClInclude Include="SNP\Socket.h" />
+    <ClInclude Include="SNP\TCPSocket.h" />
     <ClInclude Include="SNP\UDPSocket.h" />
     <ClInclude Include="SNP\LocalPC.h" />
     <ClInclude Include="SNP\Output.h" />

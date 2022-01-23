@@ -2,53 +2,26 @@
 
 class UDPSocket;
 
-#include <windows.h>
-#include <winsock.h>
+#include "Socket.h"
 
-#include <Util/Exceptions.h>
-#include <Util/MemoryFrame.h>
-
-class TWSAInitializer
-{
-public:
-  TWSAInitializer();
-  ~TWSAInitializer();
-
-public:
-  static HANDLE completion_port;
-};
-
-extern TWSAInitializer _init_wsa;
-
-typedef sockaddr_in UDPAddr;
-
-class UDPSocket
+class UDPSocket : public Socket
 {
   // constructors
 public:
   UDPSocket();
   ~UDPSocket();
 
-  // state
-private:
-  SOCKET _s;
-  int _state;
-  int _bound;
-
   // methods
 public:
-  void init();
-  void release() throw();
-  void bind(int port);
-  void sendPacket(const UDPAddr &target, Util::MemoryFrame data);
-  Util::MemoryFrame receivePacket(UDPAddr &target, Util::MemoryFrame dest);
-  int getNextPacketSize();
-  void setBlockingMode(bool block);
-  int getState() const;
-  int getBoundPort() const; // returns 0 if not bound
+  void init() override;
+  void release() throw() override;
+  
+  void bind(int port) override;
+  //void connect(const Addr& target) override;
+  //SocketMode getMode(void) const override;
 
-  // service
-public:
-  static sockaddr_in getLocalAddress();
-  static sockaddr_in resolveDNS(const char* dns_name);
+  void sendPacket(const Addr& target, Util::MemoryFrame data) override;
+  Util::MemoryFrame receivePacket(Addr &target, Util::MemoryFrame dest) override;
+  int getNextPacketSize() override;
+  void setBlockingMode(bool block) override;
 };
