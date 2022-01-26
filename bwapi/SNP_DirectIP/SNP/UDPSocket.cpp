@@ -1,8 +1,24 @@
 #include "UDPSocket.h"
 
+TWSAInitializer::TWSAInitializer()
+{
+  WSADATA WsaDat;
+  if ( WSAStartup(MAKEWORD(2, 2), &WsaDat) != 0 )
+    throw GeneralException("WSA initialization failed");
+  // TWSAInitializer::completion_port = CreateIoCompletionPort(NULL, NULL, NULL, 0);
+}
+
+TWSAInitializer::~TWSAInitializer()
+{
+  WSACleanup();
+}
+
+TWSAInitializer _init_wsa;
+
 // constructors
 
 UDPSocket::UDPSocket()
+  : _s(NULL), _state(0), _bound(0)
 {
 }
 
@@ -47,15 +63,7 @@ void UDPSocket::bind(int port)
   _bound = port;
 }
 
-/*void UDPSocket::connect(const Addr& target) {
-    // TODO: really don't do anything?
-}*/
-
-/*SocketMode UDPSocket::getMode() const {
-    return SocketMode::BOTH;
-}*/
-
-void UDPSocket::sendPacket(const Addr& target, Util::MemoryFrame data)
+void UDPSocket::sendPacket(const UDPAddr &target, Util::MemoryFrame data)
 {
   int success = ::sendto(_s, (char*)data.begin(), data.size(), NULL, (sockaddr*)&target, sizeof(sockaddr_in));
   if(success == SOCKET_ERROR)
@@ -64,7 +72,7 @@ void UDPSocket::sendPacket(const Addr& target, Util::MemoryFrame data)
   }
 }
 
-Util::MemoryFrame UDPSocket::receivePacket(Addr &target, Util::MemoryFrame dest)
+Util::MemoryFrame UDPSocket::receivePacket(UDPAddr &target, Util::MemoryFrame dest)
 {
   //int targetSize = sizeof(target);
   _state = 0;
@@ -98,4 +106,14 @@ void UDPSocket::setBlockingMode(bool block)
   {
     throw GeneralException("::ioctlsocket failed");
   }
+}
+
+int UDPSocket::getState() const
+{
+  return _state;
+}
+
+int UDPSocket::getBoundPort() const
+{
+  return _bound;
 }

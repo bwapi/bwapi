@@ -12,8 +12,8 @@ namespace DRIP
     // CAPS:
   {sizeof(CAPS), 0x20000003, SNP::PACKET_SIZE, 16, 256, 1000, 50, 8, 2}};
 
-  Socket *session;
   Settings *settings;
+  UDPSocket session;
 
   // ----------------- game list section -----------------------
   Util::MemoryFrame adData;
@@ -31,14 +31,14 @@ namespace DRIP
   void rebind()
   {
     int targetPort = atoi(settings->getLocalPortString());
-    if(session->getBoundPort() == targetPort)
+    if(session.getBoundPort() == targetPort)
       return;
     try
     {
-      session->release();
-      session->init();
-      session->setBlockingMode(false);
-      session->bind(targetPort);
+      session.release();
+      session.init();
+      session.setBlockingMode(false);
+      session.bind(targetPort);
       settings->setStatusString("network ready");
     }
     catch(...)
@@ -54,17 +54,17 @@ namespace DRIP
       while(true)
       {
         // receive next packet
-        Addr sender;
-        Util::MemoryFrame packet = session->receivePacket(sender, Util::MemoryFrame(recvBufferBytes, sizeof(recvBufferBytes)));
+        UDPAddr sender;
+        Util::MemoryFrame packet = session.receivePacket(sender, Util::MemoryFrame(recvBufferBytes, sizeof(recvBufferBytes)));
         if(packet.isEmpty())
         {
-          if(session->getState() == WSAECONNRESET)
+          if(session.getState() == WSAECONNRESET)
           {
 //            DropMessage(1, "target host not reachable");
             settings->setStatusString("host IP not reachable");
             continue;
           }
-          if(session->getState() == WSAEWOULDBLOCK)
+          if(session.getState() == WSAEWOULDBLOCK)
             break;
           throw GeneralException("unhandled UDP state");
         }
@@ -83,7 +83,7 @@ namespace DRIP
             Util::MemoryFrame spacket = sendBuffer;
             spacket.writeAs<int>(PacketType_GameStats);
             spacket.write(adData);
-            session->sendPacket(sender, sendBuffer.getFrameUpto(spacket));
+            session.sendPacket(sender, sendBuffer.getFrameUpto(spacket));
           }
         }
         else
@@ -111,7 +111,6 @@ namespace DRIP
   //------------------------------------------------------------------------------------------------------------------------------------
   void DirectIP::initialize()
   {
-      session = new UDPSocket();
       settings = Settings::getSettings();
       settings->init();
 
@@ -122,9 +121,8 @@ namespace DRIP
   void DirectIP::destroy()
   {
     settings->release();
-    session->release();
-    delete session;
     delete settings;
+    session.release();
   }
 
   void DirectIP::requestAds()
@@ -138,13 +136,13 @@ namespace DRIP
     Util::MemoryFrame ping_server = sendBuffer;
     ping_server.writeAs<int>(PacketType_RequestGameStats);
 
-    Addr host;
+    UDPAddr host;
     host.sin_family = AF_INET;
     host.sin_addr.s_addr = inet_addr(settings->getHostIPString());
     host.sin_port = htons(atoi(settings->getHostPortString()));
-    session->sendPacket(host, sendBuffer.getFrameUpto(ping_server));
+    session.sendPacket(host, sendBuffer.getFrameUpto(ping_server));
   }
-  void DirectIP::sendAsyn(const Addr& him, Util::MemoryFrame packet)
+  void DirectIP::sendAsyn(const UDPAddr& him, Util::MemoryFrame packet)
   {
 
     processIncomingPackets();
@@ -157,7 +155,7 @@ namespace DRIP
     spacket.write(packet);
 
     // send packet
-    session->sendPacket(him, sendBuffer.getFrameUpto(spacket));
+    session.sendPacket(him, sendBuffer.getFrameUpto(spacket));
   }
   void DirectIP::receive()
   {

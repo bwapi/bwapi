@@ -32,12 +32,6 @@
     </ClCompile>
     <ClCompile Include="SNP\Output.cpp" />
     <ClCompile Include="SNP\DLLMain.cpp" />
-    <ClCompile Include="SNP\Socket.cpp">
-      <Filter>DirectIP</Filter>
-    </ClCompile>
-    <ClCompile Include="SNP\TCPSocket.cpp">
-      <Filter>DirectIP</Filter>
-    </ClCompile>
     <ClCompile Include="SNP\Settings.cpp">
       <Filter>DirectIP</Filter>
     </ClCompile>
@@ -74,12 +68,6 @@
       <Filter>LocalPC</Filter>
     </ClInclude>
     <ClInclude Include="SNP\Output.h" />
-    <ClInclude Include="SNP\Socket.h">
-      <Filter>DirectIP</Filter>
-    </ClInclude>
-    <ClInclude Include="SNP\TCPSocket.h">
-      <Filter>DirectIP</Filter>
-    </ClInclude>
     <ClInclude Include="SNP\Settings.h">
       <Filter>DirectIP</Filter>
     </ClInclude>
