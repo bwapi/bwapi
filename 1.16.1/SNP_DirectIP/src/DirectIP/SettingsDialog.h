@@ -3,7 +3,7 @@
 #include "Settings.h"
 
 #include <windows.h>
-#include "resource.h"
+#include "../../resource.h"
 
 
 class SettingsDialog : public Settings
