@@ -12,7 +12,7 @@ namespace DRIP
     // CAPS:
   {sizeof(SNETCAPS), SNET_CAPS_RETAILONLY | SNET_CAPS_BASICINTERFACE | SNET_CAPS_PAGELOCKEDBUFFERS, SNP::PACKET_SIZE, 16, 256, 1000, 50, 8, 2}};
 
-  Settings *settings;
+  std::unique_ptr<Settings> settings;
   UDPSocket session;
 
   // ----------------- game list section -----------------------
@@ -30,7 +30,7 @@ namespace DRIP
   //------------------------------------------------------------------------------------------------------------------------------------
   void rebind()
   {
-    int targetPort = atoi(settings->getLocalPortString());
+    int targetPort = settings->getLocalPort();
     if(session.getBoundPort() == targetPort)
       return;
     try
@@ -120,7 +120,6 @@ namespace DRIP
   void DirectIP::destroy()
   {
     settings->release();
-    delete settings;
     session.release();
   }
 
@@ -138,7 +137,7 @@ namespace DRIP
     UDPAddr host;
     host.sin_family = AF_INET;
     host.sin_addr.s_addr = inet_addr(settings->getHostIPString());
-    host.sin_port = htons(atoi(settings->getHostPortString()));
+    host.sin_port = htons(settings->getHostPort());
     session.sendPacket(host, sendBuffer.getFrameUpto(ping_server));
   }
   void DirectIP::sendAsyn(const SNETADDR& him, Util::MemoryFrame packet)

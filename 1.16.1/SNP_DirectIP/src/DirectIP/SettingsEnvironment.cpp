@@ -1,15 +1,15 @@
 #include "SettingsEnvironment.h"
 
 void SettingsEnvironment::FetchEnvironmentVariable(LPCTSTR name, std::string& res) {
-	DWORD bufferSize = 0xFFFF; //Limit according to http://msdn.microsoft.com/en-us/library/ms683188.aspx
-	res.resize(bufferSize);
-	bufferSize = GetEnvironmentVariableA(name, &res[0], bufferSize);
-	if (!bufferSize) {
+	DWORD bufferSize = GetEnvironmentVariable(name, nullptr, 0);
+	if (bufferSize > 0) {
+		res.resize(bufferSize + 1);
+		bufferSize = GetEnvironmentVariable(name, res.data(), res.size());
+		res.pop_back(); // Get rid of null terminator
+	} else {
 		ok = false;
 		res = "";
-		return;
 	}
-	res.resize(bufferSize);
 }
 
 SettingsEnvironment::SettingsEnvironment() : ok(true) {
@@ -23,14 +23,14 @@ SettingsEnvironment::~SettingsEnvironment() {}
 void SettingsEnvironment::init() {}
 void SettingsEnvironment::release() {}
 
-const char* SettingsEnvironment::getHostIPString() {
+const char* SettingsEnvironment::getHostIPString() const {
 	return hostIp.c_str();
 }
-const char* SettingsEnvironment::getHostPortString() {
-	return hostPort.c_str();
+const u_short SettingsEnvironment::getHostPort() const {
+	return std::stoul(hostPort);
 }
-const char* SettingsEnvironment::getLocalPortString() {
-	return localPort.c_str();
+const u_short SettingsEnvironment::getLocalPort() const {
+	return std::stoul(localPort);
 }
 void SettingsEnvironment::setStatusString(const char* statusText) {
 

@@ -7,8 +7,8 @@
 #include "SettingsDialog.h"
 #include "SettingsEnvironment.h"
 
-Settings* Settings::getSettings() {
-	SettingsEnvironment* envSettings = new SettingsEnvironment();
+std::unique_ptr<Settings> Settings::getSettings() {
+	unique_ptr<SettingsEnvironment> envSettings = make_unique<SettingsEnvironment>();
 	if (envSettings->isOk()) {
 		return envSettings;
 	}
@@ -18,9 +18,9 @@ Settings* Settings::getSettings() {
 
 	std::ifstream settingsFile("directip.conf", std::ifstream::in);
 	if (settingsFile.good()) {
-		return new SettingsFile(settingsFile);
+		return make_unique<SettingsFile>(settingsFile);
 	}
 	else {
-		return new SettingsDialog();
+		return make_unique<SettingsDialog>();
 	}
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 class Settings
 {
 public:
@@ -9,11 +11,11 @@ public:
 	virtual void init() = 0;
 	virtual void release() = 0;
 
-	virtual const char* getHostIPString() = 0;
-	virtual const char* getHostPortString() = 0;
-	virtual const char* getLocalPortString() = 0;
+	virtual const char* getHostIPString() const = 0;
+	virtual const u_short getHostPort() const = 0;
+	virtual const u_short getLocalPort() const = 0;
 	virtual void setStatusString(const char* statusText) = 0;
 
-	static Settings* getSettings();
+	static std::unique_ptr<Settings> getSettings();
 };
 

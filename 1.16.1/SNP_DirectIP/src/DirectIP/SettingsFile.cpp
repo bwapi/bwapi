@@ -8,14 +8,14 @@ SettingsFile::~SettingsFile() {}
 void SettingsFile::init() {}
 void SettingsFile::release() {}
 
-const char* SettingsFile::getHostIPString() {
+const char* SettingsFile::getHostIPString() const {
 	return hostIp.c_str();
 }
-const char* SettingsFile::getHostPortString() {
-	return hostPort.c_str();
+const u_short SettingsFile::getHostPort() const {
+	return std::stoul(hostPort);
 }
-const char* SettingsFile::getLocalPortString() {
-	return localPort.c_str();
+const u_short SettingsFile::getLocalPort() const {
+	return std::stoul(localPort);
 }
 void SettingsFile::setStatusString(const char* statusText) {
 

@@ -39,7 +39,7 @@ void SettingsDialog::hideSettingsDialog()
   }
 }
 
-const char* SettingsDialog::getHostIPString()
+const char* SettingsDialog::getHostIPString() const
 {
   static char buffer[32];
   if(hDlg)
@@ -49,24 +49,24 @@ const char* SettingsDialog::getHostIPString()
   return buffer;
 }
 
-const char* SettingsDialog::getHostPortString()
+const u_short SettingsDialog::getHostPort() const
 {
   static char buffer[32];
   if(hDlg)
   {
     GetDlgItemTextA(hDlg, IDC_EDITPORT, buffer, 32);
   }
-  return buffer;
+  return std::strtoul(buffer, buffer+32, 10);
 }
 
-const char* SettingsDialog::getLocalPortString()
+const u_short SettingsDialog::getLocalPort() const
 {
   static char buffer[32];
   if(hDlg)
   {
     GetDlgItemTextA(hDlg, IDC_EDITLPORT, buffer, 32);
   }
-  return buffer;
+  return std::strtoul(buffer, buffer+32, 10);
 }
 
 void SettingsDialog::setStatusString(const char *statusText)
