@@ -11,10 +11,10 @@ void SettingsFile::release() {}
 const char* SettingsFile::getHostIPString() const {
 	return hostIp.c_str();
 }
-const u_short SettingsFile::getHostPort() const {
+const uint16_t SettingsFile::getHostPort() const {
 	return std::stoul(hostPort);
 }
-const u_short SettingsFile::getLocalPort() const {
+const uint16_t SettingsFile::getLocalPort() const {
 	return std::stoul(localPort);
 }
 void SettingsFile::setStatusString(const char* statusText) {

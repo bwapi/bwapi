@@ -8,19 +8,16 @@
 #include "SettingsEnvironment.h"
 
 std::unique_ptr<Settings> Settings::getSettings() {
-	unique_ptr<SettingsEnvironment> envSettings = make_unique<SettingsEnvironment>();
+	std::unique_ptr<SettingsEnvironment> envSettings = std::make_unique<SettingsEnvironment>();
 	if (envSettings->isOk()) {
 		return envSettings;
-	}
-	else {
-		delete envSettings;
 	}
 
 	std::ifstream settingsFile("directip.conf", std::ifstream::in);
 	if (settingsFile.good()) {
-		return make_unique<SettingsFile>(settingsFile);
+		return std::make_unique<SettingsFile>(settingsFile);
 	}
 	else {
-		return make_unique<SettingsDialog>();
+		return std::make_unique<SettingsDialog>();
 	}
 }

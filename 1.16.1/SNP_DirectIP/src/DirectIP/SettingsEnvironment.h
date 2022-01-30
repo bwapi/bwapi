@@ -24,8 +24,8 @@ public:
 	void release() override;
 
 	const char* getHostIPString() const override;
-	const u_short getHostPort() const override;
-	const u_short getLocalPort() const override;
+	const uint16_t getHostPort() const override;
+	const uint16_t getLocalPort() const override;
 	void setStatusString(const char* statusText) override;
 
 	bool isOk() const;

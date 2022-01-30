@@ -26,10 +26,10 @@ void SettingsEnvironment::release() {}
 const char* SettingsEnvironment::getHostIPString() const {
 	return hostIp.c_str();
 }
-const u_short SettingsEnvironment::getHostPort() const {
+const uint16_t SettingsEnvironment::getHostPort() const {
 	return std::stoul(hostPort);
 }
-const u_short SettingsEnvironment::getLocalPort() const {
+const uint16_t SettingsEnvironment::getLocalPort() const {
 	return std::stoul(localPort);
 }
 void SettingsEnvironment::setStatusString(const char* statusText) {
