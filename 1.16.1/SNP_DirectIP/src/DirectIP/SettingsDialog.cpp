@@ -1,13 +1,9 @@
 #include "SettingsDialog.h"
-#include <windows.h>
-
-#include "../../resource.h"
 
 INT_PTR CALLBACK Settings( HWND, UINT, WPARAM, LPARAM );
 DWORD WINAPI dlgThread(LPVOID lpParameter);
 
-HANDLE hdlgThread = NULL;
-HWND hDlg = NULL;
+HWND hDlg;
 
 extern HINSTANCE hInstance;
 
@@ -17,12 +13,23 @@ DWORD WINAPI dlgThread(LPVOID lpParameter)
   return 0;
 }
 
-void showSettingsDialog()
+SettingsDialog::SettingsDialog() : hdlgThread(NULL) {}
+SettingsDialog::~SettingsDialog() {}
+
+void SettingsDialog::init() {
+    showSettingsDialog();
+}
+
+void SettingsDialog::release() {
+    hideSettingsDialog();
+}
+
+void SettingsDialog::showSettingsDialog()
 {
   hdlgThread = CreateThread(NULL, NULL, dlgThread, NULL, NULL, NULL);
 }
 
-void hideSettingsDialog()
+void SettingsDialog::hideSettingsDialog()
 {
   if(hdlgThread)
   {
@@ -32,7 +39,7 @@ void hideSettingsDialog()
   }
 }
 
-const char* getHostIPString()
+const char* SettingsDialog::getHostIPString() const
 {
   static char buffer[32];
   if(hDlg)
@@ -42,33 +49,34 @@ const char* getHostIPString()
   return buffer;
 }
 
-const char* getHostPortString()
+const uint16_t SettingsDialog::getHostPort() const
 {
   static char buffer[32];
   if(hDlg)
   {
     GetDlgItemTextA(hDlg, IDC_EDITPORT, buffer, 32);
   }
-  return buffer;
+  return (uint16_t)std::strtoul(buffer, nullptr, 10);
 }
 
-const char* getLocalPortString()
+const uint16_t SettingsDialog::getLocalPort() const
 {
   static char buffer[32];
   if(hDlg)
   {
     GetDlgItemTextA(hDlg, IDC_EDITLPORT, buffer, 32);
   }
-  return buffer;
+  return (uint16_t)std::strtoul(buffer, nullptr, 10);
 }
 
-void setStatusString(const char *statusText)
+void SettingsDialog::setStatusString(const char *statusText)
 {
   if(hDlg)
   {
     SetDlgItemTextA(hDlg, IDC_STATUS, statusText);
   }
 }
+
 
 INT_PTR CALLBACK Settings( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {

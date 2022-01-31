@@ -4,6 +4,7 @@
 #include "../SNP/Output.h"
 #include "UDPSocket.h"
 #include "SettingsDialog.h"
+#include "SettingsFile.h"
 
 namespace DRIP
 {
@@ -11,6 +12,7 @@ namespace DRIP
     // CAPS:
   {sizeof(SNETCAPS), SNET_CAPS_RETAILONLY | SNET_CAPS_BASICINTERFACE | SNET_CAPS_PAGELOCKEDBUFFERS, SNP::PACKET_SIZE, 16, 256, 1000, 50, 8, 2}};
 
+  std::unique_ptr<Settings> settings;
   UDPSocket session;
 
   // ----------------- game list section -----------------------
@@ -28,7 +30,7 @@ namespace DRIP
   //------------------------------------------------------------------------------------------------------------------------------------
   void rebind()
   {
-    int targetPort = atoi(getLocalPortString());
+    int targetPort = settings->getLocalPort();
     if(session.getBoundPort() == targetPort)
       return;
     try
@@ -37,11 +39,11 @@ namespace DRIP
       session.init();
       session.setBlockingMode(false);
       session.bind(targetPort);
-      setStatusString("network ready");
+      settings->setStatusString("network ready");
     }
     catch(...)
     {
-      setStatusString("local port fail");
+      settings->setStatusString("local port fail");
     }
   }
   void DirectIP::processIncomingPackets()
@@ -58,7 +60,7 @@ namespace DRIP
         {
           if(session.getState() == WSAECONNRESET)
           {
-            setStatusString("host IP not reachable");
+            settings->setStatusString("host IP not reachable");
             continue;
           }
           if(session.getState() == WSAEWOULDBLOCK)
@@ -108,16 +110,19 @@ namespace DRIP
   //------------------------------------------------------------------------------------------------------------------------------------
   void DirectIP::initialize()
   {
-    showSettingsDialog();
+      settings = Settings::getSettings();
+      settings->init();
 
     // bind to port
     rebind();
   }
+
   void DirectIP::destroy()
   {
-    hideSettingsDialog();
+    settings->release();
     session.release();
   }
+
   void DirectIP::requestAds()
   {
     rebind();
@@ -131,8 +136,8 @@ namespace DRIP
 
     UDPAddr host;
     host.sin_family = AF_INET;
-    host.sin_addr.s_addr = inet_addr(getHostIPString());
-    host.sin_port = htons(u_short(std::atoi(getHostPortString())));
+    host.sin_addr.s_addr = inet_addr(settings->getHostIPString());
+    host.sin_port = htons(settings->getHostPort());
     session.sendPacket(host, sendBuffer.getFrameUpto(ping_server));
   }
   void DirectIP::sendAsyn(const SNETADDR& him, Util::MemoryFrame packet)
