@@ -81,7 +81,7 @@ AI tournaments). Changed defaults will be advertised when the match begins.
 ## Competitions {#competition}
 Various venues host remote competitive AI competitions that allow developers from around the world to participate. These venues are often held annually and will sometimes offer prizes to the winners. It is also a great way to test your bot's capabilities.
 * [AAAI Conference on Artificial Intelligence and Interactive Digital Entertainment (AIIDE)](http://www.starcraftaicompetition.com)
-* [IEEE Conference on Computational Intelligence and Games (CIG)](http://cilab.sejong.ac.kr/sc_competition/)
+* [IEEE Conference on Games (CoG)](http://cilab.sejong.ac.kr/sc_competition/)
 * [Student StarCraft AI (SSCAI) Tournament](http://sscaitournament.com/)
 * [BWAPI Bots Ladder](http://bots-stats.krasi0.com)
 
