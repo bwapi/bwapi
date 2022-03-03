@@ -27,7 +27,7 @@ namespace SMEM
     char ad[512];
     bool isAdvertising;
     int incomingCount;
-    Packet incoming[16];
+    Packet incoming[2048];
 
     bool inline isOccupied() const
     {
@@ -144,9 +144,9 @@ namespace SMEM
     // push the packet on target's packetqueue
     PeerData &peerData = shd->peer[him];
     int slotIndex = peerData.incomingCount++;
-    if(slotIndex >= 16)
+    if(slotIndex >= 2048)
     {
-      DropMessage(1, "stacked 16 packets, no space");
+      DropMessage(1, "stacked 2048 packets, no space");
       return;
     }
     if(packet.size() > 508)
