@@ -6,6 +6,7 @@
 #include <cassert>
 #include <sstream>
 #include <AclAPI.h>
+#include <chrono>
 
 #include "GameImpl.h"
 #include "PlayerImpl.h"
@@ -238,9 +239,10 @@ namespace BWAPI
     {
       // Update BWAPI Client
       updateSharedMemory();
-      auto const onFrameStart = GetTickCount();
+      auto const onFrameStart = std::chrono::high_resolution_clock::now();
       callOnFrame();
-      BroodwarImpl.setLastEventTime(GetTickCount() - onFrameStart);
+      auto const duration = std::chrono::high_resolution_clock::now() - onFrameStart;
+      BroodwarImpl.setLastEventTime((int)std::chrono::duration_cast<std::chrono::milliseconds>(duration).count());
       processCommands();
     }
     else
