@@ -4,8 +4,6 @@
 
 [TOC]
 
-@htmlinclude twitter_widget
-
 # Project Information {#project}
 
 ## Overview {#overview}
