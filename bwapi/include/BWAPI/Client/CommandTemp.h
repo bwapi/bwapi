@@ -333,7 +333,7 @@ namespace BWAPI
 
 
       // RLF: Resource event
-      // RLF + 1: Order event (only for builing -> building morphs)
+      // RLF + 1: Order event (only for building -> building morphs)
       // RLF + 13: Finish event (only for unit -> unit morphs)
       // RLF + 15: Finish event (only for building -> building morphs)
     case UnitCommandTypes::Cancel_Morph:

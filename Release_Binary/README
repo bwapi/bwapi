@@ -45,7 +45,7 @@ IRC Channel           Freenode #BWAPI
 
     - AI Module Loader  - This project is a very simple AI client program which
                           can load and run Example AI Module DLLs, essentially
-                          a way of making your AI Module run in a seperate
+                          a way of making your AI Module run in a separate
                           process without actually converting it to a client
                           program.
                           

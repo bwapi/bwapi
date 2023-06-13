@@ -1085,7 +1085,7 @@ namespace BWAPI
 
     /// <summary>Checks if the unit can be interrupted.</summary>
     ///
-    /// @returns true if this unit can be interrupted, or false if this unit is uninterruptable
+    /// @returns true if this unit can be interrupted, or false if this unit is uninterruptible
     virtual bool isInterruptible() const = 0;
 
     /// <summary>Checks the invincibility state for this unit.</summary>

@@ -173,7 +173,7 @@ struct IMPQDraftServer
   IMPQDraftPlugin
 
   The primary gateway between the MPQDraft patching kernel and the plugin.
-  This interface must be fully implimented by every MPQDraft plugin (or at
+  This interface must be fully implemented by every MPQDraft plugin (or at
   least until it is superseded by IMPQDraftPlugin2, in a much later version
   of MPQDraft). MPQDraft will obtain this interface when it calls
   GetMPQDraftPlugin. It will then store the interface in its plugin
@@ -279,7 +279,7 @@ struct IMPQDraftPlugin
       - If an error occurs while configuring the plugin, Configure will
       fail.
 
-      - If the configuration completed sucessfully (even if the user
+      - If the configuration completed successfully (even if the user
       pressed the "Cancel" button on a dialog), Configure will succeed.
   */
   virtual BOOL WINAPI Configure(HWND hParentWnd) = 0;

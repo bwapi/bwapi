@@ -17,7 +17,7 @@ namespace Util
   {
     return this->processHandle;
   }
-  //----------------------- AQUIRE -------------------------------------
+  //----------------------- ACQUIRE -------------------------------------
   bool RemoteProcess::acquire(RemoteProcessID remoteProcessID, bool moreAccess)
   {
     this->processHandle = OpenProcess(

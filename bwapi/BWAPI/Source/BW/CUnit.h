@@ -301,7 +301,7 @@ namespace BW
     /*0x13A*/ u16   groundStrength;
     struct
     {             // Official names are "posSortXL, posSortXR, posSortYT, posSortYB"
-      u32 left, right, top, bottom; // Ordering for unit boundries in unit finder for binary search
+      u32 left, right, top, bottom; // Ordering for unit boundaries in unit finder for binary search
     } finder;
     /*0x14C*/ u8    _repulseUnknown;        // @todo Unknown
     /*0x14D*/ u8    repulseAngle;           // updated only when air unit is being pushed

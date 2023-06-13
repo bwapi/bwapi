@@ -6,7 +6,7 @@
 namespace BWAPI
 {
   /**
-   * Interface to acces broodwar map data. Loads buildability/walkability when
+   * Interface to access broodwar map data. Loads buildability/walkability when
    * constructed from the current map. It means it that instance of this class
    * should exist only as long as the single map is opened.
    */

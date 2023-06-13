@@ -2,11 +2,11 @@
 
 namespace BWAPI
 {
-  /// <summary>Contains a list of interruptable actions that the tournament module can allow or deny.</summary>
+  /// <summary>Contains a list of interruptible actions that the tournament module can allow or deny.</summary>
   /// @see TournamentModule::onAction
   namespace Tournament
   {
-    /// <summary>Contains a list of interruptable actions that the tournament module can allow or deny.</summary>
+    /// <summary>Contains a list of interruptible actions that the tournament module can allow or deny.</summary>
     /// @see TournamentModule::onAction
     enum ActionID
     {

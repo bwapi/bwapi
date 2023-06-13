@@ -19,7 +19,7 @@
 /**
  * Broodwar content access tools. The namespace contains:
  * -# Data structers corresponding to bw data structures
- * -# Offests to bw data/functions
+ * -# Offsets to bw data/functions
  * -# Functions that communicate directly with broodwar.
  */
 

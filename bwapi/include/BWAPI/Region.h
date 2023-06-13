@@ -59,7 +59,7 @@ namespace BWAPI
 
     /// <summary>Retrieves a value that represents the strategic advantage of this region relative
     /// to other regions.</summary> A value of 2 may indicate a possible choke point, and a value
-    /// of 3 indicates a signficant strategic position.
+    /// of 3 indicates a significant strategic position.
     ///
     /// @note This value is explicitly assigned by Broodwar.
     ///

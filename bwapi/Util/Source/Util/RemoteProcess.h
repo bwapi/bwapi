@@ -1,6 +1,6 @@
 #pragma once
 ////////////////////////////////////////////////////////////////////////
-//  A priviledged system handle to a remote process                   //
+//  A privileged system handle to a remote process                   //
 //                                                                    //
 ////////////////////////////////////////////////////////////////////////
 
