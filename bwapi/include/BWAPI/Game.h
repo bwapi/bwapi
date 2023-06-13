@@ -652,7 +652,7 @@ namespace BWAPI
     ///   The y pixel coordinate to check.
     /// </param>
     /// <param name="unitType"> (optional)
-    ///   Checks if the given UnitType requires power or not. If ommitted, then it will assume
+    ///   Checks if the given UnitType requires power or not. If omitted, then it will assume
     ///   that the position requires power for any unit type.
     /// </param>
     ///
@@ -1653,7 +1653,7 @@ namespace BWAPI
     /// This allows users to find simple build locations without relying on external libraries.
     ///
     /// <param name="type">
-    ///   A valid UnitType representing the unit type to accomodate space for.
+    ///   A valid UnitType representing the unit type to accommodate space for.
     /// </param>
     /// <param name="desiredPosition">
     ///   A valid TilePosition containing the desired placement position.

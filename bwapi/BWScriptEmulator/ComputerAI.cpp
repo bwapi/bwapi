@@ -39,7 +39,7 @@ void UnitWrap::RunComputerAI()
     if ( !HasNoCaptain() )
       SetVirtualUnitOrder(Orders::Enum::Medic);
     //else
-    //  Do independant AI Transport stuff
+    //  Do independent AI Transport stuff
   }
 }
 

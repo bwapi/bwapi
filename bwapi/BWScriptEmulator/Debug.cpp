@@ -8,7 +8,7 @@ Debug fatal_error_impl(AISCRIPT::Enum::FATAL_ERROR);
 
 bool Debug::execute(aithread &thread) const
 {
-  // Perform independant behaviours
+  // Perform independent behaviours
   if ( this->getOpcode() == AISCRIPT::Enum::FATAL_ERROR )
   {
     // Message

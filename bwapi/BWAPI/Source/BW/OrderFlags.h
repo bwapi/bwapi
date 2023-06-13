@@ -2,7 +2,7 @@
 
 namespace BW
 {
-  /** Some additional info concering unit movement, mostly unknown */
+  /** Some additional info concerning unit movement, mostly unknown */
   namespace OrderFlags
   {
   enum Enum
@@ -14,7 +14,7 @@ namespace BW
                                    * Also Eggs have it
                                    * Also Zerg building under construction have it
                                    */
-      autoWander        = 1 << 1, /**< Unit is auto wandering (larva, critter, stopped drone in gather, any unit with collistion )*/
+      autoWander        = 1 << 1, /**< Unit is auto wandering (larva, critter, stopped drone in gather, any unit with collision )*/
       unknown1          = 1 << 2,
       unknown2          = 1 << 3
     };

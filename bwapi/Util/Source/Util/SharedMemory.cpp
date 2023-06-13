@@ -19,7 +19,7 @@ namespace Util
   bool SharedMemory::create(int size, const char* systemName)
   {
     this->mappingObjectHandle = ::CreateFileMappingA(
-      INVALID_HANDLE_VALUE,   // use page file for bakup
+      INVALID_HANDLE_VALUE,   // use page file for backup
       NULL,                   // not inheritable
       PAGE_READWRITE,         // access rights
       0,                      // Hi size
