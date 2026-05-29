@@ -1,5 +1,6 @@
 #include "GameImpl.h"
 #include <ctime>
+#include <chrono>
 
 #include <Util/Path.h>
 #include <Util/StringUtil.h>
@@ -503,13 +504,13 @@ namespace BWAPI
       return;
     for (Event e : events)
     {
-      static DWORD dwLastEventTime = 0;
+      static std::chrono::time_point<std::chrono::high_resolution_clock> lastEventStart;
 
       // Reset event stopwatch
       if ( tournamentAI )
       {
         this->lastEventTime = 0;
-        dwLastEventTime     = GetTickCount();
+        lastEventStart      = std::chrono::high_resolution_clock::now();
       }
 
       // Send event to the AI Client module
@@ -520,7 +521,8 @@ namespace BWAPI
         continue;
 
       // Save the last event time
-      this->lastEventTime = GetTickCount() - dwLastEventTime;
+      auto const duration = std::chrono::high_resolution_clock::now() - lastEventStart;
+      this->lastEventTime = (int)std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
 
       // Send same event to the Tournament module for post-processing
       isTournamentCall = true;
